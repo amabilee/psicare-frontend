@@ -1,5 +1,7 @@
 import React from "react";
 import { FaRegCalendar } from "react-icons/fa";
+import { RiContactsBookLine } from "react-icons/ri";
+import { SlNote } from "react-icons/sl";
 import "./style.css"
 
 export default function SideBar(){
@@ -13,11 +15,11 @@ export default function SideBar(){
                             <p>Olá, Admin</p>
                         </div>
                         <div className="agenda" id="estilo_respiro">
-                                <FaRegCalendar className="icon"/>
-                                <p>Agenda</p>
+                            <FaRegCalendar className="icon"/>
+                            <p>Agenda</p>
                         </div>
                         <div className="cadastro" id="estilo_respiro">
-                            <FaRegCalendar className="icon"/>
+                            <RiContactsBookLine className="icon"/>
                             <p>Cadastro</p>
                             {/* <div className="caixa_cadastro">
                                 <p>Secretário</p>
@@ -27,7 +29,7 @@ export default function SideBar(){
                             </div> */}
                         </div>
                         <div className="relatorio" id="estilo_respiro">
-                            <FaRegCalendar className="icon"/>
+                            <SlNote className="icon"/>
                             <p>Relatórios</p>
                         </div>
                     </div>
