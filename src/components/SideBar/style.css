@@ -1,0 +1,60 @@
+.lateral {
+    height: 100vh;
+}
+
+.barraLateral {
+    background-color: #E9E9E9;
+    width: 240px;
+    height: 97%;
+    margin: 15px;
+    border-radius: 10px;
+}
+
+/* icons */
+
+.icon {
+    color: #C760EB;
+    font-size: 20px;
+}
+
+/* conteudo geral  */
+
+.conteudo {
+    padding: 20px;
+}
+
+.usuario {
+    display: flex;
+    padding: 20px 0 30px 0;
+}
+
+span {
+    background-color: blue;
+    color: white;
+    font-size: 0.8em;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center ;
+}
+
+.usuario p {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+
+#estilo_respiro {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    margin: 0 0 20px 0;
+}
+
+p {
+    padding-left: 10px;
+}
+

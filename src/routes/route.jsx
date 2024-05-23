@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from '../pages/_login/login';
+import Admin from "../pages/administrador/admin";
 
 
 function Router() {
@@ -7,6 +8,7 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/entrar" element={<Login />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   )
