@@ -33,7 +33,11 @@ export default function SideBar(){
                             <p>Relatórios</p>
                         </div>
                     </div>
-            </div>
+                </div>
+                <div className="header">
+                    <img src="./logo-icon.png" alt="logo" />
+                    <button>Sair</button>
+                </div>
             </div>
         </>
     )

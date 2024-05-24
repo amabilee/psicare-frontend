@@ -1,11 +1,13 @@
 .lateral {
     height: 97.8vh;
+    display: flex;
+    align-items: flex-start;
 }
 
 .barraLateral {
     background-color: #E9E9E9;
     width: 240px;
-    height: 98%;
+    height: 99%;
     margin: 15px;
     border-radius: 10px;
 }
@@ -56,7 +58,7 @@ span {
 
 #estilo_respiro:hover{
     background-color: #D9D9D9;
-    padding: 10px;
+    padding: 10px;  
     border-radius: 8px;
     cursor: pointer;
 }
@@ -66,3 +68,18 @@ p {
 }
 
 
+.header {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.header button{
+    margin-left: 75vw;
+    padding: 10px 20px;
+}
+
+.header img {
+    width: 80px;
+    height: 69.5px;
+}
