@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../../assets/logo.svg"
 import "./style.css"
 
 export default function Login() {
@@ -7,13 +8,11 @@ export default function Login() {
         <div className="body">
             <div className="box">
                 <div className="form">
-                    <img src="/logo.png" alt="psicare" />
+                    <img src={logo} alt="psicare" />
                     <input type="email" name="email" id="email" placeholder="Seu email"/>
                     <input type="password" name="senha" id="senha" placeholder="Sua senha"/>
-                    <button type="submit">Entrar</button>
+                    <button type="submit" id="button-login">Entrar</button>
                 </div>
-                {/* teste */}
-                {/* teste02222 */}
             </div>
         </div>
     )
