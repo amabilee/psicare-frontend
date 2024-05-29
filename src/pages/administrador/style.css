@@ -1,0 +1,56 @@
+.body_admin{
+    margin-left: 280px;
+    margin-top: 90px;
+    max-width: 82.5vw;
+}
+
+.barra_pesquisa{
+    display: flex;
+    justify-content: space-between;
+}
+
+h1{
+    font-size: 25px;
+    color: #868686;
+    margin-top: 120px;
+    margin-bottom: 30px;
+    margin-left: 20px;
+}
+
+#button_cadastro {
+    display: flex;
+    align-items: center;
+    color: #C760EBFA;
+    background: #fff;
+    border-radius: 5px;
+    width: 186px;
+    height: 40px;   
+    border: 2px solid #C760EBFA;
+    margin-left: 20px;
+}
+
+#button_cadastro:hover {
+    cursor: pointer;
+}
+
+img#img_cadastro {
+    width: 24px;
+    height: 24px;
+    padding: 10px;
+    padding-left: 20px;
+}
+
+input#pesquisar {
+    width: 573px;
+    height: 12px;
+    border-radius: 6px;
+    border: 2px solid #C760EB;
+    margin: 0 20px 0 0;
+}
+
+img#icon_pesquisa {
+    position: absolute;
+    width: 24px;
+    margin-left: 50.5vw;
+    margin-top: 7px;
+}

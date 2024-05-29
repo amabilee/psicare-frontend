@@ -1,3 +1,9 @@
+.body_sidebar{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 .lateral {
     height: 97.8vh;
     display: flex;
@@ -6,7 +12,7 @@
 
 .barraLateral {
     background-color: #E9E9E9;
-    width: 240px;
+    width: 230px;
     height: 99%;
     margin: 15px;
     border-radius: 10px;
@@ -30,9 +36,19 @@
     padding: 20px;
 }
 
+.conteudo p{
+    color: #767474;
+}
+
 .usuario {
     display: flex;
     padding: 10px 0 20px 0;
+}
+
+.usuario p {
+    display: flex;
+    align-items: center;
+    padding: 0px 0px 0px 15px;
 }
 
 span {
@@ -46,12 +62,6 @@ span {
     align-content: center;
     justify-content: center;
     align-items: center ;
-}
-
-.usuario p {
-    display: flex;
-    align-items: center;
-    padding-left: 20px;
 }
 
 #estilo_respiro {
@@ -78,21 +88,25 @@ span {
     background-color: #D9D9D9;
     border-radius: 8px;
     cursor: pointer;
+    width: 100px;
 }
 
 p { 
-    padding: 10px 50px 10px 10px;
+    padding: 10px 30px 8px 10px;
+    font-size: 15px;
 }
 
 
 /* header da sidebar */
 .header {
     display: flex;
+    justify-content: space-between;
     align-items: flex-start;
+    width: 84vw;
     margin-top: 15px;
 }
 
-img{
+img#img_logo{
     width: 150px;
     margin-left: 10px;
 }
@@ -101,8 +115,7 @@ img{
     color: #C760EB;
     font-weight: 600;
     font-size: 0.9em;
-    margin-left: 145vh;
-    padding: 8px 50px;
+    padding: 10px 50px;
     margin-top: 20px;
     border: 2px solid #C760EB;
     border-radius: 6px;

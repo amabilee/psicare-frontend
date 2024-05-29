@@ -12,7 +12,7 @@ export default function SideBar(){
         setShowCadastro(!showCadastro);
     }
     return(
-        <>
+        <div className="body_sidebar">
             <div className="lateral">
                 <div className="barraLateral">
                     <div className="conteudo">
@@ -27,7 +27,7 @@ export default function SideBar(){
                         <div className="caixa-cadastro" onClick={toggleCadastro}>
                             <div className="cadastro" id="estilo_respiro">
                                 <RiContactsBookLine className="icon"/>
-                                <p>Cadastro</p>
+                                <p>Cadastros</p>
                                 {showCadastro ? <FaChevronUp className="icon-seta"/> : <FaChevronDown className="icon-seta"/>}
                             </div>
                             {showCadastro && (
@@ -54,10 +54,10 @@ export default function SideBar(){
                     </div>
                 </div>
                 <div className="header">
-                    <img src={logoh} alt="logo" />
+                    <img src={logoh} alt="logo" id="img_logo" />
                     <button id="button-header">Sair</button>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
