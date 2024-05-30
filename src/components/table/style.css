@@ -1,14 +1,44 @@
-.tabela{
-    max-width: 82.5vw;
-    height: 300px;
+table{
+    width: 98.4%;
     margin-top: 30px;
-    background-color: #e9e9e9;
-    border-radius: 5px;
+    border-collapse: collapse;
 }
 
-.info {
-    width: 100%;
-    height: 40px;
-    background: #B6B6B636;
-    border-radius: 5px;
+th {
+    padding: 10px;
+    background-color: #B6B6B636;
+}
+
+th:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+th:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+td{
+    border-bottom: 1px solid #DADADA;
+}
+
+#icon-acao{
+    width: 24px;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.conteudo{
+    text-align: center;
+}
+
+.icones-acao{
+    text-align: end;
+    padding-right: 30px;
+}
+
+caption{
+    caption-side: bottom;
+    text-align: start;
+    color: #969696;
+    margin-top: 10px;
 }

@@ -24,25 +24,24 @@ img {
     width: 200px;
 }
 
-input {
+.form input {
     padding: 12px;
     margin-top: 15px;
     width: 85%;
-    border: 1px solid;
-    border-color: gainsboro;
+    border: 1px solid gainsboro;
     border-radius: 6px;
 }
 
-input:hover {
+.form input:hover {
     border: 2px solid #D5B8FF;
     padding: 11px;
 }
 
-input::placeholder {
+.form input::placeholder {
     font-size: 1.12em;
 }
 
-input:focus {
+.form input:focus {
     border: 2px solid #D5B8FF;
     outline: none;
     padding: 11px;

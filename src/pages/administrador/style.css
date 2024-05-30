@@ -1,7 +1,9 @@
 .body_admin{
-    margin-left: 280px;
+    margin-left: 280px; 
     margin-top: 90px;
-    max-width: 82.5vw;
+    max-width: calc(100vw - 250px); /*ajuste para nao sobrepor a sidebar*/
+    position: relative;
+    z-index: 2000; /*conteudo principal com z-index mais alto que a sidebar*/
 }
 
 .barra_pesquisa{
@@ -17,7 +19,7 @@ h1{
     margin-left: 20px;
 }
 
-#button_cadastro {
+button.button_cadastro {
     display: flex;
     align-items: center;
     color: #C760EBFA;
@@ -29,9 +31,10 @@ h1{
     margin-left: 20px;
 }
 
-#button_cadastro:hover {
+button.button_cadastro:hover{
+    background: #C760EB;
+    color: #fff;
     cursor: pointer;
-    /* teste */
 }
 
 img#img_cadastro {
@@ -41,17 +44,26 @@ img#img_cadastro {
     padding-left: 20px;
 }
 
+.input-wrapper{
+    position: relative; /*permite posicionar o ícone dentro do input*/
+    display: flex;
+    align-items: center;
+}
+
 input#pesquisar {
     width: 573px;
-    height: 12px;
+    height: 40px;
     border-radius: 6px;
     border: 2px solid #C760EB;
     margin: 0 20px 0 0;
+    padding-left: 40px; /*espaço suficiente para alocar o ícone*/
+    box-sizing: border-box; /*inclui o padding na largura total*/
 }
 
 img#icon_pesquisa {
-    position: absolute;
+    position: absolute; /*posiciona o ícone dentro do input*/
+    left: 53.5%;
     width: 24px;
-    margin-left: 50.5vw;
     margin-top: 7px;
+    pointer-events: none; /*impede interação com o ícone*/
 }
