@@ -1,9 +1,31 @@
-import React from "react";
+import React, {useState} from "react";
+import VisualizarSecretario from "../visualizar/secretario";
+import Excluir from "../excluir/excluir";
 import editar from "../../assets/editar-icon.svg";
 import excluir from "../../assets/excluir-icon.svg";
 import "./style.css";
 
 export default function Table(){
+    const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
+    const [isExcluirOpen, setIsExcluirOpen] = useState(false);
+    
+
+    const handleVisualizarClick = () => {
+        setIsVisualizarOpen(true);
+    } 
+    
+    const handleCloseVisualizar = () => {
+        setIsVisualizarOpen(false);
+    }
+
+    const handleExcluirClick = () => {
+        setIsExcluirOpen(true);
+    }
+
+    const handleExcluirClose = () => {
+        setIsExcluirOpen(false);
+    }
+
     return(
         <>
             <table>
@@ -19,12 +41,12 @@ export default function Table(){
                 <tbody> {/* conteudo da tabela */}
                     <tr>
                         <td className="conteudo">001</td> {/* celula do conteudo */}
-                        <td className="conteudo">Guilherme</td> 
+                        <td className="conteudo">Guilherme Poloniato Salomão</td> 
                         <td className="conteudo">00000000000</td> 
                         <td className="conteudo">Noturno</td> 
                         <td className="icones-acao">
-                            <img src={editar} alt="editar" id="icon-acao" />
-                            <img src={excluir} alt="excluir" id="icon-acao" />
+                            <img src={editar} alt="editar" id="icon-acao" onClick={handleVisualizarClick} />
+                            <img src={excluir} alt="excluir" id="icon-acao" onClick={handleExcluirClick} />
                         </td>
                     </tr>
                     <tr>
@@ -60,6 +82,8 @@ export default function Table(){
                 </tbody>
                 <caption>1/100</caption>
             </table>
+            {isVisualizarOpen && (<VisualizarSecretario handleCloseVisualizar={handleCloseVisualizar} />)}
+            {isExcluirOpen && (<Excluir handleExcluirClose={handleExcluirClose} />)}
         </>
     )
 }

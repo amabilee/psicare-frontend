@@ -20,7 +20,7 @@ export default function CadastrarSecretario({ handleCloseModal }){
                     <div className="flex-input">
                         <div className="CPF">
                             <label htmlFor="CPF">CPF*</label>
-                            <input type="number" name="numero" id="numero" />
+                            <input type="number" name="CPF" id="CPF" />
                         </div>
                         <div className="telefone">
                             <label htmlFor="Telefone">Telefone*</label>

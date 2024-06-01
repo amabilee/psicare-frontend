@@ -21,7 +21,7 @@ export default function Secretario(){
         <>
             <SideBar />
             <div className="body_admin">
-                <h1>Secretários</h1>
+                <h1 className="h1">Secretários</h1>
                 <div className="barra_pesquisa">
                     <button className="button_cadastro" onClick={handleNovoCadastroClick} >
                         <img src={novoCadastro} alt="img_cadastro" id="img_cadastro" />
@@ -34,4 +34,4 @@ export default function Secretario(){
             </div>
         </>
     )
-}
+}   

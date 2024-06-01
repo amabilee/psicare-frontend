@@ -14,28 +14,28 @@
 
 .modal-content{
     background-color: #fefefe;
-    padding: 20px;
+    padding: 15px 20px;
     border: 1px solid #888;
     border-radius: 8px;
-    width: 567px;
-    height: 432px;
+    width: 547px;
+    height: 452px;
     top: 12px;
     left: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-h2{
+.modal-content h2{
     color: #767474;
     font-size: 20px;
-    padding: 5px 0 10px 10px;
+    padding: 0px 0 10px 10px;
 }
 
-hr{
+.modal-content hr{
     height: 2px;
     background-color: #D9D9D9;
     border: none;
-    width: 550px;
-    margin-left: 5px;
+    width: 530px;
+    margin-left: 15px;
 }
 
 form{
@@ -51,32 +51,30 @@ label {
 }
 
 .modal-content input{
-    padding: 8px;
+    padding: 10px;
     border: 2px solid #C760EBFA;
     border-radius: 12px;
     width: 495px;
-    margin: 10px 0;
-}
-
-.modal-content input:hover{
-    border: 2px solid #C760EBFA;
-}
-
-.modal-content input:focus{
-    border: 2px solid #C760EBFA;
-}
-
-#numero, #telefone{
-    width: 235px;
+    margin: 8px 0;
 }
 
 .flex-input{
     display: flex;
+    
+}
+
+#CPF {
+    width: 245px;
+    margin-right: 20px;
+}
+
+#telefone{
+    width: 205px;
 }
 
 select#turno{
     width: 216px;
-    padding: 8px;
+    padding: 10px;
     border: 2px solid #C760EBFA;
     border-radius: 12px;
     -webkit-appearance: none; /* Remove o estilo padrão da seta no Safari */
@@ -86,6 +84,7 @@ select#turno{
     background-repeat: no-repeat;
     background-position: right center;
     padding-right: 32px;
+    margin: 8px 0;
 }
 
 .buttons-form{
@@ -98,7 +97,7 @@ select#turno{
     font-weight: 600;
     font-size: 0.9em;
     padding: 10px 40px;
-    margin-top: 35px;
+    margin-top: 30px;
     margin-right: 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;
@@ -116,7 +115,7 @@ select#turno{
     font-weight: 600;
     font-size: 0.9em;
     padding: 10px 30px;
-    margin-top: 35px;
+    margin-top: 30px;
     margin-right: 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;
@@ -173,6 +172,7 @@ select#turno{
     border: 2px solid #C760EB;
     border-radius: 6px;
     background: #fff;
+    margin-top: 10px;
 }
 
 .modal-sucesso-content #fechar:hover{

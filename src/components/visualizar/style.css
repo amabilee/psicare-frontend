@@ -1,0 +1,96 @@
+.body-visualizar {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 1;
+    left: 260px;
+    top: 100px;
+    width: calc(100% - 230px);
+    height: 100vh;
+    background-color: white;
+}
+
+.header-visualizar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: calc(100vw - 280px);
+    color: #767474;
+    font-size: 20px;
+}
+
+.button-editar{
+    color: #C760EB;
+    font-weight: 600;
+    font-size: 0.68em;
+    padding: 9px 42px;
+    border: 2px solid #C760EB;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.button-editar:hover{
+    background: #C760EB;
+    color: #fff;
+    cursor: pointer;
+}
+
+.body-visualizar hr {
+    height: 2px;
+    background-color: #D9D9D9;
+    border: none;
+    width: calc(100vw - 280px);
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.visualizar-info{
+    display: flex;
+    flex-direction: column;
+}
+
+.visualizar-info p {
+    color: #767474;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.visualizar-info h1{
+    color: #767474;
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+.flex-row1{
+    display: flex;
+    justify-content: space-between;
+    width: 50vw;
+}
+
+.flex-row2{
+    display: flex;
+    justify-content: space-between;
+    width: 49vw;
+}
+
+.voltar{
+    margin-top: 15%;
+}
+
+.voltar button{
+    color: #C760EB;
+    font-weight: 600;
+    font-size: 0.9em;
+    padding: 10px 50px;
+    margin-top: 20px;
+    margin-right: 20px;
+    border: 2px solid #C760EB;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.voltar button:hover{
+    background: #C760EB;
+    color: #fff;
+    cursor: pointer; 
+}
