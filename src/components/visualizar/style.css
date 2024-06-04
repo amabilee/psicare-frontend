@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     position: fixed;
-    z-index: 1;
+    z-index: 3;
     left: 260px;
     top: 100px;
     width: calc(100% - 230px);
@@ -10,19 +10,32 @@
     background-color: white;
 }
 
-.header-visualizar {
+.header-visualizar-info {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     width: calc(100vw - 280px);
     color: #767474;
     font-size: 20px;
 }
 
+.header-visualizar-info p{
+    font-size: 20px;
+}
+
+.body-visualizar hr {
+    height: 2px;
+    background-color: #D9D9D9;
+    border: none;
+    width: 98%;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
 .button-editar{
     color: #C760EB;
-    font-weight: 600;
-    font-size: 0.68em;
+    font-weight: 500;
+    font-size: 15px;
     padding: 9px 42px;
     border: 2px solid #C760EB;
     border-radius: 6px;
@@ -35,14 +48,7 @@
     cursor: pointer;
 }
 
-.body-visualizar hr {
-    height: 2px;
-    background-color: #D9D9D9;
-    border: none;
-    width: calc(100vw - 280px);
-    margin-top: 10px;
-    margin-bottom: 30px;
-}
+
 
 .visualizar-info{
     display: flex;
@@ -74,22 +80,20 @@
 }
 
 .voltar{
-    margin-top: 15%;
+    margin-top: 56vh;
 }
 
-.voltar button{
+.button-voltar{
     color: #C760EB;
-    font-weight: 600;
-    font-size: 0.9em;
-    padding: 10px 50px;
-    margin-top: 20px;
-    margin-right: 20px;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 11px 43px;
     border: 2px solid #C760EB;
     border-radius: 6px;
     background: #fff;
 }
 
-.voltar button:hover{
+.button-voltar:hover{
     background: #C760EB;
     color: #fff;
     cursor: pointer; 

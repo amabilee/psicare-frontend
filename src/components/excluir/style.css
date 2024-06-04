@@ -17,8 +17,8 @@
     padding: 20px 30px;
     border: 1px solid #888;
     border-radius: 8px;
-    width: 400px;
-    height: 220px;
+    width: 20vw;
+    height: 20vh;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
@@ -33,12 +33,12 @@
     font-size: 18px;
 }
 
-.modal-confirmar-content .button-excluir{
+.modal-confirmar-content .div-button-excluir{
     display: flex;
     justify-content: space-between;
 }
 
-.modal-confirmar-content #cancelar{
+.modal-confirmar-content .button-cancelar{
     color: #C760EB;
     font-weight: 600;
     font-size: 0.9em;
@@ -46,27 +46,27 @@
     border: 2px solid #C760EB;
     border-radius: 6px;
     background: #fff;
-    margin-top: 60px;
+    margin-top: 80px;
 }
 
-.modal-confirmar-content #cancelar:hover{
+.modal-confirmar-content .button-cancelar:hover{
     background: #C760EB;
     color: #fff;
     cursor: pointer; 
 }
 
-.modal-confirmar-content #excluir {
+.modal-confirmar-content .button-excluir {
     color: #fff;
     font-weight: 600;
     font-size: 0.9em;
-    padding: 8px 10px;
+    padding: 10px 12px;
     border: 2px solid #C12705;
     border-radius: 6px;
     background: #C12705;
-    margin-top: 60px;
+    margin-top: 80px;
 }
 
-.modal-confirmar-content #excluir:hover{
+.modal-confirmar-content .button-excluir:hover{
     cursor: pointer;
 }
 
@@ -88,8 +88,8 @@
     padding: 20px 30px;
     border: 1px solid #888;
     border-radius: 8px;
-    width: 400px;
-    height: 220px;
+    width: 20vw;
+    height: 20vh;
     text-align: center;
 }
 
@@ -106,10 +106,10 @@
     margin-bottom: 30px;
 }
 
-.modal-excluir-content #fechar{
+.modal-excluir-content .button-fechar{
     color: #C760EB;
-    font-weight: 600;
-    font-size: 0.9em;
+    font-weight: 500;
+    font-size: 15px;
     padding: 10px 40px;
     border: 2px solid #C760EB;
     border-radius: 6px;
@@ -117,7 +117,7 @@
     margin-top: 20px;
 }
 
-.modal-excluir-content #fechar:hover{
+.modal-excluir-content .button-fechar:hover{
     background: #C760EB;
     color: #fff;
     cursor: pointer; 

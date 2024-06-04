@@ -5,8 +5,9 @@ table{
 }
 
 th {
-    padding: 10px;
+    padding: 13px;
     background-color: #B6B6B636;
+    font-weight: 650;
 }
 
 th:first-child {
@@ -20,6 +21,12 @@ th:last-child {
 td{
     border-bottom: 1px solid #DADADA;
 }
+
+.checkbox-table{
+    padding-left: 1.9%;
+    transform: scale(1.5);
+}
+
 
 #icon-acao{
     width: 24px;

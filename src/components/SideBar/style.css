@@ -67,32 +67,32 @@ span {
     align-items: center ;
 }
 
-#estilo_respiro {
+/* definindo estilo para as divs */
+.estilo_respiro {
     display: flex;
     align-items: center;
     padding-left: 20px;
     margin: 0 0 10px 0;
 }
 
-#estilo_respiro:hover{
+.estilo_respiro:hover{
     background-color: #D9D9D9;
     border-radius: 8px;
     cursor: pointer;
 }
 
-#estilo_respiro2 {
+.estilo_respiro2 {
     display: flex;
     align-items: center;
     padding-left: 40px;
     margin: 5px 0;
 }
 
-#estilo_respiro2:hover{
+.estilo_respiro2:hover{
     background-color: #D9D9D9;
     border-radius: 8px;
     cursor: pointer;
-    width: 100px;
-    margin-left: 45px;
+    /* width: 100px;    */
 }
 
 .body_sidebar p { 
@@ -110,15 +110,15 @@ span {
     margin-top: 15px;
 }
 
-img#img_logo{
+.img_logo{
     width: 150px;
     margin-left: 10px;
 }
 
 .button-header{
     color: #C760EB;
-    font-weight: 600;
-    font-size: 0.9em;
+    font-weight: 500;
+    font-size: 15px;
     padding: 10px 50px;
     margin-top: 20px;
     margin-right: 20px;

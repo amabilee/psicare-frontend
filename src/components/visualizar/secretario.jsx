@@ -18,10 +18,13 @@ export default function VisualizarSecretario({handleCloseVisualizar}){
         <>
             <div className="body-visualizar">
                 <div className="header-visualizar">
-                    <p>Informações sobre secretário</p>
-                    <button className="button-editar" onClick={handleEditarClick}>Editar</button>
+                    <div className="header-visualizar-info">
+                        <p>Informações sobre secretário</p>
+                        <button className="button-editar" onClick={handleEditarClick}>Editar</button>
+                    </div>
+                    <hr />
                 </div>
-                <hr />
+                
                 <div className="visualizar-info">
                     <div className="nome">
                         <p>Nome</p>
@@ -49,7 +52,7 @@ export default function VisualizarSecretario({handleCloseVisualizar}){
                     </div>   
                 </div>     
                 <div className="voltar">
-                    <button onClick={handleCloseVisualizar} >Voltar</button>
+                    <button className="button-voltar" onClick={handleCloseVisualizar} >Voltar</button>
                 </div>
                 {isEditarOpen && <Editar handleEditarClose={handleEditarClose}/>}
             </div>

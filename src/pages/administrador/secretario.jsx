@@ -24,10 +24,14 @@ export default function Secretario(){
                 <h1 className="h1">Secretários</h1>
                 <div className="barra_pesquisa">
                     <button className="button_cadastro" onClick={handleNovoCadastroClick} >
-                        <img src={novoCadastro} alt="img_cadastro" id="img_cadastro" />
+                        <img src={novoCadastro} alt="img_cadastro" id="img_cadastro" className="img_cadastro" />
                         Novo Cadastro 
                     </button>
-                    <input type="text" name="pesquisar" id="pesquisar" /><img src={icon_pesquisa} alt="icon_pesquisa" id="icon_pesquisa" />
+                    <div className="container">
+                        <input type="text" name="pesquisar" id="pesquisar" className="pesquisar" />
+                        <img src={icon_pesquisa} alt="icon_pesquisa" id="icon_pesquisa" className="icon_pesquisa" />
+                    </div>
+                    
                 </div>
                 <Table />
                 {isCadastroOpen && (<Cadastrar handleCloseModal={handleCloseModal}/>)}

@@ -18,27 +18,27 @@ export default function CadastrarSecretario({ handleCloseModal }){
                     <label htmlFor="Nome">Nome Completo*</label>
                     <input type="text" />
                     <div className="flex-input">
-                        <div className="CPF">
+                        <div className="div-CPF">
                             <label htmlFor="CPF">CPF*</label>
-                            <input type="number" name="CPF" id="CPF" />
+                            <input type="number" className="CPF" id="CPF" />
                         </div>
-                        <div className="telefone">
+                        <div className="div-telefone">
                             <label htmlFor="Telefone">Telefone*</label>
-                            <input type="tel" name="telefone" id="telefone" />
+                            <input type="tel" className="telefone" id="telefone" />
                         </div>
                     </div>                   
                     <label htmlFor="Email">Email*</label>
                     <input type="email" name="email" id="email" />
                     <label htmlFor="turno">Turno*</label>
-                    <select name="turno" id="turno">
+                    <select className="turno" id="turno">
                         <option value="#"></option>
                         <option value="matutino">Matutino</option>
                         <option value="vespertino">Vespertino</option>
                         <option value="noturno">Noturno</option>
                     </select>
                     <div className="buttons-form"  onClick={HandleFormSubmit}>
-                        <button id="voltar" onClick={handleCloseModal} >Voltar</button>
-                        <button type="submit" id="cadastrar">Cadastrar</button>  
+                        <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Voltar</button>
+                        <button type="submit" className="button-cadastrar" id="cadastrar">Cadastrar</button>  
                     </div>
                 </form>
                 {isSucessModalOpen && (
@@ -46,7 +46,7 @@ export default function CadastrarSecretario({ handleCloseModal }){
                         <div className="modal-sucesso-content">
                             <h1>Sucesso!</h1>
                             <h2>Cadastro realizado com sucesso.</h2>
-                            <button id="fechar" onClick={handleCloseModal} >Fechar</button>
+                            <button className="button-fechar" id="fechar" onClick={handleCloseModal} >Fechar</button>
                         </div>
                     </div>
                 )}

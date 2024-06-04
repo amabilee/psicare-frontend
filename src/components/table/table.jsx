@@ -31,7 +31,8 @@ export default function Table(){
             <table>
                 <thead> {/* cabeçalho */}
                     <tr> {/* começar uma linha */}
-                        <th>ID</th> {/* celula do cabeçalho */}
+                        <th><input type="checkbox" className="checkbox-table" id="checkbox-table" /></th>
+                        <th>Id</th> {/* celula do cabeçalho */}
                         <th>Nome</th>
                         <th>CPF</th>
                         <th>Turno</th>
@@ -40,6 +41,7 @@ export default function Table(){
                 </thead>
                 <tbody> {/* conteudo da tabela */}
                     <tr>
+                        <td className="checkbox-table" ><input type="checkbox" className="checkbox" id="checkbox" /></td>
                         <td className="conteudo">001</td> {/* celula do conteudo */}
                         <td className="conteudo">Guilherme Poloniato Salomão</td> 
                         <td className="conteudo">00000000000</td> 
@@ -50,6 +52,7 @@ export default function Table(){
                         </td>
                     </tr>
                     <tr>
+                        <td className="checkbox-table" ><input type="checkbox" className="checkbox" id="checkbox" /></td>
                         <td className="conteudo">002</td> {/* celula do conteudo */}
                         <td className="conteudo">Gustavo</td> 
                         <td className="conteudo">00000000000</td> 
@@ -60,6 +63,7 @@ export default function Table(){
                         </td>
                     </tr>
                     <tr>
+                        <td className="checkbox-table" ><input type="checkbox" className="checkbox" id="checkbox" /></td>
                         <td className="conteudo">003</td> {/* celula do conteudo */}
                         <td className="conteudo">Lucianno</td> 
                         <td className="conteudo">00000000000</td> 
@@ -70,6 +74,7 @@ export default function Table(){
                         </td>
                     </tr>
                     <tr>
+                        <td className="checkbox-table" ><input type="checkbox" className="checkbox" id="checkbox" /></td>
                         <td className="conteudo">004</td> {/* celula do conteudo */}
                         <td className="conteudo">Cesar</td> 
                         <td className="conteudo">00000000000</td> 
