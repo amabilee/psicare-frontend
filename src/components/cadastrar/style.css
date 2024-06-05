@@ -14,11 +14,11 @@
 
 .modal-content{
     background-color: #fefefe;
-    padding: 15px 20px;
+    padding: 30px 20px;
     border: 1px solid #888;
     border-radius: 8px;
     width: 24vw;
-    height: 40vh;
+    height: 42vh;
     top: 12px;
     left: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -105,10 +105,10 @@
 
 .modal-content .buttons-form .button-voltar {
     color: #C760EB;
-    font-weight: 600;
-    font-size: 0.9em;
+    font-weight: 500;
+    font-size: 15px;
     padding: 10px 40px;
-    margin-top: 40px;
+    margin-top: 50px;
     margin-right: 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;
@@ -122,18 +122,20 @@
 }
 
 .modal-content .buttons-form .button-cadastrar {
-    color: #fff;
-    font-weight: 600;
-    font-size: 0.9em;
+    color: #C760EB;
+    font-weight: 500;
+    font-size: 15px;
     padding: 10px 30px;
-    margin-top: 40px;
+    margin-top: 50px;
     margin-right: 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;
-    background: #C760EB;
+    background: #fff;
 }
 
 .modal-content .buttons-form .button-cadastrar:hover{
+    background: #C760EB;
+    color: #fff;
     cursor: pointer; 
 }
 
@@ -177,8 +179,8 @@
 
 .modal-sucesso-content #fechar{
     color: #C760EB;
-    font-weight: 600;
-    font-size: 0.9em;
+    font-weight: 500;
+    font-size: 15px;
     padding: 10px 40px;
     border: 2px solid #C760EB;
     border-radius: 6px;

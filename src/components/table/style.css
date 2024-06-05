@@ -22,11 +22,19 @@ td{
     border-bottom: 1px solid #DADADA;
 }
 
-.checkbox-table{
-    padding-left: 1.9%;
+.checkbox-header{
+    transform: scale(1.5);
+    cursor: pointer;
+}
+
+.checkbox-conteudo{
+    padding-left: 2.25%;
     transform: scale(1.5);
 }
 
+.checkbox {
+    cursor: pointer;
+}
 
 #icon-acao{
     width: 24px;
@@ -36,6 +44,7 @@ td{
 
 .conteudo{
     text-align: center;
+    cursor: pointer;
 }
 
 .icones-acao{

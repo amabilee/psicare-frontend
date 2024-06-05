@@ -1,26 +1,14 @@
-import React, {useState} from "react";
-import Editar from "../editar/editar";
+import React from "react";
 import "./style.css";
 
 
 export default function VisualizarSecretario({handleCloseVisualizar}){
-    const [isEditarOpen, setIsEditarOpen] = useState(false);
-
-    const handleEditarClick = () => {
-        setIsEditarOpen(true);
-    }
-
-    const handleEditarClose = () => {
-        setIsEditarOpen(false);
-    }
-
     return(
         <>
             <div className="body-visualizar">
                 <div className="header-visualizar">
                     <div className="header-visualizar-info">
                         <p>Informações sobre secretário</p>
-                        <button className="button-editar" onClick={handleEditarClick}>Editar</button>
                     </div>
                     <hr />
                 </div>
@@ -54,7 +42,6 @@ export default function VisualizarSecretario({handleCloseVisualizar}){
                 <div className="voltar">
                     <button className="button-voltar" onClick={handleCloseVisualizar} >Voltar</button>
                 </div>
-                {isEditarOpen && <Editar handleEditarClose={handleEditarClose}/>}
             </div>
         </>
     )

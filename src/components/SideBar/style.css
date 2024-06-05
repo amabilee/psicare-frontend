@@ -54,7 +54,7 @@
     padding: 0px 0px 0px 15px;
 }
 
-span {
+.body_sidebar span {
     background-color: blue;
     color: white;
     font-size: 0.8em;

@@ -17,20 +17,23 @@
     padding: 20px 30px;
     border: 1px solid #888;
     border-radius: 8px;
-    width: 20vw;
-    height: 20vh;
+    width: 21vw;
+    height: 21vh;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .modal-confirmar-content h1{
     color: #767474;
     font-size: 35px;
+    padding-top: 20px;
     margin: 10px 0;
+    text-align: center;
 }
 
 .modal-confirmar-content h2{
     color: #767474;
     font-size: 18px;
+    text-align: center;
 }
 
 .modal-confirmar-content .div-button-excluir{
@@ -40,13 +43,13 @@
 
 .modal-confirmar-content .button-cancelar{
     color: #C760EB;
-    font-weight: 600;
-    font-size: 0.9em;
-    padding: 8px 10px;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 10px 40px;
     border: 2px solid #C760EB;
     border-radius: 6px;
     background: #fff;
-    margin-top: 80px;
+    margin-top: 50px;
 }
 
 .modal-confirmar-content .button-cancelar:hover{
@@ -56,17 +59,20 @@
 }
 
 .modal-confirmar-content .button-excluir {
-    color: #fff;
-    font-weight: 600;
-    font-size: 0.9em;
-    padding: 10px 12px;
-    border: 2px solid #C12705;
+    color: #C760EB;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 10px 40px;
+    border: 2px solid #C760EB;
     border-radius: 6px;
-    background: #C12705;
-    margin-top: 80px;
+    background: #fff;
+    margin-top: 50px;
 }
 
 .modal-confirmar-content .button-excluir:hover{
+    border: 2px solid #C12705;
+    background: #C12705;
+    color: #fff;
     cursor: pointer;
 }
 
@@ -88,8 +94,8 @@
     padding: 20px 30px;
     border: 1px solid #888;
     border-radius: 8px;
-    width: 20vw;
-    height: 20vh;
+    width: 21vw;
+    height: 21vh;
     text-align: center;
 }
 

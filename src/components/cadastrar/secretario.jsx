@@ -37,7 +37,7 @@ export default function CadastrarSecretario({ handleCloseModal }){
                         <option value="noturno">Noturno</option>
                     </select>
                     <div className="buttons-form"  onClick={HandleFormSubmit}>
-                        <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Voltar</button>
+                        <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Cancelar</button>
                         <button type="submit" className="button-cadastrar" id="cadastrar">Cadastrar</button>  
                     </div>
                 </form>
