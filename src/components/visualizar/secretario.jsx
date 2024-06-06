@@ -2,13 +2,14 @@ import React from "react";
 import "./style.css";
 
 
-export default function VisualizarSecretario({handleCloseVisualizar}){
+export default function VisualizarSecretario({handleCloseVisualizar, dadosSecretario}){
+
     return(
         <>
             <div className="body-visualizar">
                 <div className="header-visualizar">
                     <div className="header-visualizar-info">
-                        <p>Informações sobre secretário</p>
+                        <h1>Informações sobre secretário</h1>
                     </div>
                     <hr />
                 </div>
@@ -16,26 +17,26 @@ export default function VisualizarSecretario({handleCloseVisualizar}){
                 <div className="visualizar-info">
                     <div className="nome">
                         <p>Nome</p>
-                        <h1>Guilherme Poloniato Salomão</h1>
+                        <h1>{dadosSecretario.nome}</h1>
                     </div>
                     <div className="flex-row1">
                         <div className="email">
                             <p>Email</p>
-                            <h1>Gui@gmail.com</h1>
+                            <h1>{dadosSecretario.email}</h1>
                         </div>
                         <div className="telefone">
                             <p>Telefone</p>
-                            <h1>(62)9 9999-9999</h1>
+                            <h1>{dadosSecretario.telefone}</h1>
                         </div>
-                    </div>
+                    </div>  
                     <div className="flex-row2">
                         <div className="tuno">
                             <p>Turno</p>
-                            <h1>Noturno</h1>
+                            <h1>{dadosSecretario.turno}</h1>
                         </div>
                         <div className="CPF">
                             <p>CPF</p>
-                            <h1>00000000000</h1>
+                            <h1>{dadosSecretario.cpf}</h1>
                         </div>
                     </div>   
                 </div>     

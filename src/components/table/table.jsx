@@ -10,8 +10,10 @@ export default function Table() {
   const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
   const [isExcluirOpen, setIsExcluirOpen] = useState(false);
   const [isEditarOpen, setIsEditarOpen] = useState(false);
+  const [usuarioClick, setUsuarioClick] = useState({});
 
-  const handleVisualizarClick = () => {
+  const handleVisualizarClick = (originalData) => {
+    setUsuarioClick(originalData);
     setIsVisualizarOpen(true);
   };
 
@@ -27,13 +29,21 @@ export default function Table() {
     setIsExcluirOpen(false);
   };
 
-  const handleEditarClick = () => {
+  const handleEditarClick = (originalData) => {
+    setUsuarioClick(originalData);
     setIsEditarOpen(true);
 }
 
 const handleEditarClose = () => {
     setIsEditarOpen(false);
 }
+
+let dadosSecretario = [
+  {id:1, nome:"Guilherme Poloniato Salomão", cpf:"0000000000-00", turno:"Noturno", telefone:"(62)9 9999-9999", email:"Gui@gmail.com"},
+  {id:2, nome:"Luciano Morais", cpf:"0000000000-00", turno:"Noturno", telefone:"(62)9 9999-9999", email:"LULU@gmail.com"}
+];
+
+
 
   return (
     <>
@@ -61,71 +71,30 @@ const handleEditarClose = () => {
         <tbody>
           {" "}
           {/* conteudo da tabela */}
-          <tr>
-            <td className="checkbox-conteudo">
-              <input type="checkbox" className="checkbox" id="checkbox" />
-            </td>
-              <td className="conteudo" onClick={handleVisualizarClick}>001</td> {/* celula do conteudo */}
-              <td className="conteudo" onClick={handleVisualizarClick}>Guilherme Poloniato Salomão</td>
-              <td className="conteudo" onClick={handleVisualizarClick}>00000000000</td>
-              <td className="conteudo" onClick={handleVisualizarClick}>Noturno</td> 
-              <td className="icones-acao">
-                <img src={editar} alt="editar" id="icon-acao" onClick={handleEditarClick} />
-                <img
-                  src={excluir}
-                  alt="excluir"
-                  id="icon-acao"
-                  onClick={handleExcluirClick}
-                />
-              </td>   
-          </tr>
-          <tr>
-            <td className="checkbox-conteudo">
-              <input type="checkbox" className="checkbox" id="checkbox" />
-            </td>
-            <td className="conteudo">002</td> {/* celula do conteudo */}
-            <td className="conteudo">Gustavo</td>
-            <td className="conteudo">00000000000</td>
-            <td className="conteudo">Noturno</td>
-            <td className="icones-acao">
-              <img src={editar} alt="editar" id="icon-acao" />
-              <img src={excluir} alt="excluir" id="icon-acao" />
-            </td>
-          </tr>
-          <tr>
-            <td className="checkbox-conteudo">
-              <input type="checkbox" className="checkbox" id="checkbox" />
-            </td>
-            <td className="conteudo">003</td> {/* celula do conteudo */}
-            <td className="conteudo">Lucianno</td>
-            <td className="conteudo">00000000000</td>
-            <td className="conteudo">Noturno</td>
-            <td className="icones-acao">
-              <img src={editar} alt="editar" id="icon-acao" />
-              <img src={excluir} alt="excluir" id="icon-acao" />
-            </td>
-          </tr>
-          <tr>
-            <td className="checkbox-conteudo">
-              <input type="checkbox" className="checkbox" id="checkbox" />
-            </td>
-            <td className="conteudo">004</td> {/* celula do conteudo */}
-            <td className="conteudo">Cesar</td>
-            <td className="conteudo">00000000000</td>
-            <td className="conteudo">Matutino</td>
-            <td className="icones-acao">
-              <img src={editar} alt="editar" id="icon-acao" />
-              <img src={excluir} alt="excluir" id="icon-acao" />
-            </td>
-          </tr>
+          {dadosSecretario.map((dados, index) => (
+            <tr key={index}>
+              <td className="checkbox-conteudo">
+                <input type="checkbox" className="checkbox" id="checkbox" />
+              </td>
+                <td className="conteudo" id="idSecretario" onClick={() => handleVisualizarClick(dados)}>{dados.id}</td> {/* celula do conteudo */}
+                <td className="conteudo" id="nomeSecretario" onClick={() => handleVisualizarClick(dados)}>{dados.nome}</td>
+                <td className="conteudo" id="cpfSecretario" onClick={() => handleVisualizarClick(dados)}>{dados.cpf}</td>
+                <td className="conteudo" id="turnoSecretario" onClick={() => handleVisualizarClick(dados)}>{dados.turno}</td> 
+                <td className="icones-acao">
+                  <img src={editar} alt="editar" id="icon-acao" onClick={() => handleEditarClick(dados)} />
+                  <img src={excluir} alt="excluir" id="icon-acao" onClick={handleExcluirClick}/>
+                </td>   
+            </tr>
+          ))}
+          
         </tbody>
-        <caption>1/100</caption>
+        <caption>{dadosSecretario.length}/100</caption>
       </table>
       {isVisualizarOpen && (
-        <VisualizarSecretario handleCloseVisualizar={handleCloseVisualizar} />
+        <VisualizarSecretario handleCloseVisualizar={handleCloseVisualizar} dadosSecretario={usuarioClick} />
       )}
-      {isExcluirOpen && (<Excluir handleExcluirClose={handleExcluirClose} />)}
-      {isEditarOpen && (<Editar handleEditarClose={handleEditarClose} />)}
+      {isExcluirOpen && (<Excluir handleExcluirClose={handleExcluirClose} dadosSecretario={usuarioClick}  />)}
+      {isEditarOpen && (<Editar handleEditarClose={handleEditarClose} dadosSecretario={usuarioClick} />)}
     </>
   );
 }

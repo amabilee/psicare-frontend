@@ -1,12 +1,14 @@
 import React, {useState} from "react";
 import "./style.css";
 
-export default function Editar({ handleEditarClose}) {
+export default function Editar({handleEditarClose, dadosSecretario}) {
     const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
     const [Editar, setEditar] = useState(true);
     const [SucessoEditar, setSucessoEditar] = useState(false);
+    const [dadosAtualizados, setDadosAtualizados] = useState(dadosSecretario);
 
     const handleEditarConfirmar = () => {
+      console.log(dadosAtualizados)
         setIsEditarConfirmar(true);
         setEditar(false);
     }
@@ -19,6 +21,7 @@ export default function Editar({ handleEditarClose}) {
     const handleSucessoConfirmar = () => {
       setSucessoEditar(true);
     }
+    
   return (
     <>
     {Editar && (
@@ -28,55 +31,31 @@ export default function Editar({ handleEditarClose}) {
           <hr />
           <form>
             <label htmlFor="Nome">Nome Completo*</label>
-            <input type="text" placeholder="Guilherme Poloniato Salomão" />
+            <input type="text" value={dadosAtualizados.nome} onChange={(e) => setDadosAtualizados({...dadosAtualizados, nome:e.target.value})}/>
             <div className="flex-input">
               <div className="div-CPF">
                 <label htmlFor="CPF">CPF*</label>
-                <input
-                  type="number"
-                  className="CPF"
-                  id="CPF"
-                  placeholder="00000000000"
-                />
+                <input type="text" className="CPF" id="CPF" value={dadosAtualizados.cpf} onChange={(e) => setDadosAtualizados({...dadosAtualizados, cpf:e.target.value})} />
               </div>
               <div className="div-telefone">
                 <label htmlFor="Telefone">Telefone*</label>
-                <input
-                  type="tel"
-                  className="telefone"
-                  id="telefone"
-                  placeholder="(99)9 9999-9999"
-                />
+                <input type="text" className="telefone" id="telefone" value={dadosAtualizados.telefone} onChange={(e) => setDadosAtualizados({...dadosAtualizados, telefone:e.target.value})} />
               </div>
             </div>
             <label htmlFor="Email">Email*</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Gui@gmail.com"
-            />
+            <input type="email" name="email" id="email" value={dadosAtualizados.email} onChange={(e) => setDadosAtualizados({...dadosAtualizados, email:e.target.value})}/>
             <label htmlFor="turno">Turno*</label>
-            <select className="turno" id="turno">
+            <select className="turno" id="turno" value={dadosAtualizados.turno} onChange={(e) => setDadosAtualizados({...dadosAtualizados, turno:e.target.value})}>
               <option value="#"></option>
-              <option value="matutino">Matutino</option>
-              <option value="vespertino">Vespertino</option>
-              <option value="noturno">Noturno</option>
+              <option value="Matutino">Matutino</option>
+              <option value="Vespertino">Vespertino</option>
+              <option value="Noturno">Noturno</option>
             </select>
             <div className="buttons-form">
-              <button
-                className="button-cancelar"
-                id="voltar"
-                onClick={handleEditarClose}
-              >
+              <button className="button-cancelar" id="voltar" onClick={handleEditarClose}>
                 Cancelar
               </button>
-              <button
-                type="submit"
-                className="button-confirmar"
-                id="cadastrar"
-                onClick={handleEditarConfirmar}
-              >
+              <button type="submit" className="button-confirmar" id="cadastrar" onClick={handleEditarConfirmar}>
                 Confirmar
               </button>
             </div>
@@ -93,41 +72,32 @@ export default function Editar({ handleEditarClose}) {
                 <div className="dados-inseridos">
                     <div className="nome">
                         <p>Nome Completo</p>
-                        <h1>Guilherme Poloniato Salomão</h1>
+                        <h1>{dadosAtualizados.nome}</h1>
                     </div>
                     <div className="flex-row1">
                         <div className="CPF">
                             <p>CPF</p>
-                            <h1>000000000-00</h1>
+                            <h1>{dadosAtualizados.cpf}</h1>
                         </div>
                         <div className="telefone">
                             <p>Telefone</p>
-                            <h1>(62)9 9999-9999</h1>
+                            <h1>{dadosAtualizados.telefone}</h1>
                         </div>
                     </div>
                     <div className="email">
                         <p>E-mail</p>
-                        <h1>Gui@gmail.com</h1>
+                        <h1>{dadosAtualizados.email}</h1>
                     </div>
                     <div className="turno">
                         <p>turno</p>
-                        <h1>Matutino</h1>
+                        <h1>{dadosAtualizados.turno}</h1>
                     </div>   
                 </div> 
                 <div className="buttons-confirmar">
-                  <button
-                    className="button-voltar-confirmar"
-                    id="voltar"
-                    onClick={handleVoltarConfirmar}
-                  >
+                  <button className="button-voltar-confirmar" id="voltar" onClick={handleVoltarConfirmar} >
                     Voltar
                   </button>
-                  <button
-                    type="submit"
-                    className="button-confirmar"
-                    id="cadastrar"
-                    onClick={handleSucessoConfirmar}
-                  >
+                  <button type="submit" className="button-confirmar" id="cadastrar" onClick={handleSucessoConfirmar}>
                     Confirmar
                   </button>
                 </div> 

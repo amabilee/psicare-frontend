@@ -18,8 +18,8 @@
     padding: 30px 20px;
     border: 1px solid #888;
     border-radius: 8px;
-    width: 24vw;
-    height: 42vh;
+    width: 570px;
+    height: 480px;
     top: 12px;
     left: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -35,7 +35,7 @@
     height: 2px;
     background-color: #D9D9D9;
     border: none;
-    width: 23vw;
+    width: 550px;
     margin-left: 15px;
 }
 
@@ -161,8 +161,8 @@
     padding: 30px 20px;
     border: 1px solid #888;
     border-radius: 8px;
-    width: 24vw;
-    height: 42vh;
+    width: 570px;
+    height: 480px;
     top: 12px;
     left: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);

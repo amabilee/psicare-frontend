@@ -1,10 +1,12 @@
 import React,{useState} from "react";
 import "./style.css"
 
-export default function Excluir({handleExcluirClose}){
+export default function Excluir({handleExcluirClose, dadosSecretario}){
     const [isConfirmarExluir, setIsConfirmarExcluir] = useState(false);
+    const [dadosSecretarioDeletar, setDadosSecretarioDeletar] = useState(dadosSecretario)
 
     const handleConfirmarOpen = () => {
+        console.log(dadosSecretarioDeletar)
         setIsConfirmarExcluir(true);
     }
 

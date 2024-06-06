@@ -19,8 +19,8 @@
     font-size: 20px;
 }
 
-.header-visualizar-info p{
-    font-size: 20px;
+.header-visualizar-info h1{
+    font-size: 32px;
 }
 
 .body-visualizar hr {
@@ -58,7 +58,7 @@
 .visualizar-info .flex-row2{
     display: flex;
     justify-content: space-between;
-    width: 49vw;
+    width: 50.3vw;
 }
 
 .voltar{
