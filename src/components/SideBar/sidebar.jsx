@@ -11,11 +11,12 @@
         const toggleCadastro = () => {
             setShowCadastro(!showCadastro);
         }
+        
         return(
             <div className="body_sidebar">
                 <div className="lateral">
                     <div className="barraLateral">
-                        <div className="conteudo">
+                        <div className="conteudo-sideBar">
                             <div className="usuario">
                                 <span>A</span>
                                 <p>Olá, Admin</p>

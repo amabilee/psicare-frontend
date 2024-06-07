@@ -21,7 +21,8 @@ export default function Table() {
     setIsVisualizarOpen(false);
   };
 
-  const handleExcluirClick = () => {
+  const handleExcluirClick = (originalData) => {
+    setUsuarioClick(originalData);
     setIsExcluirOpen(true);
   };
 
@@ -39,11 +40,9 @@ const handleEditarClose = () => {
 }
 
 let dadosSecretario = [
-  {id:1, nome:"Guilherme Poloniato Salomão", cpf:"0000000000-00", turno:"Noturno", telefone:"(62)9 9999-9999", email:"Gui@gmail.com"},
-  {id:2, nome:"Luciano Morais", cpf:"0000000000-00", turno:"Noturno", telefone:"(62)9 9999-9999", email:"LULU@gmail.com"}
+  {id:1, nome:"Guilherme Poloniato Salomão", cpf:"000.000.000-00", turno:"Noturno", telefone:"(62)9 9999-9999", email:"Gui@gmail.com"},
+  {id:2, nome:"Luciano Morais", cpf:"000.000.000-00", turno:"Noturno", telefone:"(62)9 9999-9999", email:"LULU@gmail.com"}
 ];
-
-
 
   return (
     <>
@@ -76,13 +75,13 @@ let dadosSecretario = [
               <td className="checkbox-conteudo">
                 <input type="checkbox" className="checkbox" id="checkbox" />
               </td>
-                <td className="conteudo" id="idSecretario" onClick={() => handleVisualizarClick(dados)}>{dados.id}</td> {/* celula do conteudo */}
-                <td className="conteudo" id="nomeSecretario" onClick={() => handleVisualizarClick(dados)}>{dados.nome}</td>
-                <td className="conteudo" id="cpfSecretario" onClick={() => handleVisualizarClick(dados)}>{dados.cpf}</td>
-                <td className="conteudo" id="turnoSecretario" onClick={() => handleVisualizarClick(dados)}>{dados.turno}</td> 
+                <td className="conteudo-table" id="idSecretario" onClick={() => handleVisualizarClick(dados)}>{dados.id}</td> {/* celula do conteudo */}
+                <td className="conteudo-table" id="nomeSecretario" onClick={() => handleVisualizarClick(dados)}>{dados.nome}</td>
+                <td className="conteudo-table" id="cpfSecretario" onClick={() => handleVisualizarClick(dados)}>{dados.cpf}</td>
+                <td className="conteudo-table" id="turnoSecretario" onClick={() => handleVisualizarClick(dados)}>{dados.turno}</td> 
                 <td className="icones-acao">
                   <img src={editar} alt="editar" id="icon-acao" onClick={() => handleEditarClick(dados)} />
-                  <img src={excluir} alt="excluir" id="icon-acao" onClick={handleExcluirClick}/>
+                  <img src={excluir} alt="excluir" id="icon-acao" onClick={() => handleExcluirClick(dados)}/>
                 </td>   
             </tr>
           ))}

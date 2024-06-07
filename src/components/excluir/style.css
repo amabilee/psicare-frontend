@@ -17,8 +17,8 @@
     padding: 20px 30px;
     border: 1px solid #888;
     border-radius: 8px;
-    width: 21vw;
-    height: 21vh;
+    width: 440px;
+    height: 240px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
@@ -45,7 +45,7 @@
     color: #C760EB;
     font-weight: 500;
     font-size: 15px;
-    padding: 10px 40px;
+    padding: 10px 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;
     background: #fff;
@@ -94,8 +94,8 @@
     padding: 20px 30px;
     border: 1px solid #888;
     border-radius: 8px;
-    width: 21vw;
-    height: 21vh;
+    width: 440px;
+    height: 240px;
     text-align: center;
 }
 

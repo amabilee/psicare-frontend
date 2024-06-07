@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {IMaskInput} from "react-imask";
 import "./style.css";
 
 export default function Editar({handleEditarClose, dadosSecretario}) {
@@ -35,11 +36,11 @@ export default function Editar({handleEditarClose, dadosSecretario}) {
             <div className="flex-input">
               <div className="div-CPF">
                 <label htmlFor="CPF">CPF*</label>
-                <input type="text" className="CPF" id="CPF" value={dadosAtualizados.cpf} onChange={(e) => setDadosAtualizados({...dadosAtualizados, cpf:e.target.value})} />
+                <IMaskInput type="text" className="CPF" id="CPF" mask="000.000.000-00" value={dadosAtualizados.cpf} onChange={(e) => setDadosAtualizados({...dadosAtualizados, cpf:e.target.value})} />
               </div>
               <div className="div-telefone">
                 <label htmlFor="Telefone">Telefone*</label>
-                <input type="text" className="telefone" id="telefone" value={dadosAtualizados.telefone} onChange={(e) => setDadosAtualizados({...dadosAtualizados, telefone:e.target.value})} />
+                <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={dadosAtualizados.telefone} onChange={(e) => setDadosAtualizados({...dadosAtualizados, telefone:e.target.value})} />
               </div>
             </div>
             <label htmlFor="Email">Email*</label>

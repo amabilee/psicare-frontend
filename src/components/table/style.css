@@ -20,7 +20,9 @@ th:last-child {
 
 td{
     border-bottom: 1px solid #DADADA;
+    padding: 8px;
 }
+
 
 .checkbox-header{
     transform: scale(1.5);
@@ -28,7 +30,7 @@ td{
 }
 
 .checkbox-conteudo{
-    padding-left: 2.25%;
+    padding-left: 2.63%;
     transform: scale(1.5);
 }
 
@@ -42,9 +44,10 @@ td{
     cursor: pointer;
 }
 
-.conteudo{
+table .conteudo-table{
     text-align: center;
     cursor: pointer;
+
 }
 
 .icones-acao{
