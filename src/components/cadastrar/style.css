@@ -139,6 +139,12 @@
     cursor: pointer; 
 }
 
+.Snackbar {
+    display: flex;
+    justify-content: center;
+    
+}
+
 /*modal de sucesso*/
 .modal-sucesso {
     display: flex;
