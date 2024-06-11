@@ -63,6 +63,10 @@
     outline: none;
 }
 
+.modal-content input#nome {
+    text-transform: capitalize;
+}
+
 .modal-content .flex-input{
     display: flex;
 }
@@ -139,11 +143,7 @@
     cursor: pointer; 
 }
 
-.Snackbar {
-    display: flex;
-    justify-content: center;
-    
-}
+
 
 /*modal de sucesso*/
 .modal-sucesso {

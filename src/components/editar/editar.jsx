@@ -1,17 +1,50 @@
 import React, {useState} from "react";
 import {IMaskInput} from "react-imask";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import validator from "validator";
+import { cpf } from 'cpf-cnpj-validator'; 
 import "./style.css";
 
 export default function Editar({handleEditarClose, dadosSecretario}) {
     const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
     const [Editar, setEditar] = useState(true);
     const [SucessoEditar, setSucessoEditar] = useState(false);
+    const [message, setMessage] = useState({});
     const [dadosAtualizados, setDadosAtualizados] = useState(dadosSecretario);
+    const [state, setState] = React.useState({
+      open: false,
+      vertical: 'top',
+      horizontal: 'center',
+    });
+    const { vertical, horizontal, open } = state;
 
-    const handleEditarConfirmar = () => {
-      console.log(dadosAtualizados)
+  const handleClose = () => {
+      setState({ ...state, open: false });
+  };
+
+    const handleEditarConfirmar = (newState) => () => {
+        if (dadosAtualizados.nome.length <= 6) {
+          setState({ ...newState, open: true });
+          setMessage("Insira o nome completo.");
+      } else if (!cpf.isValid(dadosAtualizados.cpf)){
+          setState({ ...newState, open: true }); 
+          setMessage("Insira um cpf válido.");
+      } else if (dadosAtualizados.telefone.length != 15){
+          setState({ ...newState, open: true }); 
+          setMessage("Insira um telefone válido.");
+      } else if (!validator.isEmail(dadosAtualizados.email)){
+          setState({ ...newState, open: true });
+          setMessage("Insira um email válido.");
+      } else if (!dadosAtualizados.turno.length != 0) {
+          setState({ ...newState, open: true });
+          setMessage("Selecione um turno.");
+
+      } else {
         setIsEditarConfirmar(true);
         setEditar(false);
+        console.log(dadosAtualizados);
+      }
     }
 
     const handleVoltarConfirmar = () => {
@@ -30,7 +63,7 @@ export default function Editar({handleEditarClose, dadosSecretario}) {
         <div className="modal-content-editar">
           <h2>Editar Cadastro</h2>
           <hr />
-          <form>
+          <div className="formulario">
             <label htmlFor="Nome">Nome Completo*</label>
             <input type="text" value={dadosAtualizados.nome} onChange={(e) => setDadosAtualizados({...dadosAtualizados, nome:e.target.value})}/>
             <div className="flex-input">
@@ -56,11 +89,23 @@ export default function Editar({handleEditarClose, dadosSecretario}) {
               <button className="button-cancelar" id="voltar" onClick={handleEditarClose}>
                 Cancelar
               </button>
-              <button type="submit" className="button-confirmar" id="cadastrar" onClick={handleEditarConfirmar}>
+              <button type="submit" className="button-confirmar" id="cadastrar" onClick={handleEditarConfirmar({ vertical: 'bottom', horizontal: 'center' })}>
                 Confirmar
               </button>
+              <Snackbar
+                  ContentProps={{sx: {borderRadius: '8px'}}}
+                  anchorOrigin={{ vertical, horizontal }}
+                  open={open}
+                  autoHideDuration={2000}
+                  onClose={handleClose}
+                  key={vertical + horizontal}
+              >
+                  <Alert variant="filled" severity="error" onClose={handleClose} action="">
+                      {message}
+                  </Alert>
+              </Snackbar>
             </div>
-          </form>
+          </div>
         </div>  
       </div>
     )}

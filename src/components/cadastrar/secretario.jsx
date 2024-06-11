@@ -1,11 +1,16 @@
 import React, {useState} from "react";
+import { api } from "../../services/server";
 import {IMaskInput} from "react-imask";
 import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import validator from "validator";
+import { cpf } from 'cpf-cnpj-validator'; 
 import "./style.css"
 
 export default function CadastrarSecretario({ handleCloseModal }){
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
-    const [dadosForm, setDadosForm] = useState({nome: "", cpf: "", telefone: "", email: "", turno: ""});
+    const [message, setMessage] = useState({});
+    const [dadosForm, setDadosForm] = useState({id: 0, nome: "", cpf: "", telefone: "", email: "", turno: "", arquivado: false});
     const [state, setState] = React.useState({
         open: false,
         vertical: 'top',
@@ -17,18 +22,32 @@ export default function CadastrarSecretario({ handleCloseModal }){
         setState({ ...state, open: false });
     };
 
-    const HandleFormSubmit = (newState) => () => {
+    const HandleFormSubmit = (newState) => async() => {
         if (dadosForm.nome.length <= 6) {
+            setState({ ...newState, open: true });
+            setMessage("Insira o nome completo.");
+        } else if (!cpf.isValid(dadosForm.cpf)){
             setState({ ...newState, open: true }); 
-        } else if (dadosForm.cpf.length != 14){
-            setState({ ...newState, open: true }); 
+            setMessage("Insira um cpf válido.");
         } else if (dadosForm.telefone.length != 15){
             setState({ ...newState, open: true }); 
-        } else if (dadosForm.email){
+            setMessage("Insira um telefone válido.");
+        } else if (!validator.isEmail(dadosForm.email)){
             setState({ ...newState, open: true });
+            setMessage("Insira um email válido.");
+        } else if (!dadosForm.turno.length != 0) {
+            setState({ ...newState, open: true });
+            setMessage("Selecione um turno.");
+
         } else {
             setIsSucessModalOpen(true);
             console.log(dadosForm);
+
+            try {
+                await api.post("/secretario", dadosForm);
+            } catch (e) {
+                console.log(e, "deu ruim")
+            }
         }
     }
 
@@ -63,15 +82,19 @@ export default function CadastrarSecretario({ handleCloseModal }){
                         </select>
                         <div className="buttons-form">
                             <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Cancelar</button>
-                            <button className="button-cadastrar" id="cadastrar" onClick={() => HandleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}  >Cadastrar</button>  
+                            <button className="button-cadastrar" id="cadastrar" onClick={HandleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}  >Cadastrar</button>  
                             <Snackbar
+                                ContentProps={{sx: {borderRadius: '8px'}}}
                                 anchorOrigin={{ vertical, horizontal }}
                                 open={open}
-                                autoHideDuration={5000}
+                                autoHideDuration={2000}
                                 onClose={handleClose}
-                                message="Insira todos os campos."
                                 key={vertical + horizontal}
-                            />
+                            >
+                                <Alert variant="filled" severity="error" onClose={handleClose} action="">
+                                    {message}
+                                </Alert>
+                            </Snackbar>
                         </div>
                     </div>
                     

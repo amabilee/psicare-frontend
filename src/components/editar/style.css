@@ -39,7 +39,7 @@
     margin-left: 15px;
 }
 
-.modal-content-editar form{
+.modal-content-editar .formulario{
     display: flex;
     flex-direction: column;
     margin-top: 20px;
