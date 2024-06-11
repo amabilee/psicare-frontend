@@ -5,7 +5,7 @@ import "./style.css";
 export default function VisualizarSecretario({handleCloseVisualizar, dadosSecretario}){
 
     return(
-        <>
+        <div className="visualizar">
             <div className="body-visualizar">
                 <div className="header-visualizar">
                     <div className="header-visualizar-info">
@@ -13,7 +13,6 @@ export default function VisualizarSecretario({handleCloseVisualizar, dadosSecret
                     </div>
                     <hr />
                 </div>
-                
                 <div className="visualizar-info">
                     <div className="nome">
                         <p>Nome</p>
@@ -40,10 +39,11 @@ export default function VisualizarSecretario({handleCloseVisualizar, dadosSecret
                         </div>
                     </div>   
                 </div>     
-                <div className="voltar">
-                    <button className="button-voltar" onClick={handleCloseVisualizar} >Voltar</button>
-                </div>
+                
             </div>
-        </>
+            <div className="voltar">
+                <button className="button-voltar" onClick={handleCloseVisualizar} >Voltar</button>
+            </div>
+        </div>
     )
 }

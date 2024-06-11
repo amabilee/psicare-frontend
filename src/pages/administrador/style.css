@@ -37,9 +37,9 @@ button.button_cadastro:hover{
     cursor: pointer;
 }
 
-.img_cadastro {
-    width: 24px;
-    height: 24px;
+.icon_cadastro {
+    width: 18px;
+    height: 18px;
     padding: 10px;
     padding-left: 20px;
 }

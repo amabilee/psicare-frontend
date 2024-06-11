@@ -11,6 +11,7 @@ export default function Table() {
   const [isExcluirOpen, setIsExcluirOpen] = useState(false);
   const [isEditarOpen, setIsEditarOpen] = useState(false);
   const [usuarioClick, setUsuarioClick] = useState({});
+  const [clickCheckbox, setClickcheckbox] = useState(false);
 
   const handleVisualizarClick = (originalData) => {
     setUsuarioClick(originalData);

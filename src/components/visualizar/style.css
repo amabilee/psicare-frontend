@@ -1,13 +1,20 @@
-.body-visualizar {
+.visualizar {
     display: flex;
     flex-direction: column;
+    height: 83vh;
     position: fixed;
     z-index: 3;
     left: 260px;
     top: 100px;
     width: calc(100% - 230px);
-    height: 100vh;
     background-color: white;
+    justify-content: space-between;
+    
+}
+
+.body-visualizar {
+    display: flex;
+    flex-direction: column;
 }
 
 .header-visualizar-info {
@@ -62,7 +69,7 @@
 }
 
 .voltar{
-    margin-top: 56vh;
+    margin-top: 10px;
 }
 
 .button-voltar{
