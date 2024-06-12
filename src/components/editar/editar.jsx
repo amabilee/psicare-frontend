@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { api } from "../../services/server";
 import {IMaskInput} from "react-imask";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -36,7 +37,7 @@ export default function Editar({handleEditarClose, dadosSecretario}) {
       } else if (!validator.isEmail(dadosAtualizados.email)){
           setState({ ...newState, open: true });
           setMessage("Insira um email válido.");
-      } else if (!dadosAtualizados.turno.length != 0) {
+      } else if (dadosAtualizados.turno === "") {
           setState({ ...newState, open: true });
           setMessage("Selecione um turno.");
 
@@ -52,9 +53,16 @@ export default function Editar({handleEditarClose, dadosSecretario}) {
         setEditar(true);
     }
 
-    const handleSucessoConfirmar = () => {
-      setSucessoEditar(true);
-    }
+    const handleSucessoConfirmar = async() => {
+      try {
+        const enviardadosAtualizados = await api.patch(`/secretario/${dadosAtualizados._id}`, dadosAtualizados);
+        console.log(enviardadosAtualizados.data)
+
+        setSucessoEditar(true);
+      } catch (e){
+        console.log("Erro ao atualizar dados:", e)
+      }
+    };
     
   return (
     <>
@@ -65,7 +73,7 @@ export default function Editar({handleEditarClose, dadosSecretario}) {
           <hr />
           <div className="formulario">
             <label htmlFor="Nome">Nome Completo*</label>
-            <input type="text" value={dadosAtualizados.nome} onChange={(e) => setDadosAtualizados({...dadosAtualizados, nome:e.target.value})}/>
+            <input type="text" id="nome" value={dadosAtualizados.nome} onChange={(e) => setDadosAtualizados({...dadosAtualizados, nome:e.target.value})}/>
             <div className="flex-input">
               <div className="div-CPF">
                 <label htmlFor="CPF">CPF*</label>

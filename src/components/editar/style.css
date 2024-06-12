@@ -59,6 +59,10 @@
     margin: 8px 0;
 }
 
+.modal-content-editar input#nome {
+    text-transform: capitalize;
+}
+
 .modal-content-editar input:focus{
     border: 2px solid #C760EBFA;
     outline: none;

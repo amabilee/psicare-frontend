@@ -42,7 +42,7 @@ export default function CadastrarSecretario({ handleCloseModal }){
         } else if (!validator.isEmail(dadosForm.email)){
             setState({ ...newState, open: true });
             setMessage("Insira um email válido.");
-        } else if (!dadosForm.turno.length != 0) {
+        } else if (dadosForm.turno === "") {
             setState({ ...newState, open: true });
             setMessage("Selecione um turno.");
 

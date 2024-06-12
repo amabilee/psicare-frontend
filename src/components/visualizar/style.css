@@ -56,6 +56,10 @@
     margin-bottom: 20px;
 }
 
+.visualizar-info .nome h1{
+    text-transform: capitalize;
+}
+
 .visualizar-info .flex-row1{
     display: flex;
     justify-content: space-between;
@@ -66,6 +70,10 @@
     display: flex;
     justify-content: space-between;
     width: 50.3vw;
+}
+
+.visualizar-info .flex-row2 .turno h1 {
+    text-transform: capitalize;
 }
 
 .voltar{

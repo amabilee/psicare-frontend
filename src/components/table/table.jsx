@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { api } from "../../services/server";
 import VisualizarSecretario from "../visualizar/secretario";
 import Excluir from "../excluir/excluir";
 import Editar from "../editar/editar";
@@ -12,6 +13,22 @@ export default function Table() {
   const [isEditarOpen, setIsEditarOpen] = useState(false);
   const [usuarioClick, setUsuarioClick] = useState({});
   const [clickCheckbox, setClickcheckbox] = useState(false);
+  const [dadosSecretario, setDadosSecretario] = useState([]); //utilizar [] por se tratar de uma array para armazenar os itens
+
+  useEffect(() => {
+    receberDadosSecretario();
+  }, []); // utilizei para chamar o receberDadosSecretario quando o componente for montado, para os dados serem renderizados quando a tabela for montada
+
+  const receberDadosSecretario = async() => {
+    try {
+      var receberDados = await api.get("/secretario"); 
+      var dados = receberDados.data;
+      console.log(dados)
+      setDadosSecretario(dados);
+    } catch (e) {
+      console.log("erro", e)
+    }
+  }
 
   const handleVisualizarClick = (originalData) => {
     setUsuarioClick(originalData);
@@ -40,10 +57,6 @@ const handleEditarClose = () => {
     setIsEditarOpen(false);
 }
 
-let dadosSecretario = [
-  {id:1, nome:"Guilherme Poloniato Salomão", cpf:"000.000.000-00", turno:"Noturno", telefone:"(62)9 9999-9999", email:"Gui@gmail.com"},
-];
-
   return (
     <>
       <table>
@@ -54,11 +67,7 @@ let dadosSecretario = [
             {" "}
             {/* começar uma linha */}
             <th>
-              <input
-                type="checkbox"
-                className="checkbox-header"
-                id="checkbox-table"
-              />
+              <input type="checkbox" className="checkbox-header" id="checkbox-table"/>
             </th>
             <th>Id</th> {/* celula do cabeçalho */}
             <th>Nome</th>

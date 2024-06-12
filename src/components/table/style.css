@@ -1,5 +1,6 @@
 table{
     width: 98.4%;
+    max-height: 100px;
     margin-top: 30px;
     border-collapse: collapse;
 }
@@ -30,13 +31,30 @@ td{
 }
 
 .checkbox-conteudo{
-    padding-left: 2.63%;
+    padding-left: 3%;
     transform: scale(1.5);
 }
 
 .checkbox {
     cursor: pointer;
 }
+
+/* .checkbox-conteudo{
+    display: flex;
+    justify-content: center;
+}
+
+table input[type=checkbox]{
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.checkbox-conteudo .checkbox {
+    cursor: pointer;
+} */
+
 
 #icon-acao{
     width: 24px;
@@ -47,7 +65,7 @@ td{
 table .conteudo-table{
     text-align: center;
     cursor: pointer;
-
+    text-transform: capitalize;
 }
 
 .icones-acao{

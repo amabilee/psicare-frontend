@@ -4,6 +4,8 @@
     max-width: calc(100vw - 250px); /*ajuste para nao sobrepor a sidebar*/
     position: relative;
     z-index: 2000; /*conteudo principal com z-index mais alto que a sidebar*/
+    /* max-height: 700px;
+    overflow: scroll; */
 }
 
 .barra_pesquisa{
