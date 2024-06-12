@@ -10,13 +10,20 @@ import "./style.css"
 export default function CadastrarSecretario({ handleCloseModal }){
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
     const [message, setMessage] = useState({});
-    const [dadosForm, setDadosForm] = useState({id: 0, nome: "", cpf: "", telefone: "", email: "", turno: "", arquivado: false});
+    const [dadosForm, setDadosForm] = useState({
+        id: 0, 
+        nome: "", 
+        cpf: "", 
+        telefone: "", 
+        email: "", 
+        turno: ""
+    });
     const [state, setState] = React.useState({
         open: false,
         vertical: 'top',
         horizontal: 'center',
       });
-      const { vertical, horizontal, open } = state;
+    const { vertical, horizontal, open } = state;
 
     const handleClose = () => {
         setState({ ...state, open: false });
@@ -40,17 +47,27 @@ export default function CadastrarSecretario({ handleCloseModal }){
             setMessage("Selecione um turno.");
 
         } else {
-            setIsSucessModalOpen(true);
-            console.log(dadosForm);
-
             try {
-                await api.post("/secretario", dadosForm);
+                var envioDados = await api.get("/secretario/ultimo/criado", dadosForm);
+                var acrescentarId = envioDados.data.id + 1
+                var envioDadosAtualizados = {...dadosForm, id: acrescentarId}
+                console.log(acrescentarId)
+                console.log(envioDadosAtualizados)
+
+                try {
+                    var dadosEnviados = await api.post("/secretario", envioDadosAtualizados);
+                    console.log(dadosEnviados)
+
+                    setIsSucessModalOpen(true);
+                } catch (e) {
+                    console.log(e, "deu ruim")
+                }
+
             } catch (e) {
-                console.log(e, "deu ruim")
-            }
+                console.log(e);
+            }   
         }
     }
-
 
     return( 
         <>

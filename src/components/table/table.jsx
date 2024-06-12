@@ -42,7 +42,6 @@ const handleEditarClose = () => {
 
 let dadosSecretario = [
   {id:1, nome:"Guilherme Poloniato Salomão", cpf:"000.000.000-00", turno:"Noturno", telefone:"(62)9 9999-9999", email:"Gui@gmail.com"},
-  {id:2, nome:"Luciano Morais", cpf:"000.000.000-00", turno:"Noturno", telefone:"(62)9 9999-9999", email:"LULU@gmail.com"}
 ];
 
   return (
