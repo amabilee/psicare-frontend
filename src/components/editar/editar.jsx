@@ -87,8 +87,8 @@ export default function Editar({handleEditarClose, dadosSecretario}) {
             <label htmlFor="Email">Email*</label>
             <input type="email" name="email" id="email" value={dadosAtualizados.email} onChange={(e) => setDadosAtualizados({...dadosAtualizados, email:e.target.value})}/>
             <label htmlFor="turno">Turno*</label>
-            <select className="turno" id="turno" value={dadosAtualizados.turno} onChange={(e) => setDadosAtualizados({...dadosAtualizados, turno:e.target.value})}>
-              <option value="#"></option>
+            <select className="turno" id="turno" value={dadosAtualizados.turno} onChange={(e) => setDadosAtualizados({...dadosAtualizados, turno:e.target.value})} required>
+              <option value="" disabled selected>Selecione uma opção</option>
               <option value="Matutino">Matutino</option>
               <option value="Vespertino">Vespertino</option>
               <option value="Noturno">Noturno</option>

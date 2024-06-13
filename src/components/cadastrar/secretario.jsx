@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { api } from "../../services/server";
+import Secretario from "../../pages/administrador/secretario";
 import {IMaskInput} from "react-imask";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -7,22 +8,24 @@ import validator from "validator";
 import { cpf } from 'cpf-cnpj-validator'; 
 import "./style.css"
 
-export default function CadastrarSecretario({ handleCloseModal }){
+export default function CadastrarSecretario({ handleCloseModal, renderForm }){
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
-    const [message, setMessage] = useState({});
+    const [message, setMessage] = useState("");
     const [dadosForm, setDadosForm] = useState({
         id: 0, 
         nome: "", 
         cpf: "", 
         telefone: "", 
         email: "", 
-        turno: ""
+        turno: "#"
     });
+
     const [state, setState] = React.useState({
         open: false,
         vertical: 'top',
         horizontal: 'center',
       });
+
     const { vertical, horizontal, open } = state;
 
     const handleClose = () => {
@@ -59,8 +62,13 @@ export default function CadastrarSecretario({ handleCloseModal }){
                     console.log(dadosEnviados)
 
                     setIsSucessModalOpen(true);
+
+                    renderForm(true)
+                    // renderForm={renderFormCadastro} 
                 } catch (e) {
-                    console.log(e, "deu ruim")
+                    console.log(e)
+                    setState({ ...newState, open: true });
+                    setMessage(e.response.data);
                 }
 
             } catch (e) {
@@ -91,15 +99,15 @@ export default function CadastrarSecretario({ handleCloseModal }){
                         <label htmlFor="Email">Email*</label>
                         <input type="email" name="email" id="email" value={dadosForm.email} onChange={(e) =>  setDadosForm({...dadosForm, email:e.target.value})} />
                         <label htmlFor="turno">Turno*</label>
-                        <select className="turno" id="turno" value={dadosForm.turno} onChange={(e) =>  setDadosForm({...dadosForm, turno:e.target.value})}>
-                            <option value="#"></option>
+                        <select className="turno" id="turno" value={dadosForm.turno} onChange={(e) =>  setDadosForm({...dadosForm, turno:e.target.value})} required>
+                            <option value="#" disabled>Selecione uma opção</option>
                             <option value="matutino">Matutino</option>
                             <option value="vespertino">Vespertino</option>
                             <option value="noturno">Noturno</option>
                         </select>
                         <div className="buttons-form">
                             <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Cancelar</button>
-                            <button className="button-cadastrar" id="cadastrar" onClick={HandleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}  >Cadastrar</button>  
+                            <button className="button-cadastrar" id="cadastrar" onClick={HandleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}>Cadastrar</button>  
                             <Snackbar
                                 ContentProps={{sx: {borderRadius: '8px'}}}
                                 anchorOrigin={{ vertical, horizontal }}
@@ -109,8 +117,9 @@ export default function CadastrarSecretario({ handleCloseModal }){
                                 key={vertical + horizontal}
                             >
                                 <Alert variant="filled" severity="error" onClose={handleClose} action="">
-                                    {message}
-                                </Alert>
+  {typeof message === 'string' ? message : ''}
+</Alert>
+
                             </Snackbar>
                         </div>
                     </div>

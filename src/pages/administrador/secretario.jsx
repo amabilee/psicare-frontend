@@ -3,12 +3,12 @@ import SideBar from "../../components/SideBar/sidebar";
 import Table from "../../components/table/table";
 import Cadastrar from "../../components/cadastrar/secretario"
 import { IoMdPersonAdd } from "react-icons/io";
-import novoCadastro from "../../assets/novo_cadastro.svg";
 import icon_pesquisa from "../../assets/pesquisa.svg"
 import "./style.css";
 
 export default function Secretario(){
     const [isCadastroOpen, setIsCadastroOpen] = useState(false);
+    const [renderFormTable, setRenderFormTable] = useState();
 
     const handleNovoCadastroClick = () => {
         setIsCadastroOpen(true);
@@ -17,6 +17,11 @@ export default function Secretario(){
     const handleCloseModal = () => {
         setIsCadastroOpen(false);
     };
+
+    const renderProps = (codigo) => {
+        setRenderFormTable(codigo);
+    }
+
 
     return(
         <>
@@ -34,8 +39,8 @@ export default function Secretario(){
                     </div>
                     
                 </div>
-                <Table />
-                {isCadastroOpen && (<Cadastrar handleCloseModal={handleCloseModal}/>)}
+                <Table renderFormTable={renderFormTable}/>
+                {isCadastroOpen && (<Cadastrar handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
             </div>
         </>
     )
