@@ -1,11 +1,11 @@
 .visualizar {
     display: flex;
     flex-direction: column;
-    height: 83vh;
+    height: 91vh;
     position: fixed;
     z-index: 3;
     left: 260px;
-    top: 100px;
+    top: 53px;
     width: calc(100% - 230px);
     background-color: white;
     justify-content: space-between;
@@ -27,7 +27,8 @@
 }
 
 .header-visualizar-info h1{
-    font-size: 32px;
+    font-size: 30px;
+    font-weight: 500;
 }
 
 .body-visualizar hr {
@@ -54,6 +55,7 @@
     color: #767474;
     font-size: 25px;
     margin-bottom: 20px;
+    font-weight: 500;
 }
 
 .visualizar-info .nome h1{

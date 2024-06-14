@@ -18,8 +18,7 @@
                     <div className="barraLateral">
                         <div className="conteudo-sideBar">
                             <div className="usuario">
-                                <span>A</span>
-                                <p>Olá, Admin</p>
+                                <img src={logoh} alt="logo" className="img_logo" id="img_logo" />
                             </div>
                             <div className="estilo_respiro" id="estilo_respiro">
                                 <FaRegCalendar className="icon"/>
@@ -52,11 +51,11 @@
                                 <SlNote className="icon"/>
                                 <p>Relatórios</p>
                             </div>
+                            
                         </div>
-                    </div>
-                    <div className="header">
-                        <img src={logoh} alt="logo" className="img_logo" id="img_logo" />
-                        <button className="button-header">Sair</button>
+                        <div className="button-sidebar">
+                            <button className="button-header">Sair</button>
+                        </div>
                     </div>
                 </div>
             </div>

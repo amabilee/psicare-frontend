@@ -1,81 +1,90 @@
-table{
-    width: 98.4%;
-    max-height: 100px;
+.table-secretario {
+    width: 98.8%;
     margin-top: 30px;
     border-collapse: collapse;
+    height: 620px;
 }
 
-th {
-    padding: 13px;
+.tr-body{
     background-color: #B6B6B636;
-    font-weight: 650;
 }
 
-th:first-child {
+.tr-body th {
+    padding: 8px 0;
+    font-size: 15px;
+}
+
+.tr-body th:first-child {
     border-radius: 8px 0 0 8px;
 }
 
-th:last-child {
+.tr-body th:last-child {
     border-radius: 0 8px 8px 0;
 }
 
-td{
+/* conteudo */
+.body-table-secretario {
+    text-align: center;
+}
+
+.body-table-secretario td {
     border-bottom: 1px solid #DADADA;
-    padding: 8px;
+    padding: 8px 0;
+    font-size: 13px;
+    font-weight: 500;
 }
 
-
-.checkbox-header{
-    transform: scale(1.5);
+.body-table {
     cursor: pointer;
 }
 
-.checkbox-conteudo{
-    padding-left: 3%;
-    transform: scale(1.5);
-}
-
-.checkbox {
-    cursor: pointer;
-}
-
-/* .checkbox-conteudo{
-    display: flex;
-    justify-content: center;
-}
-
-table input[type=checkbox]{
-    width: 18px;
-    height: 18px;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.checkbox-conteudo .checkbox {
-    cursor: pointer;
-} */
-
-
-#icon-acao{
-    width: 24px;
+.icon-editar {
+    width: 20px;
     margin-right: 15px;
     cursor: pointer;
 }
 
-table .conteudo-table{
-    text-align: center;
+.icon-excluir {
+    width: 20px;
     cursor: pointer;
-    text-transform: capitalize;
+    margin-right: -10px;
 }
 
-.icones-acao{
-    text-align: end;
-    padding-right: 30px;
-}
-
-caption{
-    caption-side: bottom;
-    text-align: start;
-    color: #969696;
+.quantidade-secretario{
+    font-size: 15px;
     margin-top: 10px;
+    color: #969696;
+}
+
+.paginacao-table {
+    display: flex;
+    justify-content: center;
+}
+
+.paginacao-table button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.voltar-pagina {
+    background-color: #C760EB;
+    border: none;
+    border-radius: 8px;
+    width: 35px;
+    height: 35px;
+}
+
+.passar-pagina {
+    background-color: #D9D9D9;
+    border: none;
+    border-radius: 8px;
+    width: 35px;
+    height: 35px;
+}
+
+.img_paginacao {
+    width: 17px;
+    height: 17px;
 }

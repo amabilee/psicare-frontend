@@ -1,8 +1,8 @@
 .box {
     background-color: #fff;
-    width: 25vw;
-    max-width: 28vw;
-    height: 34vh;
+    width: 500px;
+    /* max-width: 700px; */
+    height: 390px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -16,44 +16,47 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin: 30px 0;
+    margin: 40px 0;
 }
 
-img {
-    margin: 10px 0;
-    width: 200px;
+.form img {
+    margin-bottom: 30px;
+    width: 190px;
 }
 
 .form input {
-    padding: 12px;
+    padding: 8px;
     margin-top: 15px;
-    width: 85%;
-    border: 2px solid gainsboro;
+    width: 410px;
+    border: 1px solid gainsboro;
     border-radius: 6px;
 }
 
 .form input:hover {
-    border: 2px solid #D5B8FF;
-    padding: 12px;
+    border: 1px solid #C760EB;
+    transition-property: border;
+    transition-duration: 0.2s;
+    transition-timing-function: linear;
 }
 
 .form input::placeholder {
-    font-size: 1.12em;
+    font-weight: normal;
 }
 
 .form input:focus {
-    border: 2px solid #D5B8FF;
+    border: 1px solid #D5B8FF;
     outline: none;
-    padding: 11px;
+    padding: 8px;
 }
 
 .button-login{
     color: #C760EB;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 0.9em;
-    width: 90%;
-    padding: 12px;
-    margin-top: 20px;
+    width: 430px;
+    padding: 8px;
+    margin-top: 30px;
+    margin-bottom: 10px;
     border: 2px solid #C760EB;
     border-radius: 6px;
     background: #fff;

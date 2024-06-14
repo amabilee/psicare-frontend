@@ -16,8 +16,8 @@
 .barraLateral {
     background-color: #E9E9E9;
     width: 230px;
-    height: 99%;
-    margin: 15px;
+    height: 100vh;
+    margin: 15px 0 ;
     border-radius: 10px;
 }
 
@@ -102,12 +102,10 @@
 
 
 /* header da sidebar */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: calc(100vw - 250px);
-    margin-top: 15px;
+.button-sidebar{
+    position: absolute;
+    bottom: 0;
+    margin: 0 0 30px 50px;
 }
 
 .img_logo{
