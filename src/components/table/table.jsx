@@ -88,7 +88,7 @@ export default function Table({ renderFormTable }) {
     };
 
   return (
-    <div className="table-container">
+    <>
       <table className="table-secretario">
         <thead>
           <tr className="tr-body">
@@ -121,30 +121,39 @@ export default function Table({ renderFormTable }) {
               </tr>
             ))}
         </tbody>
+        <tfoot>   
+          <tr>
+            <th>
+              <div className="quantidade-secretario">
+                {Array.isArray(dadosSecretario.secretarios) && `${dadosSecretario.secretarios.length}/100`}
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <th colSpan="8">
+              <div className="paginacao-table">
+                <button  
+                  className={`voltar-pagina ${currentPage === 1 ? 'paginacaoWhite' : 'paginacaoBlack'}`} 
+                  onClick={handlePaginaAnterior} 
+                  disabled={currentPage === 1} 
+                >
+                  <img src={currentPage === 1 ? paginacaoBlack : paginacaoWhite} alt="icone-paginacao" className="img_paginacao" />
+                </button>
+                <button 
+                  className={`passar-pagina ${currentPage === totalPages ? 'paginacaoBlack' : 'paginacaoWhite'}`} 
+                  onClick={handlePaginaSeguinte} 
+                  disabled={currentPage === totalPages} 
+                  style={{
+                    backgroundColor: currentPage === totalPages ? "#D9D9D9" : "#C760EB", 
+                  }}
+                > 
+                  <img src={currentPage === totalPages ? paginacaoBlack : paginacaoWhite} alt="icone-paginacao" className="img_paginacao" />
+                </button>
+              </div>
+            </th>
+          </tr>
+        </tfoot>
       </table>
-      <div className="quantidade-secretario">
-        {Array.isArray(dadosSecretario.secretarios) && `${dadosSecretario.secretarios.length}/100`}
-      </div>
-      <div className="paginacao-table">
-        <button  
-          className={`voltar-pagina ${currentPage === 1 ? 'paginacaoWhite' : 'paginacaoBlack'}`} 
-          onClick={handlePaginaAnterior} 
-          disabled={currentPage === 1} 
-        >
-          <img src={currentPage === 1 ? paginacaoBlack : paginacaoWhite} alt="icone-paginacao" className="img_paginacao" />
-        </button>
-        <button 
-          className={`passar-pagina ${currentPage === totalPages ? 'paginacaoBlack' : 'paginacaoWhite'}`} 
-          onClick={handlePaginaSeguinte} 
-          disabled={currentPage === totalPages} 
-          style={{
-            backgroundColor: currentPage === totalPages ? "#D9D9D9" : "#C760EB", 
-          }}
-        > 
-          <img src={currentPage === totalPages ? paginacaoBlack : paginacaoWhite} alt="icone-paginacao" className="img_paginacao" />
-        </button>
-      </div>
-
       {isVisualizarOpen && (
         <VisualizarSecretario handleCloseVisualizar={handleCloseVisualizar} dadosSecretario={usuarioClick} />
       )}
@@ -154,6 +163,6 @@ export default function Table({ renderFormTable }) {
       {isEditarOpen && (
         <Editar handleEditarClose={handleEditarClose} dadosSecretario={usuarioClick} renderDadosSecretario={renderDadosSecretario} />
       )}
-    </div>
+    </>
   );
 }

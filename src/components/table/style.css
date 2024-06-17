@@ -1,16 +1,10 @@
-.table-container{
-    position: relative;
-    padding-bottom: 55px;
-    height: 650px;
-}
-
 /* tabela */
 
 .table-secretario {
     width: 98.8%;
     margin-top: 30px;
     border-collapse: collapse;
-    max-height: 620px;
+    height: 80vh;
 }
 
 .tr-body{
@@ -35,6 +29,16 @@
     text-align: center;
 }
 
+.body-table-secretario tr {
+    height: 20px;
+}
+
+.body-table-secretario tr td{
+    height: 20px;
+    /* max-height: 20px;
+    min-height: 20px; */
+}
+
 .body-table-secretario td {
     border-bottom: 1px solid #DADADA;
     padding: 8px 0;
@@ -42,6 +46,8 @@
     font-weight: 500;
     text-transform: capitalize;
 }
+
+
 
 .body-table {
     cursor: pointer;
@@ -70,9 +76,6 @@
 .paginacao-table {
     display: flex;
     justify-content: center;
-    position: absolute;
-    bottom: 0;
-    width: 95%;
 }
 
 .paginacao-table button {
