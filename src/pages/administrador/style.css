@@ -1,5 +1,5 @@
 .body_admin{
-    margin-left: 280px;
+    margin-left: 250px;
     margin-top: 53px; 
     max-width: calc(100vw - 250px); /*ajuste para nao sobrepor a sidebar*/
     position: relative;
@@ -37,8 +37,8 @@ button.button_cadastro:hover{
 .icon_cadastro {
     width: 18px;
     height: 18px;
-    padding: 10px;
-    padding-left: 20px;
+    padding: 20px;
+    padding-left: 25px;
 }
 
 .pesquisar  {

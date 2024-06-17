@@ -1,8 +1,16 @@
+.table-container{
+    position: relative;
+    padding-bottom: 55px;
+    height: 650px;
+}
+
+/* tabela */
+
 .table-secretario {
     width: 98.8%;
     margin-top: 30px;
     border-collapse: collapse;
-    height: 620px;
+    max-height: 620px;
 }
 
 .tr-body{
@@ -32,6 +40,7 @@
     padding: 8px 0;
     font-size: 13px;
     font-weight: 500;
+    text-transform: capitalize;
 }
 
 .body-table {
@@ -56,9 +65,14 @@
     color: #969696;
 }
 
+/* paginação */
+
 .paginacao-table {
     display: flex;
     justify-content: center;
+    position: absolute;
+    bottom: 0;
+    width: 95%;
 }
 
 .paginacao-table button {
@@ -69,19 +83,33 @@
 }
 
 .voltar-pagina {
-    background-color: #C760EB;
     border: none;
     border-radius: 8px;
     width: 35px;
     height: 35px;
 }
 
-.passar-pagina {
+.paginacao-table button.voltar-pagina {
     background-color: #D9D9D9;
+}
+
+.paginacao-table button.voltar-pagina.paginacaoBlack {
+    background-color: #C760EB;
+}
+
+.paginacao-table button.voltar-pagina.paginacaoWhite img {
+    transform: rotate(180deg); /* Inverte a imagem em 180 graus */
+}
+
+.passar-pagina {
     border: none;
     border-radius: 8px;
     width: 35px;
     height: 35px;
+}
+
+.paginacao-table button.passar-pagina.paginacaoWhite img {
+    transform: rotate(180deg); /* Inverte a imagem em 180 graus */
 }
 
 .img_paginacao {

@@ -45,7 +45,7 @@ export default function CadastrarSecretario({ handleCloseModal, renderForm }){
         } else if (!validator.isEmail(dadosForm.email)){
             setState({ ...newState, open: true });
             setMessage("Insira um email válido.");
-        } else if (dadosForm.turno === "") {
+        } else if (dadosForm.turno === "#") {
             setState({ ...newState, open: true });
             setMessage("Selecione um turno.");
 
@@ -61,7 +61,7 @@ export default function CadastrarSecretario({ handleCloseModal, renderForm }){
                     var dadosEnviados = await api.post("/secretario", envioDadosAtualizados);
                     console.log(dadosEnviados)
 
-                    setIsSucessModalOpen(true);
+        setIsSucessModalOpen(true);
 
                     renderForm(true)
                     // renderForm={renderFormCadastro} 

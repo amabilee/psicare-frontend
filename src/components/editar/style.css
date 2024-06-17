@@ -29,6 +29,7 @@
     color: #767474;
     font-size: 20px;
     padding: 0px 0 10px 10px;
+    font-weight: 500;
 }
 
 .modal-content-editar hr{
@@ -98,16 +99,6 @@
     padding-right: 32px;
     margin: 8px 0;
 }
-
-.modal-content-editar select:required:invalid {
-    color: gray;
-  }
-.modal-content-editar option[value=""][disabled] {
-    display: none;
-  }
-.modal-content-editar option {
-    color: black;
-  }
 
 .modal-content-editar select.turno:focus{
     border: 2px solid #C760EBFA;
@@ -186,6 +177,7 @@
     color: #767474;
     font-size: 20px;
     padding: 0px 0 10px 10px;
+    font-weight: 500;
 
 }
 
@@ -193,6 +185,7 @@
     color: #767474;
     font-size: 25px;
     margin: 30px 0 30px 20px;
+    font-weight: 600;
 }
 
 .modal-content-confirmar hr {
@@ -211,12 +204,14 @@
     color: #767474;
     margin-bottom: 10px;
     font-size: 15px;
+    /* font-weight: 600; */
 }
 
 .modal-content-confirmar .dados-inseridos h1{
     color: #767474;
     margin-bottom: 20px;
     font-size: 20px;
+    font-weight: 500;
 }
 
 .modal-content-confirmar .dados-inseridos .flex-row1 {
@@ -296,14 +291,15 @@
 .modal-sucesso-content h1{
     color: #767474;
     font-size: 40px;
-    margin: 0;
     margin-top: 30px;
+    font-weight: 500;
 }
 
 .modal-sucesso-content h2{
     color: #767474;
     font-size: 20px;
     margin-bottom: 30px;
+    font-weight: 500;
 }
 
 .modal-sucesso-content #fechar{

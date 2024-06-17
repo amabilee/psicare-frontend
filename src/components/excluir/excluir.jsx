@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react";
+import React,{useState} from "react";
 import { api } from "../../services/server";
 import "./style.css"
 
@@ -9,7 +9,7 @@ export default function Excluir({handleExcluirClose, dadosSecretario}){
     const handleConfirmarOpen = async() => {
         // console.log(dadosSecretarioDeletar);
         try{
-            var excluirDados = await api.delete(`/secretario/${dadosSecretario._id}`)
+            var excluirDados = await api.delete(`/secretario/${dadosSecretario._id}`, dadosSecretario)
             console.log(excluirDados.data)
 
             setIsConfirmarExcluir(true);

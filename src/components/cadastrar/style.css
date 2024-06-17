@@ -27,6 +27,7 @@
 .modal-content h2{
     color: #767474;
     font-size: 20px;
+    font-weight: 500;
     padding: 0px 0 10px 10px;
 }
 
@@ -102,16 +103,6 @@
     outline: none;
 }
 
-.modal-content select:required:invalid {
-    color: gray;
-  }
-.modal-content option[value=""][disabled] {
-    display: none;
-  }
-.modal-content option {
-    color: black;
-  }
-
 .modal-content .buttons-form{
     display: flex;
     justify-content: space-between;
@@ -183,13 +174,15 @@
 .modal-sucesso-content h1{
     color: #767474;
     font-size: 40px;
-    margin: 0;
-    margin-top: 30px;
+    font-weight: 600;
+    margin-top: 20px;
+    padding-bottom: 10px;
 }
 
 .modal-sucesso-content h2{
     color: #767474;
     font-size: 20px;
+    font-weight: 500;
     margin-bottom: 30px;
 }
 

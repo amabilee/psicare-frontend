@@ -18,7 +18,7 @@
     width: 230px;
     height: 100vh;
     margin: 15px 0 ;
-    border-radius: 10px;
+    border-radius: 0 10px 0 0;
 }
 
 /* icons */

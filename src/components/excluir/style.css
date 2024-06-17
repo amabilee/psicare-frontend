@@ -28,12 +28,14 @@
     padding-top: 20px;
     margin: 10px 0;
     text-align: center;
+    font-weight: 600;
 }
 
 .modal-confirmar-content h2{
     color: #767474;
     font-size: 18px;
     text-align: center;
+    font-weight: 500;
 }
 
 .modal-confirmar-content .div-button-excluir{
@@ -102,14 +104,16 @@
 .modal-excluir-content h1{
     color: #767474;
     font-size: 40px;
-    margin: 0;
-    margin-top: 30px;
+    margin-top: 20px;
+    font-weight: 600;
+    padding-bottom: 10px;
 }
 
 .modal-excluir-content h2{
     color: #767474;
     font-size: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
+    font-weight: 500;
 }
 
 .modal-excluir-content .button-fechar{

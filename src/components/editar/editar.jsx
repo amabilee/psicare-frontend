@@ -7,7 +7,7 @@ import validator from "validator";
 import { cpf } from 'cpf-cnpj-validator'; 
 import "./style.css";
 
-export default function Editar({handleEditarClose, dadosSecretario}) {
+export default function Editar({handleEditarClose, dadosSecretario, renderDadosSecretario}) {
     const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
     const [Editar, setEditar] = useState(true);
     const [SucessoEditar, setSucessoEditar] = useState(false);
@@ -25,9 +25,9 @@ export default function Editar({handleEditarClose, dadosSecretario}) {
   };
 
     const handleEditarConfirmar = (newState) => () => {
-        if (dadosAtualizados.nome.length <= 6) {
-          setState({ ...newState, open: true });
-          setMessage("Insira o nome completo.");
+      if (dadosAtualizados.nome.length <= 6) {
+        setState({ ...newState, open: true });
+        setMessage("Insira o nome completo.");
       } else if (!cpf.isValid(dadosAtualizados.cpf)){
           setState({ ...newState, open: true }); 
           setMessage("Insira um cpf válido.");
@@ -37,7 +37,7 @@ export default function Editar({handleEditarClose, dadosSecretario}) {
       } else if (!validator.isEmail(dadosAtualizados.email)){
           setState({ ...newState, open: true });
           setMessage("Insira um email válido.");
-      } else if (dadosAtualizados.turno === "") {
+      } else if (dadosAtualizados.turno === "#") {
           setState({ ...newState, open: true });
           setMessage("Selecione um turno.");
 
@@ -59,11 +59,12 @@ export default function Editar({handleEditarClose, dadosSecretario}) {
         console.log(enviardadosAtualizados.data)
 
         setSucessoEditar(true);
+        renderDadosSecretario(dadosAtualizados)
       } catch (e){
         console.log("Erro ao atualizar dados:", e)
       }
     };
-    
+
   return (
     <>
     {Editar && (
@@ -88,7 +89,7 @@ export default function Editar({handleEditarClose, dadosSecretario}) {
             <input type="email" name="email" id="email" value={dadosAtualizados.email} onChange={(e) => setDadosAtualizados({...dadosAtualizados, email:e.target.value})}/>
             <label htmlFor="turno">Turno*</label>
             <select className="turno" id="turno" value={dadosAtualizados.turno} onChange={(e) => setDadosAtualizados({...dadosAtualizados, turno:e.target.value})} required>
-              <option value="" disabled selected>Selecione uma opção</option>
+              <option value="#" disabled>Selecione uma opção</option>
               <option value="Matutino">Matutino</option>
               <option value="Vespertino">Vespertino</option>
               <option value="Noturno">Noturno</option>

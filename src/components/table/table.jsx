@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { api } from "../../services/server";
-import paginacaoVoltar from "../../assets/paginacao-voltar.svg";
-import paginacaoPassar from "../../assets/paginacao-passar.svg";
+import paginacaoWhite from "../../assets/paginacao-white.svg";
+import paginacaoBlack from "../../assets/paginacao-black.svg";
 import VisualizarSecretario from "../visualizar/secretario";
 import Excluir from "../excluir/excluir";
 import Editar from "../editar/editar";
@@ -9,29 +9,30 @@ import editar from "../../assets/editar-icon.svg";
 import excluir from "../../assets/excluir-icon.svg";
 import "./style.css";
 
-
-export default function Table({renderFormTable}) {
+export default function Table({ renderFormTable }) {
   const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
   const [isExcluirOpen, setIsExcluirOpen] = useState(false);
   const [isEditarOpen, setIsEditarOpen] = useState(false);
   const [usuarioClick, setUsuarioClick] = useState({});
-  const [clickCheckbox, setClickcheckbox] = useState(false);
-  const [dadosSecretario, setDadosSecretario] = useState([]); //utilizar [] por se tratar de uma array para armazenar os itens
+  const [dadosSecretario, setDadosSecretario] = useState({ secretarios: [] });
+  const [currentPage, setCurrentPage] = useState(1); // Estado para controlar a página atual (currentPage = pagina Atual)
+  const [totalPages, setTotalPages] = useState(1); // Estado para armazenar o número total de páginas disponíveis
 
   useEffect(() => {
     receberDadosSecretario();
-  }, [renderFormTable]); // utilizei para chamar o receberDadosSecretario quando o componente for montado, para os dados serem renderizados quando a tabela for montada
+  }, [renderFormTable, currentPage]); //atualizar dados
 
-  const receberDadosSecretario = async() => {
+  const receberDadosSecretario = async () => {
     try {
-      var receberDados = await api.get("/secretario/paginado?page=1"); 
-      var dados = receberDados.data;
-      console.log(dados)
-      setDadosSecretario(dados);
+      const receberDados = await api.get(`/secretario/paginado?page=${currentPage}`);//numero de pagina atual para a api  
+      const { secretarios, totalPages: total } = receberDados.data; //resposta da api é um objeto com os dados da requisição
+      //secretario: lista de secretarios, e totalPages: n total de paginas tudo retornado pela api
+      setDadosSecretario({ secretarios }); //atualiza os dadosSecretarios para os dados da minha api "secretarios"
+      setTotalPages(total); //atualiza o totalPages com o "total" retorndo da minha api
     } catch (e) {
-      console.log("erro", e)
+      console.log("Erro ao buscar dados do secretário:", e);
     }
-  }
+  };
 
   const handleVisualizarClick = (originalData) => {
     setUsuarioClick(originalData);
@@ -54,22 +55,46 @@ export default function Table({renderFormTable}) {
   const handleEditarClick = (originalData) => {
     setUsuarioClick(originalData);
     setIsEditarOpen(true);
-}
+  };
 
-const handleEditarClose = () => {
+  const handleEditarClose = () => {
     setIsEditarOpen(false);
-}
+  };
 
+  const renderDadosSecretario = (dadosAtualizados, idExcluido) => { //recebe um objeto "dadosAtualizados", contendo informações de um secretario específico
+    //callback é uma função passada a outra função como argumento
+    setDadosSecretario((prevDados) => { //setDadosSecretario como uma função callback para atualizar o estado anterior(prevDados)
+    return {
+      ...prevDados, //operador spread(...) é usado para criar um cópia do objeto, para manter a propriedade inalterada
+      secretarios: prevDados.secretarios.map((secretario) => //percorre cada item na array secretarios
+      secretario._id === dadosAtualizados._id ? dadosAtualizados : secretario
+      ),
+      //"secretario._id === dadosAtualizados._id" para cada secretario na array a função verifica se o _id do secretario é igual ao _id do dadosAtualizados
+      //"? dadosAtualizados : secretario" se houver correspondencia o objeto secretario é substituido por dadosAtualizados, e se não houver o objeto secretario original é mantido
+      };
+    });
+  };
+
+    const handlePaginaAnterior = () => {
+      if (currentPage > 1) { //se a pagina atual for maior que 1, entao tem página anterior para navegação
+        setCurrentPage(currentPage - 1); //atualiza a pagina atual para a pagina anterior 
+      }
+    };
+
+    const handlePaginaSeguinte = () => {
+      if (currentPage < totalPages) { //se a pagina atual for menor que o toal de pagina, tem paginas seguintes p/ navegação
+        setCurrentPage(currentPage + 1); //atualiza a pagina atual para a pagina seguinte
+      }
+    };
 
   return (
-    <>
+    <div className="table-container">
       <table className="table-secretario">
         <thead>
           <tr className="tr-body">
             <th>
-              <input type="checkbox" className="checkbox"/>
+              <input type="checkbox" className="checkbox" />
             </th>
-            {/* <th>Id</th> */}
             <th>Nome</th>
             <th>Telefone</th>
             <th>Email</th>
@@ -80,33 +105,55 @@ const handleEditarClose = () => {
         </thead>
         <tbody className="body-table-secretario">
           {Array.isArray(dadosSecretario.secretarios) && dadosSecretario.secretarios.map((dados, index) => (
-            <tr key={index}>
-              <td>
-                <input type="checkbox" className="checkbox"/>
-              </td>
-              {/* <td id="idSecretario" className="body-table" onClick={() => handleVisualizarClick(dados)}>{dados.id}</td> */}
-              <td id="nomeSecretario" className="body-table" onClick={() => handleVisualizarClick(dados)}>{dados.nome}</td>
-              <td id="telefoneSecretario" className="body-table" onClick={() => handleVisualizarClick(dados)}>{dados.telefone}</td>
-              <td id="emailSecretario" className="body-table" onClick={() => handleVisualizarClick(dados)}>{dados.email}</td>
-              <td id="cpfSecretario" className="body-table" onClick={() => handleVisualizarClick(dados)}>{dados.cpf}</td>
-              <td id="turnoSecretario" className="body-table" onClick={() => handleVisualizarClick(dados)}>{dados.turno}</td> 
-              <td>
-                <img src={editar} alt="editar" className="icon-editar" onClick={() => handleEditarClick(dados)} />
-                <img src={excluir} alt="excluir" className="icon-excluir" onClick={() => handleExcluirClick(dados)}/>
-              </td>   
-            </tr>
-          ))}
+              <tr key={index}>
+                <td>
+                  <input type="checkbox" className="checkbox" />
+                </td>
+                <td className="body-table" onClick={() => handleVisualizarClick(dados)}>{dados.nome}</td>
+                <td className="body-table" onClick={() => handleVisualizarClick(dados)}>{dados.telefone}</td>
+                <td className="body-table" onClick={() => handleVisualizarClick(dados)}>{dados.email}</td>
+                <td className="body-table" onClick={() => handleVisualizarClick(dados)}>{dados.cpf}</td>
+                <td className="body-table" onClick={() => handleVisualizarClick(dados)}>{dados.turno}</td>
+                <td>
+                  <img src={editar} alt="editar" className="icon-editar" onClick={() => handleEditarClick(dados)} />
+                  <img src={excluir} alt="excluir" className="icon-excluir" onClick={() => handleExcluirClick(dados)} />
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
-      <div className="quantidade-secretario">{Array.isArray(dadosSecretario.secretarios) &&dadosSecretario.length}/100</div>
+      <div className="quantidade-secretario">
+        {Array.isArray(dadosSecretario.secretarios) && `${dadosSecretario.secretarios.length}/100`}
+      </div>
       <div className="paginacao-table">
-        <button className="voltar-pagina"><img src={paginacaoVoltar} alt="icone-paginacao" className="img_paginacao"/></button>
-        <button className="passar-pagina"><img src={paginacaoPassar} alt="icone-paginacao" className="img_paginacao" /></button>
+        <button  
+          className={`voltar-pagina ${currentPage === 1 ? 'paginacaoWhite' : 'paginacaoBlack'}`} 
+          onClick={handlePaginaAnterior} 
+          disabled={currentPage === 1} 
+        >
+          <img src={currentPage === 1 ? paginacaoBlack : paginacaoWhite} alt="icone-paginacao" className="img_paginacao" />
+        </button>
+        <button 
+          className={`passar-pagina ${currentPage === totalPages ? 'paginacaoBlack' : 'paginacaoWhite'}`} 
+          onClick={handlePaginaSeguinte} 
+          disabled={currentPage === totalPages} 
+          style={{
+            backgroundColor: currentPage === totalPages ? "#D9D9D9" : "#C760EB", 
+          }}
+        > 
+          <img src={currentPage === totalPages ? paginacaoBlack : paginacaoWhite} alt="icone-paginacao" className="img_paginacao" />
+        </button>
       </div>
 
-      {isVisualizarOpen && (<VisualizarSecretario handleCloseVisualizar={handleCloseVisualizar} dadosSecretario={usuarioClick} />)}
-      {isExcluirOpen && (<Excluir handleExcluirClose={handleExcluirClose} dadosSecretario={usuarioClick}  />)}
-      {isEditarOpen && (<Editar handleEditarClose={handleEditarClose} dadosSecretario={usuarioClick} />)}
-    </>
+      {isVisualizarOpen && (
+        <VisualizarSecretario handleCloseVisualizar={handleCloseVisualizar} dadosSecretario={usuarioClick} />
+      )}
+      {isExcluirOpen && (
+        <Excluir handleExcluirClose={handleExcluirClose} dadosSecretario={usuarioClick}/>
+      )}
+      {isEditarOpen && (
+        <Editar handleEditarClose={handleEditarClose} dadosSecretario={usuarioClick} renderDadosSecretario={renderDadosSecretario} />
+      )}
+    </div>
   );
 }
