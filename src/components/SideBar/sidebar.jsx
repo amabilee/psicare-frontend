@@ -2,6 +2,7 @@
     import { FaRegCalendar, FaChevronUp, FaChevronDown } from "react-icons/fa";
     import { RiContactsBookLine } from "react-icons/ri";
     import logoh from "../../assets/logo-h.svg";
+    import iconeSair from "../../assets/sair-icone.svg";
     import { SlNote } from "react-icons/sl";
     import "./style.css"
 
@@ -54,7 +55,8 @@
                             
                         </div>
                         <div className="button-sidebar">
-                            <button className="button-header">Sair</button>
+                            <img src={iconeSair} alt="icone de sair" className="img-sair" />
+                            <p>Sair</p>
                         </div>
                     </div>
                 </div>

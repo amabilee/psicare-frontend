@@ -4,7 +4,10 @@
     width: 98.8%;
     margin-top: 30px;
     border-collapse: collapse;
-    height: 80vh;
+    height: 75vh;
+    /* min-height: 10vh;
+    max-height: 75vh; */
+
 }
 
 .tr-body{
@@ -30,24 +33,19 @@
 }
 
 .body-table-secretario tr {
-    height: 20px;
+    height: 10px;
 }
 
-.body-table-secretario tr td{
-    height: 20px;
-    /* max-height: 20px;
-    min-height: 20px; */
-}
-
-.body-table-secretario td {
+.body-table-secretario tr td {
     border-bottom: 1px solid #DADADA;
     padding: 8px 0;
     font-size: 13px;
     font-weight: 500;
     text-transform: capitalize;
+    /* max-height: 10vh;
+    min-height: 10vh;
+    height: 10vh; */
 }
-
-
 
 .body-table {
     cursor: pointer;
@@ -65,18 +63,21 @@
     margin-right: -10px;
 }
 
-.quantidade-secretario{
-    font-size: 15px;
-    margin-top: 10px;
-    color: #969696;
-}
-
 /* paginação */
-
-.paginacao-table {
+.table-secretario tfoot tr th .quantidade-secretario {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #969696;
+
 }
+
+.table-secretario tfoot tr th .paginacao-table{
+    display: flex;
+    justify-content: center;    
+} 
 
 .paginacao-table button {
     display: flex;

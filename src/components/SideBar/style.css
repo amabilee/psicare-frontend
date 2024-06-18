@@ -105,7 +105,16 @@
 .button-sidebar{
     position: absolute;
     bottom: 0;
+    left: 15px;
     margin: 0 0 30px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.button-sidebar p {
+    font-size: 20px;
 }
 
 .img_logo{

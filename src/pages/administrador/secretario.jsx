@@ -9,6 +9,7 @@ import "./style.css";
 export default function Secretario(){
     const [isCadastroOpen, setIsCadastroOpen] = useState(false);
     const [renderFormTable, setRenderFormTable] = useState();
+    const [pesquisaUsuario, setPesquisaUsuario] = useState("");
 
     const handleNovoCadastroClick = () => {
         setIsCadastroOpen(true);
@@ -20,6 +21,10 @@ export default function Secretario(){
 
     const renderProps = (codigo) => {
         setRenderFormTable(codigo);
+    }
+
+    const handlePesquisar = (e) => {
+        setPesquisaUsuario(e.target.value);
     }
 
 
@@ -34,12 +39,12 @@ export default function Secretario(){
                         Novo Cadastro 
                     </button>
                     <div className="container">
-                        <input type="text" name="pesquisar" id="pesquisar" className="pesquisar" />
+                        <input type="text" value={pesquisaUsuario} onChange={handlePesquisar} className="pesquisar" />
                         <img src={icon_pesquisa} alt="icon_pesquisa" id="icon_pesquisa" className="icon_pesquisa" />
                     </div>
                     
                 </div>
-                <Table renderFormTable={renderFormTable}/>
+                <Table renderFormTable={renderFormTable} pesquisar={pesquisaUsuario}/>
                 {isCadastroOpen && (<Cadastrar handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
             </div>
         </>

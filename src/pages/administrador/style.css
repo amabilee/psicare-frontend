@@ -49,6 +49,7 @@ button.button_cadastro:hover{
     margin-right: 20px;
     padding-left: 40px; /*espaço suficiente para alocar o ícone*/
     box-sizing: border-box; /*inclui o padding na largura total*/
+    text-transform: capitalize;
 }
 
 .pesquisar:focus {
