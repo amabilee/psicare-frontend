@@ -40,7 +40,7 @@ export default function Table({ renderFormTable, pesquisar }) {
 
       const secretariosAcumulados = ((currentPage - 1) * 15 + secretarios.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
       setAcumularSecretariosPage(secretariosAcumulados);
-    } catch (e) { 
+    } catch (e) {
       console.log("Erro ao buscar dados do secretário:", e);
     }
   };
@@ -80,8 +80,6 @@ export default function Table({ renderFormTable, pesquisar }) {
       secretarios: prevDados.secretarios.map((secretario) => //percorre cada item na array secretarios
       secretario._id === dadosAtualizados._id ? dadosAtualizados : secretario
       ),
-      //"secretario._id === dadosAtualizados._id" para cada secretario na array a função verifica se o _id do secretario é igual ao _id do dadosAtualizados
-      //"? dadosAtualizados : secretario" se houver correspondencia o objeto secretario é substituido por dadosAtualizados, e se não houver o objeto secretario original é mantido
       };
     });
   };
@@ -97,6 +95,22 @@ export default function Table({ renderFormTable, pesquisar }) {
       setCurrentPage(currentPage + 1); //atualiza a pagina atual para a pagina seguinte
     }
   };
+
+  const renderLinhasVazias = (contadorLinhas) => { //função flecha que indica quantas linhas vazias serão renderizadas
+    const linhasVazias = []; //array que sera preenchida pelas linhas vazias
+    for (let i = 0; i < contadorLinhas; i++) {//loop for que ira iterar "contadorLinhas"
+      linhasVazias.push( //adicionado a array linhasVazias com um push
+        //criar uma nova linha com uma chave key unica, para renderizar de forma eficiente quando adicionar um elemento
+        <tr key={`empty-${i}`} className="tr-vazia"> 
+          <td colSpan="7">&nbsp;</td>
+        </tr>
+        //"&nbsp", caracter especial em HTML para espaço em branco não quebrável
+      );
+    }
+    return linhasVazias;
+  };
+  //calcula quantas linhas vazias são necessárias para preencher ate um total de 15 linhas
+  const calculoLinhasVazias = 15 - dadosSecretario.secretarios.length;
 
   return (
     <div className="table-container">
@@ -152,19 +166,20 @@ export default function Table({ renderFormTable, pesquisar }) {
                 </td>
               </tr>
             ))}
+          {/* se o calculo das linhas vazias for maior que zero, vai renderizar as linhas */}
+          {calculoLinhasVazias > 0 && renderLinhasVazias(calculoLinhasVazias)}
         </tbody>
-        <tfoot>
+        <tfoot className="footer-table-secretario">
           <tr>
-            <th>
+            <td>
               <div className="quantidade-secretario">
                 {Array.isArray(dadosSecretario.secretarios) &&
                   `${acumularSecretariosPage}/${totalSecretariosTable}`}
-              
               </div>
-            </th>
+            </td>
           </tr>
           <tr>
-            <th colSpan="6">
+            <td colSpan="7">
               <div className="paginacao-table">
                 <button
                   className={`voltar-pagina ${currentPage === 1 ? "paginacaoWhite" : "paginacaoBlack"}`}
@@ -192,7 +207,7 @@ export default function Table({ renderFormTable, pesquisar }) {
                   />
                 </button>
               </div>
-            </th>
+            </td>
           </tr>
         </tfoot>
       </table>

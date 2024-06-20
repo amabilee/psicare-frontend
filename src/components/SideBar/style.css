@@ -34,13 +34,13 @@
 }
 
 /* conteudo geral  */
-
 .conteudo-sideBar {
     padding: 20px;
 }
 
-.conteudo-sideBar p{
+.conteudo-sideBar li{
     color: #767474;
+    list-style: none; /* Remove bullet points */
 }
 
 .usuario {
@@ -48,7 +48,7 @@
     padding: 10px 0 20px 0;
 }
 
-.usuario p {
+.usuario li {
     display: flex;
     align-items: center;
     padding: 0px 0px 0px 15px;
@@ -67,7 +67,7 @@
     align-items: center ;
 }
 
-/* definindo estilo para as divs */
+/* definindo estilo para as ul */
 .estilo_respiro {
     display: flex;
     align-items: center;
@@ -95,17 +95,15 @@
     /* width: 100px;    */
 }
 
-.body_sidebar p { 
+.body_sidebar li { 
     padding: 10px 30px 8px 10px;
     font-size: 15px;
 }
 
-
 /* header da sidebar */
 .button-sidebar{
     position: absolute;
-    bottom: 0;
-    left: 15px;
+    bottom: 0; 
     margin: 0 0 30px 50px;
     display: flex;
     align-items: center;
@@ -113,13 +111,17 @@
     cursor: pointer;
 }
 
-.button-sidebar p {
+.button-sidebar li {
     font-size: 20px;
 }
 
 .img_logo{
     width: 150px;
     margin-left: 10px;
+}
+
+.button-sidebar .img-sair {
+    padding-left: 20px;
 }
 
 .button-header{
@@ -139,4 +141,3 @@
     color: #fff;
     cursor: pointer;  
 }
-

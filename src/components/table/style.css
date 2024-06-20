@@ -1,13 +1,14 @@
-/* tabela */
 
+/* tabela */
 .table-secretario {
-    width: 98.8%;
+    width: 99%;
     margin-top: 30px;
     border-collapse: collapse;
-    height: 75vh;
-    /* min-height: 10vh;
-    max-height: 75vh; */
+}
 
+.table-secretario .checkbox{
+    width: 15px;
+    height: 15px;
 }
 
 .tr-body{
@@ -15,7 +16,8 @@
 }
 
 .tr-body th {
-    padding: 8px 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
     font-size: 15px;
 }
 
@@ -32,22 +34,15 @@
     text-align: center;
 }
 
-.body-table-secretario tr {
-    height: 10px;
-}
-
 .body-table-secretario tr td {
     border-bottom: 1px solid #DADADA;
-    padding: 8px 0;
-    font-size: 13px;
+    padding: 12px 0;
+    font-size: 15px;
     font-weight: 500;
     text-transform: capitalize;
-    /* max-height: 10vh;
-    min-height: 10vh;
-    height: 10vh; */
 }
 
-.body-table {
+.body-table-secretario .body-table {
     cursor: pointer;
 }
 
@@ -63,20 +58,23 @@
     margin-right: -10px;
 }
 
+.body-table-secretario .tr-vazia td {
+    height: 24.8px;
+    border: none;
+}
+
 /* paginação */
-.table-secretario tfoot tr th .quantidade-secretario {
-    display: flex;
-    justify-content: flex-start;
+.footer-table-secretario tr td .quantidade-secretario {
     margin-top: 10px;
     font-size: 15px;
     font-weight: 600;
     color: #969696;
-
 }
 
-.table-secretario tfoot tr th .paginacao-table{
+.footer-table-secretario tr td .paginacao-table{
     display: flex;
-    justify-content: center;    
+    justify-content: center; 
+    margin-bottom: 20px; 
 } 
 
 .paginacao-table button {
@@ -120,3 +118,4 @@
     width: 17px;
     height: 17px;
 }
+

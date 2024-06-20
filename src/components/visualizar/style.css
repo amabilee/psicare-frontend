@@ -1,7 +1,7 @@
 .visualizar {
     display: flex;
     flex-direction: column;
-    height: 91vh;
+    height: 100vh;
     position: fixed;
     z-index: 3;
     left: 240px;

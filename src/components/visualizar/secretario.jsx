@@ -10,9 +10,13 @@ export default function VisualizarSecretario({handleCloseVisualizar, dadosSecret
                 <div className="header-visualizar">
                     <div className="header-visualizar-info">
                         <h1>Informações sobre secretário</h1>
+                        <div className="voltar">
+                            <button className="button-voltar" onClick={handleCloseVisualizar} >Voltar</button>
+                        </div>
                     </div>
-                    <hr />
+                    <hr />     
                 </div>
+                
                 <div className="visualizar-info">
                     <div className="nome">
                         <p>Nome</p>
@@ -41,9 +45,7 @@ export default function VisualizarSecretario({handleCloseVisualizar, dadosSecret
                 </div>     
                 
             </div>
-            <div className="voltar">
-                <button className="button-voltar" onClick={handleCloseVisualizar} >Voltar</button>
-            </div>
+            
         </div>
     )
 }
