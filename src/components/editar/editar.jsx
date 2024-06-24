@@ -59,7 +59,7 @@ export default function Editar({handleEditarClose, dadosSecretario, renderDadosS
         console.log(enviardadosAtualizados.data)
 
         setSucessoEditar(true);
-        renderDadosSecretario(dadosAtualizados)
+        renderDadosSecretario(dadosAtualizados);
       } catch (e){
         console.log("Erro ao atualizar dados:", e)
       }
