@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import { api } from "../../services/server";
 import "./style.css"
 
-export default function Excluir({handleExcluirClose, dadosSecretario, atualizarTableExcluir}){
+export default function Excluir({handleExcluirClose, dadosSecretario}){
     const [isConfirmarExluir, setIsConfirmarExcluir] = useState(false);
     
 
@@ -14,7 +14,7 @@ export default function Excluir({handleExcluirClose, dadosSecretario, atualizarT
 
             // onDelete(dadosSecretario._id)
             setIsConfirmarExcluir(true);
-            atualizarTableExcluir();
+            handleAtualizarTable();
 
         } catch (e) {
             console.log("erro excluir", e)

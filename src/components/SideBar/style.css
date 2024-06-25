@@ -7,12 +7,6 @@
     height: 100vh;
 }
 
-.lateral {
-    height: 97.8vh;
-    display: flex;
-    align-items: flex-start;
-}
-
 .barraLateral {
     background-color: #E9E9E9;
     width: 230px;
@@ -21,86 +15,78 @@
     border-radius: 0 10px 0 0;
 }
 
-/* icons */
-
-.icon {
-    color: #C760EB;
-    font-size: 20px;
+.barraLateral .logo-sidebar{
+    padding: 30px 0 0 20px;
 }
 
-.icon-seta {
-    color: #C760EB;
-    font-size: 15px;
+.img_logo{
+    width: 150px;
+    margin-left: 10px;
 }
 
 /* conteudo geral  */
+
 .conteudo-sideBar {
     padding: 20px;
 }
 
-.conteudo-sideBar li{
-    color: #767474;
-    list-style: none; /* Remove bullet points */
+.conteudo-sideBar ul {
+    height: 100%;
+    list-style-type: none;
 }
 
-.usuario {
-    display: flex;
-    padding: 10px 0 20px 0;
+.conteudo-sideBar ul li{
+    font-size: 18px;
+    padding: 8px 30px 5px 20px;
 }
 
-.usuario li {
-    display: flex;
-    align-items: center;
-    padding: 0px 0px 0px 15px;
+.conteudo-sideBar ul li.item-menu, .item-menu-cadastro{
+    transition: .2s;
+    margin-bottom: 3px;
 }
 
-.body_sidebar span {
-    background-color: blue;
-    color: white;
-    font-size: 0.8em;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    align-items: center ;
-}
-
-/* definindo estilo para as ul */
-.estilo_respiro {
-    display: flex;
-    align-items: center;
-    padding-left: 20px;
-    margin: 0 0 10px 0;
-}
-
-.estilo_respiro:hover{
+.conteudo-sideBar ul li.item-menu-ativo{
     background-color: #D9D9D9;
     border-radius: 8px;
-    cursor: pointer;
 }
 
-.estilo_respiro2 {
-    display: flex;
-    align-items: center;
-    padding-left: 40px;
-    margin: 5px 0;
-}
-
-.estilo_respiro2:hover{
+.conteudo-sideBar ul li.item-menu:hover, .item-menu-cadastro:hover {
     background-color: #D9D9D9;
     border-radius: 8px;
-    cursor: pointer;
-    /* width: 100px;    */
 }
 
-.body_sidebar li { 
-    padding: 10px 30px 8px 10px;
-    font-size: 15px;
+.conteudo-sideBar ul li .link-nav {
+    text-decoration: none;
+    color: #000;
+    display: flex;
+    line-height: 25px;
+    cursor: context-menu;
+    width: 120%;
+}
+
+.conteudo-sideBar ul li .link-nav .texto-link {
+    margin-left: 10px;
+}
+
+.conteudo-sideBar ul li .link-nav .texto-link-cadastro{
+    margin-left: 40px;
+}
+
+.icon {
+    color: #C760EB;
+    font-size: 25px;
+}
+
+.icon-seta {
+    color: #C760EB;
+    font-size: 18px;
+    display: flex;
+    padding-top: 4px;
+    margin-left: 28px;
 }
 
 /* header da sidebar */
+
 .button-sidebar{
     position: absolute;
     bottom: 0; 
@@ -111,33 +97,17 @@
     cursor: pointer;
 }
 
-.button-sidebar li {
-    font-size: 20px;
+.button-sidebar .link-sair{
+    display: flex;
+    text-decoration: none;
+    color: #000;
 }
 
-.img_logo{
-    width: 150px;
-    margin-left: 10px;
+.button-sidebar .link-sair p {
+    font-size: 20px;
+    padding-left: 5px;
 }
 
 .button-sidebar .img-sair {
     padding-left: 20px;
-}
-
-.button-header{
-    color: #C760EB;
-    font-weight: 500;
-    font-size: 15px;
-    padding: 10px 50px;
-    margin-top: 20px;
-    margin-right: 20px;
-    border: 2px solid #C760EB;
-    border-radius: 6px;
-    background: #fff;
-}
-
-.button-header:hover{
-    background: #C760EB;
-    color: #fff;
-    cursor: pointer;  
 }

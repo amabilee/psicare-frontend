@@ -20,6 +20,7 @@
     const [totalSecretariosTable, setTotalSecretariosTable] = useState(0);
     const [acumularSecretariosPage, setAcumularSecretariosPage] = useState(0);
     const [checkboxSelecionadas, setCheckboxSelecionadas] = useState({}); // Novo estado para contagem de checkboxes selecionadas
+    const [todasCheckboxSelecionadas, setTodasCheckboxSelecionadas] = useState({});
 
     useEffect(() => {
       receberDadosSecretario();
@@ -36,7 +37,7 @@
         const { secretarios, totalPages: total, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
         //secretario: lista de secretarios, e totalPages: numero total de paginas tudo retornado pela api
         setDadosSecretario({ secretarios }); //atualiza os dadosSecretarios para os dados da minha api "secretarios"
-        setTotalPages(total); //atualiza o totalPages com o "total" retorndo da minha api
+        setTotalPages(total); //atualiza o totalPages com o "total" retorndo da minha apis
         setTotalSecretariosTable(totalItems);
 
         const secretariosAcumulados = ((currentPage - 1) * 15 + secretarios.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
@@ -47,28 +48,62 @@
     };
 
     const handleCheckboxSelecionada = (index) => (e) => {
-      const page = currentPage;
       const isChecked = e.target.checked;
 
       setCheckboxSelecionadas((prev) => {
         const novaSelection = { ...prev };
-        if(!novaSelection[page]){ //verifica se ja possui um array para a página atual, e se não existir cria um
-          novaSelection[page] = [];
-        } if(isChecked) {
-          novaSelection[page].push(index);
-        } else{
-          novaSelection[page] = novaSelection[page].filter((i) => i !== index);
+        const paginaAtual = `page-${currentPage}` //page-pagina atual
+        
+        if(!novaSelection[paginaAtual]) {//se a novaSelection não tiver  uma propriedade key com pagina atual
+          novaSelection[paginaAtual] = {};//criará um objeto vazio 
+        } 
+        if(isChecked) { // se a caixa de seleção estiver marcada (isChecked == true)
+          novaSelection[paginaAtual][index] = true;//defini o valor como true, significando que a caixa de sleção fornecida "index" na página atual está marcada
+        } else {//caso nao estiver marcada
+          delete novaSelection[paginaAtual][index] //exclui a propriedade, significando que a caixa de seleção fornecida "index" está desmarcada
         }
         return novaSelection;
       }); 
     };
 
-    const contarTotalCheckboxSelecionadas = () => {
-      return Object.values(checkboxSelecionadas).reduce((total, selections) => total + selections.length, 0);
+    const contarTotalCheckboxSelecionadas = () => {//calcula as checkbox marcadas em todas as paginas
+      let totalSelecionados = 0;
+      for (const pagina in checkboxSelecionadas) {//usando um loop "for", percorrendo cada propriedade definida como pagina no objeto checkboxSelecionadas
+        totalSelecionados += Object.keys(checkboxSelecionadas[pagina]).length;//para cada página ele obtem o numero de chaves no checkboxSelecionadas em cada pagina, adicionando a contagem das checkbox na variável "totalSelecionados"
+      }
+
+      return totalSelecionados
     };
   
-    const algumaCheckboxSelecionada = () => {
+    const algumaCheckboxSelecionada = () => {// verifica se pelo menos uma checkbox está marcada em todas as páginas
       return contarTotalCheckboxSelecionadas() > 0;
+    };
+
+    const handleSelecionarTudo = (e) => {
+      const isChecked = e.target.checked;
+      const paginaAtual = `page-${currentPage}`;
+
+      setTodasCheckboxSelecionadas((prev) => ({
+        ...prev,
+        [paginaAtual]: isChecked,
+      }));
+
+      setCheckboxSelecionadas((prev) => {
+        const novaSelection = { ...prev };
+
+        if(isChecked) {
+          novaSelection [paginaAtual] = {};
+
+          //dadosSecretario é o estado que contem os dados do secretario e secretarios é a lista de array dos secretarios
+          dadosSecretario.secretarios.forEach((secretario, index) => {
+            novaSelection[paginaAtual][index] = true;
+          });
+        } else {
+          delete novaSelection[paginaAtual];
+        }
+
+        return novaSelection
+      });
     };
 
     const handleVisualizarClick = (originalData) => {
@@ -147,15 +182,17 @@
             {algumaCheckboxSelecionada() ? ( // ? avalia a condição para retornar um dos dois valores
               <tr className="tr-body">
                 <th>
-                  <input type="checkbox" className="checkbox" />
+                  <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo}/>
                 </th>
                 <th>{contarTotalCheckboxSelecionadas()} selecionados</th>
-                <th colSpan={5} className="deletar-selecionados" onClick={handleExcluirClick}><span>Deletar Selecionados</span></th>
+                <th colSpan={5} className="deletar-selecionados">
+                  <span onClick={handleExcluirClick}>Deletar Selecionados</span>
+                </th>
               </tr>
             ) : (
               <tr className="tr-body">
                 <th>
-                  <input type="checkbox" className="checkbox" />
+                  <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo}/>
                 </th>
                 <th>Nome</th>
                 <th>Telefone</th>
@@ -175,7 +212,8 @@
                       type="checkbox"
                       className="checkbox"
                       onChange={handleCheckboxSelecionada(index)} // index é o item do secretário na lista
-                      checked={checkboxSelecionadas[currentPage] && checkboxSelecionadas[currentPage].includes(index)}//se o a pagina atual possuir um array de seleções e index esta contido nesse array, o checkbox será marcado.
+                      checked={checkboxSelecionadas[`page-${currentPage}`]?.hasOwnProperty(index) || false}// se o index estiver presente em checkboxSelecionadas para a página atual, marcar o checkbox
+                      //hasOwnProperty -> esse método retorna um booleano indicando se o objeto possui uma propriedade específica, que no caso é o index
                     />
                   </td>
                   <td className="body-table" onClick={() => handleVisualizarClick(dados)}>
