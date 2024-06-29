@@ -21,6 +21,7 @@
     const [acumularSecretariosPage, setAcumularSecretariosPage] = useState(0);
     const [checkboxSelecionadas, setCheckboxSelecionadas] = useState({}); // Novo estado para contagem de checkboxes selecionadas
     const [todasCheckboxSelecionadas, setTodasCheckboxSelecionadas] = useState({});
+    const [idsSelecionados, setIdsSelecionados] = useState([]);
 
     useEffect(() => {
       receberDadosSecretario();
@@ -47,7 +48,7 @@
       }
     };
 
-    const handleCheckboxSelecionada = (index) => (e) => {
+    const handleCheckboxSelecionada = (index, id) => (e) => {
       const isChecked = e.target.checked;
 
       setCheckboxSelecionadas((prev) => {
@@ -55,12 +56,19 @@
         const paginaAtual = `page-${currentPage}` //page-pagina atual
         
         if(!novaSelection[paginaAtual]) {//se a novaSelection não tiver  uma propriedade key com pagina atual
-          novaSelection[paginaAtual] = {};//criará um objeto vazio 
+          novaSelection[paginaAtual] = {} //criará um objeto vazio 
         } 
         if(isChecked) { // se a caixa de seleção estiver marcada (isChecked == true)
           novaSelection[paginaAtual][index] = true;//defini o valor como true, significando que a caixa de sleção fornecida "index" na página atual está marcada
+          //set é uma estrutura de dados que armazena valores unicos, vou usar um set para que os ids não sejam duplicados
+          setIdsSelecionados((prev) => {
+            const novoSet = new Set(prev);
+            novoSet.add(id);
+            return Array.from(novoSet)
+          })
         } else {//caso nao estiver marcada
           delete novaSelection[paginaAtual][index] //exclui a propriedade, significando que a caixa de seleção fornecida "index" está desmarcada
+          setIdsSelecionados((prev) => prev.filter((selectedId) => selectedId !== id))
         }
         return novaSelection;
       }); 
@@ -93,13 +101,23 @@
 
         if(isChecked) {
           novaSelection [paginaAtual] = {};
+          const novosIds = []
 
           //dadosSecretario é o estado que contem os dados do secretario e secretarios é a lista de array dos secretarios
           dadosSecretario.secretarios.forEach((secretario, index) => {
             novaSelection[paginaAtual][index] = true;
+            novosIds.push(secretario._id);
           });
+
+          setIdsSelecionados((prev) => {
+            const novoSet = new Set(prev);
+            //forEach percorre os itens de uma array
+            novosIds.forEach((id) => novoSet.add(id));
+            return Array.from(novoSet);
+          })
         } else {
           delete novaSelection[paginaAtual];
+          setIdsSelecionados((prev) => prev.filter((id) => !dadosSecretario.secretarios.some((secretario) => secretario._id === id))); // Remove os IDs da página atual do estado idsSelecionados
         }
 
         return novaSelection
@@ -119,6 +137,11 @@
       setUsuarioClick(originalData);
       setIsExcluirOpen(true);
     };
+
+    const handleExcluirSelecionados = () => {
+      setUsuarioClick({ _ids: idsSelecionados });
+      setIsExcluirOpen(true);
+    }
 
     const atualizarTableExcluir = () => {
       receberDadosSecretario();
@@ -166,7 +189,7 @@
         linhasVazias.push( //adicionado a array linhasVazias com um push
           //criar uma nova linha com uma chave key unica, para renderizar de forma eficiente quando adicionar um elemento
           <tr key={`empty-${i}`} className="tr-vazia"> 
-            <td colSpan="7">&nbsp;</td>
+            <td colSpan="1">&nbsp;</td>
           </tr>
         );
       }
@@ -186,7 +209,7 @@
                 </th>
                 <th>{contarTotalCheckboxSelecionadas()} selecionados</th>
                 <th colSpan={5} className="deletar-selecionados">
-                  <span onClick={handleExcluirClick}>Deletar Selecionados</span>
+                  <span onClick={handleExcluirSelecionados}>Deletar Selecionados</span>
                 </th>
               </tr>
             ) : (
@@ -205,44 +228,44 @@
           </thead>
           <tbody className="body-table-secretario">
             {Array.isArray(dadosSecretario.secretarios) &&
-              dadosSecretario.secretarios.map((dados, index) => (
-                <tr key={index}>
+              dadosSecretario.secretarios.map((secretario, index) => (
+                <tr key={secretario._id} >
                   <td>
                     <input
                       type="checkbox"
                       className="checkbox"
-                      onChange={handleCheckboxSelecionada(index)} // index é o item do secretário na lista
+                      onChange={handleCheckboxSelecionada(index, secretario._id)} // index é o item do secretário na lista
                       checked={checkboxSelecionadas[`page-${currentPage}`]?.hasOwnProperty(index) || false}// se o index estiver presente em checkboxSelecionadas para a página atual, marcar o checkbox
                       //hasOwnProperty -> esse método retorna um booleano indicando se o objeto possui uma propriedade específica, que no caso é o index
                     />
                   </td>
-                  <td className="body-table" onClick={() => handleVisualizarClick(dados)}>
-                    {dados.nome}
+                  <td className="body-table" onClick={() => handleVisualizarClick(secretario)}>
+                    {secretario.nome}
                   </td>
-                  <td className="body-table" onClick={() => handleVisualizarClick(dados)}>
-                    {dados.telefone}
+                  <td className="body-table" onClick={() => handleVisualizarClick(secretario)}>
+                    {secretario.telefone}
                   </td>
-                  <td className="body-table" onClick={() => handleVisualizarClick(dados)}>
-                    {dados.email}
+                  <td className="body-table" onClick={() => handleVisualizarClick(secretario)}>
+                    {secretario.email}
                   </td>
-                  <td className="body-table" onClick={() => handleVisualizarClick(dados)}>
-                    {dados.cpf}
+                  <td className="body-table" onClick={() => handleVisualizarClick(secretario)}>
+                    {secretario.cpf}
                   </td>
-                  <td className="body-table" onClick={() => handleVisualizarClick(dados)}>
-                    {dados.turno}
+                  <td className="body-table" onClick={() => handleVisualizarClick(secretario)}>
+                    {secretario.turno}
                   </td>
                   <td>
                     <img
                       src={editar}
                       alt="editar"
                       className="icon-editar"
-                      onClick={() => handleEditarClick(dados)}
+                      onClick={() => handleEditarClick(secretario)}
                     />
                     <img
                       src={excluir}
                       alt="excluir"
                       className="icon-excluir"
-                      onClick={() => handleExcluirClick(dados)}
+                      onClick={() => handleExcluirClick(secretario)}
                     />
                   </td>
                 </tr>
@@ -298,7 +321,15 @@
           />
         )}
         {isExcluirOpen && (
-          <Excluir handleExcluirClose={handleExcluirClose} dadosSecretario={usuarioClick}  atualizarTableExcluir={atualizarTableExcluir} />
+          <Excluir 
+          handleExcluirClose={handleExcluirClose} 
+          dadosSecretario={usuarioClick}  
+          atualizarTableExcluir={() => {
+            atualizarTableExcluir();
+            setCheckboxSelecionadas({});
+            setTodasCheckboxSelecionadas({});
+          }}
+          />
           
         )}
         {isEditarOpen && (

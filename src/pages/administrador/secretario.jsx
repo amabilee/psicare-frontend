@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import SideBar from "../../components/SideBar/sidebar";
 import Table from "../../components/table/table";
-import Cadastrar from "../../components/cadastrar/secretario"
+import Cadastrar from "../../components/cadastrar/secretario";
 import { IoMdPersonAdd } from "react-icons/io";
 import icon_pesquisa from "../../assets/pesquisa.svg"
 import "./style.css";

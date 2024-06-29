@@ -103,6 +103,13 @@
     outline: none;
 }
 
+.modal-content .disciplina{
+    width: 240px;
+}
+
+
+/* buttons de cadastro */
+
 .modal-content .buttons-form{
     display: flex;
     justify-content: space-between;

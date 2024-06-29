@@ -2,26 +2,27 @@ import React,{useState} from "react";
 import { api } from "../../services/server";
 import "./style.css"
 
-export default function Excluir({handleExcluirClose, dadosSecretario}){
+export default function Excluir({handleExcluirClose, dadosSecretario, atualizarTableExcluir}){
     const [isConfirmarExluir, setIsConfirmarExcluir] = useState(false);
     
 
     const handleConfirmarOpen = async() => {
-        // console.log(dadosSecretarioDeletar);
-        try{
-            var excluirDados = await api.delete(`/secretario/${dadosSecretario._id}`, dadosSecretario)  
-            console.log(excluirDados.data)
-
-            // onDelete(dadosSecretario._id)
+        try {
+            if (Array.isArray(dadosSecretario._ids) && dadosSecretario._ids.length > 0){
+                const data = dadosSecretario._ids ? { ids: dadosSecretario._ids} : {ids: [dadosSecretario._id]};
+                console.log(data);
+                const response = await api.delete(`/secretario`, {data});
+                console.log(response)
+            } else {
+                await api.delete(`/secretario/${dadosSecretario._id}`);
+                console.log("esse é o id", dadosSecretario._id)
+            }
+            atualizarTableExcluir();
             setIsConfirmarExcluir(true);
-            handleAtualizarTable();
-
         } catch (e) {
-            console.log("erro excluir", e)
+            console.log("deu erro ao deletar: ", e)
         }
-
-        
-    }
+    }   
 
     return(
         <>

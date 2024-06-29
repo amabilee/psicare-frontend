@@ -13,6 +13,10 @@ export default function SideBar() {
     const [activeItem, setActiveItem] = useState("");
 
     useEffect(() => {
+        handleItemClick();
+    }, []);
+
+    const handleItemClick = (item) => {
         //location fornecido por useLocation do React Router é a localização atual (rota) da aplicação
     
         //abre o menu de cadastro
@@ -33,9 +37,9 @@ export default function SideBar() {
         } else if (location.pathname === "/pacientes") {
             setActiveItem("pacientes");
         } else {
-            setActiveItem("");
+            setActiveItem(item);
         }
-    }, [location]);
+    }
 
     const toggleCadastro = () => {
         setIsCadastroOpen(!isCadastroOpen);
