@@ -1,7 +1,6 @@
 import React from "react";
 import "./style.css";
 
-
 export default function VisualizarProfessor({handleCloseVisualizar, dadosProfessor}){
 
     return(
@@ -46,7 +45,6 @@ export default function VisualizarProfessor({handleCloseVisualizar, dadosProfess
                 </div>     
                 
             </div>
-            
         </div>
     )
 }

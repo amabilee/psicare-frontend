@@ -151,17 +151,17 @@
 }
 
 /* buttons de editar cadastro */
-.modal-content-editar .buttons-form-editar{
+.modal-content-editar .buttons-form{
     display: flex;
     justify-content: space-between;
     margin-top: 50px;
 }
 
-.modal-content-editar .buttons-form-editar.buttons-form-editar-aluno {
+.modal-content-editar .buttons-form.buttons-form-aluno {
     margin-top: 30px;
 }
 
-.modal-content-editar .buttons-form-editar .button-cancelar {
+.modal-content-editar .buttons-form .button-cancelar {
     color: #C760EB;
     font-weight: 500;
     font-size: 15px;
@@ -172,13 +172,13 @@
     background: #fff;
 }
 
-.modal-content-editar .buttons-form-editar .button-cancelar:hover{
+.modal-content-editar .buttons-form .button-cancelar:hover{
     background: #C760EB;
     color: #fff;
     cursor: pointer; 
 }
 
-.modal-content-editar .buttons-form-editar .button-confirmar {
+.modal-content-editar .buttons-form .button-confirmar {
     color: #C760EB;
     font-weight: 500;
     font-size: 15px;
@@ -189,7 +189,7 @@
     background: #fff;
 }
 
-.modal-content-editar .buttons-form-editar .button-confirmar:hover{
+.modal-content-editar .buttons-form .button-confirmar:hover{
     background: #C760EB;
     color: #fff;
     cursor: pointer; 

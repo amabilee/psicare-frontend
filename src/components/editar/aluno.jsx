@@ -118,7 +118,7 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
                 </div>
             </div>
 
-            <div className="buttons-form-editar buttons-form-editar-aluno">
+            <div className="buttons-form buttons-form-aluno">
               <button className="button-cancelar" id="voltar" onClick={handleEditarClose}>
                 Cancelar
               </button>

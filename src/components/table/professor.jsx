@@ -230,7 +230,7 @@ export default function TableProfessor({ renderFormTable, pesquisar }){
                 <th>Telefone</th>
                 <th>Email</th>
                 <th>CPF</th>
-                <th>Turno</th>
+                <th>Disciplina</th>
                 <th></th>
               </tr>
             )}
