@@ -73,7 +73,7 @@ export default function SideBar() {
                             </li>
                         </ul>
                         {isCadastroOpen && (
-                            <ul>
+                            <ul className="item-cadastro">
                                 <li className={`item-menu ${activeItem === "secretarios" ? "item-menu-ativo" : ""}`}>
                                     <Link to="/secretarios" className="link-nav">
                                         <span className="texto-link-cadastro">Secretários</span>

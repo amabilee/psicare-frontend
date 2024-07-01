@@ -36,13 +36,20 @@
 }
 
 .conteudo-sideBar ul li{
-    font-size: 18px;
-    padding: 8px 30px 5px 20px;
+    font-size: 16px;
+    padding: 6px 0 4px 20px;
+}
+
+.conteudo-sideBar .item-cadastro li{
+    font-size: 15px;
+    padding: 4px 0;
+    margin-left: auto;
+    width: 75%;
 }
 
 .conteudo-sideBar ul li.item-menu, .item-menu-cadastro{
     transition: .2s;
-    margin-bottom: 3px;
+    margin-bottom: 2px;
 }
 
 .conteudo-sideBar ul li.item-menu-ativo{
@@ -61,7 +68,7 @@
     display: flex;
     line-height: 25px;
     cursor: context-menu;
-    width: 120%;
+    width: 100%;
 }
 
 .conteudo-sideBar ul li .link-nav .texto-link {
@@ -69,12 +76,12 @@
 }
 
 .conteudo-sideBar ul li .link-nav .texto-link-cadastro{
-    margin-left: 40px;
+    margin-left: 20px;
 }
 
 .icon {
     color: #C760EB;
-    font-size: 25px;
+    font-size: 22px;
 }
 
 .icon-seta {
@@ -82,7 +89,7 @@
     font-size: 18px;
     display: flex;
     padding-top: 4px;
-    margin-left: 28px;
+    margin-left: 40px;
 }
 
 /* header da sidebar */

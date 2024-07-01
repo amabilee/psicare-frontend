@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import SideBar from "../../components/SideBar/sidebar";
-import Cadastrar from "../../components/cadastrar/professor";
+import TableProfessor from "../../components/table/professor";
+import CadastrarProfessor from "../../components/cadastrar/professor";
 import { IoMdPersonAdd } from "react-icons/io";
 import icon_pesquisa from "../../assets/pesquisa.svg"
 import "./style.css";
@@ -41,7 +42,8 @@ export default function Professor(){
                         <img src={icon_pesquisa} alt="icon_pesquisa" id="icon_pesquisa" className="icon_pesquisa" />
                     </div> 
                 </div>
-                {isCadastroOpen && (<Cadastrar handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
+                <TableProfessor renderFormTable={renderFormTable} pesquisar={pesquisaUsuario}/>
+                {isCadastroOpen && (<CadastrarProfessor handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
             </div>
         </>
     )

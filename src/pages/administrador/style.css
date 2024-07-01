@@ -31,6 +31,7 @@ button.button_cadastro {
 button.button_cadastro:hover{
     background: #C760EB;
     color: #fff;
+    cursor: pointer;
 }
 
 .icon_cadastro {

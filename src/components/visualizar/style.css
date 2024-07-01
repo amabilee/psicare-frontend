@@ -1,20 +1,28 @@
 .visualizar {
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
     height: 100vh;
     position: fixed;
     z-index: 3;
-    left: 240px;
-    top: 53px;
-    width: calc(100% - 230px);
+    top: 0;
+    width: calc(100% - 245px);
     background-color: white;
-    justify-content: space-between;
-    
+    justify-content: space-between;   
 }
 
 .body-visualizar {
-    display: flex;
-    flex-direction: column;
+    padding-top: 40px;
+}
+
+/* cabeçalho de visualizar */
+
+.header-visualizar hr {
+    height: 2px;
+    background-color: #D9D9D9;
+    border: none;
+    width: 98%;
+    margin-top: 10px;
+    margin-bottom: 30px;
 }
 
 .header-visualizar-info {
@@ -31,19 +39,11 @@
     font-weight: 500;
 }
 
-.body-visualizar hr {
-    height: 2px;
-    background-color: #D9D9D9;
-    border: none;
-    width: 98%;
-    margin-top: 10px;
-    margin-bottom: 30px;
-}
-
-.visualizar-info{
+/* corpo de visualizar */
+/* .visualizar-info{
     display: flex;
     flex-direction: column;
-}
+} */
 
 .visualizar-info p {
     color: #767474;
@@ -58,25 +58,48 @@
     font-weight: 500;
 }
 
-.visualizar-info .nome h1{
+.visualizar-info .coluna1{
+    display: flex;
+}
+
+.visualizar-info .coluna1 .nome h1{
     text-transform: capitalize;
 }
 
-.visualizar-info .flex-row1{
-    display: flex;
-    justify-content: space-between;
-    width: 50vw;
+.visualizar-info .coluna1 .matricula {
+    position: fixed;
+    left: 50%;
 }
 
-.visualizar-info .flex-row2{
+.visualizar-info .coluna1 .periodo {
+    position: fixed;
+    left: 70%;
+} 
+
+.visualizar-info .coluna2{
     display: flex;
-    justify-content: space-between;
-    width: 50.3vw;
 }
 
-.visualizar-info .flex-row2 .turno h1 {
+.visualizar-info .coluna2 .telefone{
+    position: fixed;
+    left: 50%;
+}
+
+.visualizar-info .coluna3{
+    display: flex;
+}
+
+.visualizar-info .coluna3 .cpf,
+.visualizar-info .coluna3 .professorNome{
+    position: fixed;
+    left: 50%;
+}
+
+.coluna3 h1{
     text-transform: capitalize;
 }
+
+/* button de voltar */
 
 .voltar{
     margin-top: 10px;

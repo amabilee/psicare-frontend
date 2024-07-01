@@ -7,7 +7,7 @@ import validator from "validator";
 import { cpf } from 'cpf-cnpj-validator'; 
 import "./style.css";
 
-export default function Editar({handleEditarClose, dadosSecretario, renderDadosSecretario}) {
+export default function EditarSecretario({handleEditarClose, dadosSecretario, renderDadosSecretario}) {
     const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
     const [Editar, setEditar] = useState(true);
     const [SucessoEditar, setSucessoEditar] = useState(false);
@@ -70,7 +70,7 @@ export default function Editar({handleEditarClose, dadosSecretario, renderDadosS
     {Editar && (
       <div className="modal-editar">
         <div className="modal-content-editar">
-          <h2>Editar Cadastro</h2>
+          <h2>Editar Secretário</h2>
           <hr />
           <div className="formulario">
             <label htmlFor="Nome">Nome Completo*</label>
@@ -121,9 +121,8 @@ export default function Editar({handleEditarClose, dadosSecretario, renderDadosS
       {isEditarConfirmar && (
         <div className="modal-confirmar">
             <div className="modal-content-confirmar">
-                <h2>Cadastro de Secretário</h2>
+                <h2>Confirmar Edição de Secretário</h2>
                 <hr />
-                <h3>Confirme os dados inseridos</h3>
                 <div className="dados-inseridos">
                     <div className="nome">
                         <p>Nome Completo</p>

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import SideBar from "../../components/SideBar/sidebar";
-import Table from "../../components/table/table";
-import Cadastrar from "../../components/cadastrar/secretario";
+import TableSecretario from "../../components/table/secretario";
+import CadastrarSecretario from "../../components/cadastrar/secretario";
 import { IoMdPersonAdd } from "react-icons/io";
 import icon_pesquisa from "../../assets/pesquisa.svg"
 import "./style.css";
@@ -44,8 +44,8 @@ export default function Secretario(){
                     </div>
                     
                 </div>
-                <Table renderFormTable={renderFormTable} pesquisar={pesquisaUsuario}/>
-                {isCadastroOpen && (<Cadastrar handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
+                <TableSecretario renderFormTable={renderFormTable} pesquisar={pesquisaUsuario}/>
+                {isCadastroOpen && (<CadastrarSecretario handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
             </div>
         </>
     )

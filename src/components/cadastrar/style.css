@@ -18,10 +18,14 @@
     border: 1px solid #888;
     border-radius: 8px;
     width: 570px;
-    height: 480px;
+    height: 460px;
     top: 12px;
     left: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content.modal-content-aluno{
+    height: 520px;
 }
 
 .modal-content h2{
@@ -72,15 +76,20 @@
     display: flex;
 }
 
-.modal-content .div-CPF .CPF {
+.modal-content .div-CPF .CPF, 
+.modal-content .div-matricula .matricula{
     display: flex;
     width: 240px;
     margin-right: 20px;
 }
 
-.modal-content .div-telefone .telefone{
+.modal-content .div-telefone .telefone,
+.modal-content .div-periodo .periodo{
     display: flex;
-    width: 215px;
+}
+
+.modal-content .div-telefone .telefone{
+    width: 216px;
 }
 
 .modal-content select.turno{
@@ -98,21 +107,57 @@
     margin: 8px 0;
 }
 
-.modal-content select.turno:focus{
+.modal-content select.turno:focus, 
+.modal-content select.professorNome:focus,
+.modal-content select.periodo:focus{
     border: 2px solid #C760EBFA;
     outline: none;
+}
+
+.modal-content select.professorNome{
+    width: 520px;
+    padding: 10px;
+    border: 2px solid #C760EBFA;
+    border-radius: 12px;
+    -webkit-appearance: none; /* Remove o estilo padrão da seta no Safari */
+    -moz-appearance: none; /* Remove o estilo padrão da seta no Firefox */
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 10L12 16L18 10" stroke="%23710198" stroke-linecap="round"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right center;
+    padding-right: 32px;
+    margin: 8px 0;
+}
+
+.modal-content select.periodo{
+    width: 240px;
+    padding: 10px;
+    border: 2px solid #C760EBFA;
+    border-radius: 12px;
+    -webkit-appearance: none; /* Remove o estilo padrão da seta no Safari */
+    -moz-appearance: none; /* Remove o estilo padrão da seta no Firefox */
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 10L12 16L18 10" stroke="%23710198" stroke-linecap="round"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right center;
+    padding-right: 32px;
+    margin: 8px 0;
 }
 
 .modal-content .disciplina{
     width: 240px;
 }
 
-
 /* buttons de cadastro */
 
 .modal-content .buttons-form{
     display: flex;
     justify-content: space-between;
+    margin-top: 50px;
+}
+
+.modal-content .buttons-form.buttons-form-aluno {
+    margin-top: 30px;
 }
 
 .modal-content .buttons-form .button-voltar {
@@ -120,7 +165,6 @@
     font-weight: 500;
     font-size: 15px;
     padding: 10px 40px;
-    margin-top: 50px;
     margin-right: 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;
@@ -138,7 +182,6 @@
     font-weight: 500;
     font-size: 15px;
     padding: 10px 30px;
-    margin-top: 50px;
     margin-right: 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;

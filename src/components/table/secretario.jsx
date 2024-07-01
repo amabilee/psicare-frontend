@@ -1,15 +1,15 @@
   import React, { useState, useEffect } from "react";
   import { api } from "../../services/server";
+  import VisualizarSecretario from "../visualizar/secretario";
+  import ExcluirSecretario from "../excluir/secretario";
+  import EditarSecretario from "../editar/secretario";
+  import IconEditar from "../../assets/editar-icon.svg";
+  import IconExcluir from "../../assets/excluir-icon.svg";
   import paginacaoWhite from "../../assets/paginacao-white.svg";
   import paginacaoBlack from "../../assets/paginacao-black.svg";
-  import VisualizarSecretario from "../visualizar/secretario";
-  import Excluir from "../excluir/excluir";
-  import Editar from "../editar/editar";
-  import editar from "../../assets/editar-icon.svg";
-  import excluir from "../../assets/excluir-icon.svg";
   import "./style.css";
 
-  export default function Table({ renderFormTable, pesquisar }) {
+  export default function TableSecretario({ renderFormTable, pesquisar }) {
     const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
     const [isExcluirOpen, setIsExcluirOpen] = useState(false);
     const [isEditarOpen, setIsEditarOpen] = useState(false);
@@ -48,32 +48,59 @@
       }
     };
 
-    const handleCheckboxSelecionada = (index, id) => (e) => {
-      const isChecked = e.target.checked;
-
-      setCheckboxSelecionadas((prev) => {
-        const novaSelection = { ...prev };
-        const paginaAtual = `page-${currentPage}` //page-pagina atual
-        
-        if(!novaSelection[paginaAtual]) {//se a novaSelection não tiver  uma propriedade key com pagina atual
-          novaSelection[paginaAtual] = {} //criará um objeto vazio 
-        } 
-        if(isChecked) { // se a caixa de seleção estiver marcada (isChecked == true)
-          novaSelection[paginaAtual][index] = true;//defini o valor como true, significando que a caixa de sleção fornecida "index" na página atual está marcada
-          //set é uma estrutura de dados que armazena valores unicos, vou usar um set para que os ids não sejam duplicados
-          setIdsSelecionados((prev) => {
-            const novoSet = new Set(prev);
-            novoSet.add(id);
-            return Array.from(novoSet)
-          })
-        } else {//caso nao estiver marcada
-          delete novaSelection[paginaAtual][index] //exclui a propriedade, significando que a caixa de seleção fornecida "index" está desmarcada
-          setIdsSelecionados((prev) => prev.filter((selectedId) => selectedId !== id))
-        }
-        return novaSelection;
-      }); 
+    //visualizar informações
+    const handleVisualizarClick = (originalData) => {
+      setUsuarioClick(originalData);
+      setIsVisualizarOpen(true);
     };
 
+    const handleCloseVisualizar = () => {
+      setIsVisualizarOpen(false);
+    };
+
+    //relacionado a Excluir itens
+    const handleExcluirClick = (originalData) => {
+      setUsuarioClick(originalData);
+      setIsExcluirOpen(true);
+    };
+
+    const handleExcluirSelecionados = () => {
+      setUsuarioClick({ _ids: idsSelecionados });
+      setIsExcluirOpen(true);
+    }
+
+    const handleExcluirClose = () => {
+      setIsExcluirOpen(false);
+    };
+
+    const atualizarTableExcluir = () => {
+      receberDadosSecretario();
+    }
+
+    //relacionado a editar
+    const handleEditarClick = (originalData) => {
+      setUsuarioClick(originalData);
+      setIsEditarOpen(true);
+    };
+
+    const handleEditarClose = () => {
+      setIsEditarOpen(false);
+    };
+
+    //Relacionado a atualizar os dados editados
+    const renderDadosSecretario = (dadosAtualizados) => { //recebe um objeto "dadosAtualizados", contendo informações de um secretario específico
+      //callback é uma função passada a outra função como argumento
+      setDadosSecretario((prevDados) => { //setDadosSecretario como uma função callback para atualizar o estado anterior(prevDados)
+        return {
+          ...prevDados, //operador spread(...) é usado para criar um cópia do objeto, para manter a propriedade inalterada
+          secretarios: prevDados.secretarios.map((secretario) => //percorre cada item na array secretarios
+          secretario._id === dadosAtualizados._id ? dadosAtualizados : secretario
+          ),
+          };
+      });
+    };
+
+    //Tudo relacionado as checkboxes da tabela
     const contarTotalCheckboxSelecionadas = () => {//calcula as checkbox marcadas em todas as paginas
       let totalSelecionados = 0;
       for (const pagina in checkboxSelecionadas) {//usando um loop "for", percorrendo cada propriedade definida como pagina no objeto checkboxSelecionadas
@@ -87,36 +114,65 @@
       return contarTotalCheckboxSelecionadas() > 0;
     };
 
-    const handleSelecionarTudo = (e) => {
+    const handleCheckboxSelecionada = (index, id) => (e) => {
       const isChecked = e.target.checked;
-      const paginaAtual = `page-${currentPage}`;
 
+      setCheckboxSelecionadas((prev) => {
+        const novaSelection = { ...prev };
+        const paginaAtual = `page-${currentPage}`  // Obtém a chave da página atual para armazenar o estado das checkboxes
+        
+        if(!novaSelection[paginaAtual]) {//se a novaSelection não tiver uma propriedade key com pagina atual
+          novaSelection[paginaAtual] = {} //criará um objeto vazio
+        } 
+        if(isChecked) { // se a caixa de seleção estiver marcada (isChecked == true)
+          novaSelection[paginaAtual][index] = true;//defini o valor como true, significando que a caixa de sleção fornecida "index" na página atual está marcada
+          //set é uma estrutura de dados que armazena valores unicos, vou usar um set para que os ids não sejam duplicados
+          setIdsSelecionados((prev) => {
+            const novoSet = new Set(prev);
+            novoSet.add(id);
+            return Array.from(novoSet)
+          })
+        } else {//caso nao estiver marcada
+          delete novaSelection[paginaAtual][index] //exclui a propriedade, significando que a caixa de seleção fornecida "index" está desmarcada
+          //defini como o novo estado deve ser atualizado com base no estado anterior
+          setIdsSelecionados((prev) => prev.filter((IdSelecionado) => IdSelecionado !== id))//.filter É um método de array em JavaScript que cria um novo array
+        }
+        return novaSelection;
+      }); 
+    };
+
+    const handleSelecionarTudo = (e) => {
+      const isChecked = e.target.checked; //verifica se a checkbox esta marcada
+      const paginaAtual = `page-${currentPage}`; // Obtém a chave da página atual para armazenar o estado das checkboxes
+
+      // Atualiza o estado de todasCheckboxSelecionadas com base na página atual e se está marcada ou não
       setTodasCheckboxSelecionadas((prev) => ({
         ...prev,
         [paginaAtual]: isChecked,
       }));
 
+      // Atualiza o estado de checkboxSelecionadas com base na página atual e na seleção de "Selecionar tudo"
       setCheckboxSelecionadas((prev) => {
-        const novaSelection = { ...prev };
+        const novaSelection = { ...prev };//estado anterior de checkboxSelecionadas
 
         if(isChecked) {
-          novaSelection [paginaAtual] = {};
+          novaSelection [paginaAtual] = {}; //Inicializa um objeto vazio para armazenar as checkboxes selecionadas na página atual.
           const novosIds = []
 
           //dadosSecretario é o estado que contem os dados do secretario e secretarios é a lista de array dos secretarios
-          dadosSecretario.secretarios.forEach((secretario, index) => {
-            novaSelection[paginaAtual][index] = true;
-            novosIds.push(secretario._id);
+          dadosSecretario.secretarios.forEach((secretario, index) => {//itera sobre cada item de dadosSecretario.secretarios
+            novaSelection[paginaAtual][index] = true; //define a checkbox como marcada na pagina atual
+            novosIds.push(secretario._id);//adiciona o Id do secretario ao array de novosIds, que será usada em idsSelecionados
           });
 
-          setIdsSelecionados((prev) => {
-            const novoSet = new Set(prev);
+          setIdsSelecionados((prev) => {//atualiza os ids dos secretarios selecionados
+            const novoSet = new Set(prev);//utiliza um conjunto Set para que não tenha ids duplicados
             //forEach percorre os itens de uma array
             novosIds.forEach((id) => novoSet.add(id));
             return Array.from(novoSet);
           })
         } else {
-          delete novaSelection[paginaAtual];
+          delete novaSelection[paginaAtual];//remove a seleção da página atual
           setIdsSelecionados((prev) => prev.filter((id) => !dadosSecretario.secretarios.some((secretario) => secretario._id === id))); // Remove os IDs da página atual do estado idsSelecionados
         }
 
@@ -124,53 +180,7 @@
       });
     };
 
-    const handleVisualizarClick = (originalData) => {
-      setUsuarioClick(originalData);
-      setIsVisualizarOpen(true);
-    };
-
-    const handleCloseVisualizar = () => {
-      setIsVisualizarOpen(false);
-    };
-
-    const handleExcluirClick = (originalData) => {
-      setUsuarioClick(originalData);
-      setIsExcluirOpen(true);
-    };
-
-    const handleExcluirSelecionados = () => {
-      setUsuarioClick({ _ids: idsSelecionados });
-      setIsExcluirOpen(true);
-    }
-
-    const atualizarTableExcluir = () => {
-      receberDadosSecretario();
-    }
-    const handleExcluirClose = () => {
-      setIsExcluirOpen(false);
-    };
-
-    const handleEditarClick = (originalData) => {
-      setUsuarioClick(originalData);
-      setIsEditarOpen(true);
-    };
-
-    const handleEditarClose = () => {
-      setIsEditarOpen(false);
-    };
-
-    const renderDadosSecretario = (dadosAtualizados) => { //recebe um objeto "dadosAtualizados", contendo informações de um secretario específico
-      //callback é uma função passada a outra função como argumento
-      setDadosSecretario((prevDados) => { //setDadosSecretario como uma função callback para atualizar o estado anterior(prevDados)
-      return {
-        ...prevDados, //operador spread(...) é usado para criar um cópia do objeto, para manter a propriedade inalterada
-        secretarios: prevDados.secretarios.map((secretario) => //percorre cada item na array secretarios
-        secretario._id === dadosAtualizados._id ? dadosAtualizados : secretario
-        ),
-        };
-      });
-    };
-
+    //Tudo relacionado a paginação da tabela
     const handlePaginaAnterior = () => {
       if (currentPage > 1) { //se a pagina atual for maior que 1, entao tem página anterior para navegação
         setCurrentPage(currentPage - 1); //atualiza a pagina atual para a pagina anterior 
@@ -200,7 +210,7 @@
 
     return (
       <div className="table-container">
-        <table className="table-secretario">
+        <table className="table">
           <thead>
             {algumaCheckboxSelecionada() ? ( // ? avalia a condição para retornar um dos dois valores
               <tr className="tr-body">
@@ -226,7 +236,7 @@
               </tr>
             )}
           </thead>
-          <tbody className="body-table-secretario">
+          <tbody className="table-body">
             {Array.isArray(dadosSecretario.secretarios) &&
               dadosSecretario.secretarios.map((secretario, index) => (
                 <tr key={secretario._id} >
@@ -239,30 +249,30 @@
                       //hasOwnProperty -> esse método retorna um booleano indicando se o objeto possui uma propriedade específica, que no caso é o index
                     />
                   </td>
-                  <td className="body-table" onClick={() => handleVisualizarClick(secretario)}>
+                  <td className="table-content" onClick={() => handleVisualizarClick(secretario)}>
                     {secretario.nome}
                   </td>
-                  <td className="body-table" onClick={() => handleVisualizarClick(secretario)}>
+                  <td className="table-content" onClick={() => handleVisualizarClick(secretario)}>
                     {secretario.telefone}
                   </td>
-                  <td className="body-table" onClick={() => handleVisualizarClick(secretario)}>
+                  <td className="table-content" onClick={() => handleVisualizarClick(secretario)}>
                     {secretario.email}
                   </td>
-                  <td className="body-table" onClick={() => handleVisualizarClick(secretario)}>
+                  <td className="table-content" onClick={() => handleVisualizarClick(secretario)}>
                     {secretario.cpf}
                   </td>
-                  <td className="body-table" onClick={() => handleVisualizarClick(secretario)}>
+                  <td className="table-content" onClick={() => handleVisualizarClick(secretario)}>
                     {secretario.turno}
                   </td>
                   <td>
                     <img
-                      src={editar}
+                      src={IconEditar}
                       alt="editar"
                       className="icon-editar"
                       onClick={() => handleEditarClick(secretario)}
                     />
                     <img
-                      src={excluir}
+                      src={IconExcluir}
                       alt="excluir"
                       className="icon-excluir"
                       onClick={() => handleExcluirClick(secretario)}
@@ -272,10 +282,10 @@
               ))}
             {calculoLinhasVazias > 0 && renderLinhasVazias(calculoLinhasVazias)}
           </tbody>
-          <tfoot className="footer-table-secretario">
+          <tfoot className="footer-table">
             <tr>
               <td>
-                <div className="quantidade-secretario">
+                <div className="quantidade-itens">
                   {Array.isArray(dadosSecretario.secretarios) &&
                     `${acumularSecretariosPage}/${totalSecretariosTable}`}
                 </div>
@@ -321,7 +331,7 @@
           />
         )}
         {isExcluirOpen && (
-          <Excluir 
+          <ExcluirSecretario 
           handleExcluirClose={handleExcluirClose} 
           dadosSecretario={usuarioClick}  
           atualizarTableExcluir={() => {
@@ -333,7 +343,7 @@
           
         )}
         {isEditarOpen && (
-          <Editar
+          <EditarSecretario
             handleEditarClose={handleEditarClose}
             dadosSecretario={usuarioClick}
             renderDadosSecretario={renderDadosSecretario}

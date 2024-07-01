@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import { api } from "../../services/server";
-// import Professor from "../../pages/administrador/professor";
 import {IMaskInput} from "react-imask";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -32,7 +31,7 @@ export default function CadastrarProfessor({ handleCloseModal, renderForm }){
         setState({ ...state, open: false });
     };
 
-    const HandleFormSubmit = (newState) => async() => {
+    const handleFormSubmit = (newState) => async() => {
         if (dadosForm.nome.length <= 6) {
             setState({ ...newState, open: true });
             setMessage("Insira o nome completo.");
@@ -45,15 +44,20 @@ export default function CadastrarProfessor({ handleCloseModal, renderForm }){
         } else if (!validator.isEmail(dadosForm.email)){
             setState({ ...newState, open: true });
             setMessage("Insira um email válido.");
-        } else if (dadosForm.disciplina.length <= 3){
+        } else if (dadosForm.disciplina.length === 0){
             setState({...newState, open: true });
             setMessage("Insira uma disciplina.");
         } else {
             try {
                 var envioDados = await api.get("/professor/ultimo/criado", dadosForm);
-                var acrescentarId = envioDados.data.id + 1
-                var envioDadosAtualizados = {...dadosForm, id: acrescentarId}
-                console.log(acrescentarId)
+                let novoId = 0;
+
+                if(envioDados.data) {
+                    novoId = envioDados.data.id + 1
+                }
+
+                var envioDadosAtualizados = {...dadosForm, id: novoId}
+                console.log(novoId)
                 console.log(envioDadosAtualizados)
 
                 try {
@@ -68,9 +72,8 @@ export default function CadastrarProfessor({ handleCloseModal, renderForm }){
                     setState({ ...newState, open: true });
                     setMessage(e.response.data);
                 }
-
             } catch (e) {
-                console.log(e);
+                console.log(e)
             }   
         }
     }
@@ -100,7 +103,7 @@ export default function CadastrarProfessor({ handleCloseModal, renderForm }){
                         <input type="text" className="disciplina" value={dadosForm.disciplina} onChange={(e) => setDadosForm({...dadosForm, disciplina:e.target.value})}/>
                         <div className="buttons-form">
                             <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Cancelar</button>
-                            <button className="button-cadastrar" id="cadastrar" onClick={HandleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}>Cadastrar</button>  
+                            <button className="button-cadastrar" id="cadastrar" onClick={handleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}>Cadastrar</button>  
                             <Snackbar
                                 ContentProps={{sx: {borderRadius: '8px'}}}
                                 anchorOrigin={{ vertical, horizontal }}

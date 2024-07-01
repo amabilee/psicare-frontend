@@ -2,20 +2,18 @@ import React,{useState} from "react";
 import { api } from "../../services/server";
 import "./style.css"
 
-export default function Excluir({handleExcluirClose, dadosSecretario, atualizarTableExcluir}){
+export default function ExcluirProfessor({handleExcluirClose, dadosProfessor, atualizarTableExcluir}){
     const [isConfirmarExluir, setIsConfirmarExcluir] = useState(false);
     
 
     const handleConfirmarOpen = async() => {
         try {
-            if (Array.isArray(dadosSecretario._ids) && dadosSecretario._ids.length > 0){
-                const data = dadosSecretario._ids ? { ids: dadosSecretario._ids} : {ids: [dadosSecretario._id]};
-                console.log(data);
-                const response = await api.delete(`/secretario`, {data});
+            if (Array.isArray(dadosProfessor._ids) && dadosProfessor._ids.length > 0){ //verifica se tem mais de um id para deletar
+                const data = dadosProfessor._ids ? { ids: dadosProfessor._ids} : {ids: [dadosProfessor._id]}; //se dadosProfessor não for nulo retorna uma array de IDs, caso for nulo retorna uma array com único ID
+                const response = await api.delete(`/professor`, {data});
                 console.log(response)
             } else {
-                await api.delete(`/secretario/${dadosSecretario._id}`);
-                console.log("esse é o id", dadosSecretario._id)
+                await api.delete(`/professor/${dadosProfessor._id}`);//função para deletar somente um id de secretario
             }
             atualizarTableExcluir();
             setIsConfirmarExcluir(true);

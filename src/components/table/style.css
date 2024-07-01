@@ -1,11 +1,11 @@
 /* tabela */
-.table-secretario {
+.table {
     width: 99%;
     margin-top: 30px;
     border-collapse: collapse;
 }
 
-.table-secretario .checkbox{
+.table .checkbox{
     width: 17px;
     height: 17px;
 }
@@ -29,11 +29,11 @@
 }
 
 /* conteudo */
-.body-table-secretario {
+.table-body {
     text-align: center;
 }
 
-.body-table-secretario tr td {
+.table-body tr td {
     border-bottom: 1px solid #DADADA;
     padding: 12px 0;
     font-size: 15px;
@@ -41,7 +41,7 @@
     text-transform: capitalize;
 }
 
-.body-table-secretario .body-table {
+.table-body .table-content {
     cursor: pointer;
 }
 
@@ -57,20 +57,20 @@
     margin-right: -10px;
 }
 
-.body-table-secretario .tr-vazia td {
+.table-body .tr-vazia td {
     height: 24.8px;
     border: none;
 }
 
 /* paginação */
-.footer-table-secretario tr td .quantidade-secretario {
+.footer-table tr td .quantidade-itens {
     margin-top: 10px;
     font-size: 15px;
     font-weight: 600;
     color: #969696;
 }
 
-.footer-table-secretario tr td .paginacao-table{
+.footer-table tr td .paginacao-table{
     display: flex;
     justify-content: center; 
     margin-bottom: 20px; 
