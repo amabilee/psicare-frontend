@@ -124,28 +124,35 @@ export default function EditarSecretario({handleEditarClose, dadosSecretario, re
                 <h2>Confirmar Edição de Secretário</h2>
                 <hr />
                 <div className="dados-inseridos">
+                  <div className="coluna1">
                     <div className="nome">
                         <p>Nome Completo</p>
                         <h1>{dadosAtualizados.nome}</h1>
                     </div>
-                    <div className="flex-row1">
-                        <div className="CPF">
-                            <p>CPF</p>
-                            <h1>{dadosAtualizados.cpf}</h1>
-                        </div>
-                        <div className="telefone">
-                            <p>Telefone</p>
-                            <h1>{dadosAtualizados.telefone}</h1>
-                        </div>
-                    </div>
+                  </div>
+                  <div className="coluna2">
+                      <div className="CPF">
+                          <p>CPF</p>
+                          <h1>{dadosAtualizados.cpf}</h1>
+                      </div>
+                      <div className="telefone">
+                          <p>Telefone</p>
+                          <h1>{dadosAtualizados.telefone}</h1>
+                      </div>
+                  </div>
+                  <div className="coluna3">
                     <div className="email">
                         <p>E-mail</p>
                         <h1>{dadosAtualizados.email}</h1>
                     </div>
+                  </div>
+                  <div className="coluna4">
                     <div className="turno">
-                        <p>turno</p>
-                        <h1>{dadosAtualizados.turno}</h1>
-                    </div>   
+                      <p>turno</p>
+                      <h1>{dadosAtualizados.turno}</h1>
+                  </div>  
+                </div>
+                     
                 </div> 
                 <div className="buttons-confirmar">
                   <button className="button-voltar-confirmar" id="voltar" onClick={handleVoltarConfirmar} >

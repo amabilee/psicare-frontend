@@ -46,10 +46,12 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
         } else if (!validator.isEmail(dadosForm.email)){
             setState({ ...newState, open: true });
             setMessage("Insira um email válido.");
-        } else if(dadosForm.professorNome === "#"){
-            setState({...newState, open: true});
-            setMessage("Selecione um professor.")
-        } else if (dadosForm.matricula.length < 7){
+        } 
+        // else if(dadosForm.professorNome === "#"){
+        //     setState({...newState, open: true});
+        //     setMessage("Selecione um professor.")
+        // } 
+        else if (dadosForm.matricula.length < 7){
             setState({ ...newState, open: true });
             setMessage("Insira a matrícula.");
         } else if (dadosForm.periodo === "#"){
@@ -77,12 +79,12 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
                     renderForm(true)
                     // renderForm={renderFormCadastro} 
                 } catch (e) {
-                    console.log("deu ruim ai", e)
+                    console.log("Erro ao cadastrar o aluno:", e)
                     setState({ ...newState, open: true });
-                    setMessage(e.response.data);
+                    setMessage("Erro ao cadastrar o aluno.");
                 }
             } catch (e) {
-                console.log(e)
+                console.log("Erro ao buscar o id do aluno.")
             }   
         }
     }
@@ -112,7 +114,11 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
                         <label htmlFor="professorResponsavel">Professor*</label>
                         <select className="professorNome" id="professorNome" value={dadosForm.professorNome} onChange={(e) =>  setDadosForm({...dadosForm, professorNome:e.target.value})} required>
                             <option value="#" disabled>Selecione uma opção</option>
-                            
+                            {/* {professorNome.map((professor) => {
+                                <option value={professor.nome} key={professor._id}>
+                                    {professor.nome}
+                                </option>
+                            })} */}
                         </select>
 
                         <div className="flex-input">
@@ -136,10 +142,7 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
                                     <option value="10-periodo">10° período</option>
                                 </select>
                             </div>
-
-                            
-                        </div>
-                        
+                        </div> 
                         <div className="buttons-form buttons-form-aluno">
                             <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Cancelar</button>
                             <button className="button-cadastrar" id="cadastrar" onClick={handleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}>Cadastrar</button>  
@@ -158,7 +161,6 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
                             </Snackbar>
                         </div>
                     </div>
-                    
                 </div>
             </div>  
             

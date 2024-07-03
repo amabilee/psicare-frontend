@@ -109,7 +109,7 @@
 
 .modal-content select.turno:focus, 
 .modal-content select.professorNome:focus,
-.modal-content select.periodo:focus{
+    .modal-content select.periodo:focus{
     border: 2px solid #C760EBFA;
     outline: none;
 }

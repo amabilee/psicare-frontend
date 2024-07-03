@@ -284,11 +284,11 @@
 .modal-content-confirmar .buttons-confirmar{
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 60px;
 }
 
 .modal-content-confirmar .buttons-confirmar.buttons-confirmar-aluno{
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .modal-content-confirmar .button-voltar-confirmar{

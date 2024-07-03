@@ -2,18 +2,18 @@ import React,{useState} from "react";
 import { api } from "../../services/server";
 import "./style.css"
 
-export default function ExcluirAluno({handleExcluirClose, dadosProfessor, atualizarTableExcluir}){
+export default function ExcluirAluno({handleExcluirClose, dadosAluno, atualizarTableExcluir}){
     const [isConfirmarExluir, setIsConfirmarExcluir] = useState(false);
     
 
     const handleConfirmarOpen = async() => {
         try {
-            if (Array.isArray(dadosProfessor._ids) && dadosProfessor._ids.length > 0){ //verifica se tem mais de um id para deletar
-                const data = dadosProfessor._ids ? { ids: dadosProfessor._ids} : {ids: [dadosProfessor._id]}; //se dadosProfessor não for nulo retorna uma array de IDs, caso for nulo retorna uma array com único ID
-                const response = await api.delete(`/professor`, {data});
+            if (Array.isArray(dadosAluno._ids) && dadosAluno._ids.length > 0){ //verifica se tem mais de um id para deletar
+                const data = dadosAluno._ids ? { ids: dadosAluno._ids} : {ids: [dadosAluno._id]}; //se dadosAluno não for nulo retorna uma array de IDs, caso for nulo retorna uma array com único ID
+                const response = await api.delete(`/aluno`, {data});
                 console.log(response)
             } else {
-                await api.delete(`/professor/${dadosProfessor._id}`);//função para deletar somente um id de secretario
+                await api.delete(`/aluno/${dadosAluno._id}`);//função para deletar somente um id de secretario
             }
             atualizarTableExcluir();
             setIsConfirmarExcluir(true);

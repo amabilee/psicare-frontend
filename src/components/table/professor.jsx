@@ -283,15 +283,11 @@ export default function TableProfessor({ renderFormTable, pesquisar }){
           </tbody>
           <tfoot className="footer-table">
             <tr>
-              <td>
-                <div className="quantidade-itens">
+              <td colSpan="7">
+              <div className="quantidade-itens">
                   {Array.isArray(dadosProfessor.professores) &&
                     `${acumularProfessoresPage}/${totalProfessoresTable}`}
                 </div>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="7">
                 <div className="paginacao-table">
                   <button
                     className={`voltar-pagina ${currentPage === 1 ? "paginacaoWhite" : "paginacaoBlack"}`}
