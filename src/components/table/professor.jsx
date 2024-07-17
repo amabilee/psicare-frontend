@@ -35,10 +35,14 @@ export default function TableProfessor({ renderFormTable, pesquisar }){
         }
 
         const receberDados = await api.get(dadosPaginados);//requisação get para os "dadosPaginados" contruido
-        const { professores, totalPages: total, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
+        console.log(receberDados)
+
+        const { professores, totalPages, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
+        console.log("quantidade total de itens: ", totalItems)
+
         //professor: lista de professores, e totalPages: numero total de paginas tudo retornado pela api
         setDadosProfessor({ professores }); //atualiza os dadosprofessores para os dados da minha api "professores"
-        setTotalPages(total); //atualiza o totalPages com o "total" retorndo da minha apis
+        setTotalPages(totalPages); //atualiza o totalPages com o "total" retorndo da minha apis
         setTotalProfessoresTable(totalItems);
 
         const professoresAcumulados = ((currentPage - 1) * 15 + professores.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
@@ -248,7 +252,7 @@ export default function TableProfessor({ renderFormTable, pesquisar }){
                       //hasOwnProperty -> esse método retorna um booleano indicando se o objeto possui uma propriedade específica, que no caso é o index
                     />
                   </td>
-                  <td className="table-content" onClick={() => handleVisualizarClick(professor)}>
+                  <td className="table-content" id="td-nome" onClick={() => handleVisualizarClick(professor)}>
                     {professor.nome}
                   </td>
                   <td className="table-content" onClick={() => handleVisualizarClick(professor)}>
@@ -260,7 +264,7 @@ export default function TableProfessor({ renderFormTable, pesquisar }){
                   <td className="table-content" onClick={() => handleVisualizarClick(professor)}>
                     {professor.cpf}
                   </td>
-                  <td className="table-content" onClick={() => handleVisualizarClick(professor)}>
+                  <td className="table-content" id="td-disciplina" onClick={() => handleVisualizarClick(professor)}>
                     {professor.disciplina}
                   </td>
                   <td>
@@ -284,9 +288,11 @@ export default function TableProfessor({ renderFormTable, pesquisar }){
           <tfoot className="footer-table">
             <tr>
               <td colSpan="7">
-              <div className="quantidade-itens">
-                  {Array.isArray(dadosProfessor.professores) &&
-                    `${acumularProfessoresPage}/${totalProfessoresTable}`}
+                <div className="quantidade-itens">
+                  <span>
+                    {Array.isArray(dadosProfessor.professores) &&
+                      `${acumularProfessoresPage}/${totalProfessoresTable}`}
+                  </span>
                 </div>
                 <div className="paginacao-table">
                   <button

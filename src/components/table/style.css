@@ -38,6 +38,11 @@
     padding: 12px 0;
     font-size: 15px;
     font-weight: 500;
+}
+
+.table-body tr td#td-nome,
+.table-body tr td#td-turno,
+.table-body tr td#td-disciplina {
     text-transform: capitalize;
 }
 

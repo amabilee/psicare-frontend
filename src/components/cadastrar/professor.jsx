@@ -11,7 +11,6 @@ export default function CadastrarProfessor({ handleCloseModal, renderForm }){
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
     const [message, setMessage] = useState("");
     const [dadosForm, setDadosForm] = useState({
-        id: 0, 
         nome: "", 
         cpf: "", 
         telefone: "", 
@@ -50,18 +49,9 @@ export default function CadastrarProfessor({ handleCloseModal, renderForm }){
         } else {
             try {
                 var envioDados = await api.get("/professor/ultimo/criado", dadosForm);
-                let novoId = 0;
-
-                if(envioDados.data) {
-                    novoId = envioDados.data.id + 1
-                }
-
-                var envioDadosAtualizados = {...dadosForm, id: novoId}
-                console.log(novoId)
-                console.log(envioDadosAtualizados)
-
+                console.log("dados do ultimo professor criado", envioDados)
                 try {
-                    var dadosEnviados = await api.post("/professor", envioDadosAtualizados);
+                    var dadosEnviados = await api.post("/professor", {...dadosForm});
                     console.log(dadosEnviados)
 
                     setIsSucessModalOpen(true);

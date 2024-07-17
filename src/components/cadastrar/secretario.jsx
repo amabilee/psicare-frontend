@@ -10,8 +10,7 @@ import "./style.css"
 export default function CadastrarSecretario({ handleCloseModal, renderForm }){
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
     const [message, setMessage] = useState("");
-    const [dadosForm, setDadosForm] = useState({
-        id: 0, 
+    const [dadosForm, setDadosForm] = useState({  
         nome: "", 
         cpf: "", 
         telefone: "", 
@@ -51,18 +50,9 @@ export default function CadastrarSecretario({ handleCloseModal, renderForm }){
         } else {
             try {
                 var envioDados = await api.get("/secretario/ultimo/criado", dadosForm);
-                let novoId = 0;
-
-                if(envioDados.data) {
-                    novoId = envioDados.data.id + 1
-                }
-
-                var envioDadosAtualizados = {...dadosForm, id: novoId}
-                console.log(novoId)
-                console.log(envioDadosAtualizados)
-
+                console.log("dados do ultimo secretario criado", envioDados)
                 try {
-                    var dadosEnviados = await api.post("/secretario", envioDadosAtualizados);
+                    var dadosEnviados = await api.post("/secretario", {...dadosForm});
                     console.log(dadosEnviados)
 
                     setIsSucessModalOpen(true);

@@ -35,10 +35,13 @@
         }
 
         const receberDados = await api.get(dadosPaginados);//requisação get para os "dadosPaginados" contruido
-        const { secretarios, totalPages: total, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
+        console.log(receberDados)
+
+        const { secretarios, totalPages, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
+        console.log("quantidade total de itens: ", totalItems)
         //secretario: lista de secretarios, e totalPages: numero total de paginas tudo retornado pela api
         setDadosSecretario({ secretarios }); //atualiza os dadosSecretarios para os dados da minha api "secretarios"
-        setTotalPages(total); //atualiza o totalPages com o "total" retorndo da minha apis
+        setTotalPages(totalPages); //atualiza o totalPages com o "total" retorndo da minha apis
         setTotalSecretariosTable(totalItems);
 
         const secretariosAcumulados = ((currentPage - 1) * 15 + secretarios.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
@@ -249,7 +252,7 @@
                       //hasOwnProperty -> esse método retorna um booleano indicando se o objeto possui uma propriedade específica, que no caso é o index
                     />
                   </td>
-                  <td className="table-content" onClick={() => handleVisualizarClick(secretario)}>
+                  <td className="table-content" id="td-nome" onClick={() => handleVisualizarClick(secretario)}>
                     {secretario.nome}
                   </td>
                   <td className="table-content" onClick={() => handleVisualizarClick(secretario)}>
@@ -261,7 +264,7 @@
                   <td className="table-content" onClick={() => handleVisualizarClick(secretario)}>
                     {secretario.cpf}
                   </td>
-                  <td className="table-content" onClick={() => handleVisualizarClick(secretario)}>
+                  <td className="table-content" id="td-turno" onClick={() => handleVisualizarClick(secretario)}>
                     {secretario.turno}
                   </td>
                   <td>
@@ -286,9 +289,11 @@
             <tr>
               <td colSpan="7">
                 <div className="quantidade-itens">
+                  <span>
                     {Array.isArray(dadosSecretario.secretarios) &&
                       `${acumularSecretariosPage}/${totalSecretariosTable}`}
-                  </div>
+                  </span>
+                </div>
                 <div className="paginacao-table">
                   <button
                     className={`voltar-pagina ${currentPage === 1 ? "paginacaoWhite" : "paginacaoBlack"}`}

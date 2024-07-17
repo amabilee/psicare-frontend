@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { api } from "../../services/server";
 import {IMaskInput} from "react-imask";
 import Snackbar from '@mui/material/Snackbar';
@@ -10,22 +10,26 @@ import "./style.css"
 export default function CadastrarAluno({ handleCloseModal, renderForm }){
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
     const [message, setMessage] = useState("");
+    const [professoresNome, setProfessoresNome] = useState({professores: []});
     const [dadosForm, setDadosForm] = useState({
-        id: 0, 
         nome: "", 
         cpf: "", 
         telefone: "", 
         email: "", 
         professorNome: "#",
         matricula: "",
-        periodo: "#"
+        periodo: 0
     });
+
+    useEffect(() => {
+        buscarProfessores();
+    })
 
     const [state, setState] = React.useState({
         open: false,
         vertical: 'top',
         horizontal: 'center',
-      });
+      }, []);
 
     const { vertical, horizontal, open } = state;
 
@@ -47,11 +51,10 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
             setState({ ...newState, open: true });
             setMessage("Insira um email válido.");
         } 
-        // else if(dadosForm.professorNome === "#"){
-        //     setState({...newState, open: true});
-        //     setMessage("Selecione um professor.")
-        // } 
-        else if (dadosForm.matricula.length < 7){
+        else if(dadosForm.professorNome === "#"){
+            setState({...newState, open: true});
+            setMessage("Selecione um professor.")
+        } else if (dadosForm.matricula.length < 7){
             setState({ ...newState, open: true });
             setMessage("Insira a matrícula.");
         } else if (dadosForm.periodo === "#"){
@@ -61,18 +64,9 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
         else {
             try {
                 var envioDados = await api.get("/aluno/ultimo/criado", dadosForm);
-                let novoId = 0;
-
-                if(envioDados.data) {
-                    novoId = envioDados.data.id + 1
-                }
-
-                var envioDadosAtualizados = {...dadosForm, id: novoId}
-                console.log(novoId)
-                console.log(envioDadosAtualizados)
-
+                console.log(envioDados)
                 try {
-                    var dadosEnviados = await api.post("/aluno", envioDadosAtualizados);
+                    var dadosEnviados = await api.post("/aluno", {...dadosForm});
                     console.log(dadosEnviados)
 
                     setIsSucessModalOpen(true);
@@ -86,6 +80,15 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
             } catch (e) {
                 console.log("Erro ao buscar o id do aluno.")
             }   
+        }
+    }
+
+    const buscarProfessores = async() => {
+        try {
+            const selectProfessores = await api.get(`/professor/paginado?page={}`);
+            setProfessoresNome(selectProfessores.data);
+        } catch (e) {
+            console.log("Erro ao buscar professores: ", e)
         }
     }
 
@@ -114,11 +117,11 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
                         <label htmlFor="professorResponsavel">Professor*</label>
                         <select className="professorNome" id="professorNome" value={dadosForm.professorNome} onChange={(e) =>  setDadosForm({...dadosForm, professorNome:e.target.value})} required>
                             <option value="#" disabled>Selecione uma opção</option>
-                            {/* {professorNome.map((professor) => {
-                                <option value={professor.nome} key={professor._id}>
+                            {professoresNome.professores.map(professor => (
+                                <option key={professor._id}>
                                     {professor.nome}
                                 </option>
-                            })} */}
+                            ))}
                         </select>
 
                         <div className="flex-input">
@@ -128,18 +131,18 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
                             </div>
                             <div className="div-periodo">
                                 <label htmlFor="periodo">Período*</label>
-                                <select className="periodo" id="periodo" value={dadosForm.periodo} onChange={(e) =>  setDadosForm({...dadosForm, periodo:e.target.value})} required>
-                                    <option value="#" disabled>Selecione uma opção</option>
-                                    <option value="1-periodo">1° período</option>
-                                    <option value="2-periodo">2° período</option>
-                                    <option value="3-periodo">3° período</option>
-                                    <option value="4-periodo">4° período</option>
-                                    <option value="5-periodo">5° período</option>
-                                    <option value="6-periodo">6° período</option>
-                                    <option value="7-periodo">7° período</option>
-                                    <option value="8-periodo">8° período</option>
-                                    <option value="9-periodo">9° período</option>
-                                    <option value="10-periodo">10° período</option>
+                                <select className="periodo" id="periodo" value={dadosForm.periodo} onChange={(e) =>  setDadosForm({...dadosForm, periodo: parseInt(e.target.value)})} required>
+                                    <option value="0" disabled>Selecione uma opção</option>
+                                    <option value="1">1° período</option>
+                                    <option value="2">2° período</option>
+                                    <option value="3">3° período</option>
+                                    <option value="4">4° período</option>
+                                    <option value="5">5° período</option>
+                                    <option value="6">6° período</option>
+                                    <option value="7">7° período</option>
+                                    <option value="8">8° período</option>
+                                    <option value="9">9° período</option>
+                                    <option value="10">10° período</option>
                                 </select>
                             </div>
                         </div> 
