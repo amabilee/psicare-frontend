@@ -1,5 +1,6 @@
   import React, { useState, useEffect } from "react";
   import { api } from "../../services/server";
+  import { useNavigate } from "react-router-dom";
   import VisualizarSecretario from "../visualizar/secretario";
   import ExcluirSecretario from "../excluir/secretario";
   import EditarSecretario from "../editar/secretario";
@@ -10,6 +11,7 @@
   import "./style.css";
 
   export default function TableSecretario({ renderFormTable, pesquisar }) {
+    const navigate = useNavigate();
     const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
     const [isExcluirOpen, setIsExcluirOpen] = useState(false);
     const [isEditarOpen, setIsEditarOpen] = useState(false);
@@ -28,13 +30,24 @@
     }, [renderFormTable, currentPage, pesquisar]);
 
     const receberDadosSecretario = async () => {
+      const token = localStorage.getItem("user_token")
+      // if (!token) {
+      //   navigate("/entrar");
+      //   return
+      // }
       try {
         let dadosPaginados = `/secretario/paginado?page=${currentPage}`;//numero de pagina atual para a api 
         if (pesquisar.trim() !== "") { //verifica se há algum valor no estado pesquisar, metodo trim remove espaços em branco.
           dadosPaginados = `/secretario?q=${pesquisar}`; //se a verificação for vrdd, busca secretario em pesquisar
         }
 
-        const receberDados = await api.get(dadosPaginados);//requisação get para os "dadosPaginados" contruido
+        const receberDados = await api.get(dadosPaginados ,{
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          }
+        });//requisação get para os "dadosPaginados" contruido
         console.log(receberDados)
 
         const { secretarios, totalPages, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição

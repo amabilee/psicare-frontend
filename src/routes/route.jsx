@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "../pages/_login/login";
 import Agenda from "../pages/administrador/agenda"

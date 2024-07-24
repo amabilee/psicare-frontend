@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { api } from "../../services/server";
 import {IMaskInput} from "react-imask";
 import Snackbar from '@mui/material/Snackbar';
@@ -13,6 +13,7 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
     const [SucessoEditar, setSucessoEditar] = useState(false);
     const [message, setMessage] = useState({});
     const [dadosAtualizados, setDadosAtualizados] = useState(dadosAluno);
+    const [professoresNome, setProfessoresNome] = useState({professores: []});
     const [state, setState] = React.useState({
       open: false,
       vertical: 'top',
@@ -20,9 +21,16 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
     });
     const { vertical, horizontal, open } = state;
 
+  
+
   const handleClose = () => {
       setState({ ...state, open: false });
   };
+
+
+  useEffect(() => {
+    buscarProfessores();
+  });
 
     const handleEditarConfirmar = (newState) => () => {
       if (dadosAtualizados.nome.length <= 6) {
@@ -55,7 +63,7 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
 
     const handleSucessoConfirmar = async() => {
       try {
-        const enviardadosAtualizados = await api.patch(`/professor/${dadosAtualizados._id}`, dadosAtualizados);
+        const enviardadosAtualizados = await api.patch(`/aluno/${dadosAtualizados._id}`, dadosAtualizados);
         console.log(enviardadosAtualizados.data)
 
         setSucessoEditar(true);
@@ -64,6 +72,15 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
         console.log("Erro ao atualizar dados:", e)
       }
     };
+
+    const buscarProfessores = async() => {
+      try {
+          const selectProfessores = await api.get(`/professor/paginado?page={}`);
+          setProfessoresNome(selectProfessores.data);
+      } catch (e) {
+          console.log("Erro ao buscar professores: ", e)
+      }
+  }
 
   return (
     <>
@@ -89,10 +106,13 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
             <input type="email" name="email" id="email" value={dadosAtualizados.email} onChange={(e) => setDadosAtualizados({...dadosAtualizados, email:e.target.value})}/>
             
             <label htmlFor="professorResponsavel">Professor*</label>
-            <select className="professorNome" id="professorNome" value={dadosAtualizados.professorNome} onChange={(e) =>  setDadosAtualizados({...dadosAtualizados, professorNome:e.target.value})} required>
-                <option value="#" disabled>Selecione uma opção</option>
-                <option value="">Selecione uma opção</option>
-                <option value="">Selecione uma opção</option>
+            <select className="professorNome" id="professorNome" value={dadosAtualizados.professor} onChange={(e) =>  setDadosAtualizados({...dadosAtualizados, professor:e.target.value})} required>
+                <option value="0" disabled>Selecione uma opção</option>
+                {professoresNome.professores.map(professor => (
+                  <option key={professor._id}>
+                      {professor.nome}
+                  </option>
+              ))}
             </select>
 
             <div className="flex-input">
@@ -174,7 +194,7 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
                   <div className="coluna4">
                       <div className="professorNome">
                           <p>Professor</p>
-                          <h1>{dadosAtualizados.professorNome}</h1>
+                          <h1>{dadosAtualizados.professor}</h1>
                       </div>
                   </div>
                   <div className="coluna5">

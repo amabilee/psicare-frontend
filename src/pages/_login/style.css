@@ -49,14 +49,13 @@
     padding: 8px;
 }
 
-/* .button-login{
+.button-login{
     color: #C760EB;
-    font-weight: 500;
-    font-size: 0.9em;
-    width: 430px;
-    padding: 8px;
-    margin-top: 30px;
-    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 0.94em;
+    width: 428px;
+    padding: 8px 0;
+    margin-top: 18px;
     border: 2px solid #C760EB;
     border-radius: 6px;
     background: #fff;
@@ -66,7 +65,7 @@
     background: #C760EB;
     color: #fff;
     cursor: pointer;
-} */
+}
 
 .link-button-login {
     color: #C760EB;

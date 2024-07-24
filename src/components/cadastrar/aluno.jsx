@@ -16,14 +16,14 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
         cpf: "", 
         telefone: "", 
         email: "", 
-        professorNome: "#",
+        professor: "#",
         matricula: "",
         periodo: 0
     });
 
     useEffect(() => {
         buscarProfessores();
-    })
+    });
 
     const [state, setState] = React.useState({
         open: false,
@@ -50,14 +50,13 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
         } else if (!validator.isEmail(dadosForm.email)){
             setState({ ...newState, open: true });
             setMessage("Insira um email válido.");
-        } 
-        else if(dadosForm.professorNome === "#"){
+        } else if(dadosForm.professor === "#"){
             setState({...newState, open: true});
             setMessage("Selecione um professor.")
         } else if (dadosForm.matricula.length < 7){
             setState({ ...newState, open: true });
             setMessage("Insira a matrícula.");
-        } else if (dadosForm.periodo === "#"){
+        } else if (dadosForm.periodo === 0){
             setState({...newState, open: true});
             setMessage("Selecione um periodo.")
         }
@@ -85,7 +84,7 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
 
     const buscarProfessores = async() => {
         try {
-            const selectProfessores = await api.get(`/professor/paginado?page={}`);
+            const selectProfessores = await api.get(`/professor `);
             setProfessoresNome(selectProfessores.data);
         } catch (e) {
             console.log("Erro ao buscar professores: ", e)
@@ -115,7 +114,7 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
                         <input type="email" name="email" id="email" value={dadosForm.email} onChange={(e) =>  setDadosForm({...dadosForm, email:e.target.value})} />
                         
                         <label htmlFor="professorResponsavel">Professor*</label>
-                        <select className="professorNome" id="professorNome" value={dadosForm.professorNome} onChange={(e) =>  setDadosForm({...dadosForm, professorNome:e.target.value})} required>
+                        <select className="professorNome" id="professorNome" value={dadosForm.professor} onChange={(e) =>  setDadosForm({...dadosForm, professor:e.target.value})} required>
                             <option value="#" disabled>Selecione uma opção</option>
                             {professoresNome.professores.map(professor => (
                                 <option key={professor._id}>

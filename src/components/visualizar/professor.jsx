@@ -1,4 +1,5 @@
 import React from "react";
+import TableProfAluno from "../table/profAlunos";
 import "./style.css";
 
 export default function VisualizarProfessor({handleCloseVisualizar, dadosProfessor}){
@@ -45,6 +46,7 @@ export default function VisualizarProfessor({handleCloseVisualizar, dadosProfess
                 </div>     
                 
             </div>
+            <TableProfAluno/>
         </div>
     )
 }
