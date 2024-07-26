@@ -5,10 +5,14 @@ import { SlNote } from "react-icons/sl";
 import { Link, useLocation } from "react-router-dom";
 import logoh from "../../assets/logo-h.svg";
 import iconeSair from "../../assets/sair-icone.svg";
+
+import { UseAuth } from '../../hooks';
+import { api } from "../../services/server";
 import "./style.css";
 
 export default function SideBar() {
     const location = useLocation();
+    const { signOut } = UseAuth();
     const [isCadastroOpen, setIsCadastroOpen] = useState(false);
     const [activeItem, setActiveItem] = useState("");
 
@@ -107,7 +111,7 @@ export default function SideBar() {
                     </ul>
                 </nav>
                 <div className="button-sidebar">
-                    <Link to="/entrar" className="link-sair">
+                    <Link to="/entrar" className="link-sair" onClick={signOut()}>
                         <img src={iconeSair} alt="icone de sair" className="img-sair" />
                         <p>Sair</p>
                     </Link>

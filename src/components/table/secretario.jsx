@@ -30,7 +30,8 @@
     }, [renderFormTable, currentPage, pesquisar]);
 
     const receberDadosSecretario = async () => {
-      const token = localStorage.getItem("user_token")
+      const token = localStorage.getItem("user_Token")
+      console.log(token)
       // if (!token) {
       //   navigate("/entrar");
       //   return
@@ -42,10 +43,9 @@
         }
 
         const receberDados = await api.get(dadosPaginados ,{
-          method: 'GET',
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json; charset=utf-8',
+            'Authorization': `Bearer ${token}`,
           }
         });//requisação get para os "dadosPaginados" contruido
         console.log(receberDados)
