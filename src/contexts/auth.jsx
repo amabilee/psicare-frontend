@@ -6,7 +6,6 @@
         const [ user, setUser ] = useState(); //armazenar informações do usuario autenticado
         const [ error, setError ] = useState(''); //armazenar mensagens de erro de autenticação
         const [ auth, setAuth ] = useState(false);//booleano que indica se o usuário esta autenticado ou nao
-        const [ loading, setLoading ] = useState(false);//booleano que indica se a operaçõa de autenticação está em andamento
 
         useEffect(() => {//ao carregar a aplicação irá verificar o token e user
             const varificaData = async() => {
@@ -24,7 +23,6 @@
         }, []);
 
         async function signIn(cpf, senha){
-            setLoading(true)
             try {
                 const response = await api.post("/user/login", {cpf, senha})
                 //token e dados do usuário serao extraidos da resposta do servidor 
@@ -38,19 +36,16 @@
                 localStorage.setItem('user_token', tokenResponse);
                 localStorage.setItem('user', JSON.stringify(userResponse));
 
+                api.defaults.headers.common['Authorization'] = `Bearer ${tokenResponse}`;
 
                 console.log('Token armazenado:', localStorage.getItem('user_token'));
                 console.log('Dados do usuário armazenados:', localStorage.getItem('user'));
 
-                setTimeout(() => {
-                    setLoading(false);
-                }, 1000);
 
                 // console.log(response.data)
                 return true
             } catch (e) {
                 setAuth(false);
-                setLoading(false);
                 if (e.response) {
                     setError(e.response.data.message);
                 } else if (e.code === 'ERR_NETWORK') {
@@ -62,14 +57,15 @@
         }
 
         function signOut() {
-            setUser({})
+            setUser(null)
             setAuth(false)
             localStorage.removeItem("user_token")
             localStorage.removeItem("user")
+            delete api.defaults.headers.common['Authorization'];
         }
 
         return(
-            <AuthContext.Provider value={{ user, auth, error, loading, signIn, signOut }}>
+            <AuthContext.Provider value={{ user, auth, error, signIn, signOut }}>
                 {children}
             </AuthContext.Provider>
         )

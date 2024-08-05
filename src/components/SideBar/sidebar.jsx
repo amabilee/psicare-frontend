@@ -1,48 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaRegCalendar, FaChevronUp, FaChevronDown } from "react-icons/fa";
 import { RiContactsBookLine } from "react-icons/ri";
 import { SlNote } from "react-icons/sl";
-import { Link, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import logoh from "../../assets/logo-h.svg";
 import iconeSair from "../../assets/sair-icone.svg";
 
 import { UseAuth } from '../../hooks';
-import { api } from "../../services/server";
 import "./style.css";
 
 export default function SideBar() {
+    const navigate = useNavigate();
     const location = useLocation();
     const { signOut } = UseAuth();
-    const [isCadastroOpen, setIsCadastroOpen] = useState(false);
-    const [activeItem, setActiveItem] = useState("");
 
-    useEffect(() => {
-        handleItemClick();
-    }, []);
+    const [isCadastroOpen, setIsCadastroOpen] = useState(() => { //estdado para verificar se cadastro está aberto, inicia com base na localização atual
+        return location.pathname.includes("/secretarios") ||
+                location.pathname.includes("/professores") ||
+                location.pathname.includes("/alunos") ||
+                location.pathname.includes("/pacientes");
+    });
+    const [itemAtivo, setItemAtivo] = useState(location.pathname); //armazena o item ativo
 
-    const handleItemClick = (item) => {
-        //location fornecido por useLocation do React Router é a localização atual (rota) da aplicação
-    
-        //abre o menu de cadastro
-        if (location.pathname.includes("/secretarios") || 
-            location.pathname.includes("/professores") || 
-            location.pathname.includes("/alunos") || 
-            location.pathname.includes("/pacientes")) {//verifica se o caminho atual é qualquer uma dessas strings
-            setIsCadastroOpen(true);// se alguma dessas for verdadeira, abre o menu de cadastro
+    const handleItemClick = (path) => {
+        navigate(path); //navegação para um caminho específico
+
+        if (path.includes("/secretarios") || 
+            path.includes("/professores") || 
+            path.includes("/alunos") || 
+            path.includes("/pacientes")) {
+            setIsCadastroOpen(true);
         }
 
-        //definindo a classa de item-menu-ativo
-        if (location.pathname === "/secretarios") {
-            setActiveItem("secretarios");
-        } else if (location.pathname === "/professores") {
-            setActiveItem("professores");
-        } else if (location.pathname === "/alunos") {
-            setActiveItem("alunos");
-        } else if (location.pathname === "/pacientes") {
-            setActiveItem("pacientes");
-        } else {
-            setActiveItem(item);
-        }
+        setItemAtivo(path); //define o item ativo para o caminho clicado
     }
 
     const toggleCadastro = () => {
@@ -57,64 +47,67 @@ export default function SideBar() {
                 </div>
                 <nav className="conteudo-sideBar">
                     <ul>
-                        <li className={`item-menu ${location.pathname === "/agenda" ? "item-menu-ativo" : ""}`}>
-                            <Link to="/agenda" className="link-nav">
+                        <li className={`item-menu ${itemAtivo === "/agenda" ? "item-menu-ativo" : ""}`}>
+                            <button className="link-nav" onClick={() => handleItemClick('/agenda')}>
                                 <span className="icon"><FaRegCalendar className="icon" /></span>
                                 <span className="texto-link">Agenda</span>
-                            </Link>
+                            </button>
                         </li>
                     </ul>
                     <div className="caixa-cadastro">
                         <ul>
                             <li className="item-menu-cadastro" onClick={toggleCadastro}>
-                                <Link to="#" className="link-nav">
+                                <button className="cadastro">
                                     <span className="icon"><RiContactsBookLine className="icon" /></span>
-                                    <span className="texto-link">Cadastro</span>
+                                    <span className="texto-button">Cadastro</span>
                                     <span className="icon-seta">
                                         {isCadastroOpen ? <FaChevronUp /> : <FaChevronDown />}
                                     </span>
-                                </Link>
+                                </button>
                             </li>
                         </ul>
                         {isCadastroOpen && (
                             <ul className="item-cadastro">
-                                <li className={`item-menu ${activeItem === "secretarios" ? "item-menu-ativo" : ""}`}>
-                                    <Link to="/secretarios" className="link-nav">
+                                <li className={`item-menu ${itemAtivo === "/secretarios" ? "item-menu-ativo" : ""}`}>
+                                    <button className="link-nav" onClick={() => handleItemClick('/secretarios')}>
                                         <span className="texto-link-cadastro">Secretários</span>
-                                    </Link>
+                                    </button>
                                 </li>
-                                <li className={`item-menu ${activeItem === "professores" ? "item-menu-ativo" : ""}`}>
-                                    <Link to="/professores" className="link-nav">
+                                <li className={`item-menu ${itemAtivo === "/professores" ? "item-menu-ativo" : ""}`}>
+                                    <button className="link-nav" onClick={() => handleItemClick('/professores')}>
                                         <span className="texto-link-cadastro">Professores</span>
-                                    </Link>
+                                    </button>
                                 </li>
-                                <li className={`item-menu ${activeItem === "alunos" ? "item-menu-ativo" : ""}`}>
-                                    <Link to="/alunos" className="link-nav">
+                                <li className={`item-menu ${itemAtivo === "/alunos" ? "item-menu-ativo" : ""}`}>
+                                    <button className="link-nav" onClick={() => handleItemClick('/alunos')}>
                                         <span className="texto-link-cadastro">Alunos</span>
-                                    </Link>
+                                    </button>
                                 </li>
-                                <li className={`item-menu ${activeItem === "pacientes" ? "item-menu-ativo" : ""}`}>
-                                    <Link to="/pacientes" className="link-nav">
+                                <li className={`item-menu ${itemAtivo === "/pacientes" ? "item-menu-ativo" : ""}`}>
+                                    <button className="link-nav" onClick={() => handleItemClick('/pacientes')}>
                                         <span className="texto-link-cadastro">Pacientes</span>
-                                    </Link>
+                                    </button>
                                 </li>
                             </ul>
                         )}
                     </div>
                     <ul>
-                        <li className={`item-menu ${location.pathname === "/relatorios" ? "item-menu-ativo" : ""}`}>
-                            <Link to="/relatorios" className="link-nav">
+                        <li className={`item-menu ${itemAtivo === "/relatorios" ? "item-menu-ativo" : ""}`}>
+                            <button className="link-nav" onClick={() => handleItemClick('/relatorios')}>
                                 <span className="icon"><SlNote className="icon" /></span>
                                 <span className="texto-link">Relatórios</span>
-                            </Link>
+                            </button>
                         </li>
                     </ul>
                 </nav>
                 <div className="button-sidebar">
-                    <Link to="/entrar" className="link-sair" onClick={signOut()}>
+                    <button className="button-sair" onClick={() => {
+                        signOut();
+                        navigate('/entrar');
+                    }}>
                         <img src={iconeSair} alt="icone de sair" className="img-sair" />
                         <p>Sair</p>
-                    </Link>
+                    </button>
                 </div>
             </div>
         </div>

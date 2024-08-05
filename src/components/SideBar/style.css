@@ -25,7 +25,6 @@
 }
 
 /* conteudo geral  */
-
 .conteudo-sideBar {
     padding: 20px;
 }
@@ -62,20 +61,23 @@
     border-radius: 8px;
 }
 
-.conteudo-sideBar ul li .link-nav {
+.conteudo-sideBar ul li button {
     text-decoration: none;
     color: #000;
     display: flex;
     line-height: 25px;
     cursor: context-menu;
     width: 100%;
+    background: none;
+    border: none;
 }
 
-.conteudo-sideBar ul li .link-nav .texto-link {
+.conteudo-sideBar ul li button .texto-link ,
+.conteudo-sideBar ul li button .texto-button{
     margin-left: 10px;
 }
 
-.conteudo-sideBar ul li .link-nav .texto-link-cadastro{
+.conteudo-sideBar ul li button .texto-link-cadastro{
     margin-left: 20px;
 }
 
@@ -104,13 +106,16 @@
     cursor: pointer;
 }
 
-.button-sidebar .link-sair{
+.button-sidebar .button-sair{
     display: flex;
     text-decoration: none;
     color: #000;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
-.button-sidebar .link-sair p {
+.button-sidebar .button-sair p {
     font-size: 20px;
     padding-left: 5px;
 }

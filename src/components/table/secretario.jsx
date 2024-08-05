@@ -1,6 +1,5 @@
   import React, { useState, useEffect } from "react";
   import { api } from "../../services/server";
-  import { useNavigate } from "react-router-dom";
   import VisualizarSecretario from "../visualizar/secretario";
   import ExcluirSecretario from "../excluir/secretario";
   import EditarSecretario from "../editar/secretario";
@@ -11,7 +10,6 @@
   import "./style.css";
 
   export default function TableSecretario({ renderFormTable, pesquisar }) {
-    const navigate = useNavigate();
     const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
     const [isExcluirOpen, setIsExcluirOpen] = useState(false);
     const [isEditarOpen, setIsEditarOpen] = useState(false);
@@ -30,12 +28,8 @@
     }, [renderFormTable, currentPage, pesquisar]);
 
     const receberDadosSecretario = async () => {
-      const token = localStorage.getItem("user_Token")
-      console.log(token)
-      // if (!token) {
-      //   navigate("/entrar");
-      //   return
-      // }
+      // const token = localStorage.getItem("user_Token")
+      // console.log(token)
       try {
         let dadosPaginados = `/secretario/paginado?page=${currentPage}`;//numero de pagina atual para a api 
         if (pesquisar.trim() !== "") { //verifica se há algum valor no estado pesquisar, metodo trim remove espaços em branco.
@@ -43,10 +37,10 @@
         }
 
         const receberDados = await api.get(dadosPaginados ,{
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            'Authorization': `Bearer ${token}`,
-          }
+          // headers: {
+          //   "Content-Type": "application/json",
+          //   "Authorization": `Bearer ${token}`
+          // }
         });//requisação get para os "dadosPaginados" contruido
         console.log(receberDados)
 
