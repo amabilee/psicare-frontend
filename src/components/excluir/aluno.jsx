@@ -3,18 +3,31 @@ import { api } from "../../services/server";
 import "./style.css"
 
 export default function ExcluirAluno({handleExcluirClose, dadosAluno, atualizarTableExcluir}){
-    const [isConfirmarExluir, setIsConfirmarExcluir] = useState(false);
-    
+    const [isConfirmarExluir, setIsConfirmarExcluir] = useState(false); 
 
-    const handleConfirmarOpen = async() => {
+    const handleConfirmarOpen = async () => {
         try {
-            if (Array.isArray(dadosAluno._ids) && dadosAluno._ids.length > 0){ //verifica se tem mais de um id para deletar
-                const data = dadosAluno._ids ? { ids: dadosAluno._ids} : {ids: [dadosAluno._id]}; //se dadosAluno não for nulo retorna uma array de IDs, caso for nulo retorna uma array com único ID
-                const response = await api.delete(`/aluno`, {data});
-                console.log(response)
-            } else {
-                await api.delete(`/aluno/${dadosAluno._id}`);//função para deletar somente um id de secretario
+            const token = localStorage.getItem("user_token")
+            console.log(token)
+
+            const deleteIds = async(id) => {
+                await api.delete(`/aluno/${id}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "authorization": `Bearer ${token}`
+                        }
+                });//função para deletar somente um id de secretario
             }
+
+            if (Array.isArray(dadosAluno._ids) && dadosAluno._ids.length > 0){ //verifica se tem mais de um id para deletar
+                // of é usado para iterar sobre os valores de arrays e strings
+                for (const id of dadosAluno._ids){ //função para iterar sobre cada array de dadosAluno._ids, onde para cada ID irá chamar a função de excluir aluno
+                    await deleteIds(id);
+                }
+            } else {
+                await deleteIds(dadosAluno._id)
+            }
+
             atualizarTableExcluir();
             setIsConfirmarExcluir(true);
         } catch (e) {

@@ -8,13 +8,27 @@ export default function ExcluirSecretario({handleExcluirClose, dadosSecretario, 
 
     const handleConfirmarOpen = async() => {
         try {
-            if (Array.isArray(dadosSecretario._ids) && dadosSecretario._ids.length > 0){ //verifica se tem mais de um id para deletar
-                const data = dadosSecretario._ids ? { ids: dadosSecretario._ids} : {ids: [dadosSecretario._id]}; //se dadosSecretarios não for nulo retorna uma array de IDs, caso for nulo retorna uma array com único ID
-                const response = await api.delete(`/secretario`, {data});
-                console.log(response)
-            } else {
-                await api.delete(`/secretario/${dadosSecretario._id}`);//função para deletar somente um id de secretario
+            const token = localStorage.getItem("user_token")
+            console.log(token)
+
+            const deleteIds = async(id) => {
+                await api.delete(`/secretario/${id}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "authorization": `Bearer ${token}`
+                        }
+                });//função para deletar somente um id de secretario
             }
+
+            if (Array.isArray(dadosSecretario._ids) && dadosSecretario._ids.length > 0){ //verifica se tem mais de um id para deletar
+                // of é usado para iterar sobre os valores de arrays e strings
+                for (const id of dadosSecretario._ids){ //função para iterar sobre cada array de dadosSecretario._ids, onde para cada ID irá chamar a função de excluir aluno
+                    await deleteIds(id);
+                }
+            } else {
+                await deleteIds(dadosSecretario._id)
+            }
+
             atualizarTableExcluir();
             setIsConfirmarExcluir(true);
         } catch (e) {

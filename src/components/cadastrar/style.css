@@ -24,7 +24,12 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.modal-content.modal-content-aluno{
+.modal-content-paciente {
+    width: 1400px;
+    height: 960px;
+}
+
+.modal-content-aluno{
     height: 520px;
 }
 
@@ -43,11 +48,21 @@
     margin-left: 15px;
 }
 
+.modal-content-paciente hr {
+    width: 1370px;
+}
+
 .modal-content .formulario{
     display: flex;
     flex-direction: column;
     margin-top: 20px;
     margin-left: 20px;
+}
+
+.modal-content-paciente .formulario h2{
+    padding: 0;
+    color: black;
+    margin-bottom: 15px;
 }
 
 .modal-content label {
@@ -61,6 +76,10 @@
     border-radius: 12px;
     width: 500px;
     margin: 8px 0;
+}
+
+.modal-content-paciente input{
+    width: 339px;
 }
 
 .modal-content input:focus {
@@ -156,7 +175,7 @@
     margin-top: 50px;
 }
 
-.modal-content .buttons-form.buttons-form-aluno {
+.modal-content .buttons-form-aluno {
     margin-top: 30px;
 }
 

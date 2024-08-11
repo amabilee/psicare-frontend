@@ -54,8 +54,14 @@ export default function EditarProfessor({handleEditarClose, dadosProfessor, rend
     }
 
     const handleSucessoConfirmar = async() => {
+      const token = localStorage.getItem("user_token")
       try {
-        const enviardadosAtualizados = await api.patch(`/professor/${dadosAtualizados._id}`, dadosAtualizados);
+        const enviardadosAtualizados = await api.patch(`/professor/${dadosAtualizados._id}`, dadosAtualizados, {
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${token}`
+          }
+        });
         console.log(enviardadosAtualizados.data)
 
         setSucessoEditar(true);
@@ -115,7 +121,7 @@ export default function EditarProfessor({handleEditarClose, dadosProfessor, rend
     )}
       {isEditarConfirmar && (
         <div className="modal-confirmar">
-            <div className="modal-content-confirmar">
+            <div className="modal-content-confirmar modal-content-confirmar-professor">
                 <h2>Confirmar Edição de Professor</h2>
                 <hr />
                 <div className="dados-inseridos">
@@ -149,7 +155,7 @@ export default function EditarProfessor({handleEditarClose, dadosProfessor, rend
                   </div>
                      
                 </div> 
-                <div className="buttons-confirmar">
+                <div className="buttons-confirmar buttons-confirmar-professor">
                   <button className="button-voltar-confirmar" id="voltar" onClick={handleVoltarConfirmar} >
                     Voltar
                   </button>

@@ -47,11 +47,17 @@ export default function CadastrarProfessor({ handleCloseModal, renderForm }){
             setState({...newState, open: true });
             setMessage("Insira uma disciplina.");
         } else {
-            try {
-                var envioDados = await api.get("/professor/ultimo/criado", dadosForm);
-                console.log("dados do ultimo professor criado", envioDados)
+            // try {
+            //     var envioDados = await api.get("/professor/ultimo/criado", dadosForm);
+            //     console.log("dados do ultimo professor criado", envioDados)
+            const token = localStorage.getItem("user_token")
                 try {
-                    var dadosEnviados = await api.post("/professor", {...dadosForm});
+                    var dadosEnviados = await api.post("/professor", dadosForm, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "authorization": `Bearer ${token}`
+                            }
+                    });
                     console.log(dadosEnviados)
 
                     setIsSucessModalOpen(true);
@@ -62,9 +68,9 @@ export default function CadastrarProfessor({ handleCloseModal, renderForm }){
                     setState({ ...newState, open: true });
                     setMessage(e.response.data);
                 }
-            } catch (e) {
-                console.log(e)
-            }   
+            // } catch (e) {
+            //     console.log(e)
+            // }   
         }
     }
 

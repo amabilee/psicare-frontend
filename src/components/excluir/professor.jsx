@@ -8,13 +8,27 @@ export default function ExcluirProfessor({handleExcluirClose, dadosProfessor, at
 
     const handleConfirmarOpen = async() => {
         try {
-            if (Array.isArray(dadosProfessor._ids) && dadosProfessor._ids.length > 0){ //verifica se tem mais de um id para deletar
-                const data = dadosProfessor._ids ? { ids: dadosProfessor._ids} : {ids: [dadosProfessor._id]}; //se dadosProfessor não for nulo retorna uma array de IDs, caso for nulo retorna uma array com único ID
-                const response = await api.delete(`/professor`, {data});
-                console.log(response)
-            } else {
-                await api.delete(`/professor/${dadosProfessor._id}`);//função para deletar somente um id de secretario
+            const token = localStorage.getItem("user_token")
+            console.log(token)
+
+            const deleteIds = async(id) => {
+                await api.delete(`/professor/${id}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "authorization": `Bearer ${token}`
+                        }
+                });//função para deletar somente um id de secretario
             }
+
+            if (Array.isArray(dadosProfessor._ids) && dadosProfessor._ids.length > 0){ //verifica se tem mais de um id para deletar
+                // of é usado para iterar sobre os valores de arrays e strings
+                for (const id of dadosProfessor._ids){ //função para iterar sobre cada array de dadosProfessor._ids, onde para cada ID irá chamar a função de excluir aluno
+                    await deleteIds(id);
+                }
+            } else {
+                await deleteIds(dadosProfessor._id)
+            }
+
             atualizarTableExcluir();
             setIsConfirmarExcluir(true);
         } catch (e) {

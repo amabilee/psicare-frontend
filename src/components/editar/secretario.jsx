@@ -54,8 +54,15 @@ export default function EditarSecretario({handleEditarClose, dadosSecretario, re
     }
 
     const handleSucessoConfirmar = async() => {
+      const token = localStorage.getItem("user_token")
+      console.log(token)
       try {
-        const enviardadosAtualizados = await api.patch(`/secretario/${dadosAtualizados._id}`, dadosAtualizados);
+        const enviardadosAtualizados = await api.patch(`/secretario/${dadosAtualizados._id}`, dadosAtualizados, {
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${token}`
+          }
+        });
         console.log(enviardadosAtualizados.data)
 
         setSucessoEditar(true);
@@ -120,7 +127,7 @@ export default function EditarSecretario({handleEditarClose, dadosSecretario, re
     )}
       {isEditarConfirmar && (
         <div className="modal-confirmar">
-            <div className="modal-content-confirmar">
+            <div className="modal-content-confirmar modal-content-confirmar-secretario">
                 <h2>Confirmar Edição de Secretário</h2>
                 <hr />
                 <div className="dados-inseridos">
@@ -154,7 +161,7 @@ export default function EditarSecretario({handleEditarClose, dadosSecretario, re
                 </div>
                      
                 </div> 
-                <div className="buttons-confirmar">
+                <div className="buttons-confirmar buttons-confirmar-secretario">
                   <button className="button-voltar-confirmar" id="voltar" onClick={handleVoltarConfirmar} >
                     Voltar
                   </button>

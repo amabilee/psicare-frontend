@@ -28,13 +28,19 @@ export default function TableProfessor({ renderFormTable, pesquisar }){
     }, [renderFormTable, currentPage, pesquisar]);
 
     const receberDadosProfessor = async () => {
+      const token = localStorage.getItem("user_token")
       try {
         let dadosPaginados = `/professor/paginado?page=${currentPage}`;//numero de pagina atual para a api 
         if (pesquisar.trim() !== "") { //verifica se há algum valor no estado pesquisar, metodo trim remove espaços em branco.
           dadosPaginados = `/professor?q=${pesquisar}`; //se a verificação for vrdd, busca professor em pesquisar
         }
 
-        const receberDados = await api.get(dadosPaginados);//requisação get para os "dadosPaginados" contruido
+        const receberDados = await api.get(dadosPaginados, {
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${token}`
+          }
+        });//requisação get para os "dadosPaginados" contruido
         console.log(receberDados)
 
         const { professores, totalPages, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição

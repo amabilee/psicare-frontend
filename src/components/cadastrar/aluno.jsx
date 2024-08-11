@@ -10,7 +10,7 @@ import "./style.css"
 export default function CadastrarAluno({ handleCloseModal, renderForm }){
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
     const [message, setMessage] = useState("");
-    const [professoresNome, setProfessoresNome] = useState({professores: []});
+    const [professoresNome, setProfessoresNome] = useState({ professores: []});
     const [dadosForm, setDadosForm] = useState({
         nome: "", 
         cpf: "", 
@@ -18,12 +18,13 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
         email: "", 
         professor: "#",
         matricula: "",
-        periodo: 0
+        periodo: 0,
+        senha: "123456"
     });
 
     useEffect(() => {
         buscarProfessores();
-    });
+    }, []);
 
     const [state, setState] = React.useState({
         open: false,
@@ -61,30 +62,36 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
             setMessage("Selecione um periodo.")
         }
         else {
+            const token = localStorage.getItem("user_token")
+            console.log(dadosForm)
             try {
-                var envioDados = await api.get("/aluno/ultimo/criado", dadosForm);
-                console.log(envioDados)
-                try {
-                    var dadosEnviados = await api.post("/aluno", {...dadosForm});
-                    console.log(dadosEnviados)
-
-                    setIsSucessModalOpen(true);
-                    renderForm(true)
-                    // renderForm={renderFormCadastro} 
-                } catch (e) {
-                    console.log("Erro ao cadastrar o aluno:", e)
-                    setState({ ...newState, open: true });
-                    setMessage("Erro ao cadastrar o aluno.");
-                }
+                const dadosEnviados = await api.post("/aluno", dadosForm, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "authorization": `Bearer ${token}`
+                    }
+                });
+                console.log(dadosEnviados)
+                setIsSucessModalOpen(true);
+                renderForm(true)
+                // renderForm={renderFormCadastro} 
             } catch (e) {
-                console.log("Erro ao buscar o id do aluno.")
-            }   
+                console.log("Erro ao cadastrar o aluno:", e)
+                setState({ ...newState, open: true });
+                setMessage("Erro ao cadastrar o aluno.");
+            }
         }
     }
 
     const buscarProfessores = async() => {
+        const token = localStorage.getItem("user_token")
         try {
-            const selectProfessores = await api.get(`/professor `);
+            const selectProfessores = await api.get(`/professor`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`
+                  }
+            });
             setProfessoresNome(selectProfessores.data);
         } catch (e) {
             console.log("Erro ao buscar professores: ", e)
@@ -116,11 +123,11 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
                         <label htmlFor="professorResponsavel">Professor*</label>
                         <select className="professorNome" id="professorNome" value={dadosForm.professor} onChange={(e) =>  setDadosForm({...dadosForm, professor:e.target.value})} required>
                             <option value="#" disabled>Selecione uma opção</option>
-                            {professoresNome.professores.map(professor => (
-                                <option key={professor._id}>
-                                    {professor.nome}
-                                </option>
-                            ))}
+                            { professoresNome.professores.map(professor => (
+                                    <option key={professor._id} value={professor._id}>
+                                        {professor.nome}
+                                    </option>
+                                ))}
                         </select>
 
                         <div className="flex-input">

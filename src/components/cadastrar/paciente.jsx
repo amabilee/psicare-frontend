@@ -7,15 +7,38 @@ import validator from "validator";
 import { cpf } from 'cpf-cnpj-validator'; 
 import "./style.css"
 
-export default function CadastrarSecretario({ handleCloseModal, renderForm }){
+export default function CadastrarPaciente({ handleCloseModal, renderForm }){
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
     const [message, setMessage] = useState("");
     const [dadosForm, setDadosForm] = useState({  
-        nome: "", 
-        cpf: "", 
-        telefone: "", 
-        email: "", 
-        turno: "#"
+        nome: "",
+        cpf: "",
+        idade: 0,
+        email: "",
+        telefoneContato: "",
+        sexo: "",
+        estadoCivil: "",
+        religiao: "",
+        rendaFamiliar: "",
+        profissao: "",
+        outroContato: "",
+        nomeDoContatoResponsavel: "",
+        menorDeIdade: 0,
+        naturalidade: "",
+        nacionalidade: "",
+        enderecoCep: "",
+        enderecoLogradouro: "",
+        enderecoBairro: "",
+        enderecoComplemento: "",
+        enderecoCidade: "",
+        enderecoUF: "",
+        dataInicioTratamento: "0000/00/00", 
+        dataTerminoTratamento: "0000/00/00",
+        quemEncaminhouID: "",
+        quemEncaminhouNome: "",
+        tipoDeTratamento: "",
+        alunoUnieva: true,
+        funcionarioUnieva: false
     });
 
     const [state, setState] = React.useState({
@@ -50,7 +73,7 @@ export default function CadastrarSecretario({ handleCloseModal, renderForm }){
         } else {
             const token = localStorage.getItem("user_token")
                 try {
-                    var dadosEnviados = await api.post("/secretario", dadosForm, {
+                    var dadosEnviados = await api.post("/paciente", dadosForm, {
                         headers: {
                             "Content-Type": "application/json",
                             "authorization": `Bearer ${token}`
@@ -72,12 +95,23 @@ export default function CadastrarSecretario({ handleCloseModal, renderForm }){
     return( 
         <>
             <div className="modal" >
-                <div className="modal-content">
-                    <h2>Cadastro de secretário</h2>
+                <div className="modal-content modal-content-paciente">
+                    <h2>Cadastro de paciente</h2>
                     <hr /> 
                     <div className="formulario">
-                        <label htmlFor="Nome">Nome Completo*</label>
-                        <input type="text" id="nome" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})} />
+                        <h2>informações pessoais</h2>
+                        <div className="flex-input">
+                            <div className="div-nome">
+                                <label htmlFor="Nome">Nome Completo*</label>
+                                <input type="text" className="nome-completo" id="nome" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})} />
+                            </div>
+                            <div className="div-CPF">
+                                <label htmlFor="CPF">CPF*</label>
+                                <IMaskInput type="text" className="CPF" id="CPF" mask="000.000.000-00" value={dadosForm.cpf} onChange={(e) =>  setDadosForm({...dadosForm, cpf:e.target.value})} />
+                            </div>
+                        </div>
+                        
+                        {/* 
                         <div className="flex-input">
                             <div className="div-CPF">
                                 <label htmlFor="CPF">CPF*</label>
@@ -113,7 +147,7 @@ export default function CadastrarSecretario({ handleCloseModal, renderForm }){
 </Alert>
 
                             </Snackbar>
-                        </div>
+                        </div> */}
                     </div>
                     
                 </div>

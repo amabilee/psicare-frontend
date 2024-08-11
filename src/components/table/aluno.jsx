@@ -28,13 +28,22 @@ export default function TableAluno({ renderFormTable, pesquisar }){
     }, [renderFormTable, currentPage, pesquisar]);
 
     const receberDadosAluno = async () => {
+      const token = localStorage.getItem("user_token")
       try {
         let dadosPaginados = `/aluno/paginado?page=${currentPage}`;//numero de pagina atual para a api 
         if (pesquisar.trim() !== "") { //verifica se há algum valor no estado pesquisar, metodo trim remove espaços em branco.
           dadosPaginados = `/aluno?q=${pesquisar}`; //se a verificação for vrdd, busca aluno em pesquisar
         }
+        
 
-        const receberDados = await api.get(dadosPaginados);//requisação get para os "dadosPaginados" contruido
+        const receberDados = await api.get(dadosPaginados, {
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${token}`
+          }
+        });//requisação get para os "dadosPaginados" contruido
+
+        console.log(receberDados)
         const { alunos, totalPages: total, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
         //aluno: lista de alunos, e totalPages: numero total de paginas tudo retornado pela api
         setDadosAluno({ alunos }); //atualiza os dadosalunos para os dados da minha api "alunos"
@@ -75,6 +84,9 @@ export default function TableAluno({ renderFormTable, pesquisar }){
 
     const atualizarTableExcluir = () => {
       receberDadosAluno();
+      setCheckboxSelecionadas({});
+      setTodasCheckboxSelecionadas({});
+      setIdsSelecionados([]);
     }
 
     //relacionado a editar
@@ -331,8 +343,7 @@ export default function TableAluno({ renderFormTable, pesquisar }){
           dadosAluno={usuarioClick}  
           atualizarTableExcluir={() => {
             atualizarTableExcluir();
-            setCheckboxSelecionadas({});
-            setTodasCheckboxSelecionadas({});
+            
           }}
           />
           

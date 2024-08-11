@@ -30,7 +30,7 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
 
   useEffect(() => {
     buscarProfessores();
-  });
+  }, []);
 
     const handleEditarConfirmar = (newState) => () => {
       if (dadosAtualizados.nome.length <= 6) {
@@ -62,8 +62,14 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
     }
 
     const handleSucessoConfirmar = async() => {
+      const token = localStorage.getItem("user_token")
       try {
-        const enviardadosAtualizados = await api.patch(`/aluno/${dadosAtualizados._id}`, dadosAtualizados);
+        const enviardadosAtualizados = await api.patch(`/aluno/${dadosAtualizados._id}`, dadosAtualizados, {
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${token}`
+          }
+        });
         console.log(enviardadosAtualizados.data)
 
         setSucessoEditar(true);
@@ -74,8 +80,15 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
     };
 
     const buscarProfessores = async() => {
+      const token = localStorage.getItem("user_token")
+
       try {
-          const selectProfessores = await api.get(`/professor/paginado?page={}`);
+          const selectProfessores = await api.get(`/professor`, {
+            headers: {
+              "Content-Type": "application/json",
+              "authorization": `Bearer ${token}`
+            }
+          });
           setProfessoresNome(selectProfessores.data);
       } catch (e) {
           console.log("Erro ao buscar professores: ", e)
@@ -87,7 +100,7 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
     {Editar && (
       <div className="modal-editar">
         <div className="modal-content-editar modal-content-editar-aluno">
-          <h2>Editar Professor</h2>
+          <h2>Editar Aluno</h2>
           <hr />
           <div className="formulario">
             <label htmlFor="Nome">Nome Completo*</label>
@@ -165,7 +178,7 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
       {isEditarConfirmar && (
         <div className="modal-confirmar">
             <div className="modal-content-confirmar modal-content-confirmar-aluno">
-                <h2>Confirmar Edição de Professor</h2>
+                <h2>Confirmar Edição de Aluno</h2>
                 <hr />
                 <div className="dados-inseridos">
                 <div className="coluna1">
