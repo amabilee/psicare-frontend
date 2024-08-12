@@ -119,7 +119,7 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
             <input type="email" name="email" id="email" value={dadosAtualizados.email} onChange={(e) => setDadosAtualizados({...dadosAtualizados, email:e.target.value})}/>
             
             <label htmlFor="professorResponsavel">Professor*</label>
-            <select className="professorNome" id="professorNome" value={dadosAtualizados.professor} onChange={(e) =>  setDadosAtualizados({...dadosAtualizados, professor:e.target.value})} required>
+            <select className="professorNome" id="professorNome" value={dadosAtualizados.professorId} onChange={(e) =>  setDadosAtualizados({...dadosAtualizados, professorId:e.target.value})} required>
                 <option value="0" disabled>Selecione uma opção</option>
                 {professoresNome.professores.map(professor => (
                   <option key={professor._id}>

@@ -25,7 +25,7 @@
 }
 
 .modal-content-paciente {
-    width: 1400px;
+    width: 1200px;
     height: 960px;
 }
 
@@ -49,7 +49,7 @@
 }
 
 .modal-content-paciente hr {
-    width: 1370px;
+    width: 1170px;
 }
 
 .modal-content .formulario{
@@ -78,9 +78,9 @@
     margin: 8px 0;
 }
 
-.modal-content-paciente input{
+/* .modal-content-paciente input{
     width: 339px;
-}
+} */
 
 .modal-content input:focus {
     border: 2px solid #C760EBFA;
@@ -111,7 +111,10 @@
     width: 216px;
 }
 
-.modal-content select.turno{
+.modal-content select.turno,
+.modal-content select.sexo,
+.modal-content select.estado-civil
+{
     width: 260px;
     padding: 10px;
     border: 2px solid #C760EBFA;
@@ -126,9 +129,17 @@
     margin: 8px 0;
 }
 
+.modal-content select.sexo,
+.modal-content select.estado-civil{
+    width: 210px;
+}
+
 .modal-content select.turno:focus, 
+.modal-content select.sexo:focus,
+.modal-content select.estado-civil:focus,
 .modal-content select.professorNome:focus,
-    .modal-content select.periodo:focus{
+.modal-content select.periodo:focus
+{
     border: 2px solid #C760EBFA;
     outline: none;
 }
@@ -165,6 +176,83 @@
 
 .modal-content .disciplina{
     width: 240px;
+}
+
+/* modal de paciente */
+.flex-input-paciente {
+    display: flex;
+    width: 1145px;
+}
+
+.div-flex-profissao{
+    width: 245px;
+}
+
+.div-flex-naturalidade{
+    width: 240px;
+}
+
+.flex-input-paciente .nome-completo,
+.flex-input-paciente .email
+{
+    width: 280px;
+}
+
+/* .flex-input-paciente .email{
+    margin-right: 30px;
+} */
+
+.flex-input-paciente .CPF
+ {
+    width: 210px;
+    margin-right: 40px;
+}
+
+.flex-input-paciente .telefone{
+    width: 220px;
+}
+
+.flex-input-paciente .data-nascimento,
+.flex-input-paciente .estado-civil
+ {
+    width: 200px;
+}
+
+.div-flex-estadoCivil{
+    width: 250px;
+}
+
+.flex-input-paciente .profissao {
+    width: 220px;
+    margin-right: -40px;
+}
+
+.flex-input-paciente .religiao {
+    width: 150px;
+}
+
+.flex-input-paciente .renda {
+    width: 180px;
+}
+
+.flex-input-paciente .nacionalidade {
+    width: 240px;
+}
+
+.flex-input-paciente .naturalidade {
+    width: 220px;
+}
+
+.flex-input-paciente .outro {
+    width: 200px;
+}
+
+.flex-input-paciente .nome-contato {
+    width: 350px;
+}
+
+.div-flex-contatos {
+    width: 250px;
 }
 
 /* buttons de cadastro */
@@ -215,7 +303,7 @@
 
 
 
-/*modal de sucesso*/
+/* modal de sucesso */
 .modal-sucesso {
     display: flex;
     justify-content: center;
@@ -269,5 +357,5 @@
 .modal-sucesso-content #fechar:hover{
     background: #C760EB;
     color: #fff;
-    cursor: pointer; 
+    cursor: pointer;
 }

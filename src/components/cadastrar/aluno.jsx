@@ -16,7 +16,7 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
         cpf: "", 
         telefone: "", 
         email: "", 
-        professor: "#",
+        professorId: "#",
         matricula: "",
         periodo: 0,
         senha: "123456"
@@ -121,7 +121,7 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
                         <input type="email" name="email" id="email" value={dadosForm.email} onChange={(e) =>  setDadosForm({...dadosForm, email:e.target.value})} />
                         
                         <label htmlFor="professorResponsavel">Professor*</label>
-                        <select className="professorNome" id="professorNome" value={dadosForm.professor} onChange={(e) =>  setDadosForm({...dadosForm, professor:e.target.value})} required>
+                        <select className="professorNome" id="professorNome" value={dadosForm.professorId} onChange={(e) =>  setDadosForm({...dadosForm, professorId:e.target.value})} required>
                             <option value="#" disabled>Selecione uma opção</option>
                             { professoresNome.professores.map(professor => (
                                     <option key={professor._id} value={professor._id}>

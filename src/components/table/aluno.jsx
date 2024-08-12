@@ -273,7 +273,7 @@ export default function TableAluno({ renderFormTable, pesquisar }){
                     {aluno.cpf}
                   </td>
                   <td className="table-content" onClick={() => handleVisualizarClick(aluno)}>
-                    {aluno.professor}
+                    {aluno.nomeProfessor}
                   </td>
                   <td>
                     <img
