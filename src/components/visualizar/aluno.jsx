@@ -48,7 +48,7 @@ export default function VisualizarAluno({handleCloseVisualizar, dadosAluno}){
                         </div>
                         <div className="professorNome">
                             <p>Professor</p>
-                            <h1>{dadosAluno.professor}</h1>
+                            <h1>{dadosAluno.nomeProfessor}</h1>
                         </div>
                     </div>   
                 </div>     

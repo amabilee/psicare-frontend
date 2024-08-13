@@ -260,7 +260,7 @@ export default function TableAluno({ renderFormTable, pesquisar }){
                       //hasOwnProperty -> esse método retorna um booleano indicando se o objeto possui uma propriedade específica, que no caso é o index
                     />
                   </td>
-                  <td className="table-content" onClick={() => handleVisualizarClick(aluno)}>
+                  <td className="table-content" id="td-nome" onClick={() => handleVisualizarClick(aluno)}>
                     {aluno.nome}
                   </td>
                   <td className="table-content" onClick={() => handleVisualizarClick(aluno)}>
@@ -272,7 +272,7 @@ export default function TableAluno({ renderFormTable, pesquisar }){
                   <td className="table-content" onClick={() => handleVisualizarClick(aluno)}>
                     {aluno.cpf}
                   </td>
-                  <td className="table-content" onClick={() => handleVisualizarClick(aluno)}>
+                  <td className="table-content" id="td-prof" onClick={() => handleVisualizarClick(aluno)}>
                     {aluno.nomeProfessor}
                   </td>
                   <td>

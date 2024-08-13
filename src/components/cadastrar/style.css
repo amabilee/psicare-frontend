@@ -95,7 +95,6 @@
     display: flex;
 }
 
-.modal-content .div-CPF .CPF, 
 .modal-content .div-matricula .matricula{
     display: flex;
     width: 240px;
@@ -107,13 +106,22 @@
     display: flex;
 }
 
+.modal-content .div-CPF .CPF{
+    display: flex;
+    width: 225px;
+    margin-right: 25px;
+}
+
+
 .modal-content .div-telefone .telefone{
-    width: 245px;
+    width: 225px;
 }
 
 .modal-content select.turno,
 .modal-content select.sexo,
-.modal-content select.estado-civil
+.modal-content select.estado-civil,
+.modal-content select.status,
+.modal-content select.tratamento
 {
     width: 260px;
     padding: 10px;
@@ -134,11 +142,19 @@
     width: 210px;
 }
 
+.modal-content select.status{
+    display: flex;
+    width: 438px;
+    margin-right: 300px;
+}
+
 .modal-content select.turno:focus, 
 .modal-content select.sexo:focus,
 .modal-content select.estado-civil:focus,
 .modal-content select.professorNome:focus,
-.modal-content select.periodo:focus
+.modal-content select.periodo:focus,
+.modal-content select.status:focus,
+.modal-content select.tratamento:focus
 {
     border: 2px solid #C760EBFA;
     outline: none;
@@ -179,7 +195,7 @@
 }
 
 /* modal de paciente */
-.flex-input-paciente {
+.flex-informacoes-pessoais {
     display: flex;
     width: 1095px;
 }
@@ -188,68 +204,114 @@
 
 .div-flex-naturalidade{
     width: 240px;
+    margin-right: 30px;
 }
 
-.flex-input-paciente .nome-completo,
-.flex-input-paciente .email
+.flex-informacoes-pessoais .nome-completo,
+.flex-informacoes-pessoais .email
 {
     width: 280px;
 }
 
-.flex-input-paciente .div-flex-email{
+.flex-informacoes-pessoais .div-flex-email{
     margin-right: 15px;
 }
 
 
 
-.flex-input-paciente .CPF
+.flex-informacoes-pessoais .CPF
  {
     width: 210px;
     margin-right: 40px;
 }
 
-.flex-input-paciente .telefone{
+.flex-informacoes-pessoais .telefone{
     width: 220px;
 }
 
-.flex-input-paciente .data-nascimento,
-.flex-input-paciente .estado-civil
+.flex-informacoes-pessoais .data-nascimento,
+.flex-informacoes-pessoais .estado-civil
  {
     width: 200px;
 }
 
-.flex-input-paciente .profissao {
+.flex-informacoes-pessoais .profissao {
     width: 250px;
     margin-right: -22px;
 }
 
-.flex-input-paciente .religiao {
+.flex-informacoes-pessoais .religiao {
     width: 150px;
 }
 
-.flex-input-paciente .renda {
+.flex-informacoes-pessoais .renda {
     width: 180px;
 }
 
-.flex-input-paciente .nacionalidade {
+.flex-informacoes-pessoais .nacionalidade {
     width: 240px;
 }
 
-.flex-input-paciente .naturalidade {
+.flex-informacoes-pessoais .naturalidade {
     width: 250px;
 }
 
-.flex-input-paciente .outro {
+.flex-informacoes-pessoais .outro {
     width: 200px;
 }
 
-.flex-input-paciente .nome-contato {
+.flex-informacoes-pessoais .nome-contato {
     width: 350px;
 }
 
 .div-flex-contatos {
     width: 250px;
 }
+
+.flex-endereco,
+.flex-informacoes-tratamento{
+    display: flex;
+    justify-content: space-between;   
+    width: 1095px;
+}
+
+.flex-endereco .cep,
+.flex-endereco .bairro,
+.flex-endereco .cidade {
+    display: flex;
+    width: 278px;
+}
+
+.flex-endereco .logradouro,
+.flex-endereco .complemento {
+    display: flex;
+    width: 378px;
+}
+
+.flex-endereco .uf {
+    display: flex;
+    width: 70px;
+    margin-right: 208px;
+}
+
+.flex-informacoes-tratamento .encaminhador{
+    display: flex;
+    width: 308px;
+}
+
+.flex-informacoes-tratamento .inicio-tratamento,
+.flex-informacoes-tratamento .termino-tratamento{
+    display: flex;
+    width: 150px;
+}
+
+.flex-informacoes-tratamento #tratamento{
+    display: flex;
+    width: 190px;
+    margin-right: 460px;
+}
+
+
 
 /* buttons de cadastro */
 
