@@ -111,63 +111,69 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="data-nascimento">Data de nascimento*</label>
-                                <input type="date" className="data-nascimento" id="data-nascimento" />
+                                <input type="date" className="data-nascimento" id="data-nascimento" value={dadosForm.dataNascimento} onChange={(e) =>  setDadosForm({...dadosForm, dataNascimento:e.target.value})} />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="sexo">Sexo*</label>
-                                <select className="sexo" name="sexo" id="sexo">
-                                    <option value=""></option>
-                                    <option value=""></option>
+                                <select className="sexo" name="sexo" id="sexo" value={dadosForm.sexo} onChange={(e) =>  setDadosForm({...dadosForm, sexo: parseInt(e.target.value)})}>
+                                    <option value="#"></option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Feminino">Feminino</option>
+                                    <option value="Feminino">Prefiro não informar</option>
                                 </select>
                             </div>
                         </div>
                         <div className="flex-informacoes-pessoais">
-                            <div className="div-flex-email">
+                            <div className="div-flex">
                                 <label htmlFor="Email">Email*</label>
                                 <input type="email" className="email" id="email" value={dadosForm.email} onChange={(e) =>  setDadosForm({...dadosForm, email:e.target.value})} />
                                 </div>
-                            <div className="div-flex-telefone">
+                            <div className="div-flex">
                                 <label htmlFor="Telefone">Telefone*</label>
                                 <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={dadosForm.telefone} onChange={(e) =>  setDadosForm({...dadosForm, telefone:e.target.value})} />
                             </div>
-                            <div className="div-flex-estadoCivil">
+                            <div className="div-flex">
                                 <label htmlFor="estado-civil">Estado civil*</label>
-                                <select className="estado-civil" name="estado-civil" id="estado-civil">
-                                    <option value=""></option>
-                                    <option value=""></option>
+                                <select className="estado-civil" name="estado-civil" id="estado-civil" value={dadosForm.estadoCivil} onChange={(e) =>  setDadosForm({...dadosForm, estadoCivil: parseInt(e.target.value)})}>
+                                    <option value="#"></option>
+                                    <option value="solteiro">Solteiro</option>
+                                    <option value="casado">Casado</option>
+                                    <option value="separado">Separado</option>
+                                    <option value="divorciado">Divorciado</option>
+                                    <option value="viuvo">Viúvo</option>
                                 </select>
                             </div>
-                            <div className="div-flex-profissao">
+                            <div className="div-flex">
                                 <label htmlFor="profissao">Profissão*</label>
-                                <input type="text" className="profissao" id="profissao" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})} />
+                                <input type="text" className="profissao" id="profissao" value={dadosForm.profissao} onChange={(e) =>  setDadosForm({...dadosForm, profissao:e.target.value})} />
                             </div>
                         </div>
                         <div className="flex-informacoes-pessoais">
                             <div className="div-flex">
                                 <label htmlFor="religiao">Religião*</label>
-                                <input type="text" className="religiao" id="religiao" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})} />
+                                <input type="text" className="religiao" id="religiao" value={dadosForm.religiao} onChange={(e) =>  setDadosForm({...dadosForm, religiao:e.target.value})} />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="renda">Renda familiar*</label>
-                                <input type="text" className="renda" id="renda" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})} />
+                                <input type="text" className="renda" id="renda" value={dadosForm.rendaFamiliar} onChange={(e) =>  setDadosForm({...dadosForm, rendaFamiliar:e.target.value})} />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="nacionalidade">Nacionalidade*</label>
-                                <input type="text" className="nacionalidade" id="nacionalidade" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})} />
+                                <input type="text" className="nacionalidade" id="nacionalidade" value={dadosForm.nacionalidade} onChange={(e) =>  setDadosForm({...dadosForm, nacionalidade:e.target.value})} />
                             </div>
                             <div className="div-flex-naturalidade">
                                 <label htmlFor="naturalidade">Naturalidade*</label>
-                                <input type="text" className="naturalidade" id="naturalidade" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})} />
+                                <input type="text" className="naturalidade" id="naturalidade" value={dadosForm.naturalidade} onChange={(e) =>  setDadosForm({...dadosForm, naturalidade:e.target.value})} />
                             </div>
                         </div>
                         <div className="flex-informacoes-pessoais">
-                            <div className="div-flex div-flex-contatos">
-                                <label htmlFor="outro">Outro contato*</label>
-                                <input type="text" className="outro" id="outro" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})} />
-                            </div>
-                            <div className="div-flex div-flex-contatos">
+                            <div className="div-flex">
                                 <label htmlFor="nome-contato">Nome do contato/responsável*</label>
                                 <input type="text" className="nome-contato" id="nome-contato" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})} />
+                            </div>
+                            <div className="div-flex">
+                                <label htmlFor="outro">Outro contato*</label>
+                                <input type="text" className="outro" id="outro" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})} />
                             </div>
                         </div>
 
