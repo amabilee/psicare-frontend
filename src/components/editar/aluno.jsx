@@ -33,6 +33,7 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
   }, []);
 
     const handleEditarConfirmar = (newState) => () => {
+      console.log(dadosAtualizados)
       if (dadosAtualizados.nome.length <= 6) {
         setState({ ...newState, open: true });
         setMessage("Insira o nome completo.");
@@ -119,7 +120,7 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
             <input type="email" name="email" id="email" value={dadosAtualizados.email} onChange={(e) => setDadosAtualizados({...dadosAtualizados, email:e.target.value})}/>
             
             <label htmlFor="professorResponsavel">Professor*</label>
-            <select className="professorNome" id="professorNome" value={dadosAtualizados.professorId} onChange={(e) =>  setDadosAtualizados({...dadosAtualizados, professorId:e.target.value})} required>
+            <select className="professorNome" id="professorNome" value={dadosAtualizados.nomeProfessor} onChange={(e) =>  setDadosAtualizados({...dadosAtualizados, nomeProfessor:e.target.value})} required>
                 <option value="0" disabled>Selecione uma opção</option>
                 {professoresNome.professores.map(professor => (
                   <option key={professor._id}>

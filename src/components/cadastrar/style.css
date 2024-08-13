@@ -25,7 +25,7 @@
 }
 
 .modal-content-paciente {
-    width: 1200px;
+    width: 1150px;
     height: 960px;
 }
 
@@ -49,7 +49,7 @@
 }
 
 .modal-content-paciente hr {
-    width: 1170px;
+    width: 1100px;
 }
 
 .modal-content .formulario{
@@ -108,7 +108,7 @@
 }
 
 .modal-content .div-telefone .telefone{
-    width: 216px;
+    width: 245px;
 }
 
 .modal-content select.turno,
@@ -181,12 +181,10 @@
 /* modal de paciente */
 .flex-input-paciente {
     display: flex;
-    width: 1145px;
+    width: 1095px;
 }
 
-.div-flex-profissao{
-    width: 245px;
-}
+
 
 .div-flex-naturalidade{
     width: 240px;
@@ -198,9 +196,11 @@
     width: 280px;
 }
 
-/* .flex-input-paciente .email{
-    margin-right: 30px;
-} */
+.flex-input-paciente .div-flex-email{
+    margin-right: 15px;
+}
+
+
 
 .flex-input-paciente .CPF
  {
@@ -218,13 +218,9 @@
     width: 200px;
 }
 
-.div-flex-estadoCivil{
-    width: 250px;
-}
-
 .flex-input-paciente .profissao {
-    width: 220px;
-    margin-right: -40px;
+    width: 250px;
+    margin-right: -22px;
 }
 
 .flex-input-paciente .religiao {
@@ -240,7 +236,7 @@
 }
 
 .flex-input-paciente .naturalidade {
-    width: 220px;
+    width: 250px;
 }
 
 .flex-input-paciente .outro {

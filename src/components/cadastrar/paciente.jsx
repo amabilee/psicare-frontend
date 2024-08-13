@@ -122,11 +122,11 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                             </div>
                         </div>
                         <div className="flex-input-paciente">
-                            <div className="div-flex">
+                            <div className="div-flex-email">
                                 <label htmlFor="Email">Email*</label>
                                 <input type="email" className="email" id="email" value={dadosForm.email} onChange={(e) =>  setDadosForm({...dadosForm, email:e.target.value})} />
                                 </div>
-                            <div className="div-flex">
+                            <div className="div-flex-telefone">
                                 <label htmlFor="Telefone">Telefone*</label>
                                 <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={dadosForm.telefone} onChange={(e) =>  setDadosForm({...dadosForm, telefone:e.target.value})} />
                             </div>
