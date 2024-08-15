@@ -51,7 +51,7 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
         } else if (!validator.isEmail(dadosForm.email)){
             setState({ ...newState, open: true });
             setMessage("Insira um email válido.");
-        } else if(dadosForm.professor === "#"){
+        } else if(dadosForm.professorId === "#"){
             setState({...newState, open: true});
             setMessage("Selecione um professor.")
         } else if (dadosForm.matricula.length < 7){

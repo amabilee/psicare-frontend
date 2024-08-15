@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import { api } from "../../services/server";
 import { IMaskInput } from "react-imask";
 import Snackbar from '@mui/material/Snackbar';
@@ -10,6 +10,7 @@ import "./style.css"
 export default function CadastrarPaciente({ handleCloseModal, renderForm }){
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
     const [message, setMessage] = useState("");
+    const [alunosNome, setAlunosNome] = useState({ alunos: []})
     const [dadosForm, setDadosForm] = useState({  
         nome: "",
         cpf: "",
@@ -38,7 +39,8 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         quemEncaminhouNome: "",
         tipoDeTratamento: "",
         alunoUnieva: true,
-        funcionarioUnieva: false
+        funcionarioUnieva: false,
+        statusEncaminhador: ""
     });
 
     const [state, setState] = React.useState({
@@ -48,6 +50,10 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
       });
 
     const { vertical, horizontal, open } = state;
+
+    useEffect(() => {
+        buscarAlunos();
+    }, [])
 
     const handleClose = () => {
         setState({ ...state, open: false });
@@ -92,6 +98,21 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         }
     }
 
+    const buscarAlunos = async() => {
+        const token = localStorage.getItem("user_token")
+        try {
+            const selectAlunos = await api.get(`/aluno`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`
+                }
+            });
+            setAlunosNome(selectAlunos.data);
+        } catch (e) {
+            console.log("Erro ao buscar alunos: ", e)
+        }
+    }
+
     return( 
         <>
             <div className="modal" >
@@ -115,8 +136,11 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="sexo">Sexo*</label>
-                                <select className="sexo" name="sexo" id="sexo" value={dadosForm.sexo} onChange={(e) =>  setDadosForm({...dadosForm, sexo: parseInt(e.target.value)})}>
-                                    <option value="#"></option>
+                                <select className="sexo" name="sexo" id="sexo" 
+                                
+                                value={dadosForm.sexo} onChange={(e) =>  setDadosForm({...dadosForm, sexo: parseInt(e.target.value)})}
+                                >
+                                    <option value="" disabled>Selecione uma opção</option>
                                     <option value="Masculino">Masculino</option>
                                     <option value="Feminino">Feminino</option>
                                     <option value="Feminino">Prefiro não informar</option>
@@ -126,7 +150,9 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                         <div className="flex-informacoes-pessoais">
                             <div className="div-flex">
                                 <label htmlFor="Email">Email*</label>
-                                <input type="email" className="email" id="email" value={dadosForm.email} onChange={(e) =>  setDadosForm({...dadosForm, email:e.target.value})} />
+                                <input type="email" className="email" id="email"
+                                 value={dadosForm.email} onChange={(e) =>  setDadosForm({...dadosForm, email:e.target.value})} 
+                                 />
                                 </div>
                             <div className="div-flex">
                                 <label htmlFor="Telefone">Telefone*</label>
@@ -134,8 +160,10 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="estado-civil">Estado civil*</label>
-                                <select className="estado-civil" name="estado-civil" id="estado-civil" value={dadosForm.estadoCivil} onChange={(e) =>  setDadosForm({...dadosForm, estadoCivil: parseInt(e.target.value)})}>
-                                    <option value="#"></option>
+                                <select className="estado-civil" name="estado-civil" id="estado-civil"
+                                 value={dadosForm.estadoCivil} onChange={(e) =>  setDadosForm({...dadosForm, estadoCivil: parseInt(e.target.value)})}
+                                 >
+                                    <option value="" disabled>Selecione uma opção</option>
                                     <option value="solteiro">Solteiro</option>
                                     <option value="casado">Casado</option>
                                     <option value="separado">Separado</option>
@@ -154,8 +182,16 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 <input type="text" className="religiao" id="religiao" value={dadosForm.religiao} onChange={(e) =>  setDadosForm({...dadosForm, religiao:e.target.value})} />
                             </div>
                             <div className="div-flex">
-                                <label htmlFor="renda">Renda familiar*</label>
-                                <input type="text" className="renda" id="renda" value={dadosForm.rendaFamiliar} onChange={(e) =>  setDadosForm({...dadosForm, rendaFamiliar:e.target.value})} />
+                                <label htmlFor="renda">Renda Familiar*</label>
+                                <select className="renda" name="renda" id="renda" value={dadosForm.rendaFamiliar}>
+                                    <option value="" disabled>Selecione uma opção</option>
+                                    <option value="">Menos de R$500</option>
+                                    <option value="">R$500 - $999</option>
+                                    <option value="">R$1,000 - R$1,999</option>
+                                    <option value="">R$2,000 - R$2,999</option>
+                                    <option value="">R$3,000 - R$4,999</option>
+                                    <option value="">R$5,000 ou mais</option>
+                                </select>
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="nacionalidade">Nacionalidade*</label>
@@ -168,12 +204,12 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                         </div>
                         <div className="flex-informacoes-pessoais">
                             <div className="div-flex">
-                                <label htmlFor="nome-contato">Nome do contato/responsável*</label>
-                                <input type="text" className="nome-contato" id="nome-contato" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})} />
-                            </div>
-                            <div className="div-flex">
                                 <label htmlFor="outro">Outro contato*</label>
                                 <input type="text" className="outro" id="outro" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})} />
+                            </div>
+                            <div className="div-flex">
+                                <label htmlFor="nome-contato">Nome do contato/responsável</label>
+                                <input type="text" className="nome-contato" id="nome-contato" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})}/>
                             </div>
                         </div>
 
@@ -199,7 +235,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 <input type="text" className="cidade" id="cidade" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})} />
                             </div>
                             <div className="div-flex">
-                                <label htmlFor="complemento">Complemento*</label>
+                                <label htmlFor="complemento">Complemento</label>
                                 <input type="text" className="complemento" id="complemento" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})} />
                             </div>
                             <div className="div-flex">
@@ -212,14 +248,40 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
 
                         <div className="flex-informacoes-tratamento">
                             <div className="div-flex">
-                                <label htmlFor="encaminhador">Nome do Encaminhador*</label>
-                                <input type="text" className="encaminhador" id="encaminhador" value={dadosForm.nome} onChange={(e) =>  setDadosForm({...dadosForm, nome:e.target.value})} />
+                                <label htmlFor="labelEncaminhador">Nome do Encaminhador*</label>
+                                {dadosForm.statusEncaminhador === "Aluno da UniEVANGÉLICA" ? (
+                                    <select 
+                                    className="encaminhadorSelect" id="encaminhadorSelect" 
+                                    value={dadosForm.quemEncaminhouNome} 
+                                    onChange={(e) => setDadosForm({...dadosForm, quemEncaminhouNome: e.target.value})} 
+                                    disabled={dadosForm.statusEncaminhador === ""}
+                                    >
+                                        <option value="" disabled>Selecione uma opção</option>
+                                        { alunosNome.alunos.map(aluno => (
+                                        <option 
+                                        key={aluno._id} 
+                                        value={aluno._id}>
+                                        {aluno.nome}
+                                        </option>
+                                        ))}
+                                    </select>
+                                ) : (
+                                    <input type="text" className="encaminhadorInput" id="encaminhadorInput" 
+                                    value={dadosForm.quemEncaminhouNome} 
+                                    onChange={(e) => setDadosForm({...dadosForm, quemEncaminhouNome: e.target.value})} 
+                                    disabled={dadosForm.statusEncaminhador === ""} 
+                                    />
+                                )}
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="status">Status Encaminhador*</label>
-                                <select className="status" name="status" id="status">
-                                    <option value=""></option>
-                                    <option value=""></option>
+                                <select className="status" name="status" id="status" value={dadosForm.statusEncaminhador} onChange={(e) => setDadosForm({
+                                    ...dadosForm, 
+                                    statusEncaminhador: e.target.value, quemEncaminhouNome: ""
+                                })}>
+                                    <option value="" disabled>Selecione uma opção</option>
+                                    <option value="Aluno da UniEVANGÉLICA">Aluno da UniEVANGÉLICA</option>
+                                    <option value="Funcionário da Associação Educativa Evangélica">Funcionário da Associação Educativa Evangélica</option>
                                 </select>
                             </div>
                         </div>
@@ -234,9 +296,12 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="tratamento">Tipo de tratamento*</label>
-                                <select className="tratamento" name="tratamento" id="tratamento">
-                                    <option value=""></option>
-                                    <option value=""></option>
+                                <select className="tratamento" name="tratamento" id="tratamento" value={dadosForm.tipoDeTratamento}>
+                                    <option value="" disabled>Selecione uma opção</option>
+                                    <option value="">Psicoterapia</option>
+                                    <option value="">Plantão</option>
+                                    <option value="">Psicodiagnóstico</option>
+                                    <option value="">Avaliação diagnóstica</option>
                                 </select>
                             </div>
                         </div>

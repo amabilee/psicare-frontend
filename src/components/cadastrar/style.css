@@ -115,13 +115,16 @@
     width: 225px;
 }
 
+.modal-content select.professorNome,
+.modal-content select.periodo,
 .modal-content select.turno,
 .modal-content select.sexo,
 .modal-content select.estado-civil,
 .modal-content select.status,
-.modal-content select.tratamento
+.modal-content select.tratamento,
+.modal-content select.renda,
+.modal-content select.encaminhadorSelect
 {
-    width: 260px;
     padding: 10px;
     border: 2px solid #C760EBFA;
     border-radius: 12px;
@@ -133,17 +136,6 @@
     background-position: right center;
     padding-right: 32px;
     margin: 8px 0;
-}
-
-.modal-content select.sexo,
-.modal-content select.estado-civil{
-    width: 210px;
-}
-
-.modal-content select.status{
-    display: flex;
-    width: 438px;
-    margin-right: 300px;
 }
 
 .modal-content select.turno:focus, 
@@ -152,43 +144,35 @@
 .modal-content select.professorNome:focus,
 .modal-content select.periodo:focus,
 .modal-content select.status:focus,
-.modal-content select.tratamento:focus
+.modal-content select.tratamento:focus,
+.modal-content select.renda:focus,
+.modal-content select.encaminhadorSelect:focus
 {
     border: 2px solid #C760EBFA;
     outline: none;
 }
 
-.modal-content select.professorNome{
+.modal-content select.sexo,
+.modal-content select.estado-civil{
+    width: 210px;
+}
+
+.modal-content select.encaminhadorSelect{
+    width: 330px;
+}
+
+.modal-content select.status{
+    display: flex;
+    width: 438px;
+    margin-right: 300px;
+}
+
+.modal-content .professorNome{
     width: 520px;
-    padding: 10px;
-    border: 2px solid #C760EBFA;
-    border-radius: 12px;
-    -webkit-appearance: none; /* Remove o estilo padrão da seta no Safari */
-    -moz-appearance: none; /* Remove o estilo padrão da seta no Firefox */
-    appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 10L12 16L18 10" stroke="%23710198" stroke-linecap="round"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right center;
-    padding-right: 32px;
-    margin: 8px 0;
 }
 
-.modal-content select.periodo{
-    width: 240px;
-    padding: 10px;
-    border: 2px solid #C760EBFA;
-    border-radius: 12px;
-    -webkit-appearance: none; /* Remove o estilo padrão da seta no Safari */
-    -moz-appearance: none; /* Remove o estilo padrão da seta no Firefox */
-    appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 10L12 16L18 10" stroke="%23710198" stroke-linecap="round"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right center;
-    padding-right: 32px;
-    margin: 8px 0;
-}
-
-.modal-content .disciplina{
+.modal-content .disciplina,
+.modal-content .periodo{
     width: 240px;
 }
 
@@ -241,12 +225,12 @@
     display: flex;
 }
 
-.flex-informacoes-pessoais .nome-contato{
+.flex-informacoes-pessoais .outro {
     width: 288px;
     display: flex;
 }
 
-.flex-informacoes-pessoais .outro {
+.flex-informacoes-pessoais .nome-contato {
     width: 368px;
     display: flex;
     margin-right: 360px;
@@ -271,7 +255,7 @@
     margin-right: 208px;
 }
 
-.flex-informacoes-tratamento .encaminhador{
+.flex-informacoes-tratamento .encaminhadorInput{
     display: flex;
     width: 308px;
 }
