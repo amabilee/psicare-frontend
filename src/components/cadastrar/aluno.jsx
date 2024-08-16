@@ -139,16 +139,16 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
                                 <label htmlFor="periodo">Período*</label>
                                 <select className="periodo" id="periodo" value={dadosForm.periodo} onChange={(e) =>  setDadosForm({...dadosForm, periodo: parseInt(e.target.value)})} required>
                                     <option value="0" disabled>Selecione uma opção</option>
-                                    <option value="1">1° período</option>
-                                    <option value="2">2° período</option>
-                                    <option value="3">3° período</option>
-                                    <option value="4">4° período</option>
-                                    <option value="5">5° período</option>
-                                    <option value="6">6° período</option>
-                                    <option value="7">7° período</option>
-                                    <option value="8">8° período</option>
-                                    <option value="9">9° período</option>
-                                    <option value="10">10° período</option>
+                                    <option value="1">1°</option>
+                                    <option value="2">2°</option>
+                                    <option value="3">3°</option>
+                                    <option value="4">4°</option>
+                                    <option value="5">5°</option>
+                                    <option value="6">6°</option>
+                                    <option value="7">7°</option>
+                                    <option value="8">8°</option>
+                                    <option value="9">9°</option>
+                                    <option value="10">10°</option>
                                 </select>
                             </div>
                         </div> 
