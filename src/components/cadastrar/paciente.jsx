@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { api } from "../../services/server";
 import { IMaskInput } from "react-imask";
-
-import dayjs from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
+// import 'rsuite/dist/rsuite.css';
+import { DatePicker } from 'rsuite';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import validator from "validator";
@@ -46,7 +41,6 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         alunoUnieva: false,
         funcionarioUnieva: false
     });    
-    const [value, setValue] = useState(dayjs('2024-08-16'));
 
     const [state, setState] = useState({
         open: false,
@@ -137,17 +131,11 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 <IMaskInput type="text" className="CPF" id="CPF" mask="000.000.000-00" value={dadosForm.cpf} onChange={(e) =>  setDadosForm({...dadosForm, cpf:e.target.value})} />
                             </div>
                             <div className="div-flex">
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['data-nascimento']}>
-                                        <DatePicker
-                                        label="Data de Nascimento"
-                                        value={value}
-                                        onChange={(e) => setDadosForm({...dadosForm, dataNascimento: e.target.value})}
-                                        />
-                                    </DemoContainer>
-                                </LocalizationProvider>
-                                {/* <label htmlFor="data-nascimento">Data de nascimento*</label>
-                                <input type="date" className="data-nascimento" id="data-nascimento" value={dadosForm.dataNascimento} onChange={(e) =>  setDadosForm({...dadosForm, dataNascimento:e.target.value})} /> */}
+                                <label htmlFor="data-nascimento">Data de nascimento*</label>
+                                <DatePicker 
+                                format="MM/dd/yyyy" 
+                                className="data-nascimento"
+                                />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="sexo">Sexo*</label>

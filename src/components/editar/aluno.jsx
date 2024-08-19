@@ -138,16 +138,16 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
                     <label htmlFor="periodo">Período*</label>
                     <select className="periodo" id="periodo" value={dadosAtualizados.periodo} onChange={(e) =>  setDadosAtualizados({...dadosAtualizados, periodo:e.target.value})} required>
                         <option value="#" disabled>Selecione uma opção</option>
-                        <option value="1-periodo">1°</option>
-                        <option value="2-periodo">2°</option>
-                        <option value="3-periodo">3°</option>
-                        <option value="4-periodo">4°</option>
-                        <option value="5-periodo">5°</option>
-                        <option value="6-periodo">6°</option>
-                        <option value="7-periodo">7°</option>
-                        <option value="8-periodo">8°</option>
-                        <option value="9-periodo">9°</option>
-                        <option value="10-periodo">10°</option>
+                        <option value="1°">1°</option>
+                        <option value="2°">2°</option>
+                        <option value="3°">3°</option>
+                        <option value="4°">4°</option>
+                        <option value="5°">5°</option>
+                        <option value="6°">6°</option>
+                        <option value="7°">7°</option>
+                        <option value="8°">8°</option>
+                        <option value="9°">9°</option>
+                        <option value="10°">10°</option>
                     </select>
                 </div>
             </div>

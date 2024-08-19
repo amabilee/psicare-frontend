@@ -31,7 +31,7 @@ export default function TableSecretario({ renderFormTable, pesquisar }) {
     const token = localStorage.getItem("user_token")
     console.log(token)
     try {
-      let dadosPaginados = `/secretario/paginado?page=${currentPage}`;//numero de pagina atual para a api 
+      let dadosPaginados = `/secretario?page=${currentPage}`;//numero de pagina atual para a api 
       if (pesquisar.trim() !== "") { //verifica se há algum valor no estado pesquisar, metodo trim remove espaços em branco.
         dadosPaginados = `/secretario?q=${pesquisar}`; //se a verificação for vrdd, busca secretario em pesquisar
       }

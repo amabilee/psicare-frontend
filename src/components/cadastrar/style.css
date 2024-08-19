@@ -197,10 +197,34 @@
     width: 194px;
 }
 
-.flex-informacoes-pessoais .data-nascimento {
-    display: flex;
-    width: 150px;
+.flex-informacoes-pessoais .data-nascimento input {
+    width: 180px;
 }
+
+.flex-informacoes-pessoais .data-nascimento span {
+    margin-left: -30px;
+    cursor: pointer;
+}
+
+.flex-informacoes-pessoais .data-nascimento span{
+    cursor: pointer;
+}
+
+
+/* .flex-informacoes-pessoais .data-nascimento div{
+    border: 2px solid #C760EBFA;
+    border-radius: 12px;
+
+}
+
+.flex-informacoes-pessoais .data-nascimento div input {
+    padding: 2px 0 2px 10px;
+}
+
+.flex-informacoes-pessoais .data-nascimento div:focus {
+    border: 2px solid #C760EBFA;
+
+} */
 
 .flex-informacoes-pessoais .sexo {
     display: flex;
