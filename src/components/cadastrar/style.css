@@ -50,6 +50,7 @@
 
 .modal-content-paciente hr {
     width: 1100px;
+    margin: 0 0 0 15px;
 }
 
 .modal-content .formulario{
@@ -123,7 +124,8 @@
 .modal-content select.status,
 .modal-content select.tratamento,
 .modal-content select.renda,
-.modal-content select.encaminhadorSelect
+.modal-content select.encaminhadorSelect,
+.modal-content select.uf
 {
     padding: 10px;
     border: 2px solid #C760EBFA;
@@ -146,19 +148,29 @@
 .modal-content select.status:focus,
 .modal-content select.tratamento:focus,
 .modal-content select.renda:focus,
-.modal-content select.encaminhadorSelect:focus
+.modal-content select.encaminhadorSelect:focus,
+.modal-content select.uf:focus
 {
     border: 2px solid #C760EBFA;
     outline: none;
 }
 
-.modal-content select.sexo,
 .modal-content select.estado-civil{
     width: 210px;
 }
 
+.modal-content select.sexo{
+    width: 190px;
+}
+
 .modal-content select.encaminhadorSelect{
     width: 330px;
+}
+
+.modal-content select.uf{
+    display: flex;
+    width: 70px;
+    margin-right: 230px;
 }
 
 .modal-content select.status{
@@ -188,7 +200,7 @@
 .flex-informacoes-pessoais .nome-completo,
 .flex-informacoes-pessoais .email {
     display: flex;
-    width: 328px;
+    width: 308px;
 }
 
 .flex-informacoes-pessoais .CPF,
@@ -197,34 +209,32 @@
     width: 194px;
 }
 
-.flex-informacoes-pessoais .data-nascimento input {
-    width: 180px;
+.flex-informacoes-pessoais .data-nascimento,
+.flex-informacoes-tratamento .inicio-tratamento,
+.flex-informacoes-tratamento .termino-tratamento {
+    display: flex;
+    width: 260px;
+    border-radius: 10px;
+    margin: 8px 0;
 }
 
-.flex-informacoes-pessoais .data-nascimento span {
-    margin-left: -30px;
-    cursor: pointer;
-}
-
-.flex-informacoes-pessoais .data-nascimento span{
-    cursor: pointer;
-}
-
-
-/* .flex-informacoes-pessoais .data-nascimento div{
-    border: 2px solid #C760EBFA;
-    border-radius: 12px;
-
-}
-
-.flex-informacoes-pessoais .data-nascimento div input {
-    padding: 2px 0 2px 10px;
-}
-
-.flex-informacoes-pessoais .data-nascimento div:focus {
+.flex-informacoes-pessoais .data-nascimento div,
+.flex-informacoes-tratamento .inicio-tratamento div,
+.flex-informacoes-tratamento .termino-tratamento div {
+    border-radius: 10px;
     border: 2px solid #C760EBFA;
 
-} */
+}
+
+.rs-picker-popup.rs-picker-popup-date{
+    z-index: 2000;
+}
+
+.flex-informacoes-pessoais .data-nascimento input,
+.flex-informacoes-tratamento .inicio-tratamento input,
+.flex-informacoes-tratamento .termino-tratamento input {
+    margin: 0;
+}
 
 .flex-informacoes-pessoais .sexo {
     display: flex;
@@ -272,11 +282,11 @@
     width: 378px;
 }
 
-.flex-endereco .uf {
+/* .flex-endereco .uf {
     display: flex;
     width: 70px;
     margin-right: 208px;
-}
+} */
 
 .flex-informacoes-tratamento .encaminhadorInput{
     display: flex;
@@ -286,19 +296,18 @@
 .flex-informacoes-tratamento .inicio-tratamento,
 .flex-informacoes-tratamento .termino-tratamento{
     display: flex;
-    width: 150px;
+    width: 260px;
 }
 
 .flex-informacoes-tratamento #tratamento{
     display: flex;
     width: 190px;
-    margin-right: 460px;
+    margin-right: 340px;
 }
 
 .modal-content-paciente .formulario h2 {
     padding: 0;
     color: black;
-    margin: 20px 0 20px 0;
 }
 
 /* buttons de cadastro */

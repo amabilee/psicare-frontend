@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { api } from "../../services/server";
 import { IMaskInput } from "react-imask";
-// import 'rsuite/dist/rsuite.css';
+import 'rsuite/dist/rsuite.css';
 import { DatePicker } from 'rsuite';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -16,7 +16,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
     const [dadosForm, setDadosForm] = useState({  
         nome: "",//
         cpf: "",//
-        dataNascimento: "",//
+        dataNascimento: null,
         email: "",//
         telefoneContato: "",//
         sexo: "",//
@@ -36,11 +36,14 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         enderecoUF: "",
         dataInicioTratamento: "",//yyyy-MM-dd 
         dataTerminoTratamento: "",//yyyy-MM-dd
-        encaminhadorNome: "",//
+        encaminhador: "",//
         tipoDeTratamento: "",//
         alunoUnieva: false,
-        funcionarioUnieva: false
+        funcionarioUnieva: false,
+        ativoPaciente: true
     });    
+
+    console.log(dadosForm)
 
     const [state, setState] = useState({
         open: false,
@@ -133,8 +136,10 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                             <div className="div-flex">
                                 <label htmlFor="data-nascimento">Data de nascimento*</label>
                                 <DatePicker 
-                                format="MM/dd/yyyy" 
                                 className="data-nascimento"
+                                format="dd/MM/yyyy"
+                                // value={dadosForm.dataNascimento}
+                                onChange={(e) =>  setDadosForm({...dadosForm, dataNascimento: e.toISOString().split('T')[0]})}
                                 />
                             </div>
                             <div className="div-flex">
@@ -145,7 +150,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                     <option value="" disabled>Selecione uma opção</option>
                                     <option value="Masculino">Masculino</option>
                                     <option value="Feminino">Feminino</option>
-                                    <option value="Feminino">Prefiro não informar</option>
+                                    <option value="prefiro nao informar">Prefiro não informar</option>
                                 </select>
                             </div>
                         </div>
@@ -242,7 +247,38 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="uf">UF*</label>
-                                <input type="text" className="uf" id="uf" value={dadosForm.enderecoUF} onChange={(e) =>  setDadosForm({...dadosForm, enderecoUF:e.target.value})} />
+                                <select className="uf" name="uf" id="uf"
+                                 value={dadosForm.enderecoUF} onChange={(e) =>  setDadosForm({...dadosForm, enderecoUF: e.target.value})}
+                                 >
+                                    <option value="" disabled>XX</option>
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AP">AP</option>
+                                    <option value="AM">AM</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MT">MT</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MG">MG</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PR">PR</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SP">SP</option>
+                                    <option value="SE">SE</option>
+                                    <option value="TO">TO</option>
+                                </select>
                             </div>
                         </div>
 
@@ -254,30 +290,30 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 {dadosForm.alunoUnieva ? (
                                     <select 
                                     className="encaminhadorSelect" id="encaminhadorSelect" 
-                                    value={dadosForm.encaminhadorNome} 
-                                    onChange={(e) => setDadosForm({...dadosForm, encaminhadorNome: e.target.value})} 
+                                    value={dadosForm.encaminhador} 
+                                    onChange={(e) => setDadosForm({...dadosForm, encaminhador: e.target.value})} 
                                     disabled={!dadosForm.alunoUnieva}
                                     >
                                         <option value="" disabled>Selecione uma opção</option>
                                         { alunosNome.alunos.map(aluno => (
                                         <option 
-                                        key={aluno._id} 
-                                        value={aluno._id}>
-                                        {aluno.nome}
+                                        key={aluno.nome} 
+                                        value={aluno.nome}>
+                                        {aluno.nome}    
                                         </option>
                                         ))}
                                     </select>
                                 ) : (
                                     <input type="text" className="encaminhadorInput" id="encaminhadorInput" 
-                                    value={dadosForm.encaminhadorNome} 
-                                    onChange={(e) => setDadosForm({...dadosForm, encaminhadorNome: e.target.value})} 
+                                    value={dadosForm.encaminhador} 
+                                    onChange={(e) => setDadosForm({...dadosForm, encaminhador: e.target.value})} 
                                     disabled={!dadosForm.funcionarioUnieva} 
                                     />
                                 )}
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="status">Status Encaminhador*</label>
-                                <select className="status" name="status" id="status" value={dadosForm.statusEncaminhador} onChange={(e) => {setDadosForm({...dadosForm, alunoUnieva: e.target.value === "Aluno da UniEVANGÉLICA", funcionarioUnieva: e.target.value === "Funcionário da Associação Educativa Evangélica", encaminhadorNome: ""});}}>
+                                <select className="status" name="status" id="status" value={dadosForm.encaminhador} onChange={(e) => {setDadosForm({...dadosForm, alunoUnieva: e.target.value === "Aluno da UniEVANGÉLICA", funcionarioUnieva: e.target.value === "Funcionário da Associação Educativa Evangélica", encaminhador: ""});}}>
                                     <option value="" disabled>Selecione uma opção</option>
                                     <option value="Aluno da UniEVANGÉLICA">Aluno da UniEVANGÉLICA</option>
                                     <option value="Funcionário da Associação Educativa Evangélica">Funcionário da Associação Educativa Evangélica</option>
@@ -287,20 +323,30 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                         <div className="flex-informacoes-tratamento">
                             <div className="div-flex">
                                 <label htmlFor="inicio-tratamento">Início do Tratamento*</label>
-                                <input type="date" className="inicio-tratamento" id="inicio-tratamento" value={dadosForm.dataInicioTratamento} onChange={(e) =>  setDadosForm({...dadosForm, dataInicioTratamento:e.target.value})}/>
+                                <DatePicker 
+                                className="inicio-tratamento"
+                                format="dd/MM/yyyy"
+                                // value={dadosForm.dataNascimento}
+                                onChange={(e) =>  setDadosForm({...dadosForm, dataInicioTratamento: e.toISOString().split('T')[0]})}
+                                />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="termino-tratamento">Término do tratamento*</label>
-                                <input type="date" className="termino-tratamento" id="termino-tratamento" value={dadosForm.dataTerminoTratamento} onChange={(e) =>  setDadosForm({...dadosForm, dataTerminoTratamento:e.target.value})} />
+                                <DatePicker 
+                                className="termino-tratamento"
+                                format="dd/MM/yyyy"
+                                // value={dadosForm.dataNascimento}
+                                onChange={(e) =>  setDadosForm({...dadosForm, dataTerminoTratamento: e.toISOString().split('T')[0]})}
+                                />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="tratamento">Tipo de tratamento*</label>
                                 <select className="tratamento" name="tratamento" id="tratamento" value={dadosForm.tipoDeTratamento} onChange={(e) =>  setDadosForm({...dadosForm, tipoDeTratamento:e.target.value})}>
                                     <option value="" disabled>Selecione uma opção</option>
-                                    <option value="">Psicoterapia</option>
-                                    <option value="">Plantão</option>
-                                    <option value="">Psicodiagnóstico</option>
-                                    <option value="">Avaliação diagnóstica</option>
+                                    <option value="psicoterapia">Psicoterapia</option>
+                                    <option value="plantao">Plantão</option>
+                                    <option value="psicodiagnostico">Psicodiagnóstico</option>
+                                    <option value="avaliacao diagnostica">Avaliação diagnóstica</option>
                                 </select>
                             </div>
                         </div>

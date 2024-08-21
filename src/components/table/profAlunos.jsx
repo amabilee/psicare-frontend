@@ -18,7 +18,7 @@ export default function TableProfAluno({ renderFormTable }){
     const receberDadosAluno = async () => {
       const token = localStorage.getItem("user_token")
       try {
-        let dadosPaginados = `/aluno/paginado?page=${currentPage}`;//numero de pagina atual para a api 
+        let dadosPaginados = `/aluno/professor/:id`;//numero de pagina atual para a api 
         const receberDados = await api.get(dadosPaginados, {
           headers: {
             "Content-Type": "application/json",

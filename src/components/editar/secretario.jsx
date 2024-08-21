@@ -47,6 +47,7 @@ export default function EditarSecretario({handleEditarClose, dadosSecretario, re
         console.log(dadosAtualizados);
       }
     }
+    console.log(dadosSecretario)
 
     const handleVoltarConfirmar = () => {
         setIsEditarConfirmar(false);
@@ -97,9 +98,9 @@ export default function EditarSecretario({handleEditarClose, dadosSecretario, re
             <label htmlFor="turno">Turno*</label>
             <select className="turno" id="turno" value={dadosAtualizados.turno} onChange={(e) => setDadosAtualizados({...dadosAtualizados, turno:e.target.value})} required>
               <option value="#" disabled>Selecione uma opção</option>
-              <option value="Matutino">Matutino</option>
-              <option value="Vespertino">Vespertino</option>
-              <option value="Noturno">Noturno</option>
+              <option value="matutino">Matutino</option>
+              <option value="vespertino">Vespertino</option>
+              <option value="noturno">Noturno</option>
             </select>
             <div className="buttons-form">
               <button className="button-cancelar" id="voltar" onClick={handleEditarClose}>
