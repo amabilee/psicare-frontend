@@ -34,8 +34,8 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         enderecoComplemento: "",
         enderecoCidade: "",
         enderecoUF: "",
-        dataInicioTratamento: "",//yyyy-MM-dd 
-        dataTerminoTratamento: "",//yyyy-MM-dd
+        dataInicioTratamento: null,//yyyy-MM-dd 
+        dataTerminoTratamento: null,//yyyy-MM-dd
         encaminhador: "",//
         tipoDeTratamento: "",//
         alunoUnieva: false,
@@ -43,7 +43,6 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         ativoPaciente: true
     });    
 
-    console.log(dadosForm)
 
     const [state, setState] = useState({
         open: false,
@@ -103,6 +102,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
 
     const buscarAlunos = async() => {
         const token = localStorage.getItem("user_token")
+        console.log(1)
         try {
             const selectAlunos = await api.get(`/aluno`, {
                 headers: {
@@ -110,6 +110,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                     "authorization": `Bearer ${token}`
                 }
             });
+            console.log(selectAlunos)
             setAlunosNome(selectAlunos.data);
         } catch (e) {
             console.log("Erro ao buscar alunos: ", e)
@@ -123,7 +124,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                     <h2>Cadastro de paciente</h2>
                     <hr /> 
                     <div className="formulario">
-                        <h2>informações pessoais</h2>
+                        <h2>Informações Pessoais</h2>
                         <div className="flex-informacoes-pessoais">
                             <div className="div-flex">
                                 <label htmlFor="Nome">Nome Completo*</label>
@@ -250,7 +251,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 <select className="uf" name="uf" id="uf"
                                  value={dadosForm.enderecoUF} onChange={(e) =>  setDadosForm({...dadosForm, enderecoUF: e.target.value})}
                                  >
-                                    <option value="" disabled>XX</option>
+                                    <option value="" disabled></option>
                                     <option value="AC">AC</option>
                                     <option value="AL">AL</option>
                                     <option value="AP">AP</option>
@@ -313,7 +314,9 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="status">Status Encaminhador*</label>
-                                <select className="status" name="status" id="status" value={dadosForm.encaminhador} onChange={(e) => {setDadosForm({...dadosForm, alunoUnieva: e.target.value === "Aluno da UniEVANGÉLICA", funcionarioUnieva: e.target.value === "Funcionário da Associação Educativa Evangélica", encaminhador: ""});}}>
+                                <select className="status" name="status" id="status"
+                                value={dadosForm.alunoUnieva ? "Aluno da UniEVANGÉLICA" : dadosForm.funcionarioUnieva ? "Funcionário da Associação Educativa Evangélica" : dadosForm.encaminhador ? "" : ""}
+                                onChange={(e) => {setDadosForm({...dadosForm, alunoUnieva: e.target.value === "Aluno da UniEVANGÉLICA", funcionarioUnieva: e.target.value === "Funcionário da Associação Educativa Evangélica", encaminhador: ""})}}>
                                     <option value="" disabled>Selecione uma opção</option>
                                     <option value="Aluno da UniEVANGÉLICA">Aluno da UniEVANGÉLICA</option>
                                     <option value="Funcionário da Associação Educativa Evangélica">Funcionário da Associação Educativa Evangélica</option>

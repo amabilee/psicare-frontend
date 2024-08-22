@@ -4,7 +4,7 @@ import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
 
-export default function TableProfAluno({ renderFormTable }){
+export default function TableProfAluno({ renderFormTable, alunosProfessor }){
     const [dadosAluno, setDadosAluno] = useState({ alunos: [] });
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -18,20 +18,22 @@ export default function TableProfAluno({ renderFormTable }){
     const receberDadosAluno = async () => {
       const token = localStorage.getItem("user_token")
       try {
-        let dadosPaginados = `/aluno/professor/:id`;//numero de pagina atual para a api 
+        let dadosPaginados = `/aluno/professor/${alunosProfessor}?page=${currentPage}`;//numero de pagina atual para a api 
         const receberDados = await api.get(dadosPaginados, {
           headers: {
             "Content-Type": "application/json",
             "authorization": `Bearer ${token}`
           }
         });//requisação get para os "dadosPaginados" contruido
-        const { alunos, totalPages: total, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
+        console.log(receberDados)
+
+        const {  totalPages: total, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
         //aluno: lista de alunos, e totalPages: numero total de paginas tudo retornado pela api
         setDadosAluno({ alunos }); //atualiza os dadosalunos para os dados da minha api "alunos"
         setTotalPages(total); //atualiza o totalPages com o "total" retorndo da minha apis
         setTotalAlunosTable(totalItems);
 
-        const alunosAcumulados = ((currentPage - 1) * 15 + alunos.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
+        // const alunosAcumulados = ((currentPage - 1) * 15 + alunos.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
         setAcumularAlunosPage(alunosAcumulados);
       } catch (e) {
         console.log("Erro ao buscar dados do aluno:", e);

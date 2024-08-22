@@ -3,6 +3,7 @@ import TableProfAluno from "../table/profAlunos";
 import "./style.css";
 
 export default function VisualizarProfessor({handleCloseVisualizar, dadosProfessor}){
+    const alunosProfessor = dadosProfessor._id;
 
     return(
         <div className="visualizar">
@@ -46,7 +47,7 @@ export default function VisualizarProfessor({handleCloseVisualizar, dadosProfess
                 </div>     
                 
             </div>
-            <TableProfAluno/>
+            <TableProfAluno alunosProfessor={alunosProfessor}/>
         </div>
     )
 }
