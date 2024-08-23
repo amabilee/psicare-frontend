@@ -4,7 +4,7 @@ import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
 
-export default function TableProfAluno({ renderFormTable, alunosProfessor }){
+export default function TableProfAluno({ alunosProfessor }){
     const [dadosAluno, setDadosAluno] = useState({ alunos: [] });
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -13,7 +13,7 @@ export default function TableProfAluno({ renderFormTable, alunosProfessor }){
 
     useEffect(() => {
       receberDadosAluno();
-    }, [renderFormTable, currentPage]);
+    }, [alunosProfessor, currentPage]);
 
     const receberDadosAluno = async () => {
       const token = localStorage.getItem("user_token")
@@ -27,13 +27,13 @@ export default function TableProfAluno({ renderFormTable, alunosProfessor }){
         });//requisação get para os "dadosPaginados" contruido
         console.log(receberDados)
 
-        const {  totalPages: total, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
+        const alunos = receberDados.data; //resposta da api é um objeto com os dados da requisição
         //aluno: lista de alunos, e totalPages: numero total de paginas tudo retornado pela api
         setDadosAluno({ alunos }); //atualiza os dadosalunos para os dados da minha api "alunos"
         setTotalPages(total); //atualiza o totalPages com o "total" retorndo da minha apis
         setTotalAlunosTable(totalItems);
 
-        // const alunosAcumulados = ((currentPage - 1) * 15 + alunos.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
+        const alunosAcumulados = ((currentPage - 1) * 15 + alunos.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
         setAcumularAlunosPage(alunosAcumulados);
       } catch (e) {
         console.log("Erro ao buscar dados do aluno:", e);

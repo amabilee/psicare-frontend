@@ -37,6 +37,7 @@
 .header-visualizar-info h1{
     font-size: 30px;
     font-weight: 500;
+    line-height: normal;
 }
 
 /* corpo de visualizar */
@@ -56,6 +57,7 @@
     font-size: 25px;
     margin-bottom: 20px;
     font-weight: 500;
+    line-height: normal;
 }
 
 .visualizar-info .coluna1{
@@ -64,6 +66,7 @@
 
 .visualizar-info .coluna1 .nome h1{
     text-transform: capitalize;
+    line-height: normal;
 }
 
 .visualizar-info .coluna1 .matricula {
@@ -97,6 +100,7 @@
 
 .coluna3 h1{
     text-transform: capitalize;
+    line-height: normal;
 }
 
 /* button de voltar */

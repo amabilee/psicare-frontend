@@ -18,7 +18,7 @@
     border: 1px solid #888;
     border-radius: 8px;
     width: 570px;
-    height: 460px;
+    /* height: 460px; */
     top: 12px;
     left: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -29,15 +29,16 @@
     height: 960px;
 }
 
-.modal-content-aluno{
+/* .modal-content-aluno{
     height: 520px;
-}
+} */
 
 .modal-content h2{
     color: #767474;
     font-size: 20px;
     font-weight: 500;
     padding: 0px 0 10px 10px;
+    line-height: normal;
 }
 
 .modal-content hr{
@@ -46,6 +47,7 @@
     border: none;
     width: 550px;
     margin-left: 15px;
+    margin-top: 0;
 }
 
 .modal-content-paciente hr {
@@ -155,6 +157,10 @@
     outline: none;
 }
 
+.modal-content select.turno{
+    width: 245px;
+}
+
 .modal-content select.estado-civil{
     width: 210px;
 }
@@ -183,8 +189,11 @@
     width: 520px;
 }
 
-.modal-content .disciplina,
-.modal-content .periodo{
+.modal-content .disciplina{
+    width: 225px;
+}
+
+.modal-content .periodo {
     width: 240px;
 }
 
@@ -228,6 +237,7 @@
 
 .rs-picker-popup.rs-picker-popup-date{
     z-index: 2000;
+    
 }
 
 .flex-informacoes-pessoais .data-nascimento input,
@@ -307,6 +317,8 @@
 
 .modal-content-paciente .formulario h2 {
     padding: 0;
+    line-height: normal;
+    margin: 20px 0;
     color: black;
 }
 
@@ -315,7 +327,8 @@
 .modal-content .buttons-form{
     display: flex;
     justify-content: space-between;
-    margin-top: 50px;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 
 .modal-content .buttons-form-aluno {
@@ -389,6 +402,7 @@
     font-weight: 600;
     margin-top: 20px;
     padding-bottom: 10px;
+    line-height: normal;
 }
 
 .modal-sucesso-content h2{
@@ -396,6 +410,7 @@
     font-size: 20px;
     font-weight: 500;
     margin-bottom: 30px;
+    line-height: normal;
 }
 
 .modal-sucesso-content #fechar{

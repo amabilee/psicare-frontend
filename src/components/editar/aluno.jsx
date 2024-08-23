@@ -27,6 +27,7 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
       setState({ ...state, open: false });
   };
 
+  console.log(dadosAluno)
 
   useEffect(() => {
     buscarProfessores();
@@ -184,7 +185,7 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
                 <div className="dados-inseridos">
                 <div className="coluna1">
                   <div className="nome">
-                      <p>Nome</p>
+                      <p>Nome Completo</p>
                       <h1>{dadosAtualizados.nome}</h1>
                   </div>
                 </div>
@@ -208,7 +209,7 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
                   <div className="coluna4">
                       <div className="professorNome">
                           <p>Professor</p>
-                          <h1>{dadosAtualizados.professor}</h1>
+                          <h1>{dadosAtualizados.nomeProfessor}</h1>
                       </div>
                   </div>
                   <div className="coluna5">

@@ -15,25 +15,26 @@
 
 .modal-content-editar{
     background-color: #fefefe;
-    padding: 30px 20px;
+    padding: 15px 20px 30px 20px;
     border: 1px solid #888;
     border-radius: 8px;
     width: 570px;
-    height: 460px;
+    /* height: 460px; */
     top: 12px;
     left: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.modal-content-editar.modal-content-editar-aluno{
-    height: 520px;
+.modal-content-editar-aluno{
+    width: 600px;
 }
 
 .modal-content-editar h2{
     color: #767474;
     font-size: 20px;
-    padding: 0px 0 10px 10px;
+    padding: 10px 0 10px 10px;
     font-weight: 500;
+    line-height: normal;
 }
 
 .modal-content-editar hr{
@@ -42,6 +43,12 @@
     border: none;
     width: 550px;
     margin-left: 15px;
+    margin-top: 0;
+}
+
+.modal-content-editar-aluno hr {
+    width: 580px;
+    margin-top: 0;
 }
 
 .modal-content-editar .formulario{
@@ -64,6 +71,10 @@
     margin: 8px 0;
 }
 
+.modal-content-editar-aluno input{
+    width: 535px;
+}
+
 .modal-content-editar input#nome {
     text-transform: capitalize;
 }
@@ -81,8 +92,8 @@
 .modal-content-editar .div-CPF .CPF, 
 .modal-content-editar .div-matricula .matricula{
     display: flex;
-    width: 240px;
-    margin-right: 20px;
+    width: 245px;
+    margin-right: 25px;
 }
 
 .modal-content-editar .div-telefone .telefone,
@@ -91,11 +102,14 @@
 }
 
 .modal-content-editar .div-telefone .telefone{
-    width: 216px;
+    width: 210px;
 }
 
-.modal-content-editar select.turno{
-    width: 260px;
+.modal-content-editar-aluno .div-telefone .telefone{
+    width: 240px;
+}
+
+.modal-content-editar select{
     padding: 10px;
     border: 2px solid #C760EBFA;
     border-radius: 12px;
@@ -109,39 +123,37 @@
     margin: 8px 0;
 }
 
-.modal-content-editar select.turno:focus,  select.professorNome:focus{
+.modal-content-editar select.turno:focus,  
+.modal-content-editar select.professorNome:focus{
     border: 2px solid #C760EBFA;
     outline: none;
 }
 
-.modal-content-editar select.professorNome{
+.modal-content-editar select.turno{
+    width: 260px
+}
+
+.modal-content-editar-aluno .professorNome {
+    width: 560px;
+}
+
+/* .modal-content-editar select.professorNome{
     width: 520px;
     padding: 10px;
     border: 2px solid #C760EBFA;
     border-radius: 12px;
-    -webkit-appearance: none; /* Remove o estilo padrão da seta no Safari */
-    -moz-appearance: none; /* Remove o estilo padrão da seta no Firefox */
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
     appearance: none;
     background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 10L12 16L18 10" stroke="%23710198" stroke-linecap="round"/></svg>');
     background-repeat: no-repeat;
     background-position: right center;
     padding-right: 32px;
     margin: 8px 0;
-}
+} */
 
-.modal-content-editar select.periodo{
-    width: 240px;
-    padding: 10px;
-    border: 2px solid #C760EBFA;
-    border-radius: 12px;
-    -webkit-appearance: none; /* Remove o estilo padrão da seta no Safari */
-    -moz-appearance: none; /* Remove o estilo padrão da seta no Firefox */
-    appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 10L12 16L18 10" stroke="%23710198" stroke-linecap="round"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right center;
-    padding-right: 32px;
-    margin: 8px 0;
+.modal-content-editar-aluno .periodo{
+    width: 265px;
 }
 
 
@@ -154,7 +166,8 @@
 .modal-content-editar .buttons-form{
     display: flex;
     justify-content: space-between;
-    margin-top: 50px;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 
 .modal-content-editar .buttons-form.buttons-form-aluno {
@@ -212,18 +225,19 @@
 
 .modal-content-confirmar{
     background-color: #fefefe;
-    padding: 30px 20px;
+    padding: 15px 20px 0px 20px;
     border: 1px solid #888;
     border-radius: 8px;
     width: 570px;
-    height: 480px;
+    /* height: 480px; */
     top: 12px;
     left: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .modal-content-confirmar.modal-content-confirmar-aluno{
-    height: 520px;
+    height: 590px;
+    width: 600px;
 }
 
 .modal-content-confirmar.modal-content-confirmar-professor,
@@ -235,9 +249,9 @@
 .modal-content-confirmar h2 {
     color: #767474;
     font-size: 20px;
-    padding: 0px 0 10px 10px;
+    padding: 10px 0 10px 10px;
     font-weight: 500;
-
+    line-height: normal;
 }
 
 .modal-content-confirmar hr {
@@ -247,6 +261,7 @@
     width: 550px;
     margin-left: 15px;
     margin-bottom: 20px;
+    margin-top: 0;
 }
 
 .modal-content-confirmar .dados-inseridos {
@@ -265,14 +280,18 @@
     margin-bottom: 20px;
     font-size: 20px;
     font-weight: 500;
+    line-height: normal;
 }
 
 .modal-content-confirmar .dados-inseridos .disciplina h1{
     text-transform: capitalize;
+    line-height: normal;
 }
 
 .modal-content-confirmar .dados-inseridos .nome h1{
     text-transform: capitalize;
+    line-height: normal;
+
 }
 
 .modal-content-confirmar .dados-inseridos .coluna2 {
@@ -293,12 +312,12 @@
     margin-top: 60px;
 }
 
-.modal-content-confirmar .buttons-confirmar.buttons-confirmar-aluno{
-    margin-top: 64px;
+.modal-content-confirmar .buttons-confirmar-aluno{
+    margin-top: 40px;
 }
 
-.modal-content-confirmar .buttons-confirmar.buttons-confirmar-professor,
-.modal-content-confirmar .buttons-confirmar.buttons-confirmar-secretario
+.buttons-confirmar-professor,
+.buttons-confirmar-secretario
 {
     margin-top: 69px;
 }
@@ -369,6 +388,7 @@
     font-size: 40px;
     margin-top: 30px;
     font-weight: 500;
+    line-height: normal;
 }
 
 .modal-sucesso-content h2{
@@ -376,6 +396,7 @@
     font-size: 20px;
     margin-bottom: 30px;
     font-weight: 500;
+    line-height: normal;
 }
 
 .modal-sucesso-content #fechar{
