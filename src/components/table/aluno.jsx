@@ -29,6 +29,7 @@ export default function TableAluno({ renderFormTable, pesquisar }){
 
     const receberDadosAluno = async () => {
       const token = localStorage.getItem("user_token")
+      console.log(token)
       try {
         let dadosPaginados = `/aluno?page=${currentPage}`;//numero de pagina atual para a api 
         if (pesquisar.trim() !== "") { //verifica se há algum valor no estado pesquisar, metodo trim remove espaços em branco.

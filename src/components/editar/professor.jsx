@@ -44,7 +44,6 @@ export default function EditarProfessor({handleEditarClose, dadosProfessor, rend
       } else {
         setIsEditarConfirmar(true);
         setEditar(false);
-        console.log(dadosAtualizados);
       }
     }
 
@@ -56,13 +55,12 @@ export default function EditarProfessor({handleEditarClose, dadosProfessor, rend
     const handleSucessoConfirmar = async() => {
       const token = localStorage.getItem("user_token")
       try {
-        const enviardadosAtualizados = await api.patch(`/professor/${dadosAtualizados._id}`, dadosAtualizados, {
+          await api.patch(`/professor/${dadosAtualizados._id}`, dadosAtualizados, {
           headers: {
             "Content-Type": "application/json",
             "authorization": `Bearer ${token}`
           }
         });
-        console.log(enviardadosAtualizados.data)
 
         setSucessoEditar(true);
         renderDadosProfessor(dadosAtualizados);

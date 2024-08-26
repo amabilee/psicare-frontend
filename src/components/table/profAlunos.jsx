@@ -14,6 +14,7 @@ export default function TableProfAluno({ alunosProfessor }){
     useEffect(() => {
       receberDadosAluno();
     }, [alunosProfessor, currentPage]);
+    console.log("dadosAluno",dadosAluno)
 
     const receberDadosAluno = async () => {
       const token = localStorage.getItem("user_token")
@@ -25,7 +26,7 @@ export default function TableProfAluno({ alunosProfessor }){
             "authorization": `Bearer ${token}`
           }
         });//requisação get para os "dadosPaginados" contruido
-        console.log(receberDados)
+        console.log("receber dados",receberDados)
 
         const alunos = receberDados.data; //resposta da api é um objeto com os dados da requisição
         //aluno: lista de alunos, e totalPages: numero total de paginas tudo retornado pela api

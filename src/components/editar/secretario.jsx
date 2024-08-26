@@ -44,10 +44,8 @@ export default function EditarSecretario({handleEditarClose, dadosSecretario, re
       } else {
         setIsEditarConfirmar(true);
         setEditar(false);
-        console.log(dadosAtualizados);
       }
     }
-    console.log(dadosSecretario)
 
     const handleVoltarConfirmar = () => {
         setIsEditarConfirmar(false);
@@ -56,15 +54,13 @@ export default function EditarSecretario({handleEditarClose, dadosSecretario, re
 
     const handleSucessoConfirmar = async() => {
       const token = localStorage.getItem("user_token")
-      console.log(token)
       try {
-        const enviardadosAtualizados = await api.patch(`/secretario/${dadosAtualizados._id}`, dadosAtualizados, {
+        await api.patch(`/secretario/${dadosAtualizados._id}`, dadosAtualizados, {
           headers: {
             "Content-Type": "application/json",
             "authorization": `Bearer ${token}`
           }
         });
-        console.log(enviardadosAtualizados.data)
 
         setSucessoEditar(true);
         renderDadosSecretario(dadosAtualizados);

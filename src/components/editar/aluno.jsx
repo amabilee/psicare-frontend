@@ -27,14 +27,12 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
       setState({ ...state, open: false });
   };
 
-  console.log(dadosAluno)
 
   useEffect(() => {
     buscarProfessores();
   }, []);
 
     const handleEditarConfirmar = (newState) => () => {
-      console.log(dadosAtualizados)
       if (dadosAtualizados.nome.length <= 6) {
         setState({ ...newState, open: true });
         setMessage("Insira o nome completo.");
@@ -54,7 +52,6 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
       } else {
         setIsEditarConfirmar(true);
         setEditar(false);
-        console.log(dadosAtualizados);
       }
     }
 
@@ -66,13 +63,12 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
     const handleSucessoConfirmar = async() => {
       const token = localStorage.getItem("user_token")
       try {
-        const enviardadosAtualizados = await api.patch(`/aluno/${dadosAtualizados._id}`, dadosAtualizados, {
+        await api.patch(`/aluno/${dadosAtualizados._id}`, dadosAtualizados, {
           headers: {
             "Content-Type": "application/json",
             "authorization": `Bearer ${token}`
           }
         });
-        console.log(enviardadosAtualizados.data)
 
         setSucessoEditar(true);
         renderDadosAluno(dadosAtualizados);
@@ -95,6 +91,18 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
       } catch (e) {
           console.log("Erro ao buscar professores: ", e)
       }
+  }
+  
+  const id_professor = (e) => {
+    var index = e.nativeEvent.target.selectedIndex;
+    e.nativeEvent.target[index].text
+
+    setDadosAtualizados({
+      ...dadosAtualizados,
+      nomeProfessor: e.target.value,
+      professorId: e.target.value
+    })
+    console.log(dadosAtualizados)
   }
 
   return (
@@ -121,10 +129,14 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
             <input type="email" name="email" id="email" value={dadosAtualizados.email} onChange={(e) => setDadosAtualizados({...dadosAtualizados, email:e.target.value})}/>
             
             <label htmlFor="professorResponsavel">Professor*</label>
-            <select className="professorNome" id="professorNome" value={dadosAtualizados.nomeProfessor} onChange={(e) =>  setDadosAtualizados({...dadosAtualizados, nomeProfessor:e.target.value})} required>
+            <select className="professorNome" id="professorNome" 
+            value={dadosAtualizados.nomeProfessor}
+            onChange={(e) =>  id_professor(e)}
+            required
+            >
                 <option value="0" disabled>Selecione uma opção</option>
                 {professoresNome.professores.map(professor => (
-                  <option key={professor._id}>
+                  <option key={professor._id} value={professor._id}>
                       {professor.nome}
                   </option>
               ))}
