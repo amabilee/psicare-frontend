@@ -94,17 +94,16 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
   }
   
   const id_professor = (e) => {
-    var index = e.nativeEvent.target.selectedIndex;
-    var nomeProfessor = e.nativeEvent.target[index].text;
-    var professorId = e.target.value;
+    // var index = e.nativeEvent.target.selectedIndex;
+    // e.nativeEvent.target[index].text
 
+    const selecionarProfessor = JSON.parse(e.target.value)
     setDadosAtualizados({
       ...dadosAtualizados,
-      nomeProfessor: nomeProfessor,
-      professorId: professorId
-    });
-
-    console.log(dadosAtualizados);
+      nomeProfessor: selecionarProfessor.nome,
+      professorId: selecionarProfessor.id
+    })
+    
   }
 
   return (
@@ -132,13 +131,13 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
             
             <label htmlFor="professorResponsavel">Professor*</label>
             <select className="professorNome" id="professorNome" 
-            value={dadosAtualizados.professorId || "0"}
-            onChange={(e) =>  id_professor(e)}
+            value={JSON.stringify({nome: dadosAtualizados.nomeProfessor, id: dadosAtualizados.professorId})}
+            onChange={id_professor}
             required
             >
                 <option value="0" disabled>Selecione uma opção</option>
                 {professoresNome.professores.map(professor => (
-                  <option key={professor._id} value={professor._id}>
+                  <option key={professor._id} value={JSON.stringify({ nome: professor.nome, id: professor._id })}>
                       {professor.nome}
                   </option>
               ))}
