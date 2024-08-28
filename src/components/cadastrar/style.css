@@ -22,11 +22,14 @@
     top: 12px;
     left: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
 }
 
 .modal-content-paciente {
     width: 1150px;
     height: 960px;
+    overflow: hidden;
+    z-index: 3000;
 }
 
 /* .modal-content-aluno{
@@ -235,9 +238,11 @@
 
 }
 
-.rs-picker-popup.rs-picker-popup-date{
+
+.rs-picker-popup.rs-picker-popup-date {
     z-index: 2000;
-    
+    margin-top: -200px;
+    margin-left: 260px;
 }
 
 .flex-informacoes-pessoais .data-nascimento input,
@@ -311,8 +316,8 @@
 
 .flex-informacoes-tratamento #tratamento{
     display: flex;
-    width: 190px;
-    margin-right: 340px;
+    width: 230px;
+    margin-right: 300px;
 }
 
 .modal-content-paciente .formulario h2 {

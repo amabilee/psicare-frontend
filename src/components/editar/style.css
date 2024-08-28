@@ -240,10 +240,12 @@
     width: 600px;
 }
 
-.modal-content-confirmar.modal-content-confirmar-professor,
-.modal-content-confirmar.modal-content-confirmar-secretario
-{
-    height: 460px;
+.modal-content-confirmar.modal-content-confirmar-professor{
+    height: 510px;
+}
+
+.modal-content-confirmar.modal-content-confirmar-secretario{
+    height: 510px;
 }
 
 .modal-content-confirmar h2 {
@@ -309,7 +311,7 @@
 .modal-content-confirmar .buttons-confirmar{
     display: flex;
     justify-content: space-between;
-    margin-top: 60px;
+    margin-top: 58px;
 }
 
 .modal-content-confirmar .buttons-confirmar-aluno{

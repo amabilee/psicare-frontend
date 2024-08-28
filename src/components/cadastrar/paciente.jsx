@@ -14,30 +14,30 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
     const [message, setMessage] = useState("");
     const [alunosNome, setAlunosNome] = useState({ alunos: []})
     const [dadosForm, setDadosForm] = useState({  
-        nome: "",//
-        cpf: "",//
-        dataNascimento: null,
-        email: "",//
-        telefoneContato: "",//
-        sexo: "",//
-        estadoCivil: "",//
-        religiao: "",//
-        rendaFamiliar: "",//
-        profissao: "",//
-        outroContato: "",//
-        nomeDoContatoResponsavel: "",//
-        naturalidade: "",//
-        nacionalidade: "",//
-        enderecoCep: "",//
-        enderecoLogradouro: "",//
-        enderecoBairro: "",//
+        nome: "",
+        cpf: "",
+        dataNascimento: "",
+        email: "",
+        telefoneContato: "",
+        sexo: "",
+        estadoCivil: "",
+        religiao: "",
+        rendaFamiliar: "",
+        profissao: "",
+        outroContato: "",
+        nomeDoContatoResponsavel: "",
+        naturalidade: "",
+        nacionalidade: "",
+        enderecoCep: "",
+        enderecoLogradouro: "",
+        enderecoBairro: "",
         enderecoComplemento: "",
         enderecoCidade: "",
         enderecoUF: "",
-        dataInicioTratamento: null,//yyyy-MM-dd 
-        dataTerminoTratamento: null,//yyyy-MM-dd
-        encaminhador: "",//
-        tipoDeTratamento: "",//
+        dataInicioTratamento: "",
+        dataTerminoTratamento: "",
+        encaminhador: "",
+        tipoDeTratamento: "",
         alunoUnieva: false,
         funcionarioUnieva: false,
         ativoPaciente: true
@@ -60,25 +60,86 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         setState({ ...state, open: false });
     };
 
+    
+
     const HandleFormSubmit = (newState) => async() => {
         console.log(dadosForm)
-        // if (dadosForm.nome.length <= 6) {
-        //     setState({ ...newState, open: true });
-        //     setMessage("Insira o nome completo.");
-        // } else if (!cpf.isValid(dadosForm.cpf)){
-        //     setState({ ...newState, open: true }); 
-        //     setMessage("Insira um cpf válido.");
-        // } else if (dadosForm.telefone.length != 15){
-        //     setState({ ...newState, open: true }); 
-        //     setMessage("Insira um telefone válido.");
-        // } else if (!validator.isEmail(dadosForm.email)){
-        //     setState({ ...newState, open: true });
-        //     setMessage("Insira um email válido.");
-        // } else if (dadosForm.turno === "#") {
-        //     setState({ ...newState, open: true });
-        //     setMessage("Selecione um turno.");
+        if (dadosForm.nome.length <= 6) {
+            setState({ ...newState, open: true });
+            setMessage("Insira o nome completo.");
+        } else if (!cpf.isValid(dadosForm.cpf)){
+            setState({ ...newState, open: true }); 
+            setMessage("Insira um cpf válido.");
+        } else if (!validator.isDate(dadosForm.dataNascimento)){
+            setState({ ...newState, open: true }); 
+            setMessage("Insira uma data de nascimento.");
+        } else if (dadosForm.sexo === ""){
+            setState({ ...newState, open: true });
+            setMessage("Selecione um sexo.");
+        } else if (!validator.isEmail(dadosForm.email)){
+            setState({ ...newState, open: true });
+            setMessage("Insira um email válido.");
+        } else if (dadosForm.telefoneContato.length != 15){
+            setState({ ...newState, open: true }); 
+            setMessage("Insira um telefone válido.");
+        }
+        else if (dadosForm.estadoCivil === ""){
+            setState({ ...newState, open: true });
+            setMessage("Selecione um estado civil.");
+        } else if(dadosForm.profissao <= 4){
+            setState({ ...newState, open: true });
+            setMessage("Selecione uma profissao.");
+        } else if(dadosForm.religiao <= 4){
+            setState({ ...newState, open: true });
+            setMessage("Selecione uma religião.");
+        }
+        else if (dadosForm.rendaFamiliar === ""){
+            setState({ ...newState, open: true });
+            setMessage("Selecione uma renda.");
+        } else if(dadosForm.nacionalidade <= 4){
+            setState({ ...newState, open: true });
+            setMessage("Selecione uma nacionalidade.");
+        } else if(dadosForm.naturalidade <= 4){
+            setState({ ...newState, open: true });
+            setMessage("Selecione uma naturalidade.");
+        } 
+        else if (dadosForm.enderecoCep === ""){
+            setState({ ...newState, open: true });
+            setMessage("Insira um cep.");
+        } else if (dadosForm.enderecoLogradouro === ""){
+            setState({ ...newState, open: true });
+            setMessage("Insira um Logradouro.");
+        } else if (dadosForm.enderecoBairro === ""){
+            setState({ ...newState, open: true });
+            setMessage("Insira um Bairro.");
+        } else if (dadosForm.enderecoCidade === ""){
+            setState({ ...newState, open: true });
+            setMessage("Insira um Cidade.");
+        } else if (dadosForm.enderecoUF === ""){
+            setState({ ...newState, open: true });
+            setMessage("Selecione uma Unidade Federativa.");
+        } else if (!dadosForm.alunoUnieva && !dadosForm.funcionarioUnieva){
+            setState({ ...newState, open: true });
+            setMessage("Selecione um encaminhador.");
+        } else if(dadosForm.encaminhador === "" && dadosForm.alunoUnieva){
+            setState({ ...newState, open: true });
+            setMessage("Selecione o AlunoUnieva");
+        } else if(dadosForm.encaminhador.length <= 4 && dadosForm.funcionarioUnieva) {
+            setState({ ...newState, open: true });
+            setMessage("Insira o funcionario");
+        } else if (!validator.isDate(dadosForm.dataInicioTratamento)){
+            setState({ ...newState, open: true }); 
+            setMessage("Insira a data do início do tratamento.");
+        }
+        else if (!validator.isDate(dadosForm.dataTerminoTratamento)){
+            setState({ ...newState, open: true }); 
+            setMessage("Insira a data do término do tratamento.");
+        }else if (dadosForm.tipoDeTratamento === ""){
+            setState({ ...newState, open: true });
+            setMessage("Selecione um tipo de tratamento.");
+        }
 
-        // } else {
+        else {
             const token = localStorage.getItem("user_token")
                 try {
                     var dadosEnviados = await api.post("/paciente", dadosForm, {
@@ -96,7 +157,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                     console.log(e)
                     setState({ ...newState, open: true });
                     setMessage(e.response.data);
-                //}  
+                }  
         }
     }
 
@@ -119,7 +180,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
 
     return( 
         <>
-            <div className="modal" >
+            <div className="modal" id="modal">
                 <div className="modal-content modal-content-paciente">
                     <h2>Cadastro de paciente</h2>
                     <hr /> 
@@ -140,7 +201,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 className="data-nascimento"
                                 format="dd/MM/yyyy"
                                 // value={dadosForm.dataNascimento}
-                                onChange={(e) =>  setDadosForm({...dadosForm, dataNascimento: e.toISOString().split('T')[0]})}
+                                onChange={(e) =>  setDadosForm({...dadosForm, dataNascimento: e})}
                                 />
                             </div>
                             <div className="div-flex">
@@ -164,7 +225,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 </div>
                             <div className="div-flex">
                                 <label htmlFor="Telefone">Telefone*</label>
-                                <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={dadosForm.telefoneContato} onChange={(e) =>  setDadosForm({...dadosForm, telefoneContato:e.target.value})} />
+                                <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={dadosForm.telefoneContato} onChange={(e) => setDadosForm({...dadosForm, telefoneContato:e.target.value})} />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="estado-civil">Estado civil*</label>
@@ -330,7 +391,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 className="inicio-tratamento"
                                 format="dd/MM/yyyy"
                                 // value={dadosForm.dataNascimento}
-                                onChange={(e) =>  setDadosForm({...dadosForm, dataInicioTratamento: e.toISOString().split('T')[0]})}
+                                onChange={(e) =>  setDadosForm({...dadosForm, dataInicioTratamento: e})}
                                 />
                             </div>
                             <div className="div-flex">
@@ -339,7 +400,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 className="termino-tratamento"
                                 format="dd/MM/yyyy"
                                 // value={dadosForm.dataNascimento}
-                                onChange={(e) =>  setDadosForm({...dadosForm, dataTerminoTratamento: e.toISOString().split('T')[0]})}
+                                onChange={(e) =>  setDadosForm({...dadosForm, dataTerminoTratamento: e})}
                                 />
                             </div>
                             <div className="div-flex">
@@ -385,4 +446,5 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
             )} 
     </>
     )
+    
 }
