@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import SideBar from "../../components/SideBar/sidebar";
-// import TableAluno from "../../components/table/aluno";
+import TablePaciente from "../../components/table/paciente";
 import CadastrarPaciente from "../../components/cadastrar/paciente";
 import { IoMdPersonAdd } from "react-icons/io";
 import icon_pesquisa from "../../assets/pesquisa.svg"
@@ -41,7 +41,7 @@ export default function Paciente(){
                         <img src={icon_pesquisa} alt="icon_pesquisa" id="icon_pesquisa" className="icon_pesquisa" />
                     </div> 
                 </div>
-                {/* <TableAluno renderFormTable={renderFormTable} pesquisar={pesquisaUsuario}/> */}
+                <TablePaciente renderFormTable={renderFormTable} pesquisar={pesquisaUsuario}/>
                 {isCadastroOpen && (<CadastrarPaciente handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
             </div>
         </>

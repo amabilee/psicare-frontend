@@ -173,7 +173,7 @@ export default function EditarSecretario({handleEditarClose, dadosSecretario, re
         <div className="modal-sucesso">
           <div className="modal-sucesso-content">
               <h1>Sucesso!</h1>
-              <h2>Cadastro atualizado com sucesso.</h2>
+              <h2>Secretário atualizado com sucesso.</h2>
               <button className="button-fechar" id="fechar" onClick={handleEditarClose} >Fechar</button>
           </div>
         </div>

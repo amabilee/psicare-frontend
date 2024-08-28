@@ -60,9 +60,21 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         setState({ ...state, open: false });
     };
 
-    
+    const calcularIdade = (dataNascimento) => {
+        const dataAtual = new Date(); 
+        const dataAniversario = new Date(dataNascimento); //converte o argumento fornecido para um objeto date
+
+        let idade = dataAtual.getFullYear() - dataAniversario.getFullYear();
+        const mes = dataAtual.getMonth() + 1
+        console.log(mes)
+        if(mes < dataAniversario.getMonth() || (mes === dataAniversario.getMonth() && dataAtual.getDate() < dataAniversario.getDate())){
+            idade --;
+        }
+        return idade;
+    }    
 
     const HandleFormSubmit = (newState) => async() => {
+        const idade = calcularIdade(dadosForm.dataNascimento)
         console.log(dadosForm)
         if (dadosForm.nome.length <= 6) {
             setState({ ...newState, open: true });
@@ -82,8 +94,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         } else if (dadosForm.telefoneContato.length != 15){
             setState({ ...newState, open: true }); 
             setMessage("Insira um telefone válido.");
-        }
-        else if (dadosForm.estadoCivil === ""){
+        } else if (dadosForm.estadoCivil === ""){
             setState({ ...newState, open: true });
             setMessage("Selecione um estado civil.");
         } else if(dadosForm.profissao <= 4){
@@ -92,8 +103,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         } else if(dadosForm.religiao <= 4){
             setState({ ...newState, open: true });
             setMessage("Selecione uma religião.");
-        }
-        else if (dadosForm.rendaFamiliar === ""){
+        } else if (dadosForm.rendaFamiliar === ""){
             setState({ ...newState, open: true });
             setMessage("Selecione uma renda.");
         } else if(dadosForm.nacionalidade <= 4){
@@ -102,8 +112,13 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         } else if(dadosForm.naturalidade <= 4){
             setState({ ...newState, open: true });
             setMessage("Selecione uma naturalidade.");
-        } 
-        else if (dadosForm.enderecoCep === ""){
+        } else if(idade < 18 && dadosForm.outroContato.length != 15){
+            setState({ ...newState, open: true }); 
+            setMessage("Paciente menor de idade. Insira um telefone válido.");
+        } else if(idade < 18 && dadosForm.nomeDoContatoResponsavel.length <= 4){
+            setState({ ...newState, open: true }); 
+            setMessage("Paciente menor de idade. Insira o nome do contato/responsável.");
+        } else if (dadosForm.enderecoCep === ""){
             setState({ ...newState, open: true });
             setMessage("Insira um cep.");
         } else if (dadosForm.enderecoLogradouro === ""){
@@ -222,7 +237,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 <input type="email" className="email" id="email"
                                  value={dadosForm.email} onChange={(e) =>  setDadosForm({...dadosForm, email:e.target.value})} 
                                  />
-                                </div>
+                                </div>  
                             <div className="div-flex">
                                 <label htmlFor="Telefone">Telefone*</label>
                                 <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={dadosForm.telefoneContato} onChange={(e) => setDadosForm({...dadosForm, telefoneContato:e.target.value})} />
@@ -273,7 +288,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                         </div>
                         <div className="flex-informacoes-pessoais">
                             <div className="div-flex">
-                                <label htmlFor="outro">Outro contato*</label>
+                                <label htmlFor="outro">Outro contato</label>
                                 <IMaskInput type="text" className="outro" id="outro" mask="(00)0 0000-0000" value={dadosForm.outroContato} onChange={(e) =>  setDadosForm({...dadosForm, outroContato:e.target.value})} />
                             </div>
                             <div className="div-flex">
