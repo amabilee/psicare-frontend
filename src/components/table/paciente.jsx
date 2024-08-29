@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { api } from "../../services/server";
 // import VisualizarSecretario from "../visualizar/secretario";
-// import ExcluirSecretario from "../excluir/secretario";
-// import EditarSecretario from "../editar/secretario";
+import ExcluirPaciente from "../excluir/paciente";
+import EditarPaciente from "../editar/paciente";
 import IconEditar from "../../assets/editar-icon.svg";
 import IconExcluir from "../../assets/excluir-icon.svg";
 import paginacaoWhite from "../../assets/paginacao-white.svg";
@@ -14,7 +14,7 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
   const [isExcluirOpen, setIsExcluirOpen] = useState(false);
   const [isEditarOpen, setIsEditarOpen] = useState(false);
   const [usuarioClick, setUsuarioClick] = useState({});
-  const [dadosPacientes, setDadosPacientes] = useState({ pacientes: [] });
+  const [dadosPaciente, setDadosPaciente] = useState({ pacientes: [] });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalPacientesTable, setTotalPacientesTable] = useState(0);
@@ -24,10 +24,10 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
   const [idsSelecionados, setIdsSelecionados] = useState([]);
 
   useEffect(() => {
-    receberDadosPacientes();
+    receberDadosPaciente();
   }, [renderFormTable, currentPage, pesquisar]);
 
-  const receberDadosPacientes = async() => {
+  const receberDadosPaciente = async() => {
     const token = localStorage.getItem("user_token")
     console.log(token)
     try {
@@ -47,7 +47,7 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
       const { pacientes, totalPages, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
       console.log("quantidade total de itens: ", totalItems)
       //paciente: lista de pacientes, e totalPages: numero total de paginas tudo retornado pela api
-      setDadosPacientes({ pacientes }); //atualiza os dadosPacientes para os dados da minha api "pacientes"
+      setDadosPaciente({ pacientes }); //atualiza os dadosPaciente para os dados da minha api "pacientes"
       setTotalPages(totalPages); //atualiza o totalPages com o "total" retorndo da minha apis
       setTotalPacientesTable(totalItems);
 
@@ -84,7 +84,7 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
   };
 
   const atualizarTableExcluir = () => {
-    receberDadosPacientes();
+    receberDadosPaciente();
   }
 
   //relacionado a editar
@@ -98,9 +98,9 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
   };
 
   //Relacionado a atualizar os dados editados
-  const renderDadosPacientes = (dadosAtualizados) => { //recebe um objeto "dadosAtualizados", contendo informações de um paciente específico
+  const renderDadosPaciente = (dadosAtualizados) => { //recebe um objeto "dadosAtualizados", contendo informações de um paciente específico
     //callback é uma função passada a outra função como argumento
-    setDadosPacientes((prevDados) => { //setDadosPacientes como uma função callback para atualizar o estado anterior(prevDados)
+    setDadosPaciente((prevDados) => { //setDadosPaciente como uma função callback para atualizar o estado anterior(prevDados)
       return {
         ...prevDados, //operador spread(...) é usado para criar um cópia do objeto, para manter a propriedade inalterada
         pacientes: prevDados.pacientes.map((paciente) => //percorre cada item na array pacientes
@@ -169,8 +169,8 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
         novaSelection [paginaAtual] = {}; //Inicializa um objeto vazio para armazenar as checkboxes selecionadas na página atual.
         const novosIds = []
 
-        //dadosPacientes é o estado que contem os dados do paciente e pacientes é a lista de array dos pacientes
-        dadosPacientes.pacientes.forEach((paciente, index) => {//itera sobre cada item de dadosPacientes.pacientes
+        //dadosPaciente é o estado que contem os dados do paciente e pacientes é a lista de array dos pacientes
+        dadosPaciente.pacientes.forEach((paciente, index) => {//itera sobre cada item de dadosPaciente.pacientes
           novaSelection[paginaAtual][index] = true; //define a checkbox como marcada na pagina atual
           novosIds.push(paciente._id);//adiciona o Id do paciente ao array de novosIds, que será usada em idsSelecionados
         });
@@ -183,7 +183,7 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
         })
       } else {
         delete novaSelection[paginaAtual];//remove a seleção da página atual
-        setIdsSelecionados((prev) => prev.filter((id) => !dadosPacientes.pacientes.some((paciente) => paciente._id === id))); // Remove os IDs da página atual do estado idsSelecionados
+        setIdsSelecionados((prev) => prev.filter((id) => !dadosPaciente.pacientes.some((paciente) => paciente._id === id))); // Remove os IDs da página atual do estado idsSelecionados
       }
 
       return novaSelection
@@ -216,7 +216,7 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
     return linhasVazias;
   };
   //calcula quantas linhas vazias são necessárias para preencher ate um total de 15 linhas
-  const calculoLinhasVazias = 15 - dadosPacientes.pacientes.length;
+  const calculoLinhasVazias = 15 - dadosPaciente.pacientes.length;
 
   return (
     <div className="table-container">
@@ -247,8 +247,8 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
           )}
         </thead>
         <tbody className="table-body">
-          {Array.isArray(dadosPacientes.pacientes) &&
-            dadosPacientes.pacientes.map((paciente, index) => (
+          {Array.isArray(dadosPaciente.pacientes) &&
+            dadosPaciente.pacientes.map((paciente, index) => (
               <tr key={paciente._id} >
                 <td>
                   <input
@@ -297,7 +297,7 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
             <td colSpan="7">
               <div className="quantidade-itens">
                 <span>
-                  {Array.isArray(dadosPacientes.pacientes) &&
+                  {Array.isArray(dadosPaciente.pacientes) &&
                     `${acumularPacientesPage}/${totalPacientesTable}`}
                 </span>
               </div>
@@ -335,13 +335,13 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
       {/* {isVisualizarOpen && (
         <VisualizarSecretario
           handleCloseVisualizar={handleCloseVisualizar}
-          dadosPacientes={usuarioClick}
+          dadosPaciente={usuarioClick}
         />
-      )}
+      )} */}
       {isExcluirOpen && (
-        <ExcluirSecretario 
+        <ExcluirPaciente 
         handleExcluirClose={handleExcluirClose} 
-        dadosPacientes={usuarioClick}  
+        dadosPaciente={usuarioClick}  
         atualizarTableExcluir={() => {
           atualizarTableExcluir();
           setCheckboxSelecionadas({});
@@ -351,12 +351,12 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
         
       )}
       {isEditarOpen && (
-        <EditarSecretario
+        <EditarPaciente
           handleEditarClose={handleEditarClose}
-          dadosPacientes={usuarioClick}
-          renderDadosPacientes={renderDadosPacientes}
+          dadosPaciente={usuarioClick}
+          renderDadosPaciente={renderDadosPaciente}
         />
-      )} */}
+      )}
     </div>
   );
 }

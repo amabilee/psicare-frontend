@@ -123,7 +123,7 @@ export default function CadastrarSecretario({ handleCloseModal, renderForm }){
                 <div className="modal-sucesso">
                     <div className="modal-sucesso-content">
                         <h1>Sucesso!</h1>
-                        <h2>Cadastro realizado com sucesso.</h2>
+                        <h2>Secretário cadastrado com sucesso.</h2>
                         <button className="button-fechar" id="fechar" onClick={handleCloseModal} >Fechar</button>
                     </div>
                 </div>

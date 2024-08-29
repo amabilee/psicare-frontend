@@ -276,12 +276,13 @@
 .flex-informacoes-pessoais .outro {
     width: 288px;
     display: flex;
+    margin-right: 360px;
 }
 
 .flex-informacoes-pessoais .nome-contato {
     width: 368px;
     display: flex;
-    margin-right: 360px;
+    
 }
 
 .flex-endereco .cep,

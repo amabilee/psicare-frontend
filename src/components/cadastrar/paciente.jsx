@@ -75,7 +75,14 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
 
     const HandleFormSubmit = (newState) => async() => {
         const idade = calcularIdade(dadosForm.dataNascimento)
-        console.log(dadosForm)
+        console.log(dadosForm.dataNascimento)
+        const dataFormatada = new Date(dadosForm.dataNascimento).toISOString()
+        var dataFormatadaSeparacao = dataFormatada.split('T')[0]
+        console.log(dataFormatada)
+        console.log(dataFormatadaSeparacao)
+        dadosForm.forEach(item => {
+            item.dataNascimento = dataFormatadaSeparacao;
+        })
         if (dadosForm.nome.length <= 6) {
             setState({ ...newState, open: true });
             setMessage("Insira o nome completo.");
@@ -112,13 +119,13 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         } else if(dadosForm.naturalidade <= 4){
             setState({ ...newState, open: true });
             setMessage("Selecione uma naturalidade.");
-        } else if(idade < 18 && dadosForm.outroContato.length != 15){
-            setState({ ...newState, open: true }); 
-            setMessage("Paciente menor de idade. Insira um telefone válido.");
         } else if(idade < 18 && dadosForm.nomeDoContatoResponsavel.length <= 4){
             setState({ ...newState, open: true }); 
-            setMessage("Paciente menor de idade. Insira o nome do contato/responsável.");
-        } else if (dadosForm.enderecoCep === ""){
+            setMessage("Insira o nome do contato/responsável.");
+        } else if(idade < 18 && dadosForm.outroContato.length != 15){
+            setState({ ...newState, open: true }); 
+            setMessage("Insira um telefone do contato/responsável válido.");
+        }  else if (dadosForm.enderecoCep === ""){
             setState({ ...newState, open: true });
             setMessage("Insira um cep.");
         } else if (dadosForm.enderecoLogradouro === ""){
@@ -156,6 +163,11 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
 
         else {
             const token = localStorage.getItem("user_token")
+            const dataFormatada = dadosForm.dataNascimento.split('T')[0]
+            console.log(dataFormatada)
+            dadosForm.forEach(item => {
+                dadosForm.dataNascimento = dataFormatadaSeparacao;
+            })
                 try {
                     var dadosEnviados = await api.post("/paciente", dadosForm, {
                         headers: {
@@ -288,13 +300,14 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                         </div>
                         <div className="flex-informacoes-pessoais">
                             <div className="div-flex">
-                                <label htmlFor="outro">Outro contato</label>
-                                <IMaskInput type="text" className="outro" id="outro" mask="(00)0 0000-0000" value={dadosForm.outroContato} onChange={(e) =>  setDadosForm({...dadosForm, outroContato:e.target.value})} />
-                            </div>
-                            <div className="div-flex">
                                 <label htmlFor="nome-contato">Nome do contato/responsável</label>
                                 <input type="text" className="nome-contato" id="nome-contato" value={dadosForm.nomeDoContatoResponsavel} onChange={(e) =>  setDadosForm({...dadosForm, nomeDoContatoResponsavel:e.target.value})}/>
                             </div>
+                            <div className="div-flex">
+                                <label htmlFor="outro">Telefone contato/responsável</label>
+                                <IMaskInput type="text" className="outro" id="outro" mask="(00)0 0000-0000" value={dadosForm.outroContato} onChange={(e) =>  setDadosForm({...dadosForm, outroContato:e.target.value})} />
+                            </div>
+                            
                         </div>
 
                         <h2>Endereço</h2>
@@ -302,7 +315,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                         <div className="flex-endereco">
                             <div className="div-flex">
                                 <label htmlFor="cep">CEP*</label>
-                                <input type="text" className="cep" id="cep" value={dadosForm.enderecoCep} onChange={(e) =>  setDadosForm({...dadosForm, enderecoCep:e.target.value})} />
+                                <IMaskInput type="text" className="cep" id="cep" mask="00000-000" value={dadosForm.enderecoCep} onChange={(e) =>  setDadosForm({...dadosForm, enderecoCep:e.target.value})} />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="logradouro">Logradouro*</label>
@@ -454,7 +467,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                 <div className="modal-sucesso">
                     <div className="modal-sucesso-content">
                         <h1>Sucesso!</h1>
-                        <h2>Cadastro realizado com sucesso.</h2>
+                        <h2>Paciente cadastrado com sucesso.</h2>
                         <button className="button-fechar" id="fechar" onClick={handleCloseModal} >Fechar</button>
                     </div>
                 </div>

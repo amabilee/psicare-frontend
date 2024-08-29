@@ -29,6 +29,13 @@
     width: 600px;
 }
 
+.modal-content-editar-paciente{
+    width: 1150px;
+    height: 960px;
+    overflow: hidden;
+    z-index: 3000;
+}
+
 .modal-content-editar h2{
     color: #767474;
     font-size: 20px;
@@ -51,12 +58,21 @@
     margin-top: 0;
 }
 
+.modal-content-editar-paciente hr{
+    width: 1100px;
+    margin: 0 0 0 15px;
+}
+
 .modal-content-editar .formulario{
     display: flex;
     flex-direction: column;
     margin-top: 20px;
     margin-left: 20px;
 }
+
+.modal-content-editar-paciente .formulario{
+    margin-top: 0;
+} 
 
 .modal-content-editar label {
     color: #767474;
@@ -109,7 +125,17 @@
     width: 240px;
 }
 
-.modal-content-editar select{
+.modal-content-editar select,
+.modal-content-editar select.professorNome,
+.modal-content-editar select.periodo,
+.modal-content-editar select.turno,
+.modal-content-editar select.sexo,
+.modal-content-editar select.estado-civil,
+.modal-content-editar select.status,
+.modal-content-editar select.tratamento,
+.modal-content-editar select.renda,
+.modal-content-editar select.encaminhadorSelect,
+.modal-content-editar select.uf{
     padding: 10px;
     border: 2px solid #C760EBFA;
     border-radius: 12px;
@@ -124,13 +150,49 @@
 }
 
 .modal-content-editar select.turno:focus,  
-.modal-content-editar select.professorNome:focus{
+.modal-content-editar select.professorNome:focus,
+.modal-content-editar select.sexo:focus,
+.modal-content-editar select.estado-civil:focus,
+.modal-content-editar select.periodo:focus,
+.modal-content-editar select.status:focus,
+.modal-content-editar select.tratamento:focus,
+.modal-content-editar select.renda:focus,
+.modal-content-editar select.encaminhadorSelect:focus,
+.modal-content-editar select.uf:focus{
     border: 2px solid #C760EBFA;
     outline: none;
 }
 
 .modal-content-editar select.turno{
     width: 260px
+}
+
+.modal-content-editar select.turno{
+    width: 245px;
+}
+
+.modal-content-editar select.estado-civil{
+    width: 210px;
+}
+
+.modal-content-editar select.sexo{
+    width: 190px;
+}
+
+.modal-content-editar select.encaminhadorSelect{
+    width: 330px;
+}
+
+.modal-content-editar select.uf{
+    display: flex;
+    width: 70px;
+    margin-right: 230px;
+}
+
+.modal-content-editar select.status{
+    display: flex;
+    width: 438px;
+    margin-right: 300px;
 }
 
 .modal-content-editar-aluno .professorNome {
@@ -156,11 +218,132 @@
     width: 265px;
 }
 
-
 .modal-content-editar .disciplina{
     width: 240px;
     text-transform: capitalize;
 }
+
+/* modal paciente */
+.flex-informacoes-pessoais,
+.flex-endereco,
+.flex-informacoes-tratamento {
+    display: flex;
+    width: 1095px;
+    justify-content: space-between;
+}
+
+.flex-informacoes-pessoais .nome-completo,
+.flex-informacoes-pessoais .email {
+    display: flex;
+    width: 308px;
+}
+
+.flex-informacoes-pessoais .CPF,
+.flex-informacoes-pessoais .telefone {
+    display: flex;
+    width: 194px;
+}
+
+.flex-informacoes-pessoais .data-nascimento,
+.flex-informacoes-tratamento .inicio-tratamento,
+.flex-informacoes-tratamento .termino-tratamento {
+    display: flex;
+    width: 260px;
+    border-radius: 10px;
+    margin: 8px 0;
+}
+
+.flex-informacoes-pessoais .data-nascimento div,
+.flex-informacoes-tratamento .inicio-tratamento div,
+.flex-informacoes-tratamento .termino-tratamento div {
+    border-radius: 10px;
+    border: 2px solid #C760EBFA;
+
+}
+
+
+.rs-picker-popup.rs-picker-popup-date {
+    z-index: 2000;
+    margin-top: -200px;
+    margin-left: 260px;
+}
+
+.flex-informacoes-pessoais .data-nascimento input,
+.flex-informacoes-tratamento .inicio-tratamento input,
+.flex-informacoes-tratamento .termino-tratamento input {
+    margin: 0;
+}
+
+.flex-informacoes-pessoais .sexo {
+    display: flex;
+}
+
+.flex-informacoes-pessoais .estado-civil {
+    width: 308px;
+    display: flex;
+}
+
+.flex-informacoes-pessoais .profissao {
+    width: 214px;
+    display: flex;
+}
+
+.flex-informacoes-pessoais .religiao,
+.flex-informacoes-pessoais .renda,
+.flex-informacoes-pessoais .nacionalidade,
+.flex-informacoes-pessoais .naturalidade {
+    width: 222px;
+    display: flex;
+}
+
+.flex-informacoes-pessoais .outro {
+    width: 288px;
+    display: flex;
+    margin-right: 360px;
+}
+
+.flex-informacoes-pessoais .nome-contato {
+    width: 368px;
+    display: flex;
+    
+}
+
+.flex-endereco .cep,
+.flex-endereco .bairro,
+.flex-endereco .cidade {
+    display: flex;
+    width: 278px;
+}
+
+.flex-endereco .logradouro,
+.flex-endereco .complemento {
+    display: flex;
+    width: 378px;
+}
+
+/* .flex-endereco .uf {
+    display: flex;
+    width: 70px;
+    margin-right: 208px;
+} */
+
+.flex-informacoes-tratamento .encaminhadorInput{
+    display: flex;
+    width: 308px;
+}
+
+.flex-informacoes-tratamento .inicio-tratamento,
+.flex-informacoes-tratamento .termino-tratamento{
+    display: flex;
+    width: 260px;
+}
+
+.flex-informacoes-tratamento #tratamento{
+    display: flex;
+    width: 230px;
+    margin-right: 300px;
+}
+
 
 /* buttons de editar cadastro */
 .modal-content-editar .buttons-form{
@@ -254,6 +437,13 @@
     padding: 10px 0 10px 10px;
     font-weight: 500;
     line-height: normal;
+}
+
+.modal-content-editar-paciente .formulario h2 {
+    padding: 0;
+    line-height: normal;
+    margin: 20px 0;
+    color: black;
 }
 
 .modal-content-confirmar hr {
