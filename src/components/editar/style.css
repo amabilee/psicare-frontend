@@ -44,6 +44,21 @@
     line-height: normal;
 }
 
+.modal-content-editar h2{
+    color: #767474;
+    font-size: 20px;
+    padding: 10px 0 10px 10px;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.modal-content-editar-paciente .formulario h2 {
+    padding: 0;
+    line-height: normal;
+    margin: 20px 0;
+    color: black;
+}
+
 .modal-content-editar hr{
     height: 2px;
     background-color: #D9D9D9;
@@ -418,17 +433,24 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.modal-content-confirmar.modal-content-confirmar-aluno{
+.modal-content-confirmar-aluno{
     height: 590px;
     width: 600px;
 }
 
-.modal-content-confirmar.modal-content-confirmar-professor{
+.modal-content-confirmar-professor{
     height: 510px;
 }
 
-.modal-content-confirmar.modal-content-confirmar-secretario{
+.modal-content-confirmar-secretario{
     height: 510px;
+}
+
+.modal-content-confirmar-paciente{
+    width: 1150px;
+    height: 980px;
+    overflow: hidden;
+    z-index: 3000;
 }
 
 .modal-content-confirmar h2 {
@@ -439,7 +461,7 @@
     line-height: normal;
 }
 
-.modal-content-editar-paciente .formulario h2 {
+.modal-content-confirmar-paciente .dados-inseridos h2 {
     padding: 0;
     line-height: normal;
     margin: 20px 0;
@@ -454,6 +476,11 @@
     margin-left: 15px;
     margin-bottom: 20px;
     margin-top: 0;
+}
+
+.modal-content-confirmar-paciente hr{
+    width: 1100px;
+    margin: 0 0 0 15px;
 }
 
 .modal-content-confirmar .dados-inseridos {
@@ -486,10 +513,33 @@
 
 }
 
+.modal-content-confirmar-paciente .coluna1 {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 80px;
+
+}
+
 .modal-content-confirmar .dados-inseridos .coluna2 {
     display: flex;
     justify-content: space-between;
     margin-right: 80px;
+}
+
+.modal-content-confirmar-paciente .dados-inseridos .coluna2 .estadoCivil {
+    margin-right: 50px;
+}
+
+.modal-content-confirmar-paciente .dados-inseridos .coluna3{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 80px;
+}
+
+.modal-content-confirmar-paciente .dados-inseridos .coluna4{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 590px;
 }
 
 .modal-content-confirmar .dados-inseridos .coluna5{
@@ -498,10 +548,36 @@
     margin-right: 138px;
 }
 
+.modal-content-confirmar-paciente .dados-inseridos .coluna5{
+    margin-right: 100px;
+}
+
+.modal-content-confirmar-paciente .dados-inseridos .coluna6{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 170px;
+}
+
+.modal-content-confirmar-paciente .dados-inseridos .coluna7{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 540px;
+}
+
+.modal-content-confirmar-paciente .dados-inseridos .coluna8{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 540px;
+}
+
 .modal-content-confirmar .buttons-confirmar{
     display: flex;
     justify-content: space-between;
     margin-top: 58px;
+}
+
+.modal-content-confirmar-paciente .buttons-confirmar-paciente{
+    margin-top: 30px;
 }
 
 .modal-content-confirmar .buttons-confirmar-aluno{
@@ -519,7 +595,6 @@
     font-weight: 500;
     font-size: 15px;
     padding: 10px 40px;
-    margin-left: 20px;
     border: 2px solid #C760EB;
     border-radius: 6px;
     background: #fff;
@@ -583,6 +658,14 @@
     line-height: normal;
 }
 
+.modal-sucesso-content h2{
+    color: #767474;
+    font-size: 20px;
+    margin-bottom: 30px;
+    font-weight: 500;
+    line-height: normal;
+
+}
 .modal-sucesso-content h2{
     color: #767474;
     font-size: 20px;

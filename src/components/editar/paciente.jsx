@@ -43,6 +43,7 @@ export default function EditarPaciente({handleEditarClose, dadosPaciente, render
         }
         return idade;
     }    
+    console.log(dadosAtualizados)
 
     const handleEditarConfirmar = (newState) => () => {
         const idade = calcularIdade(dadosAtualizados.dataNascimento)
@@ -52,7 +53,7 @@ export default function EditarPaciente({handleEditarClose, dadosPaciente, render
         } else if (!cpf.isValid(dadosAtualizados.cpf)){
             setState({ ...newState, open: true }); 
             setMessage("Insira um cpf válido.");
-        } else if (!validator.isDate(dadosAtualizados.dataNascimento)){
+        } else if (!dadosAtualizados.dataNascimento){
             setState({ ...newState, open: true }); 
             setMessage("Insira uma data de nascimento.");
         } else if (dadosAtualizados.sexo === ""){
@@ -112,10 +113,10 @@ export default function EditarPaciente({handleEditarClose, dadosPaciente, render
         } else if(dadosAtualizados.encaminhador.length <= 4 && dadosAtualizados.funcionarioUnieva) {
             setState({ ...newState, open: true });
             setMessage("Insira o funcionario");
-        } else if (!validator.isDate(dadosAtualizados.dataInicioTratamento)){
+        } else if (!dadosAtualizados.dataInicioTratamento){
             setState({ ...newState, open: true }); 
             setMessage("Insira a data do início do tratamento.");
-        } else if (!validator.isDate(dadosAtualizados.dataTerminoTratamento)){
+        } else if (!dadosAtualizados.dataTerminoTratamento){
             setState({ ...newState, open: true }); 
             setMessage("Insira a data do término do tratamento.");
         } else if (dadosAtualizados.tipoDeTratamento === ""){
@@ -166,6 +167,14 @@ export default function EditarPaciente({handleEditarClose, dadosPaciente, render
         }
     }
 
+    const formatarDataNascimento = (data) => {
+        const dataObj = new Date(data);
+        const dia = String(dataObj.getDate()).padStart(2, '0');
+        const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); // Meses são baseados em zero
+        const ano = dataObj.getFullYear();
+        return `${dia}/${mes}/${ano}`;
+      };
+
   return (
     <>
     {Editar && (
@@ -189,7 +198,8 @@ export default function EditarPaciente({handleEditarClose, dadosPaciente, render
                     <DatePicker 
                     className="data-nascimento"
                     format="dd/MM/yyyy"
-                    // value={dadosAtualizados.dataNascimento}
+                    placeholder="dd/mm/aaaa"
+                    value={new Date(dadosAtualizados.dataNascimento)}
                     onChange={(e) =>  setDadosAtualizados({...dadosAtualizados, dataNascimento: e})}
                     />
                 </div>
@@ -380,7 +390,8 @@ export default function EditarPaciente({handleEditarClose, dadosPaciente, render
                     <DatePicker 
                     className="inicio-tratamento"
                     format="dd/MM/yyyy"
-                    // value={dadosAtualizados.dataNascimento}
+                    placeholder="dd/mm/aaaa"
+                    value={new Date(dadosAtualizados.dataInicioTratamento)}
                     onChange={(e) =>  setDadosAtualizados({...dadosAtualizados, dataInicioTratamento: e})}
                     />
                 </div>
@@ -389,7 +400,8 @@ export default function EditarPaciente({handleEditarClose, dadosPaciente, render
                     <DatePicker 
                     className="termino-tratamento"
                     format="dd/MM/yyyy"
-                    // value={dadosAtualizados.dataNascimento}
+                    placeholder="dd/mm/aaaa"
+                    value={new Date(dadosAtualizados.dataTerminoTratamento)}
                     onChange={(e) =>  setDadosAtualizados({...dadosAtualizados, dataTerminoTratamento: e})}
                     />
                 </div>
@@ -433,38 +445,130 @@ export default function EditarPaciente({handleEditarClose, dadosPaciente, render
             <div className="modal-content-confirmar modal-content-confirmar-paciente">
                 <h2>Confirmar Edição de Paciente</h2>
                 <hr />
+                
                 <div className="dados-inseridos">
-                  <div className="coluna1">
-                    <div className="nome">
-                        <p>Nome Completo</p>
-                        <h1>{dadosAtualizados.nome}</h1>
+                    <h2>Informacoes Pessoais</h2>
+                    <div className="coluna1">
+                        <div className="nome">
+                            <p>Nome Completo</p>
+                            <h1>{dadosAtualizados.nome}</h1>
+                        </div>
+                        <div className="CPF">
+                            <p>CPF</p>
+                            <h1>{dadosAtualizados.cpf}</h1>
+                        </div>
+                        <div className="data-nascimento">
+                            <p>Data Nascimento</p>
+                            <h1>{formatarDataNascimento(dadosAtualizados.dataNascimento)}</h1>
+                        </div>
+                        <div className="sexo">
+                            <p>Sexo</p>
+                            <h1>{dadosAtualizados.sexo}</h1>
+                        </div>
+                    </div> 
+                    <div className="coluna2">
+                        <div className="email">
+                            <p>Email</p>
+                            <h1>{dadosAtualizados.email}</h1>
+                        </div>
+                        <div className="telefone">
+                            <p>Telefone</p>
+                            <h1>{dadosAtualizados.telefoneContato}</h1>
+                        </div>
+                        <div className="estadoCivil">
+                            <p>Estado Civil</p>
+                            <h1>{dadosAtualizados.estadoCivil}</h1>
+                        </div>
+                        <div className="profissao">
+                            <p>Profissão</p>
+                            <h1>{dadosAtualizados.profissao}</h1>
+                        </div>
                     </div>
-                  </div> 
-                  <div className="coluna2">
-                      <div className="CPF">
-                          <p>CPF</p>
-                          <h1>{dadosAtualizados.cpf}</h1>
-                      </div>
-                      <div className="telefone">
-                          <p>Telefone</p>
-                          <h1>{dadosAtualizados.telefone}</h1>
-                      </div>
-                  </div>
-                  <div className="coluna3">
-                    <div className="email">
-                      <p>E-mail</p>
-                      <h1>{dadosAtualizados.email}</h1>
+                    <div className="coluna3">
+                        <div className="religiao">
+                            <p>Religião</p>
+                            <h1>{dadosAtualizados.religiao}</h1>
+                        </div>
+                        <div className="renda">
+                            <p>Renda Familiar</p>
+                            <h1>{dadosAtualizados.rendaFamiliar}</h1>
+                        </div>
+                        <div className="nacionalidade">
+                            <p>Nacionalidade</p>
+                            <h1>{dadosAtualizados.nacionalidade}</h1>
+                        </div>
+                        <div className="naturalidade">
+                            <p>Naturalidade</p>
+                            <h1>{dadosAtualizados.naturalidade}</h1>
+                        </div>
                     </div>
-                  </div>
-                  <div className="coluna4">
-                    <div className="disciplina">
-                      <p>Disciplina</p>
-                      <h1>{dadosAtualizados.disciplina}</h1>
-                    </div>  
-                  </div>
-                     
-                </div> 
-                <div className="buttons-confirmar buttons-confirmar-paciente">
+                    <div className="coluna4">
+                        <div className="nomeContato">
+                            <p>Nome do contato/responsável</p>
+                            <h1>{dadosAtualizados.nomeDoContatoResponsavel === "" ? ("Não informado") : (dadosAtualizados.nomeDoContatoResponsavel)}</h1>
+                        </div>  
+                        <div className="outro">
+                            <p>Telefone contato/responsável</p>
+                            <h1>{dadosAtualizados.outroContato === "" ? ("Não informado") : (dadosAtualizados.outroContato)}</h1>
+                        </div>  
+                    </div>
+
+                    <h2>Endereço</h2>
+                    <div className="coluna5">
+                        <div className="cep">
+                            <p>CEP</p>
+                            <h1>{dadosAtualizados.enderecoCep}</h1>
+                        </div>
+                        <div className="logradouro">
+                            <p>Logradouro</p>
+                            <h1>{dadosAtualizados.enderecoLogradouro}</h1>
+                        </div>
+                        <div className="Bairro">
+                            <p>Bairro</p>
+                            <h1>{dadosAtualizados.enderecoBairro}</h1>
+                        </div>
+                    </div>
+                    <div className="coluna6">
+                        <div className="cidade">
+                            <p>Cidade</p>
+                            <h1>{dadosAtualizados.enderecoCidade}</h1>
+                        </div>
+                        <div className="complemento">
+                            <p>Complemento</p>
+                            <h1>{dadosAtualizados.enderecoComplemento === "" ? ("Não informado") : (dadosAtualizados.enderecoComplemento)}</h1>
+                        </div>
+                        <div className="UF">
+                            <p>UF</p>
+                            <h1>{dadosAtualizados.enderecoUF}</h1>
+                        </div>
+                    </div>
+                    <h2>Informações de Tratamento</h2>
+                    <div className="coluna7">
+                        <div className="nome-encaminhador">
+                            <p>Nome do Encaminhador</p>
+                            <h1>{dadosAtualizados.encaminhador}</h1>
+                        </div>
+                        <div className="status-encaminhador">
+                            <p>Status do encaminhador</p>
+                            <h1>{dadosAtualizados.alunoUnieva ? "Aluno da UniEVANGÉLICA" : dadosAtualizados.funcionarioUnieva ? "Funcionário da Associação Educativa Evangélica" : ""}</h1>
+                        </div>
+                    </div>
+                    <div className="coluna8">
+                        <div className="inicioTratamento">
+                            <p>Início do Tratamento</p>
+                            <h1>{formatarDataNascimento(dadosAtualizados.dataInicioTratamento)}</h1>
+                        </div>
+                        <div className="terminoTratamento">
+                            <p>término do Tratamento</p>
+                            <h1>{formatarDataNascimento(dadosAtualizados.dataTerminoTratamento)}</h1>
+                        </div>
+                        <div className="tipoTratamento">
+                            <p>Tipo de Tratamento</p>
+                            <h1>{dadosAtualizados.tipoDeTratamento}</h1>
+                        </div>
+                    </div>
+
+                     <div className="buttons-confirmar buttons-confirmar-paciente">
                   <button className="button-voltar-confirmar" id="voltar" onClick={handleVoltarConfirmar} >
                     Voltar
                   </button>
@@ -472,6 +576,8 @@ export default function EditarPaciente({handleEditarClose, dadosPaciente, render
                     Confirmar
                   </button>
                 </div> 
+                </div> 
+                
             </div>
         </div>
       )}

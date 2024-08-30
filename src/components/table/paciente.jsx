@@ -26,6 +26,7 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
   useEffect(() => {
     receberDadosPaciente();
   }, [renderFormTable, currentPage, pesquisar]);
+  console.log(dadosPaciente.pacientes)
 
   const receberDadosPaciente = async() => {
     const token = localStorage.getItem("user_token")
@@ -218,6 +219,14 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
   //calcula quantas linhas vazias são necessárias para preencher ate um total de 15 linhas
   const calculoLinhasVazias = 15 - dadosPaciente.pacientes.length;
 
+  const formatarDataNascimento = (data) => {
+    const dataObj = new Date(data);
+    const dia = String(dataObj.getDate()).padStart(2, '0');
+    const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); // Meses são baseados em zero
+    const ano = dataObj.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+  };
+
   return (
     <div className="table-container">
       <table className="table">
@@ -268,11 +277,11 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
                 <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
                   {paciente.cpf}
                 </td>
-                <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
+                <td className="table-content" id="td-tratamento" onClick={() => handleVisualizarClick(paciente)}>
                   {paciente.tipoDeTratamento}
                 </td>
                 <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
-                  {paciente.dataNascimento}
+                  {formatarDataNascimento(paciente.dataNascimento)}
                 </td>
                 <td>
                   <img

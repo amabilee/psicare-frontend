@@ -43,7 +43,8 @@
 .table-body tr td#td-nome,
 .table-body tr td#td-turno,
 .table-body tr td#td-disciplina,
-.table-body tr td#td-prof {
+.table-body tr td#td-prof,
+.table-body tr td#td-tratamento {
     text-transform: capitalize;
 }
 

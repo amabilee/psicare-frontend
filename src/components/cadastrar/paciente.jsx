@@ -75,14 +75,8 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
 
     const HandleFormSubmit = (newState) => async() => {
         const idade = calcularIdade(dadosForm.dataNascimento)
-        console.log(dadosForm.dataNascimento)
-        const dataFormatada = new Date(dadosForm.dataNascimento).toISOString()
-        var dataFormatadaSeparacao = dataFormatada.split('T')[0]
-        console.log(dataFormatada)
-        console.log(dataFormatadaSeparacao)
-        dadosForm.forEach(item => {
-            item.dataNascimento = dataFormatadaSeparacao;
-        })
+        
+        
         if (dadosForm.nome.length <= 6) {
             setState({ ...newState, open: true });
             setMessage("Insira o nome completo.");
@@ -163,13 +157,21 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
 
         else {
             const token = localStorage.getItem("user_token")
-            const dataFormatada = dadosForm.dataNascimento.split('T')[0]
-            console.log(dataFormatada)
-            dadosForm.forEach(item => {
-                dadosForm.dataNascimento = dataFormatadaSeparacao;
-            })
+            const dataNascimentoFormatada = new Date(dadosForm.dataNascimento).toISOString().split('T')[0] 
+            const dataInicioFormatada = new Date(dadosForm.dataInicioTratamento).toISOString().split('T')[0] 
+            const dataTerminoFormatada = new Date(dadosForm.dataTerminoTratamento).toISOString().split('T')[0] 
+            // var dataNascFormatadaSeparacao = dataNascimentoFormatada.split('T')[0] 
+            // var dataInicFormatadaSeparacao = dataInicioFormatada.split('T')[0] 
+            // var dataTermFormatadaSeparacao = dataTerminoFormatada.split('T')[0] 
+            const dadosFormAtualizados = {
+                ...dadosForm,
+                dataNascimento: dataNascimentoFormatada,
+                dataInicioTratamento: dataInicioFormatada,
+                dataTerminoTratamento: dataTerminoFormatada
+            };
+            console.log(dataNascimentoFormatada, dataInicioFormatada, dataTerminoFormatada)
                 try {
-                    var dadosEnviados = await api.post("/paciente", dadosForm, {
+                    var dadosEnviados = await api.post("/paciente", dadosFormAtualizados, {
                         headers: {
                             "Content-Type": "application/json",
                             "authorization": `Bearer ${token}`
@@ -227,6 +229,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 <DatePicker 
                                 className="data-nascimento"
                                 format="dd/MM/yyyy"
+                                placeholder="dd/mm/aaaa"
                                 // value={dadosForm.dataNascimento}
                                 onChange={(e) =>  setDadosForm({...dadosForm, dataNascimento: e})}
                                 />
@@ -418,6 +421,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 <DatePicker 
                                 className="inicio-tratamento"
                                 format="dd/MM/yyyy"
+                                placeholder="dd/mm/aaaa"
                                 // value={dadosForm.dataNascimento}
                                 onChange={(e) =>  setDadosForm({...dadosForm, dataInicioTratamento: e})}
                                 />
@@ -427,6 +431,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 <DatePicker 
                                 className="termino-tratamento"
                                 format="dd/MM/yyyy"
+                                placeholder="dd/mm/aaaa"
                                 // value={dadosForm.dataNascimento}
                                 onChange={(e) =>  setDadosForm({...dadosForm, dataTerminoTratamento: e})}
                                 />
