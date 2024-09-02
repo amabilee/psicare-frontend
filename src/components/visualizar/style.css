@@ -22,7 +22,11 @@
     border: none;
     width: 98%;
     margin-top: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+}
+
+.header-visualizar-paciente hr {
+    margin-bottom: 10px;
 }
 
 .header-visualizar-info {
@@ -60,6 +64,18 @@
     line-height: normal;
 }
 
+.visualizar-info-paciente h1{
+    margin-bottom: 10px;
+}
+
+.visualizar-info-paciente h2 {
+    padding: 0;
+    line-height: normal;
+    margin: 20px 0;
+    color: #333333;
+    font-size: 22px;
+}
+
 .visualizar-info .coluna1{
     display: flex;
 }
@@ -79,6 +95,22 @@
     left: 70%;
 } 
 
+.visualizar-info-paciente .coluna1 {
+    justify-content:  space-between;
+    margin-right: 50px;
+}
+
+.visualizar-info-paciente .coluna1 .CPF,
+.visualizar-info-paciente .coluna2 .telefone {
+    position: fixed;
+    left: 45%;
+}
+
+.visualizar-info-paciente .coluna1 .data-nascimento {
+    position: fixed;
+    left: 65%;
+}
+
 .visualizar-info .coluna2{
     display: flex;
 }
@@ -86,6 +118,36 @@
 .visualizar-info .coluna2 .telefone{
     position: fixed;
     left: 50%;
+}
+
+.visualizar-info-paciente .coluna2 .telefone{
+    position: fixed;
+    left: 45%;
+}
+
+.visualizar-info-paciente .coluna3 .renda{
+    position: fixed;
+    left: 45%;
+}
+
+.visualizar-info-paciente .coluna4 .nomeContato{
+    position: fixed;
+    left: 45%;
+}
+
+.visualizar-info-paciente .coluna2 .estadoCivil{
+    position: fixed;
+    left: 65%;
+}
+
+.visualizar-info-paciente .coluna3 .nacionalidade{
+    position: fixed;
+    left: 65%;
+}
+
+.visualizar-info-paciente .coluna2 {
+    justify-content: space-between;
+    margin-right: 40px;
 }
 
 .visualizar-info .coluna3{
@@ -102,6 +164,30 @@
     text-transform: capitalize;
     line-height: normal;
 }
+
+.visualizar-info-paciente .coluna3{
+    justify-content: space-between;
+    margin-right: 65px;
+}
+
+.visualizar-info-paciente .coluna4 {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 1200px;
+}
+
+.visualizar-info-paciente .coluna5 {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 300px;
+}
+
+.visualizar-info-paciente .coluna6 {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 100px;
+}
+
 
 /* button de voltar */
 

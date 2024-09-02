@@ -1,8 +1,10 @@
 import React from "react";
+import TableAlunoPaciente from "../table/alunoPacientes";
 import "./style.css";
 
 
 export default function VisualizarAluno({handleCloseVisualizar, dadosAluno}){
+    const pacienteAlunos = dadosAluno._id;
 
     return(
         <div className="visualizar">
@@ -52,7 +54,7 @@ export default function VisualizarAluno({handleCloseVisualizar, dadosAluno}){
                         </div>
                     </div>   
                 </div>     
-                
+                <TableAlunoPaciente pacienteAlunos={pacienteAlunos}/>
             </div>
         </div>
     )
