@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { api } from "../../services/server";
-// import VisualizarSecretario from "../visualizar/secretario";
+import VisualizarPaciente from "../visualizar/paciente";
 import ExcluirPaciente from "../excluir/paciente";
 import EditarPaciente from "../editar/paciente";
 import IconEditar from "../../assets/editar-icon.svg";
@@ -341,12 +341,12 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
           </tr>
         </tfoot>
       </table>
-      {/* {isVisualizarOpen && (
-        <VisualizarSecretario
+      {isVisualizarOpen && (
+        <VisualizarPaciente
           handleCloseVisualizar={handleCloseVisualizar}
           dadosPaciente={usuarioClick}
         />
-      )} */}
+      )}
       {isExcluirOpen && (
         <ExcluirPaciente 
         handleExcluirClose={handleExcluirClose} 

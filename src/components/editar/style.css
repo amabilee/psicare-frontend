@@ -448,7 +448,7 @@
 
 .modal-content-confirmar-paciente{
     width: 1150px;
-    height: 980px;
+    height: 990px;
     overflow: hidden;
     z-index: 3000;
 }
@@ -517,7 +517,6 @@
     display: flex;
     justify-content: space-between;
     margin-right: 80px;
-
 }
 
 .modal-content-confirmar .dados-inseridos .coluna2 {
@@ -549,13 +548,25 @@
 }
 
 .modal-content-confirmar-paciente .dados-inseridos .coluna5{
-    margin-right: 100px;
+    margin-right: 80px;
+}
+
+.modal-content-confirmar-paciente .dados-inseridos .coluna5 .logradouro{
+    margin-right: 160px;
 }
 
 .modal-content-confirmar-paciente .dados-inseridos .coluna6{
     display: flex;
     justify-content: space-between;
     margin-right: 170px;
+}
+
+.modal-content-confirmar-paciente .dados-inseridos .coluna6 .complemento{
+    margin-right: 70px;
+}
+
+.modal-content-confirmar-paciente .dados-inseridos .coluna6 .UF{
+    margin-right: 95px;
 }
 
 .modal-content-confirmar-paciente .dados-inseridos .coluna7{
@@ -577,7 +588,7 @@
 }
 
 .modal-content-confirmar-paciente .buttons-confirmar-paciente{
-    margin-top: 30px;
+    margin-top: 55px;
 }
 
 .modal-content-confirmar .buttons-confirmar-aluno{
