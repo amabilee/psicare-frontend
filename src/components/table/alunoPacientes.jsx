@@ -4,8 +4,8 @@ import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
 
-export default function TableProfAluno({ alunosProfessor }){
-    const [dadosAluno, setDadosAluno] = useState({ alunos: [] });
+export default function TableAlunoPaciente({ pacienteAlunos }){
+    const [dadosPaciente, setDadosPaciente] = useState({ pacientes: [] });
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalAlunosTable, setTotalAlunosTable] = useState(0);
@@ -13,13 +13,13 @@ export default function TableProfAluno({ alunosProfessor }){
 
     useEffect(() => {
       receberDadosAluno();
-    }, [alunosProfessor, currentPage]);
-    console.log("dadosAluno",dadosAluno)
+    }, [pacienteAlunos, currentPage]);
+    console.log("dadosPaciente",dadosPaciente)
 
     const receberDadosAluno = async () => {
       const token = localStorage.getItem("user_token")
       try {
-        let dadosPaginados = `/aluno/professor/${alunosProfessor}?page=${currentPage}`;//numero de pagina atual para a api 
+        let dadosPaginados = `/paciente/aluno/${pacienteAlunos}?page=${currentPage}`;//numero de pagina atual para a api 
         const receberDados = await api.get(dadosPaginados, {
           headers: {
             "Content-Type": "application/json",
@@ -28,14 +28,14 @@ export default function TableProfAluno({ alunosProfessor }){
         });//requisação get para os "dadosPaginados" contruido
         console.log("receber dados",receberDados)
 
-        const { alunos, totalPages ,totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
-        //aluno: lista de alunos, e totalPages: numero total de paginas tudo retornado pela api
-        setDadosAluno({ alunos }); //atualiza os dadosalunos para os dados da minha api "alunos"
+        const { pacientes, totalPages ,totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
+        //aluno: lista de pacientes, e totalPages: numero total de paginas tudo retornado pela api
+        setDadosPaciente({ pacientes }); //atualiza os dadospacientes para os dados da minha api "pacientes"
         setTotalPages(totalPages); //atualiza o totalPages com o "total" retorndo da minha apis
         setTotalAlunosTable(totalItems);
 
-        const alunosAcumulados = ((currentPage - 1) * 10 + alunos.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
-        setAcumularAlunosPage(alunosAcumulados);
+        const pacientesAcumulados = ((currentPage - 1) * 10 + pacientes.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
+        setAcumularAlunosPage(pacientesAcumulados);
       } catch (e) {
         console.log("Erro ao buscar dados do aluno:", e);
       }
@@ -67,7 +67,7 @@ export default function TableProfAluno({ alunosProfessor }){
       return linhasVazias;
     };
     //calcula quantas linhas vazias são necessárias para preencher ate um total de 15 linhas
-    const calculoLinhasVazias = 10 - dadosAluno.alunos.length;
+    const calculoLinhasVazias = 10 - dadosPaciente.pacientes.length;
     return(
         <div className="table-container">
           <h2>Alunos</h2>
@@ -83,26 +83,26 @@ export default function TableProfAluno({ alunosProfessor }){
                 </tr>
             </thead>
             <tbody className="table-body">
-              {Array.isArray(dadosAluno.alunos) &&
-                dadosAluno.alunos.map((aluno, index) => (
-                  <tr key={aluno._id} >
-                    <td className="table-content" onClick={() => handleVisualizarClick(aluno)}>
-                      {aluno.nome}
+              {Array.isArray(dadosPaciente.pacientes) &&
+                dadosPaciente.pacientes.map((paciente, index) => (
+                  <tr key={paciente._id} >
+                    <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
+                      {paciente.nome}
                     </td>
-                    <td className="table-content" onClick={() => handleVisualizarClick(aluno)}>
-                      {aluno.matricula}
+                    <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
+                      {paciente.matricula}
                     </td>
-                    <td className="table-content" onClick={() => handleVisualizarClick(aluno)}>
-                      {aluno.periodo}
+                    <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
+                      {paciente.periodo}
                     </td>
-                    <td className="table-content" onClick={() => handleVisualizarClick(aluno)}>
-                      {aluno.cpf}
+                    <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
+                      {paciente.cpf}
                     </td>
-                    <td className="table-content" onClick={() => handleVisualizarClick(aluno)}>
-                      {aluno.telefone}
+                    <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
+                      {paciente.telefone}
                     </td>
-                    <td className="table-content" onClick={() => handleVisualizarClick(aluno)}>
-                      {aluno.email}
+                    <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
+                      {paciente.email}
                     </td>
                   </tr>
                 ))}
@@ -112,7 +112,7 @@ export default function TableProfAluno({ alunosProfessor }){
               <tr>
                 <td colSpan="7">
                   <div className="quantidade-itens">
-                    {Array.isArray(dadosAluno.alunos) &&
+                    {Array.isArray(dadosPaciente.pacientes) &&
                       `${acumularAlunosPage}/${totalAlunosTable}`}
                   </div>
                   <div className="paginacao-table">

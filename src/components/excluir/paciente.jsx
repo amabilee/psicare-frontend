@@ -12,7 +12,7 @@ export default function ExcluirPaciente({handleExcluirClose, dadosPaciente, atua
             console.log(token)
 
             const deleteIds = async(id) => {
-                await api.delete(`/paciente/${id}`, {
+                await api.patch(`/paciente/${id}`, {
                     headers: {
                         "Content-Type": "application/json",
                         "authorization": `Bearer ${token}`

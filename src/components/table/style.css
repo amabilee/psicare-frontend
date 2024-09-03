@@ -1,4 +1,11 @@
 /* tabela */
+.table-container h2 {
+    padding: 0;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: normal;
+}
+
 .table {
     width: 99%;
     margin-top: 30px;
@@ -8,6 +15,10 @@
 .table .checkbox{
     width: 17px;
     height: 17px;
+}
+
+.table-paciente {
+    margin-top: 10px;
 }
 
 .tr-body{
