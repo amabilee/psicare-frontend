@@ -68,8 +68,9 @@ export default function TableProfAluno({ alunosProfessor }){
     };
     //calcula quantas linhas vazias são necessárias para preencher ate um total de 15 linhas
     const calculoLinhasVazias = 10 - dadosAluno.alunos.length;
+    const dadosVazios = dadosAluno.alunos.length === 0;
     return(
-        <div className="table-container">
+        <div className="table-container table-container-ProfAlunos"> 
           <h2>Alunos</h2>
           <table className="table table-paciente">
             <thead>
@@ -83,7 +84,13 @@ export default function TableProfAluno({ alunosProfessor }){
                 </tr>
             </thead>
             <tbody className="table-body">
-              {Array.isArray(dadosAluno.alunos) &&
+              {dadosVazios ? (
+                  <tr>
+                    <td colSpan="6" className="nenhum-Dado">
+                        Nenhum aluno encontrado.
+                    </td>
+                  </tr>
+              ) : (Array.isArray(dadosAluno.alunos) &&
                 dadosAluno.alunos.map((aluno, index) => (
                   <tr key={aluno._id} >
                     <td className="table-content" onClick={() => handleVisualizarClick(aluno)}>
@@ -105,7 +112,7 @@ export default function TableProfAluno({ alunosProfessor }){
                       {aluno.email}
                     </td>
                   </tr>
-                ))}
+                )) )}
               {calculoLinhasVazias > 0 && renderLinhasVazias(calculoLinhasVazias)}
             </tbody>
             <tfoot className="footer-table">

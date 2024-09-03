@@ -68,44 +68,55 @@ export default function TableAlunoPaciente({ pacienteAlunos }){
     };
     //calcula quantas linhas vazias são necessárias para preencher ate um total de 15 linhas
     const calculoLinhasVazias = 10 - dadosPaciente.pacientes.length;
+    const dadosVazios = dadosPaciente.pacientes.length === 0;
+
+    const formatarDataNascimento = (data) => {
+      const dataObj = new Date(data);
+      const dia = String(dataObj.getDate()).padStart(2, '0');
+      const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); // Meses são baseados em zero
+      const ano = dataObj.getFullYear();
+      return `${dia}/${mes}/${ano}`;
+    };
     return(
-        <div className="table-container">
-          <h2>Alunos</h2>
+        <div className="table-container table-container-alunoPaciente">
+          <h2>Paciente</h2>
           <table className="table table-paciente">
             <thead>
                 <tr className="tr-body">
                   <th>Nome</th>
-                  <th>Matrícula</th>
-                  <th>Periodo</th>
+                  <th>Telefone</th>
                   <th>CPF</th>
-                  <th>telefone</th>
-                  <th>email</th>
+                  <th>Tipo de Tratamento</th>
+                  <th>Data de Nascimento</th>
                 </tr>
             </thead>
             <tbody className="table-body">
-              {Array.isArray(dadosPaciente.pacientes) &&
+              {dadosVazios ? (
+                <tr>
+                  <td colSpan="6" className="nenhum-Dado">
+                      Nenhum paciente encontrado.
+                  </td>
+                </tr>
+              ) : (Array.isArray(dadosPaciente.pacientes) &&
                 dadosPaciente.pacientes.map((paciente, index) => (
                   <tr key={paciente._id} >
                     <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
                       {paciente.nome}
                     </td>
                     <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
-                      {paciente.matricula}
-                    </td>
-                    <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
-                      {paciente.periodo}
+                      {paciente.telefoneContato}
                     </td>
                     <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
                       {paciente.cpf}
                     </td>
                     <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
-                      {paciente.telefone}
+                      {paciente.tipoDeTratamento}
                     </td>
                     <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
-                      {paciente.email}
+                      {formatarDataNascimento(paciente.dataNascimento)}
                     </td>
                   </tr>
-                ))}
+                )) )}
               {calculoLinhasVazias > 0 && renderLinhasVazias(calculoLinhasVazias)}
             </tbody>
             <tfoot className="footer-table">

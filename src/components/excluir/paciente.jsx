@@ -10,9 +10,14 @@ export default function ExcluirPaciente({handleExcluirClose, dadosPaciente, atua
         try {
             const token = localStorage.getItem("user_token")
             console.log(token)
+            const mudarEstado = {
+                ...dadosPaciente,
+                ativoPaciente: false
+            }
+            console.log("mudar estado", mudarEstado)
 
             const deleteIds = async(id) => {
-                await api.patch(`/paciente/${id}`, {
+                await api.patch(`/paciente/arquivar/${id}`,mudarEstado ,{
                     headers: {
                         "Content-Type": "application/json",
                         "authorization": `Bearer ${token}`

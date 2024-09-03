@@ -5,6 +5,7 @@ import "./style.css";
 
 export default function VisualizarAluno({handleCloseVisualizar, dadosAluno}){
     const pacienteAlunos = dadosAluno._id;
+    console.log(pacienteAlunos)
 
     return(
         <div className="visualizar">

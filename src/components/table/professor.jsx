@@ -217,6 +217,8 @@ export default function TableProfessor({ renderFormTable, pesquisar }){
     };
     //calcula quantas linhas vazias são necessárias para preencher ate um total de 15 linhas
     const calculoLinhasVazias = 15 - dadosProfessor.professores.length;
+    const dadosVazios = dadosProfessor.professores.length === 0;
+
     return(
         <div className="table-container">
         <table className="table">
@@ -246,7 +248,13 @@ export default function TableProfessor({ renderFormTable, pesquisar }){
             )}
           </thead>
           <tbody className="table-body">
-            {Array.isArray(dadosProfessor.professores) &&
+            {dadosVazios ? (
+              <tr>
+                <td colSpan="6" className="nenhum-Dado">
+                    Nenhum professor encontrado.
+                </td>
+              </tr>
+            ) : (Array.isArray(dadosProfessor.professores) &&
               dadosProfessor.professores.map((professor, index) => (
                 <tr key={professor._id} >
                   <td>
@@ -288,7 +296,8 @@ export default function TableProfessor({ renderFormTable, pesquisar }){
                     />
                   </td>
                 </tr>
-              ))}
+              ))
+            )}
             {calculoLinhasVazias > 0 && renderLinhasVazias(calculoLinhasVazias)}
           </tbody>
           <tfoot className="footer-table">

@@ -218,6 +218,8 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
   };
   //calcula quantas linhas vazias são necessárias para preencher ate um total de 15 linhas
   const calculoLinhasVazias = 15 - dadosPaciente.pacientes.length;
+  const dadosVazios = dadosPaciente.pacientes.length === 0;
+
 
   const formatarDataNascimento = (data) => {
     const dataObj = new Date(data);
@@ -256,7 +258,13 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
           )}
         </thead>
         <tbody className="table-body">
-          {Array.isArray(dadosPaciente.pacientes) &&
+          {dadosVazios ? (
+            <tr>
+              <td colSpan="6" className="nenhum-Dado">
+                  Nenhum paciente encontrado.
+              </td>
+            </tr>
+          ) : (Array.isArray(dadosPaciente.pacientes) &&
             dadosPaciente.pacientes.map((paciente, index) => (
               <tr key={paciente._id} >
                 <td>
@@ -298,7 +306,8 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
                   />
                 </td>
               </tr>
-            ))}
+            ))
+          )}
           {calculoLinhasVazias > 0 && renderLinhasVazias(calculoLinhasVazias)}
         </tbody>
         <tfoot className="footer-table">

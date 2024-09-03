@@ -40,7 +40,8 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         tipoDeTratamento: "",
         alunoUnieva: false,
         funcionarioUnieva: false,
-        ativoPaciente: true
+        ativoPaciente: true,
+        alunoId: ""
     });    
 
 
@@ -66,7 +67,6 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
 
         let idade = dataAtual.getFullYear() - dataAniversario.getFullYear();
         const mes = dataAtual.getMonth() + 1
-        console.log(mes)
         if(mes < dataAniversario.getMonth() || (mes === dataAniversario.getMonth() && dataAtual.getDate() < dataAniversario.getDate())){
             idade --;
         }
@@ -75,7 +75,6 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
 
     const HandleFormSubmit = (newState) => async() => {
         const idade = calcularIdade(dadosForm.dataNascimento)
-        
         
         if (dadosForm.nome.length <= 6) {
             setState({ ...newState, open: true });
@@ -137,7 +136,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         } else if (!dadosForm.alunoUnieva && !dadosForm.funcionarioUnieva){
             setState({ ...newState, open: true });
             setMessage("Selecione um encaminhador.");
-        } else if(dadosForm.encaminhador === "" && dadosForm.alunoUnieva){
+        } else if(!dadosForm.alunoId === "" && dadosForm.alunoUnieva){
             setState({ ...newState, open: true });
             setMessage("Selecione o AlunoUnieva");
         } else if(dadosForm.encaminhador.length <= 4 && dadosForm.funcionarioUnieva) {
@@ -165,6 +164,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
             // var dataTermFormatadaSeparacao = dataTerminoFormatada.split('T')[0] 
             const dadosFormAtualizados = {
                 ...dadosForm,
+                alunoId: dadosForm.alunoUnieva ? dadosForm.encaminhador : "",
                 dataNascimento: dataNascimentoFormatada,
                 dataInicioTratamento: dataInicioFormatada,
                 dataTerminoTratamento: dataTerminoFormatada
@@ -385,13 +385,10 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                     className="encaminhadorSelect" id="encaminhadorSelect" 
                                     value={dadosForm.encaminhador} 
                                     onChange={(e) => setDadosForm({...dadosForm, encaminhador: e.target.value})} 
-                                    disabled={!dadosForm.alunoUnieva}
-                                    >
+                                    disabled={!dadosForm.alunoUnieva}>
                                         <option value="" disabled>Selecione uma opção</option>
                                         { alunosNome.alunos.map(aluno => (
-                                        <option 
-                                        key={aluno.nome} 
-                                        value={aluno.nome}>
+                                        <option key={aluno._id} value={aluno._id}>
                                         {aluno.nome}    
                                         </option>
                                         ))}
@@ -407,8 +404,8 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                             <div className="div-flex">
                                 <label htmlFor="status">Status Encaminhador*</label>
                                 <select className="status" name="status" id="status"
-                                value={dadosForm.alunoUnieva ? "Aluno da UniEVANGÉLICA" : dadosForm.funcionarioUnieva ? "Funcionário da Associação Educativa Evangélica" : dadosForm.encaminhador ? "" : ""}
-                                onChange={(e) => {setDadosForm({...dadosForm, alunoUnieva: e.target.value === "Aluno da UniEVANGÉLICA", funcionarioUnieva: e.target.value === "Funcionário da Associação Educativa Evangélica", encaminhador: ""})}}>
+                                value={dadosForm.alunoUnieva ? "Aluno da UniEVANGÉLICA" : dadosForm.funcionarioUnieva ? "Funcionário da Associação Educativa Evangélica" : ""}
+                                onChange={(e) => {setDadosForm({...dadosForm, alunoUnieva: e.target.value === "Aluno da UniEVANGÉLICA", funcionarioUnieva: e.target.value === "Funcionário da Associação Educativa Evangélica", encaminhador: "", alunoId: ""})}}>
                                     <option value="" disabled>Selecione uma opção</option>
                                     <option value="Aluno da UniEVANGÉLICA">Aluno da UniEVANGÉLICA</option>
                                     <option value="Funcionário da Associação Educativa Evangélica">Funcionário da Associação Educativa Evangélica</option>

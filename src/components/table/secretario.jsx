@@ -217,6 +217,8 @@ export default function TableSecretario({ renderFormTable, pesquisar }) {
   };
   //calcula quantas linhas vazias são necessárias para preencher ate um total de 15 linhas
   const calculoLinhasVazias = 15 - dadosSecretario.secretarios.length;
+  const dadosVazios = dadosSecretario.secretarios.length === 0;
+
 
   return (
     <div className="table-container">
@@ -247,7 +249,13 @@ export default function TableSecretario({ renderFormTable, pesquisar }) {
           )}
         </thead>
         <tbody className="table-body">
-          {Array.isArray(dadosSecretario.secretarios) &&
+          {dadosVazios ? (
+            <tr>
+              <td colSpan="6" className="nenhum-Dado">
+                  Nenhum secretario encontrado.
+              </td>
+            </tr>
+          ) : (Array.isArray(dadosSecretario.secretarios) &&
             dadosSecretario.secretarios.map((secretario, index) => (
               <tr key={secretario._id} >
                 <td>
@@ -289,7 +297,8 @@ export default function TableSecretario({ renderFormTable, pesquisar }) {
                   />
                 </td>
               </tr>
-            ))}
+            ))
+          )}
           {calculoLinhasVazias > 0 && renderLinhasVazias(calculoLinhasVazias)}
         </tbody>
         <tfoot className="footer-table">

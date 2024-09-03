@@ -220,6 +220,8 @@ export default function TableAluno({ renderFormTable, pesquisar }){
     };
     //calcula quantas linhas vazias são necessárias para preencher ate um total de 15 linhas
     const calculoLinhasVazias = 15 - dadosAluno.alunos.length;
+    const dadosVazios = dadosAluno.alunos.length === 0;
+
     return(
         <div className="table-container">
         <table className="table">
@@ -249,7 +251,13 @@ export default function TableAluno({ renderFormTable, pesquisar }){
             )}
           </thead>
           <tbody className="table-body">
-            {Array.isArray(dadosAluno.alunos) &&
+            {dadosVazios ? (
+                <tr>
+                  <td colSpan="6" className="nenhum-Dado">
+                      Nenhum aluno encontrado.
+                  </td>
+                </tr>
+            ) : (Array.isArray(dadosAluno.alunos) &&
               dadosAluno.alunos.map((aluno, index) => (
                 <tr key={aluno._id} >
                   <td>
@@ -291,7 +299,8 @@ export default function TableAluno({ renderFormTable, pesquisar }){
                     />
                   </td>
                 </tr>
-              ))}
+              ))
+            )}
             {calculoLinhasVazias > 0 && renderLinhasVazias(calculoLinhasVazias)}
           </tbody>
           <tfoot className="footer-table">
