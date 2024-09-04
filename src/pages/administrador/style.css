@@ -42,6 +42,13 @@ button.button_cadastro:hover{
     padding-left: 25px;
 }
 
+.icon_pesquisa_avançada{
+    position: absolute;
+    right: 600px;
+    margin-top: 7px;
+    cursor: pointer;
+}
+
 .pesquisar  {
     width: 573px;
     height: 40px;
@@ -64,4 +71,70 @@ button.button_cadastro:hover{
     width: 24px;
     margin-top: 7px;
     pointer-events: none; /*impede interação com o ícone*/
+}
+
+/* pesquisa avançada */
+.modal-filtragem{
+    display: flex;
+    justify-content: center;
+    /* align-items: center;     */
+    margin-left: 415px;
+    margin-top: 110px;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    /* background-color: rgb(0, 0, 0); */
+    /* background-color: rgba(0, 0, 0, 0.6); */
+}
+
+.modal-content-filtragem{
+    background-color: #fefefe;
+    padding: 15px 20px 30px 20px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    width: 270px;
+    height: 400px;
+    top: 12px;
+    left: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content-filtragem h1 {
+    font-size: 22px;
+    color: #00000099;
+    font-weight: 500;
+    line-height: 25.2px;
+}
+
+.modal-content-filtragem hr {
+    margin-top: 10px;
+}
+
+.modal-content-filtragem .formulario {
+    margin-top: 20px;
+}
+
+.modal-content-filtragem input {
+    padding: 8px;
+    border: 2px solid #C760EBFA;
+    border-radius: 12px;
+    width: 250px;
+    margin: 8px 0;
+}
+
+.modal-content-filtragem .formulario .coluna1 {
+    display: flex;
+}
+
+.modal-content-filtragem .formulario .coluna1 .div-CPF input{
+    margin-right: 10px;
+}
+
+.modal-content-filtragem .formulario .coluna1 .div-CPF input ,
+.modal-content-filtragem .formulario .coluna1 .div-telefone input {
+    width: 110px;
 }
