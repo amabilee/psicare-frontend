@@ -12,6 +12,12 @@ export default function Secretario(){
     const [isFiltragemOpen, setIsFiltragemOpen] = useState(false);
     const [renderFormTable, setRenderFormTable] = useState();
     const [pesquisaUsuario, setPesquisaUsuario] = useState("");
+    const [pesquisaAvançada, setPesquisaAvançada] = useState({
+        nome: "",
+        cpf: "",
+        telefone: "",
+        email: ""
+    })
 
     const handleNovoCadastroClick = () => {
         setIsCadastroOpen(true);
@@ -27,15 +33,33 @@ export default function Secretario(){
     }
 
     const modalFiltragemClose = () => {
-        setIsFiltragemOpen(true);
+        setIsFiltragemOpen(false);
     }
 
     const renderProps = (codigo) => {
         setRenderFormTable(codigo);
     }
 
-    const handlePesquisar = (e) => {
-        setPesquisaUsuario(e.target.value);
+    // const handlePesquisar = (e) => {
+    //     setPesquisaUsuario(e.target.value);
+    // }
+
+    const handlePesquisaAvançada = () => {
+        filtrar = ''
+        if (pesquisaAvançada.nome != ""){
+            filtrar += `&nome=${pesquisaAvançada.nome}`
+        }
+        if (pesquisaAvançada.cpf != ""){
+            filtrar += `&cpf=${pesquisaAvançada.cpf}`
+        }
+        if (pesquisaAvançada.telefone != ""){
+            filtrar += `&telefone=${pesquisaAvançada.telefone}`
+        }
+        if (pesquisaAvançada.email != ""){
+            filtrar += `&email=${pesquisaAvançada.email}`
+        }
+
+
     }
 
 
@@ -51,20 +75,19 @@ export default function Secretario(){
                     </button>
                     <img src={filtragem} alt="filtragem" className="icon_pesquisa_avançada" onClick={modalFiltragemClick}/>
                     <div className="container">
-                        <input type="text" value={pesquisaUsuario} onChange={handlePesquisar} className="pesquisar" />
+                        <input type="text" value={pesquisaUsuario} onChange={(e) => setPesquisaUsuario(e.target.value)} className="pesquisar" />
                         <img src={icon_pesquisa} alt="icon_pesquisa" id="icon_pesquisa" className="icon_pesquisa" />
                     </div>
                 </div>
-                <TableSecretario renderFormTable={renderFormTable} pesquisar={pesquisaUsuario}/>
-                {isCadastroOpen && (<CadastrarSecretario handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
+                
                 {isFiltragemOpen && (
                     <div className="modal-filtragem">
                         <div className="modal-content-filtragem">
                             <h1>Filtrar por</h1>
                             <hr />
                             <div className="formulario">
-                                    <label htmlFor="Nome">Nome Completo*</label>
-                                    <input type="text" id="nome"  />
+                                <label htmlFor="Nome">Nome Completo*</label>
+                                <input type="text" id="nome"/>
                                 <div className="coluna1">
                                     <div className="div-CPF">
                                         <label htmlFor="CPF">CPF*</label>
@@ -75,11 +98,22 @@ export default function Secretario(){
                                         <input type="text" className="telefone" id="telefone" />
                                     </div>
                                 </div>
+                                <label htmlFor="Email">Email*</label>
+                                <input type="email" name="email" id="email" />
+                                <label htmlFor="turno">Turno*</label>
+                                <select className="turno" id="turno" required>
+                                    <option value="#" disabled>Selecione uma opção</option>
+                                    <option value="matutino">Matutino</option>
+                                    <option value="vespertino">Vespertino</option>
+                                    <option value="noturno">Noturno</option>
+                                </select>
+                                <button className="button-filtro" id="filtro" onClick={modalFiltragemClose} onChange={handlePesquisaAvançada}>Aplicar Filtros</button>
                             </div>
-                            
                         </div>
                     </div>
                 )}
+                <TableSecretario renderFormTable={renderFormTable} pesquisar={pesquisaUsuario}/>
+                {isCadastroOpen && (<CadastrarSecretario handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
             </div>
         </>
     )
