@@ -9,7 +9,7 @@ import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
 
-export default function TableSecretario({ renderFormTable, pesquisar }) {
+export default function TableSecretario({ renderFormTable, pesquisar, pesquisaAvancada }) {
   const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
   const [isExcluirOpen, setIsExcluirOpen] = useState(false);
   const [isEditarOpen, setIsEditarOpen] = useState(false);
@@ -25,7 +25,9 @@ export default function TableSecretario({ renderFormTable, pesquisar }) {
 
   useEffect(() => {
     receberDadosSecretario();
-  }, [renderFormTable, currentPage, pesquisar]);
+  }, [renderFormTable, currentPage, pesquisar, pesquisaAvancada]);
+  console.log(pesquisaAvancada)
+  console.log(pesquisar)
 
   const receberDadosSecretario = async() => {
     const token = localStorage.getItem("user_token")

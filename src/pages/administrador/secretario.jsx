@@ -12,7 +12,7 @@ export default function Secretario(){
     const [isFiltragemOpen, setIsFiltragemOpen] = useState(false);
     const [renderFormTable, setRenderFormTable] = useState();
     const [pesquisaUsuario, setPesquisaUsuario] = useState("");
-    const [pesquisaAvançada, setPesquisaAvançada] = useState({
+    const [pesquisaAvancada, setPesquisaAvancada] = useState({
         nome: "",
         cpf: "",
         telefone: "",
@@ -40,27 +40,27 @@ export default function Secretario(){
         setRenderFormTable(codigo);
     }
 
-    // const handlePesquisar = (e) => {
-    //     setPesquisaUsuario(e.target.value);
-    // }
-
-    const handlePesquisaAvançada = () => {
-        filtrar = ''
-        if (pesquisaAvançada.nome != ""){
-            filtrar += `&nome=${pesquisaAvançada.nome}`
+    const handlePesquisaAvancada = () => {
+        let filtrar = '';
+        if (pesquisaAvancada.nome != ""){
+            filtrar += `&nome=${pesquisaAvancada.nome}`
         }
-        if (pesquisaAvançada.cpf != ""){
-            filtrar += `&cpf=${pesquisaAvançada.cpf}`
+        if (pesquisaAvancada.cpf != ""){
+            filtrar += `&cpf=${pesquisaAvancada.cpf}`
         }
-        if (pesquisaAvançada.telefone != ""){
-            filtrar += `&telefone=${pesquisaAvançada.telefone}`
+        if (pesquisaAvancada.telefone != ""){
+            filtrar += `&telefone=${pesquisaAvancada.telefone}`
         }
-        if (pesquisaAvançada.email != ""){
-            filtrar += `&email=${pesquisaAvançada.email}`
+        if (pesquisaAvancada.email != ""){
+            filtrar += `&email=${pesquisaAvancada.email}`
         }
 
-
+        // setPesquisaAvancada(handlePesquisaAvancada(filtrar))
+        setPesquisaAvancada(filtrar)
+        setIsFiltragemOpen(false);
+        // console.log(filtrar)
     }
+    // console.log(pesquisaAvancada)
 
 
     return(
@@ -87,11 +87,11 @@ export default function Secretario(){
                             <hr />
                             <div className="formulario">
                                 <label htmlFor="Nome">Nome Completo*</label>
-                                <input type="text" id="nome"/>
+                                <input type="text" id="nome" value={pesquisaAvancada.nome} onChange={(e) => setPesquisaAvancada({...pesquisaAvancada, nome: e.target.value})}/>
                                 <div className="coluna1">
                                     <div className="div-CPF">
                                         <label htmlFor="CPF">CPF*</label>
-                                        <input type="text" className="CPF" id="CPF"  />
+                                        <input type="text" className="CPF" id="CPF" />
                                     </div>
                                     <div className="div-telefone">
                                         <label htmlFor="Telefone">Telefone*</label>
@@ -107,12 +107,12 @@ export default function Secretario(){
                                     <option value="vespertino">Vespertino</option>
                                     <option value="noturno">Noturno</option>
                                 </select>
-                                <button className="button-filtro" id="filtro" onClick={modalFiltragemClose} onChange={handlePesquisaAvançada}>Aplicar Filtros</button>
+                                <button className="button-filtro" id="filtro" onClick={handlePesquisaAvancada}>Aplicar Filtros</button>
                             </div>
                         </div>
                     </div>
                 )}
-                <TableSecretario renderFormTable={renderFormTable} pesquisar={pesquisaUsuario}/>
+                <TableSecretario renderFormTable={renderFormTable} pesquisar={pesquisaUsuario} pesquisaAvancada={pesquisaAvancada}/>
                 {isCadastroOpen && (<CadastrarSecretario handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
             </div>
         </>
