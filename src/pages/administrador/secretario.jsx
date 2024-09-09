@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import SideBar from "../../components/SideBar/sidebar";
 import TableSecretario from "../../components/table/secretario";
 import CadastrarSecretario from "../../components/cadastrar/secretario";
@@ -12,11 +12,12 @@ export default function Secretario(){
     const [isFiltragemOpen, setIsFiltragemOpen] = useState(false);
     const [renderFormTable, setRenderFormTable] = useState();
     const [pesquisaUsuario, setPesquisaUsuario] = useState("");
-    const [pesquisaAvancada, setPesquisaAvancada] = useState({
+    const [filtrarPesquisa, setFiltrarPesquisa] = useState({
         nome: "",
         cpf: "",
         telefone: "",
-        email: ""
+        email: "",
+        turno: ""
     })
 
     const handleNovoCadastroClick = () => {
@@ -32,35 +33,22 @@ export default function Secretario(){
         setIsFiltragemOpen(true);
     }
 
-    const modalFiltragemClose = () => {
-        setIsFiltragemOpen(false);
-    }
-
     const renderProps = (codigo) => {
-        setRenderFormTable(codigo);
+        setRenderFormTable(codigo)
     }
 
-    const handlePesquisaAvancada = () => {
-        let filtrar = '';
-        if (pesquisaAvancada.nome != ""){
-            filtrar += `&nome=${pesquisaAvancada.nome}`
-        }
-        if (pesquisaAvancada.cpf != ""){
-            filtrar += `&cpf=${pesquisaAvancada.cpf}`
-        }
-        if (pesquisaAvancada.telefone != ""){
-            filtrar += `&telefone=${pesquisaAvancada.telefone}`
-        }
-        if (pesquisaAvancada.email != ""){
-            filtrar += `&email=${pesquisaAvancada.email}`
-        }
+    const handleFiltrarPesquisa = () => {   
+        setIsFiltragemOpen(false)
+        setPesquisaUsuario("")
+    };
 
-        // setPesquisaAvancada(handlePesquisaAvancada(filtrar))
-        setPesquisaAvancada(filtrar)
-        setIsFiltragemOpen(false);
-        // console.log(filtrar)
-    }
-    // console.log(pesquisaAvancada)
+    useEffect(() => {
+        if (isFiltragemOpen) {
+            setFiltrarPesquisa({
+                turno: ""
+            });
+        }
+    }, [isFiltragemOpen]);
 
 
     return(
@@ -73,6 +61,7 @@ export default function Secretario(){
                         <IoMdPersonAdd className="icon_cadastro"/>
                         Novo Cadastro 
                     </button>
+                    
                     <img src={filtragem} alt="filtragem" className="icon_pesquisa_avançada" onClick={modalFiltragemClick}/>
                     <div className="container">
                         <input type="text" value={pesquisaUsuario} onChange={(e) => setPesquisaUsuario(e.target.value)} className="pesquisar" />
@@ -87,32 +76,32 @@ export default function Secretario(){
                             <hr />
                             <div className="formulario">
                                 <label htmlFor="Nome">Nome Completo*</label>
-                                <input type="text" id="nome" value={pesquisaAvancada.nome} onChange={(e) => setPesquisaAvancada({...pesquisaAvancada, nome: e.target.value})}/>
+                                <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, nome: e.target.value})}/>
                                 <div className="coluna1">
                                     <div className="div-CPF">
                                         <label htmlFor="CPF">CPF*</label>
-                                        <input type="text" className="CPF" id="CPF" />
+                                        <input type="text" className="CPF" id="CPF" value={filtrarPesquisa.cpf} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, cpf: e.target.value})}/>
                                     </div>
                                     <div className="div-telefone">
                                         <label htmlFor="Telefone">Telefone*</label>
-                                        <input type="text" className="telefone" id="telefone" />
+                                        <input type="text" className="telefone" id="telefone" value={filtrarPesquisa.telefone} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, telefone: e.target.value})}/>
                                     </div>
                                 </div>
                                 <label htmlFor="Email">Email*</label>
-                                <input type="email" name="email" id="email" />
+                                <input type="email" name="email" id="email" value={filtrarPesquisa.email} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, email: e.target.value})}/>
                                 <label htmlFor="turno">Turno*</label>
-                                <select className="turno" id="turno" required>
-                                    <option value="#" disabled>Selecione uma opção</option>
+                                <select className="turno" id="turno" value={filtrarPesquisa.turno} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, turno: e.target.value})}>
+                                    <option value="" disabled>Selecione</option>
                                     <option value="matutino">Matutino</option>
                                     <option value="vespertino">Vespertino</option>
                                     <option value="noturno">Noturno</option>
                                 </select>
-                                <button className="button-filtro" id="filtro" onClick={handlePesquisaAvancada}>Aplicar Filtros</button>
+                                <button className="button-filtro" id="filtro" onClick={handleFiltrarPesquisa}>Aplicar Filtros</button>
                             </div>
                         </div>
                     </div>
                 )}
-                <TableSecretario renderFormTable={renderFormTable} pesquisar={pesquisaUsuario} pesquisaAvancada={pesquisaAvancada}/>
+                <TableSecretario renderFormTable={renderFormTable} pesquisar={pesquisaUsuario} filtrarPesquisa={filtrarPesquisa}/>
                 {isCadastroOpen && (<CadastrarSecretario handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
             </div>
         </>

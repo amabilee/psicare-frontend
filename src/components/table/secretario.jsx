@@ -9,7 +9,7 @@ import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
 
-export default function TableSecretario({ renderFormTable, pesquisar, pesquisaAvancada }) {
+export default function TableSecretario({ renderFormTable, pesquisar, filtrarPesquisa }) {
   const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
   const [isExcluirOpen, setIsExcluirOpen] = useState(false);
   const [isEditarOpen, setIsEditarOpen] = useState(false);
@@ -25,19 +25,42 @@ export default function TableSecretario({ renderFormTable, pesquisar, pesquisaAv
 
   useEffect(() => {
     receberDadosSecretario();
-  }, [renderFormTable, currentPage, pesquisar, pesquisaAvancada]);
-  console.log(pesquisaAvancada)
-  console.log(pesquisar)
+  }, [renderFormTable, currentPage, pesquisar, filtrarPesquisa]);
+  console.log(filtrarPesquisa)
 
   const receberDadosSecretario = async() => {
     const token = localStorage.getItem("user_token")
     console.log(token)
     try {
       let dadosPaginados = `/secretario?page=${currentPage}`;//numero de pagina atual para a api 
-      if (pesquisar.trim() !== "") { //verifica se há algum valor no estado pesquisar, metodo trim remove espaços em branco.
-        dadosPaginados = `/secretario?q=${pesquisar}`; //se a verificação for vrdd, busca secretario em pesquisar
+
+      // filtro de pesquisa
+      let filtrar = "";
+      if (pesquisar) {
+        filtrar += `&q=${pesquisar}`;
+      }
+      if (filtrarPesquisa.nome) {
+        filtrar += `&nome=${filtrarPesquisa.nome}`;
+      }
+      if (filtrarPesquisa.cpf) {
+        filtrar += `&cpf=${filtrarPesquisa.cpf}`;
+      }
+      if (filtrarPesquisa.telefone) {
+        filtrar += `&telefone=${filtrarPesquisa.telefone}`;
+      }
+      if (filtrarPesquisa.email) {
+        filtrar += `&email=${filtrarPesquisa.email}`;
       }
 
+      if (filtrarPesquisa.turno) {
+        filtrar += `&turno=${filtrarPesquisa.turno}`;
+      }
+
+      if(filtrar.length > 0){
+        dadosPaginados += `&${filtrar}`
+      }
+
+      // autorização do get de secretario
       const receberDados = await api.get(dadosPaginados ,{
         headers: {
           "Content-Type": "application/json",

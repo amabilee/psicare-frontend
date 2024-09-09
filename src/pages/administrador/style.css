@@ -9,6 +9,7 @@
 .barra_pesquisa{
     display: flex;
     justify-content: space-between;
+    position: relative;
 }
 
 .body_admin .h1{
@@ -77,18 +78,14 @@ button.button_cadastro:hover{
 .modal-filtragem{
     display: flex;
     justify-content: center;
-    /* align-items: center;     */
-    margin-left: 415px;
-    margin-top: 110px;
-    position: fixed;
+    margin-left: 0%;
+    margin-top: 0px;
+    position: absolute;
     z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
+    right: 0;
+    margin-right: 630px;
+    top: 6.5%;
     border: none;
-    /* background-color: rgb(0, 0, 0); */
-    /* background-color: rgba(0, 0, 0, 0.6); */
 }
 
 .modal-content-filtragem{
@@ -124,6 +121,11 @@ button.button_cadastro:hover{
     border-radius: 12px;
     width: 250px;
     margin: 8px 0;
+}
+
+.modal-content-filtragem input:focus {
+    border: 2px solid #C760EBFA;
+    outline: none;
 }
 
 .modal-content-filtragem .formulario .coluna1 {
