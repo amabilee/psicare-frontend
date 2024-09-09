@@ -35,7 +35,7 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
       let dadosPaginados = `/secretario?page=${currentPage}`;//numero de pagina atual para a api 
 
       // filtro de pesquisa
-      let filtrar = "";
+      let filtrar = [];
       if (pesquisar) {
         filtrar += `&q=${pesquisar}`;
       }

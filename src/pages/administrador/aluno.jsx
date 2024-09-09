@@ -13,7 +13,7 @@ export default function Aluno(){
     const [renderFormTable, setRenderFormTable] = useState();
     const [professoresNome, setProfessoresNome] = useState({professores: []});
     const [pesquisaUsuario, setPesquisaUsuario] = useState("");
-    const [filtrarPesquisa, setFiltrarPesquisa] = useState({
+    const [enviarFiltragem, setEnviarFiltragem] = useState({
         nome: "",
         cpf: "",
         telefone: "",
@@ -22,7 +22,7 @@ export default function Aluno(){
         periodo: "",
         professoresNome: ""
     })
-    const [filtrarPesquisaTemp, setFiltrarPesquisaTemp] = useState({
+    const [filtrarPesquisa, setFiltrarPesquisa] = useState({
         nome: "",
         cpf: "",
         telefone: "",
@@ -136,7 +136,7 @@ export default function Aluno(){
                                 </div>
                                 <label htmlFor="professorResponsavel">Professor*</label>
                                     <select className="professorNome" id="professorNome" 
-                                    value={filtrarPesquisaTemp.professorId || "0"}
+                                    value={filtrarPesquisa.professorId || "0"}
                                     onChange={(e) =>  id_professor(e)}
                                     required
                                     >

@@ -13,7 +13,7 @@ export default function Secretario(){
     const [isFiltragemOpen, setIsFiltragemOpen] = useState(false);
     const [renderFormTable, setRenderFormTable] = useState();
     const [pesquisaUsuario, setPesquisaUsuario] = useState("");
-    const [filtrarPesquisa, setFiltrarPesquisa] = useState({
+    const [enviarFiltragem, setEnviarFiltragem] = useState({
         nome: "",
         cpf: "",
         telefone: "",
@@ -21,7 +21,7 @@ export default function Secretario(){
         turno: ""
     }
     )
-    const [filtrarPesquisaTemp, setFiltrarPesquisaTemp] = useState({
+    const [filtrarPesquisa, setFiltrarPesquisa] = useState({
         nome: "",
         cpf: "",
         telefone: "",
@@ -49,18 +49,18 @@ export default function Secretario(){
     const handleFiltrarPesquisa = () => {   
         setIsFiltragemOpen(false)
         setPesquisaUsuario("")
-        setFiltrarPesquisa(filtrarPesquisaTemp)
+        setEnviarFiltragem(filtrarPesquisa)
     };
 
     useEffect(() => {
         if (isFiltragemOpen) {
-            setFiltrarPesquisa({
+            setEnviarFiltragem({
                 nome: "",
                 cpf: "",
                 telefone: "",
                 email: "",
                 turno: ""
-            }), setFiltrarPesquisaTemp({
+            }), setFiltrarPesquisa({
                 nome: "",
                 cpf: "",
                 telefone: "",
@@ -96,21 +96,21 @@ export default function Secretario(){
                             <hr />
                             <div className="formulario">
                                 <label htmlFor="Nome">Nome Completo*</label>
-                                <input type="text" id="nome" value={filtrarPesquisaTemp.nome} onChange={(e) => setFiltrarPesquisaTemp({...filtrarPesquisaTemp, nome: e.target.value})}/>
+                                <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, nome: e.target.value})}/>
                                 <div className="coluna1">
                                     <div className="div-CPF">
                                         <label htmlFor="CPF">CPF*</label>
-                                        <IMaskInput type="text" className="CPF" id="CPF" mask="000.000.000-00" value={filtrarPesquisaTemp.cpf} onChange={(e) => setFiltrarPesquisaTemp({...filtrarPesquisaTemp, cpf: e.target.value})}/>
+                                        <IMaskInput type="text" className="CPF" id="CPF" mask="000.000.000-00" value={filtrarPesquisa.cpf} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, cpf: e.target.value})}/>
                                     </div>
                                     <div className="div-telefone">
                                         <label htmlFor="Telefone">Telefone*</label>
-                                        <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={filtrarPesquisaTemp.telefone} onChange={(e) => setFiltrarPesquisaTemp({...filtrarPesquisaTemp, telefone: e.target.value})}/>
+                                        <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={filtrarPesquisa.telefone} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, telefone: e.target.value})}/>
                                     </div>
                                 </div>
                                 <label htmlFor="Email">Email*</label>
-                                <input type="email" name="email" id="email" value={filtrarPesquisaTemp.email} onChange={(e) => setFiltrarPesquisaTemp({...filtrarPesquisaTemp, email: e.target.value})}/>
+                                <input type="email" name="email" id="email" value={filtrarPesquisa.email} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, email: e.target.value})}/>
                                 <label htmlFor="turno">Turno*</label>
-                                <select className="turno" id="turno" value={filtrarPesquisaTemp.turno} onChange={(e) => setFiltrarPesquisaTemp({...filtrarPesquisaTemp, turno: e.target.value})}>
+                                <select className="turno" id="turno" value={filtrarPesquisa.turno} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, turno: e.target.value})}>
                                     <option value="" disabled>Selecione</option>
                                     <option value="matutino">Matutino</option>
                                     <option value="vespertino">Vespertino</option>
@@ -121,7 +121,7 @@ export default function Secretario(){
                         </div>
                     </div>
                 )}
-                <TableSecretario renderFormTable={renderFormTable} pesquisar={pesquisaUsuario} filtrarPesquisa={filtrarPesquisa}/>
+                <TableSecretario renderFormTable={renderFormTable} pesquisar={pesquisaUsuario} filtrarPesquisa={enviarFiltragem}/>
                 {isCadastroOpen && (<CadastrarSecretario handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
             </div>
         </>

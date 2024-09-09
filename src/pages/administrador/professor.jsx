@@ -15,14 +15,14 @@ export default function Professor(){
     const [isFiltragemOpen, setIsFiltragemOpen] = useState(false);
     const [renderFormTable, setRenderFormTable] = useState();
     const [pesquisaUsuario, setPesquisaUsuario] = useState("");
-    const [filtrarPesquisa, setFiltrarPesquisa] = useState({
+    const [enviarFiltragem, setEnviarFiltragem] = useState({
         nome: "",
         cpf: "",
         telefone: "",
         email: "",
         disciplina: ""
     })
-    const [filtrarPesquisaTemp, setFiltrarPesquisaTemp] = useState({
+    const [filtrarPesquisa, setFiltrarPesquisa] = useState({
         nome: "",
         cpf: "",
         telefone: "",
@@ -53,18 +53,18 @@ export default function Professor(){
     const handleFiltrarPesquisa = () => {   
         setIsFiltragemOpen(false)
         setPesquisaUsuario("")
-        setFiltrarPesquisa(filtrarPesquisaTemp)
+        setEnviarFiltragem(filtrarPesquisa)
     };
 
     useEffect(() => {
         if (isFiltragemOpen) {
-            setFiltrarPesquisa({
+            setEnviarFiltragem({
                 nome: "",
                 cpf: "",
                 telefone: "",
                 email: "",
                 disciplina: ""
-            }), setFiltrarPesquisaTemp({
+            }), setFiltrarPesquisa({
                 nome: "",
                 cpf: "",
                 telefone: "",
@@ -98,27 +98,27 @@ export default function Professor(){
                             <hr />
                             <div className="formulario">
                                 <label htmlFor="Nome">Nome Completo*</label>
-                                <input type="text" id="nome" value={filtrarPesquisaTemp.nome} onChange={(e) => setFiltrarPesquisaTemp({...filtrarPesquisaTemp, nome: e.target.value})}/>
+                                <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, nome: e.target.value})}/>
                                 <div className="coluna1">
                                     <div className="div-CPF">
                                         <label htmlFor="CPF">CPF*</label>
-                                        <IMaskInput type="text" className="CPF" id="CPF" mask="000.000.000-00" value={filtrarPesquisaTemp.cpf} onChange={(e) => setFiltrarPesquisaTemp({...filtrarPesquisaTemp, cpf: e.target.value})}/>
+                                        <IMaskInput type="text" className="CPF" id="CPF" mask="000.000.000-00" value={filtrarPesquisa.cpf} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, cpf: e.target.value})}/>
                                     </div>
                                     <div className="div-telefone">
                                         <label htmlFor="Telefone">Telefone*</label>
-                                        <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={filtrarPesquisaTemp.telefone} onChange={(e) => setFiltrarPesquisaTemp({...filtrarPesquisaTemp, telefone: e.target.value})}/>
+                                        <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={filtrarPesquisa.telefone} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, telefone: e.target.value})}/>
                                     </div>
                                 </div>
                                 <label htmlFor="Email">Email*</label>
-                                <input type="email" name="email" id="email" value={filtrarPesquisaTemp.email} onChange={(e) => setFiltrarPesquisaTemp({...filtrarPesquisaTemp, email: e.target.value})}/>
+                                <input type="email" name="email" id="email" value={filtrarPesquisa.email} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, email: e.target.value})}/>
                                 <label htmlFor="disciplina">Disciplina*</label>
-                                <input type="text" className="disciplina" value={filtrarPesquisaTemp.disciplina} onChange={(e) => setFiltrarPesquisaTemp({...filtrarPesquisaTemp, disciplina: e.target.value})}/>
+                                <input type="text" className="disciplina" value={filtrarPesquisa.disciplina} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, disciplina: e.target.value})}/>
                                 <button className="button-filtro" id="filtro" onClick={handleFiltrarPesquisa}>Aplicar Filtros</button>
                             </div>
                         </div>
                     </div>
                 )}
-                <TableProfessor renderFormTable={renderFormTable} pesquisar={pesquisaUsuario} filtrarPesquisa={filtrarPesquisa}/>
+                <TableProfessor renderFormTable={renderFormTable} pesquisar={pesquisaUsuario} filtrarPesquisa={enviarFiltragem}/>
                 {isCadastroOpen && (<CadastrarProfessor handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
             </div>
         </>
