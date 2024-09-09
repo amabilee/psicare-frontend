@@ -9,7 +9,7 @@ import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
 
-export default function TableProfessor({ renderFormTable, pesquisar }){
+export default function TableProfessor({ renderFormTable, pesquisar, filtrarPesquisa }){
     const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
     const [isExcluirOpen, setIsExcluirOpen] = useState(false);
     const [isEditarOpen, setIsEditarOpen] = useState(false);
@@ -25,14 +25,34 @@ export default function TableProfessor({ renderFormTable, pesquisar }){
 
     useEffect(() => {
       receberDadosProfessor();
-    }, [renderFormTable, currentPage, pesquisar]);
+    }, [renderFormTable, currentPage, pesquisar, filtrarPesquisa]);
 
     const receberDadosProfessor = async () => {
       const token = localStorage.getItem("user_token")
       try {
         let dadosPaginados = `/professor?page=${currentPage}`;//numero de pagina atual para a api 
-        if (pesquisar.trim() !== "") { //verifica se há algum valor no estado pesquisar, metodo trim remove espaços em branco.
-          dadosPaginados = `/professor?q=${pesquisar}`; //se a verificação for vrdd, busca professor em pesquisar
+        
+        let filtrar = "";
+        if (pesquisar) {
+          filtrar += `&q=${pesquisar}`;
+        }
+        if (filtrarPesquisa.nome) {
+          filtrar += `&nome=${filtrarPesquisa.nome}`;
+        }
+        if (filtrarPesquisa.cpf) {
+          filtrar += `&cpf=${filtrarPesquisa.cpf}`;
+        }
+        if (filtrarPesquisa.telefone) {
+          filtrar += `&telefone=${filtrarPesquisa.telefone}`;
+        }
+        if (filtrarPesquisa.email) {
+          filtrar += `&email=${filtrarPesquisa.email}`;
+        }
+        if (filtrarPesquisa.disciplina) {
+          filtrar += `&disciplina=${filtrarPesquisa.disciplina}`;
+        }
+        if(filtrar.length > 0){
+          dadosPaginados += `&${filtrar}`
         }
 
         const receberDados = await api.get(dadosPaginados, {

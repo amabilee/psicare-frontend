@@ -13,6 +13,24 @@ export default function Aluno(){
     const [renderFormTable, setRenderFormTable] = useState();
     const [professoresNome, setProfessoresNome] = useState({professores: []});
     const [pesquisaUsuario, setPesquisaUsuario] = useState("");
+    const [filtrarPesquisa, setFiltrarPesquisa] = useState({
+        nome: "",
+        cpf: "",
+        telefone: "",
+        email: "",
+        matricula: "",
+        periodo: "",
+        professoresNome: ""
+    })
+    const [filtrarPesquisaTemp, setFiltrarPesquisaTemp] = useState({
+        nome: "",
+        cpf: "",
+        telefone: "",
+        email: "",
+        matricula: "",
+        periodo: "",
+        professoresNome: ""
+    })
 
     useEffect(() => {
         buscarProfessores();
@@ -74,8 +92,6 @@ export default function Aluno(){
                         <img src={icon_pesquisa} alt="icon_pesquisa" id="icon_pesquisa" className="icon_pesquisa" />
                     </div> 
                 </div>
-                <TableAluno renderFormTable={renderFormTable} pesquisar={pesquisaUsuario}/>
-                {isCadastroOpen && (<CadastrarAluno handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
                 {isFiltragemOpen && (
                     <div className="modal-filtragem">
                         <div className="modal-content-filtragem">
@@ -120,7 +136,7 @@ export default function Aluno(){
                                 </div>
                                 <label htmlFor="professorResponsavel">Professor*</label>
                                     <select className="professorNome" id="professorNome" 
-                                    value={dadosAtualizados.professorId || "0"}
+                                    value={filtrarPesquisaTemp.professorId || "0"}
                                     onChange={(e) =>  id_professor(e)}
                                     required
                                     >
@@ -138,6 +154,8 @@ export default function Aluno(){
                         </div>
                     </div>
                 )}
+                <TableAluno renderFormTable={renderFormTable} pesquisar={pesquisaUsuario}/>
+                {isCadastroOpen && (<CadastrarAluno handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
             </div>
         </>
     )

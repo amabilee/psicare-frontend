@@ -196,6 +196,7 @@ button.button_cadastro:hover{
     border: 2px solid #C760EB;
     border-radius: 6px;
     background: #fff;
+    transition: all 0.3s;
 }
 
 .modal-content-filtragem .formulario .button-filtro:hover{

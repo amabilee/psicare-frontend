@@ -51,11 +51,9 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
       if (filtrarPesquisa.email) {
         filtrar += `&email=${filtrarPesquisa.email}`;
       }
-
       if (filtrarPesquisa.turno) {
         filtrar += `&turno=${filtrarPesquisa.turno}`;
       }
-
       if(filtrar.length > 0){
         dadosPaginados += `&${filtrar}`
       }
