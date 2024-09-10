@@ -40,6 +40,9 @@ export default function Professor(){
 
     const modalFiltragemClick = () => {
         setIsFiltragemOpen(true);
+        if(isFiltragemOpen){
+            setIsFiltragemOpen(false)
+        }
     }
 
     const renderProps = (codigo) => {

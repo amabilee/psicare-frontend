@@ -9,7 +9,7 @@ import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
 
-export default function TableAluno({ renderFormTable, pesquisar }){
+export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa }){
     const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
     const [isExcluirOpen, setIsExcluirOpen] = useState(false);
     const [isEditarOpen, setIsEditarOpen] = useState(false);
@@ -25,16 +25,45 @@ export default function TableAluno({ renderFormTable, pesquisar }){
 
     useEffect(() => {
       receberDadosAluno();
-    }, [renderFormTable, currentPage, pesquisar]);
+    }, [renderFormTable, currentPage, pesquisar, filtrarPesquisa]);
 
     const receberDadosAluno = async () => {
       const token = localStorage.getItem("user_token")
       console.log(token)
       try {
         let dadosPaginados = `/aluno?page=${currentPage}`;//numero de pagina atual para a api 
-        if (pesquisar.trim() !== "") { //verifica se há algum valor no estado pesquisar, metodo trim remove espaços em branco.
-          dadosPaginados = `/aluno?q=${pesquisar}`; //se a verificação for vrdd, busca aluno em pesquisar
+        
+        let filtrar = [];
+        if (pesquisar) {
+          filtrar += `&q=${pesquisar}`;
         }
+        if (filtrarPesquisa.nome) {
+          filtrar += `&nome=${filtrarPesquisa.nome}`;
+        }
+        if (filtrarPesquisa.cpf) {
+          filtrar += `&cpf=${filtrarPesquisa.cpf}`;
+        }
+        if (filtrarPesquisa.telefone) {
+          filtrar += `&telefone=${filtrarPesquisa.telefone}`;
+        }
+        if (filtrarPesquisa.email) {
+          filtrar += `&email=${filtrarPesquisa.email}`;
+        }
+        if (filtrarPesquisa.matricula) {
+          filtrar += `&matricula=${filtrarPesquisa.matricula}`;
+        }
+        if (filtrarPesquisa.periodo) {
+          filtrar += `&periodo=${filtrarPesquisa.periodo}`;
+        }
+        
+        if (filtrarPesquisa.nomeProfessor) {
+          filtrar += `&nomeProfessor=${filtrarPesquisa.nomeProfessor}`;
+        }
+        if(filtrar.length > 0){
+          dadosPaginados += `&${filtrar}`
+        }
+        console.log(filtrarPesquisa)
+        console.log(filtrar)
         
 
         const receberDados = await api.get(dadosPaginados, {

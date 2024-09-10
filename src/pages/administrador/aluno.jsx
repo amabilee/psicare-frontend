@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from "react";
 import SideBar from "../../components/SideBar/sidebar";
+import { api } from "../../services/server";
 import TableAluno from "../../components/table/aluno";
 import CadastrarAluno from "../../components/cadastrar/aluno";
 import filtragem from "../../assets/filtragem.svg";
 import { IoMdPersonAdd } from "react-icons/io";
+import {IMaskInput} from "react-imask";
 import icon_pesquisa from "../../assets/pesquisa.svg"
 import "./style.css";
 
@@ -20,7 +22,7 @@ export default function Aluno(){
         email: "",
         matricula: "",
         periodo: "",
-        professoresNome: ""
+        nomeProfessor: ""
     })
     const [filtrarPesquisa, setFiltrarPesquisa] = useState({
         nome: "",
@@ -29,7 +31,7 @@ export default function Aluno(){
         email: "",
         matricula: "",
         periodo: "",
-        professoresNome: ""
+        nomeProfessor: ""
     })
 
     useEffect(() => {
@@ -46,10 +48,9 @@ export default function Aluno(){
 
     const modalFiltragemClick = () => {
         setIsFiltragemOpen(true);
-    }
-
-    const modalFiltragemClose = () => {
-        setIsFiltragemOpen(false);
+        if(isFiltragemOpen){
+            setIsFiltragemOpen(false)
+        }
     }
 
     const renderProps = (codigo) => {
@@ -59,6 +60,34 @@ export default function Aluno(){
     // const handlePesquisar = (e) => {
     //     setPesquisaUsuario(e.target.value);
     // }
+
+    const handleFiltrarPesquisa = () => {   
+        setIsFiltragemOpen(false)
+        setPesquisaUsuario("")
+        setEnviarFiltragem(filtrarPesquisa)
+    };
+
+    useEffect(() => {
+        if (isFiltragemOpen) {
+            setEnviarFiltragem({
+                nome: "",
+                cpf: "",
+                telefone: "",
+                email: "",
+                matricula: "",
+                periodo: "",
+                nomeProfessor: ""
+            }), setFiltrarPesquisa({
+                nome: "",
+                cpf: "",
+                telefone: "",
+                email: "",
+                matricula: "",
+                periodo: "",
+                nomeProfessor: ""
+            });
+        }
+    }, [isFiltragemOpen]);
 
     const buscarProfessores = async() => {
         const token = localStorage.getItem("user_token")
@@ -71,6 +100,7 @@ export default function Aluno(){
               }
             });
             setProfessoresNome(selectProfessores.data);
+            console.log(selectProfessores)
         } catch (e) {
             console.log("Erro ao buscar professores: ", e)
         }
@@ -94,33 +124,33 @@ export default function Aluno(){
                 </div>
                 {isFiltragemOpen && (
                     <div className="modal-filtragem">
-                        <div className="modal-content-filtragem">
+                        <div className="modal-content-filtragem modal-content-filtragem-aluno">
                             <h1>Filtrar por</h1>
                             <hr />
                             <div className="formulario">
                                 <label htmlFor="Nome">Nome Completo*</label>
-                                <input type="text" id="nome"  />
+                                <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, nome: e.target.value})}/>
                                 <div className="coluna1">
                                     <div className="div-CPF">
                                         <label htmlFor="CPF">CPF*</label>
-                                        <input type="text" className="CPF" id="CPF"  />
+                                        <IMaskInput type="text" className="CPF" id="CPF" mask="000.000.000-00" value={filtrarPesquisa.cpf} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, cpf: e.target.value})}/>
                                     </div>
                                     <div className="div-telefone">
                                         <label htmlFor="Telefone">Telefone*</label>
-                                        <input type="text" className="telefone" id="telefone" />
+                                        <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={filtrarPesquisa.telefone} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, telefone: e.target.value})}/>
                                     </div>
                                 </div>
                                 <label htmlFor="Email">Email*</label>
-                                <input type="email" name="email" id="email" />
+                                <input type="email" name="email" id="email" value={filtrarPesquisa.email} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, email: e.target.value})}/>
                                 <div className="coluna2">
                                     <div className="div-matricula">
                                         <label htmlFor="matricula">Matrícula*</label>
-                                        <input type="text" className="matricula" id="matricula"/>
+                                        <input type="text" className="matricula" id="matricula" value={filtrarPesquisa.matricula} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, matricula: e.target.value})}/>
                                     </div>
                                     <div className="div-periodo">
                                         <label htmlFor="periodo">Período*</label>
-                                        <select className="periodo" id="periodo" required>
-                                            <option value="#" disabled>Selecione uma opção</option>
+                                        <select className="periodo" id="periodo" value={filtrarPesquisa.periodo} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, periodo: e.target.value})} required>
+                                            <option value="" disabled>Selecione</option>
                                             <option value="1°">1°</option>
                                             <option value="2°">2°</option>
                                             <option value="3°">3°</option>
@@ -136,25 +166,23 @@ export default function Aluno(){
                                 </div>
                                 <label htmlFor="professorResponsavel">Professor*</label>
                                     <select className="professorNome" id="professorNome" 
-                                    value={filtrarPesquisa.professorId || "0"}
-                                    onChange={(e) =>  id_professor(e)}
+                                    value={filtrarPesquisa.nomeProfessor}
+                                    onChange={(e) =>  setFiltrarPesquisa({...filtrarPesquisa, nomeProfessor:e.target.value})}
                                     required
                                     >
-                                        <option value="0" disabled>Selecione uma opção</option>
+                                        <option value="" disabled>Selecione uma opção</option>
                                         {professoresNome.professores.map(professor => (
-                                        <option key={professor._id} value={professor._id}>
+                                        <option key={professor.nome} value={professor.nome}>
                                             {professor.nome}
                                         </option>
                                     ))}
                                     </select>
-
-
-                                <button className="button-filtro" id="filtro" onClick={modalFiltragemClose}>Aplicar Filtros</button>
+                                <button className="button-filtro" id="filtro" onClick={handleFiltrarPesquisa}>Aplicar Filtros</button>
                             </div>
                         </div>
                     </div>
                 )}
-                <TableAluno renderFormTable={renderFormTable} pesquisar={pesquisaUsuario}/>
+                <TableAluno renderFormTable={renderFormTable} pesquisar={pesquisaUsuario} filtrarPesquisa={enviarFiltragem}/>
                 {isCadastroOpen && (<CadastrarAluno handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
             </div>
         </>

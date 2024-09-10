@@ -100,6 +100,10 @@ button.button_cadastro:hover{
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
+.modal-content-filtragem-aluno {
+    height: 470px;
+}
+
 .modal-content-filtragem h1 {
     font-size: 22px;
     color: #00000099;
@@ -142,7 +146,8 @@ button.button_cadastro:hover{
 }
 
 .modal-content-filtragem .formulario select.turno,
-.modal-content-filtragem .formulario select.periodo{
+.modal-content-filtragem .formulario select.periodo,
+.modal-content-filtragem .formulario select.professorNome{
     padding: 7px;
     border: 2px solid #C760EBFA;
     border-radius: 12px;
@@ -157,7 +162,8 @@ button.button_cadastro:hover{
 }
 
 .modal-content-filtragem .formulario select.turno:focus,
-.modal-content-filtragem .formulario select.periodo:focus{
+.modal-content-filtragem .formulario select.periodo:focus,
+.modal-content-filtragem .formulario select.professorNome:focus{
     border: 2px solid #C760EBFA;
     outline: none;
 }
@@ -177,6 +183,11 @@ button.button_cadastro:hover{
 .modal-content-filtragem .formulario .periodo{
     display: flex;
     width: 120px;
+}
+
+.modal-content-filtragem .formulario .professorNome{
+    display: flex;
+    width: 262px;
 }
 
 .modal-content-filtragem .formulario .coluna2 {
