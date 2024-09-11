@@ -107,7 +107,7 @@ export default function Paciente(){
                 </div>
                 {isFiltragemOpen && (
                     <div className="modal-filtragem">
-                        <div className="modal-content-filtragem modal-content-filtragem-aluno">
+                        <div className="modal-content-filtragem modal-content-filtragem-paciente">
                             <h1>Filtrar por</h1>
                             <hr />
                             <div className="formulario">
@@ -118,7 +118,7 @@ export default function Paciente(){
                                         <label htmlFor="CPF">CPF*</label>
                                         <IMaskInput type="text" className="CPF" id="CPF" mask="000.000.000-00" value={filtrarPesquisa.cpf} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, cpf: e.target.value})}/>
                                     </div>
-                                    <div className="div-telefone">
+                                    <div className="div-dataNascimento">
                                         <label htmlFor="data-nascimento">Data de nascimento*</label>
                                         <DatePicker 
                                         className="data-nascimento"
@@ -142,7 +142,7 @@ export default function Paciente(){
                                         format="dd/MM/yyyy"
                                         placeholder="dd/mm/aaaa"
                                         // value={filtrarPesquisa.dataNascimento}
-                                        onChange={(e) =>  setDadosForm({...filtrarPesquisa, dataInicioTratamento: e})}
+                                        onChange={(e) =>  setFiltrarPesquisa({...filtrarPesquisa, dataInicioTratamento: e})}
                                         />
                                     </div>
                                     <div className="div-terminoTratamento">
@@ -152,12 +152,12 @@ export default function Paciente(){
                                         format="dd/MM/yyyy"
                                         placeholder="dd/mm/aaaa"
                                         // value={filtrarPesquisa.dataNascimento}
-                                        onChange={(e) =>  setDadosForm({...filtrarPesquisa, dataTerminoTratamento: e})}
+                                        onChange={(e) =>  setFiltrarPesquisa({...filtrarPesquisa, dataTerminoTratamento: e})}
                                         />
                                     </div>
                                 </div>
                                 <label htmlFor="tratamento">Tipo de tratamento*</label>
-                                <select className="tratamento" name="tratamento" id="tratamento" value={filtrarPesquisa.tipoDeTratamento} onChange={(e) =>  setDadosForm({...filtrarPesquisa, tipoDeTratamento:e.target.value})}>
+                                <select className="tratamento" name="tratamento" id="tratamento" value={filtrarPesquisa.tipoDeTratamento} onChange={(e) =>  setFiltrarPesquisa({...filtrarPesquisa, tipoDeTratamento:e.target.value})}>
                                     <option value="" disabled>Selecione uma opção</option>
                                     <option value="psicoterapia">Psicoterapia</option>
                                     <option value="plantao">Plantão</option>
@@ -166,9 +166,9 @@ export default function Paciente(){
                                 </select>
                                 <label htmlFor="sexo">Sexo*</label>
                                 <select className="sexo" name="sexo" id="sexo" 
-                                value={dadosForm.sexo} onChange={(e) =>  setDadosForm({...dadosForm, sexo: e.target.value})}
+                                value={filtrarPesquisa.sexo} onChange={(e) =>  setFiltrarPesquisa({...filtrarPesquisa, sexo: e.target.value})}
                                 >
-                                    <option value="" disabled>Selecione uma opção</option>
+                                    <option value="" disabled>Selecione</option>
                                     <option value="Masculino">Masculino</option>
                                     <option value="Feminino">Feminino</option>
                                     <option value="prefiro nao informar">Prefiro não informar</option>

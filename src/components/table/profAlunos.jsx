@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from "react";
 import { api } from "../../services/server";
+import VisualizarAluno from "../visualizar/aluno";
 import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
 
-export default function TableProfAluno({ alunosProfessor }){
+export default function TableProfAluno({  alunosProfessor }){
+    const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
+    const [usuarioClick, setUsuarioClick] = useState({});
     const [dadosAluno, setDadosAluno] = useState({ alunos: [] });
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -39,6 +42,15 @@ export default function TableProfAluno({ alunosProfessor }){
       } catch (e) {
         console.log("Erro ao buscar dados do aluno:", e);
       }
+    };
+
+    const handleVisualizarClick = (originalData) => {
+      setUsuarioClick(originalData);
+      setIsVisualizarOpen(true);
+    };
+  
+    const handleCloseVisualizar = () => {
+      setIsVisualizarOpen(false);
     };
 
     //Tudo relacionado a paginação da tabela
@@ -153,6 +165,12 @@ export default function TableProfAluno({ alunosProfessor }){
               </tr>
             </tfoot>
           </table>
+          {isVisualizarOpen && (
+            <VisualizarAluno
+              handleCloseVisualizar={handleCloseVisualizar}
+              dadosSecretario={usuarioClick}
+            />
+          )}
       </div>
     );
 }

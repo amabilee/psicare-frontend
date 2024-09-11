@@ -9,7 +9,7 @@ import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
 
-export default function TablePaciente({ renderFormTable, pesquisar }) {
+export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesquisa }) {
   const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
   const [isExcluirOpen, setIsExcluirOpen] = useState(false);
   const [isEditarOpen, setIsEditarOpen] = useState(false);
@@ -25,16 +25,44 @@ export default function TablePaciente({ renderFormTable, pesquisar }) {
 
   useEffect(() => {
     receberDadosPaciente();
-  }, [renderFormTable, currentPage, pesquisar]);
-  console.log(dadosPaciente.pacientes)
+  }, [renderFormTable, currentPage, pesquisar, filtrarPesquisa]);
 
   const receberDadosPaciente = async() => {
     const token = localStorage.getItem("user_token")
     console.log(token)
     try {
       let dadosPaginados = `/paciente?page=${currentPage}`;//numero de pagina atual para a api 
-      if (pesquisar.trim() !== "") { //verifica se há algum valor no estado pesquisar, metodo trim remove espaços em branco.
-        dadosPaginados = `/paciente?q=${pesquisar}`; //se a verificação for vrdd, busca paciente em pesquisar
+     
+      let filtrar = [];
+      if (pesquisar) {
+        filtrar += `&q=${pesquisar}`;
+      }
+      if (filtrarPesquisa.nome) {
+        filtrar += `&nome=${filtrarPesquisa.nome}`;
+      }
+      if (filtrarPesquisa.cpf) {
+        filtrar += `&cpf=${filtrarPesquisa.cpf}`;
+      }
+      if (filtrarPesquisa.dataNascimento) {
+        filtrar += `&dataNascimento=${filtrarPesquisa.dataNascimento}`;
+      }
+      if (filtrarPesquisa.encaminhador) {
+        filtrar += `&encaminhador=${filtrarPesquisa.encaminhador}`;
+      }
+      if (filtrarPesquisa.dataInicioTratamento) {
+        filtrar += `&dataInicioTratamento=${filtrarPesquisa.dataInicioTratamento}`;
+      }
+      if (filtrarPesquisa.dataTerminoTratamento) {
+        filtrar += `&dataTerminoTratamento=${filtrarPesquisa.dataTerminoTratamento}`;
+      }
+      if (filtrarPesquisa.tipoDeTratamento) {
+        filtrar += `&tipoDeTratamento=${filtrarPesquisa.tipoDeTratamento}`;
+      }
+      if (filtrarPesquisa.sexo) {
+        filtrar += `&sexo=${filtrarPesquisa.sexo}`;
+      }
+      if(filtrar.length > 0){
+        dadosPaginados += `&${filtrar}`
       }
 
       const receberDados = await api.get(dadosPaginados ,{

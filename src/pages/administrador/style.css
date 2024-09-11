@@ -104,6 +104,11 @@ button.button_cadastro:hover{
     height: 470px;
 }
 
+.modal-content-filtragem-paciente {
+    width: 320px;
+    height: 550px;
+}
+
 .modal-content-filtragem h1 {
     font-size: 22px;
     color: #00000099;
@@ -127,6 +132,10 @@ button.button_cadastro:hover{
     margin: 8px 0;
 }
 
+.modal-content-filtragem-paciente input {
+    width: 295px;
+}
+
 .modal-content-filtragem input:focus {
     border: 2px solid #C760EBFA;
     outline: none;
@@ -136,8 +145,12 @@ button.button_cadastro:hover{
     display: flex;
 }
 
-.modal-content-filtragem .formulario .coluna1 .div-CPF input{
-    margin-right: 8px;
+.modal-content-filtragem-paciente .formulario .coluna1 .div-CPF .CPF{
+    width: 135px;
+}
+
+.modal-content-filtragem-paciente .formulario .coluna1 .div-dataNascimento{
+    margin-right: 10px;
 }
 
 .modal-content-filtragem .formulario .coluna1 .div-CPF input ,
@@ -145,9 +158,15 @@ button.button_cadastro:hover{
     width: 115px;
 }
 
+.modal-content-filtragem-paciente .formulario .coluna1 .div-CPF input{
+    width: 140px;
+}
+
 .modal-content-filtragem .formulario select.turno,
 .modal-content-filtragem .formulario select.periodo,
-.modal-content-filtragem .formulario select.professorNome{
+.modal-content-filtragem .formulario select.professorNome,
+.modal-content-filtragem .formulario select.tratamento,
+.modal-content-filtragem .formulario select.sexo{
     padding: 7px;
     border: 2px solid #C760EBFA;
     border-radius: 12px;
@@ -163,7 +182,9 @@ button.button_cadastro:hover{
 
 .modal-content-filtragem .formulario select.turno:focus,
 .modal-content-filtragem .formulario select.periodo:focus,
-.modal-content-filtragem .formulario select.professorNome:focus{
+.modal-content-filtragem .formulario select.professorNome:focus,
+.modal-content-filtragem .formulario select.tratamento:focus,
+.modal-content-filtragem .formulario select.sexo:focus {
     border: 2px solid #C760EBFA;
     outline: none;
 }
@@ -172,6 +193,16 @@ button.button_cadastro:hover{
 .modal-content-filtragem .formulario .disciplina{
     display: flex;
     width: 160px;
+}
+
+.modal-content-filtragem .formulario .tratamento{
+    display: flex;
+    width: 310px;
+}
+
+.modal-content-filtragem .formulario .sexo{
+    display: flex;
+    width: 170px;
 }
 
 .modal-content-filtragem .formulario .matricula{
@@ -194,8 +225,40 @@ button.button_cadastro:hover{
     display: flex;
 }
 
+.modal-content-filtragem .data-nascimento {
+    width: 150px;
+    display: flex;
+    border-radius: 10px;
+    margin: 8px 0;
+}
+
+.modal-content-filtragem .coluna2 .div-inicioTratamento{
+    margin-right: 10px;
+}
+
+.modal-content-filtragem .inicio-tratamento,
+.modal-content-filtragem .termino-tratamento {
+    display: flex;
+    width: 150px;
+    border-radius: 10px;
+    margin: 8px 0;
+}
+
+.modal-content-filtragem .data-nascimento div,
+.modal-content-filtragem .inicio-tratamento div,
+.modal-content-filtragem .termino-tratamento div {
+    border-radius: 10px;
+    border: 2px solid #C760EBFA;
+}
 
 
+.modal-content-filtragem .data-nascimento input,
+.modal-content-filtragem .inicio-tratamento input,
+.modal-content-filtragem .termino-tratamento input {
+    margin: 0;
+}
+
+/* buttons de filtragem */
 
 .modal-content-filtragem .formulario .button-filtro {
     color: #C760EB;
@@ -203,6 +266,19 @@ button.button_cadastro:hover{
     font-size: 15px;
     padding: 6px 25px;
     margin-left: 120px;
+    margin-top: 25px;
+    border: 2px solid #C760EB;
+    border-radius: 6px;
+    background: #fff;
+    transition: all 0.3s;
+}
+
+.modal-content-filtragem-paciente .formulario .button-filtro {
+    color: #C760EB;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 6px 25px;
+    margin-left: 160px;
     margin-top: 25px;
     border: 2px solid #C760EB;
     border-radius: 6px;

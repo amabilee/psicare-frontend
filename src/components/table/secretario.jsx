@@ -26,7 +26,6 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
   useEffect(() => {
     receberDadosSecretario();
   }, [renderFormTable, currentPage, pesquisar, filtrarPesquisa]);
-  console.log(filtrarPesquisa)
 
   const receberDadosSecretario = async() => {
     const token = localStorage.getItem("user_token")
