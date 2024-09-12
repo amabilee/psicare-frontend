@@ -98,21 +98,21 @@ export default function Secretario(){
                             <h1>Filtrar por</h1>
                             <hr />
                             <div className="formulario">
-                                <label htmlFor="Nome">Nome Completo*</label>
+                                <label htmlFor="Nome">Nome Completo</label>
                                 <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, nome: e.target.value})}/>
                                 <div className="coluna1">
                                     <div className="div-CPF">
-                                        <label htmlFor="CPF">CPF*</label>
+                                        <label htmlFor="CPF">CPF</label>
                                         <IMaskInput type="text" className="CPF" id="CPF" mask="000.000.000-00" value={filtrarPesquisa.cpf} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, cpf: e.target.value})}/>
                                     </div>
                                     <div className="div-telefone">
-                                        <label htmlFor="Telefone">Telefone*</label>
+                                        <label htmlFor="Telefone">Telefone</label>
                                         <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={filtrarPesquisa.telefone} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, telefone: e.target.value})}/>
                                     </div>
                                 </div>
-                                <label htmlFor="Email">Email*</label>
+                                <label htmlFor="Email">Email</label>
                                 <input type="email" name="email" id="email" value={filtrarPesquisa.email} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, email: e.target.value})}/>
-                                <label htmlFor="turno">Turno*</label>
+                                <label htmlFor="turno">Turno</label>
                                 <select className="turno" id="turno" value={filtrarPesquisa.turno} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, turno: e.target.value})}>
                                     <option value="" disabled>Selecione</option>
                                     <option value="matutino">Matutino</option>

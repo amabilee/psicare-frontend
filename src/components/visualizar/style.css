@@ -31,18 +31,19 @@
 
 .header-visualizar-info {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: calc(100vw - 280px);
+    /* width: calc(100vw - 280px); */
     color: #767474;
     font-size: 20px;
 }
 
 .header-visualizar-info h1{
     font-size: 30px;
-    /* font-weight: 500; */
+    font-weight: 700;
     color: #333333;
     line-height: normal;
+    margin-left: 15px;
+    cursor: pointer;
 }
 
 /* corpo de visualizar */
@@ -195,18 +196,10 @@
     margin-top: 10px;
 }
 
-.button-voltar{
-    color: #C760EB;
+.seta-voltar{
     font-weight: 500;
-    font-size: 15px;
-    padding: 11px 43px;
-    border: 2px solid #C760EB;
-    border-radius: 6px;
-    background: #fff;
 }
 
-.button-voltar:hover{
-    background: #C760EB;
-    color: #fff;
+.seta-voltar:hover{
     cursor: pointer; 
 }

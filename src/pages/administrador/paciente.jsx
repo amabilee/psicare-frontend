@@ -111,15 +111,15 @@ export default function Paciente(){
                             <h1>Filtrar por</h1>
                             <hr />
                             <div className="formulario">
-                                <label htmlFor="Nome">Nome Completo*</label>
+                                <label htmlFor="Nome">Nome Completo</label>
                                 <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, nome: e.target.value})}/>
                                 <div className="coluna1">
                                     <div className="div-CPF">
-                                        <label htmlFor="CPF">CPF*</label>
+                                        <label htmlFor="CPF">CPF</label>
                                         <IMaskInput type="text" className="CPF" id="CPF" mask="000.000.000-00" value={filtrarPesquisa.cpf} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, cpf: e.target.value})}/>
                                     </div>
                                     <div className="div-dataNascimento">
-                                        <label htmlFor="data-nascimento">Data de nascimento*</label>
+                                        <label htmlFor="data-nascimento">Data de nascimento</label>
                                         <DatePicker 
                                         className="data-nascimento"
                                         format="dd/MM/yyyy"
@@ -129,14 +129,14 @@ export default function Paciente(){
                                         />
                                     </div>
                                 </div>
-                                <label htmlFor="labelEncaminhador">Nome do Encaminhador*</label>
+                                <label htmlFor="labelEncaminhador">Nome do Encaminhador</label>
                                 <input type="text" className="encaminhadorInput" id="encaminhadorInput" 
                                     value={filtrarPesquisa.encaminhador} 
                                     onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, encaminhador: e.target.value})} 
                                     />
                                 <div className="coluna2">
                                     <div className="div-inicioTratamento">
-                                        <label htmlFor="inicio-tratamento">Início do Tratamento*</label>
+                                        <label htmlFor="inicio-tratamento">Início do Tratamento</label>
                                         <DatePicker 
                                         className="inicio-tratamento"
                                         format="dd/MM/yyyy"
@@ -146,7 +146,7 @@ export default function Paciente(){
                                         />
                                     </div>
                                     <div className="div-terminoTratamento">
-                                        <label htmlFor="termino-tratamento">Término do tratamento*</label>
+                                        <label htmlFor="termino-tratamento">Término do tratamento</label>
                                         <DatePicker 
                                         className="termino-tratamento"
                                         format="dd/MM/yyyy"
@@ -156,7 +156,7 @@ export default function Paciente(){
                                         />
                                     </div>
                                 </div>
-                                <label htmlFor="tratamento">Tipo de tratamento*</label>
+                                <label htmlFor="tratamento">Tipo de tratamento</label>
                                 <select className="tratamento" name="tratamento" id="tratamento" value={filtrarPesquisa.tipoDeTratamento} onChange={(e) =>  setFiltrarPesquisa({...filtrarPesquisa, tipoDeTratamento:e.target.value})}>
                                     <option value="" disabled>Selecione uma opção</option>
                                     <option value="psicoterapia">Psicoterapia</option>
@@ -164,7 +164,7 @@ export default function Paciente(){
                                     <option value="psicodiagnostico">Psicodiagnóstico</option>
                                     <option value="avaliacao diagnostica">Avaliação diagnóstica</option>
                                 </select>
-                                <label htmlFor="sexo">Sexo*</label>
+                                <label htmlFor="sexo">Sexo</label>
                                 <select className="sexo" name="sexo" id="sexo" 
                                 value={filtrarPesquisa.sexo} onChange={(e) =>  setFiltrarPesquisa({...filtrarPesquisa, sexo: e.target.value})}
                                 >

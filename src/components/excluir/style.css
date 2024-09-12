@@ -47,37 +47,38 @@
 
 .modal-confirmar-content .button-cancelar{
     color: #C760EB;
+    background: #fff;
+    transition: all 0.4s;
     font-weight: 500;
     font-size: 15px;
     padding: 10px 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;
-    background: #fff;
     margin-top: 50px;
 }
 
 .modal-confirmar-content .button-cancelar:hover{
-    background: #C760EB;
-    color: #fff;
-    cursor: pointer; 
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
 }
 
 .modal-confirmar-content .button-excluir {
-    color: #C760EB;
+    color: #fff;
+    background: #C760EB;
+    transition: all 0.4s;
     font-weight: 500;
     font-size: 15px;
     padding: 10px 40px;
     border: 2px solid #C760EB;
     border-radius: 6px;
-    background: #fff;
     margin-top: 50px;
 }
 
 .modal-confirmar-content .button-excluir:hover{
-    border: 2px solid #C12705;
-    background: #C12705;
-    color: #fff;
     cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
 }
 
 /* modal de exclusão */
@@ -122,17 +123,20 @@
 
 .modal-excluir-content .button-fechar{
     color: #C760EB;
+    background: #fff;
+    transition: all 0.4s;
     font-weight: 500;
     font-size: 15px;
     padding: 10px 40px;
     border: 2px solid #C760EB;
     border-radius: 6px;
-    background: #fff;
     margin-top: 20px;
 }
 
 .modal-excluir-content .button-fechar:hover{
-    background: #C760EB;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
     color: #fff;
-    cursor: pointer; 
+    background: #C760EB;
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import voltar from "../../assets/voltar.svg";
 import TableProfAluno from "../table/profAlunos";
 import "./style.css";
 
@@ -10,10 +11,8 @@ export default function VisualizarProfessor({handleCloseVisualizar, dadosProfess
             <div className="body-visualizar">
                 <div className="header-visualizar">
                     <div className="header-visualizar-info">
-                        <h1>Informações sobre professor</h1>
-                        <div className="voltar">
-                            <button className="button-voltar" onClick={handleCloseVisualizar} >Voltar</button>
-                        </div>
+                        <img src={voltar} alt="seta-voltar" className="seta-voltar" onClick={handleCloseVisualizar} />
+                        <h1 onClick={handleCloseVisualizar}>Informações sobre professor</h1>
                     </div>
                     <hr />     
                 </div>

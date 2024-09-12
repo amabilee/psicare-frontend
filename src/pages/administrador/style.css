@@ -158,6 +158,10 @@ button.button_cadastro:hover{
     width: 115px;
 }
 
+.modal-content-filtragem .formulario .coluna1 .div-CPF{
+    margin-right: 7px;
+}
+
 .modal-content-filtragem-paciente .formulario .coluna1 .div-CPF input{
     width: 140px;
 }

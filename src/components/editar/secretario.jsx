@@ -98,6 +98,7 @@ export default function EditarSecretario({handleEditarClose, dadosSecretario, re
               <option value="vespertino">Vespertino</option>
               <option value="noturno">Noturno</option>
             </select>
+            <p className="campo_obrigatorio">*Campo Obrigatório</p>
             <div className="buttons-form">
               <button className="button-cancelar" id="voltar" onClick={handleEditarClose}>
                 Cancelar
@@ -156,8 +157,8 @@ export default function EditarSecretario({handleEditarClose, dadosSecretario, re
                       <h1>{dadosAtualizados.turno}</h1>
                   </div>  
                 </div>
-                     
                 </div> 
+                
                 <div className="buttons-confirmar buttons-confirmar-secretario">
                   <button className="button-voltar-confirmar" id="voltar" onClick={handleVoltarConfirmar} >
                     Voltar

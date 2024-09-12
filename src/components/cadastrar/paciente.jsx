@@ -444,8 +444,9 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 </select>
                             </div>
                         </div>
+                        <p className="campo_obrigatorio">*Campo Obrigatório</p>
 
-                        <div className="buttons-form">
+                        <div className="buttons-form buttons-form-paciente">
                             <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Cancelar</button>
                             <button className="button-cadastrar" id="cadastrar" onClick={HandleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}>Cadastrar</button>  
                             <Snackbar

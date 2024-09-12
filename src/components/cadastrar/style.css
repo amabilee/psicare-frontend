@@ -341,38 +341,46 @@
     margin-top: 30px;
 }
 
+.modal-content .buttons-form-paciente {
+    margin-top: 20px;
+}
+
 .modal-content .buttons-form .button-voltar {
     color: #C760EB;
+    background: #fff;
+    transition: all 0.4s;
     font-weight: 500;
     font-size: 15px;
     padding: 10px 40px;
     margin-right: 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;
-    background: #fff;
+    
 }
 
 .modal-content .buttons-form .button-voltar:hover{
-    background: #C760EB;
-    color: #fff;
-    cursor: pointer; 
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
 }
 
 .modal-content .buttons-form .button-cadastrar {
-    color: #C760EB;
+    color: #fff;
+    background: #C760EB;
+    transition: all 0.4s;
     font-weight: 500;
     font-size: 15px;
     padding: 10px 30px;
     margin-right: 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;
-    background: #fff;
+    
 }
 
 .modal-content .buttons-form .button-cadastrar:hover{
-    background: #C760EB;
-    color: #fff;
-    cursor: pointer; 
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
 }
 
 

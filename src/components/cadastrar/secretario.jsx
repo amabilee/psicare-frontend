@@ -97,6 +97,7 @@ export default function CadastrarSecretario({ handleCloseModal, renderForm }){
                             <option value="vespertino">Vespertino</option>
                             <option value="noturno">Noturno</option>
                         </select>
+                        <p className="campo_obrigatorio">*Campo Obrigatório</p>
                         <div className="buttons-form">
                             <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Cancelar</button>
                             <button className="button-cadastrar" id="cadastrar" onClick={HandleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}>Cadastrar</button>  
@@ -109,8 +110,8 @@ export default function CadastrarSecretario({ handleCloseModal, renderForm }){
                                 key={vertical + horizontal}
                             >
                                 <Alert variant="filled" severity="error" onClose={handleClose} action="">
-  {typeof message === 'string' ? message : ''}
-</Alert>
+                                {typeof message === 'string' ? message : ''}
+                                </Alert>
 
                             </Snackbar>
                         </div>

@@ -128,27 +128,27 @@ export default function Aluno(){
                             <h1>Filtrar por</h1>
                             <hr />
                             <div className="formulario">
-                                <label htmlFor="Nome">Nome Completo*</label>
+                                <label htmlFor="Nome">Nome Completo</label>
                                 <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, nome: e.target.value})}/>
                                 <div className="coluna1">
                                     <div className="div-CPF">
-                                        <label htmlFor="CPF">CPF*</label>
+                                        <label htmlFor="CPF">CPF</label>
                                         <IMaskInput type="text" className="CPF" id="CPF" mask="000.000.000-00" value={filtrarPesquisa.cpf} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, cpf: e.target.value})}/>
                                     </div>
                                     <div className="div-telefone">
-                                        <label htmlFor="Telefone">Telefone*</label>
+                                        <label htmlFor="Telefone">Telefone</label>
                                         <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={filtrarPesquisa.telefone} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, telefone: e.target.value})}/>
                                     </div>
                                 </div>
-                                <label htmlFor="Email">Email*</label>
+                                <label htmlFor="Email">Email</label>
                                 <input type="email" name="email" id="email" value={filtrarPesquisa.email} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, email: e.target.value})}/>
                                 <div className="coluna2">
                                     <div className="div-matricula">
-                                        <label htmlFor="matricula">Matrícula*</label>
+                                        <label htmlFor="matricula">Matrícula</label>
                                         <input type="text" className="matricula" id="matricula" value={filtrarPesquisa.matricula} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, matricula: e.target.value})}/>
                                     </div>
                                     <div className="div-periodo">
-                                        <label htmlFor="periodo">Período*</label>
+                                        <label htmlFor="periodo">Período</label>
                                         <select className="periodo" id="periodo" value={filtrarPesquisa.periodo} onChange={(e) => setFiltrarPesquisa({...filtrarPesquisa, periodo: e.target.value})} required>
                                             <option value="" disabled>Selecione</option>
                                             <option value="1°">1°</option>
@@ -164,7 +164,7 @@ export default function Aluno(){
                                         </select>
                                     </div>
                                 </div>
-                                <label htmlFor="professorResponsavel">Professor*</label>
+                                <label htmlFor="professorResponsavel">Professor</label>
                                     <select className="professorNome" id="professorNome" 
                                     value={filtrarPesquisa.nomeProfessor}
                                     onChange={(e) =>  setFiltrarPesquisa({...filtrarPesquisa, nomeProfessor:e.target.value})}

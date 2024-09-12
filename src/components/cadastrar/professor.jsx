@@ -97,6 +97,7 @@ export default function CadastrarProfessor({ handleCloseModal, renderForm }){
                         <input type="email" name="email" id="email" value={dadosForm.email} onChange={(e) =>  setDadosForm({...dadosForm, email:e.target.value})} />
                         <label htmlFor="disciplina">Disciplina*</label>
                         <input type="text" className="disciplina" value={dadosForm.disciplina} onChange={(e) => setDadosForm({...dadosForm, disciplina:e.target.value})}/>
+                        <p className="campo_obrigatorio">*Campo Obrigatório</p>
                         <div className="buttons-form">
                             <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Cancelar</button>
                             <button className="button-cadastrar" id="cadastrar" onClick={handleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}>Cadastrar</button>  

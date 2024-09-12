@@ -166,7 +166,7 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
                     </select>
                 </div>
             </div>
-
+            <p className="campo_obrigatorio">*Campo Obrigatório</p>
             <div className="buttons-form buttons-form-aluno">
               <button className="button-cancelar" id="voltar" onClick={handleEditarClose}>
                 Cancelar

@@ -368,41 +368,48 @@
     margin-bottom: 20px;
 }
 
+.modal-content-editar .buttons-form-paciente{
+    margin-top: 15px;
+}
+
 .modal-content-editar .buttons-form.buttons-form-aluno {
     margin-top: 30px;
 }
 
 .modal-content-editar .buttons-form .button-cancelar {
     color: #C760EB;
+    background: #fff;
+    transition: all 0.4s;
     font-weight: 500;
     font-size: 15px;
     padding: 10px 40px;
     margin-right: 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;
-    background: #fff;
+    
 }
 
 .modal-content-editar .buttons-form .button-cancelar:hover{
-    background: #C760EB;
-    color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
     cursor: pointer; 
 }
 
 .modal-content-editar .buttons-form .button-confirmar {
-    color: #C760EB;
+    color: #fff;
+    background: #C760EB;
+    transition: all 0.4s;
     font-weight: 500;
     font-size: 15px;
     padding: 10px 30px;
     margin-right: 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;
-    background: #fff;
 }
 
 .modal-content-editar .buttons-form .button-confirmar:hover{
-    background: #C760EB;
-    color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
     cursor: pointer; 
 }
 
@@ -434,16 +441,16 @@
 }
 
 .modal-content-confirmar-aluno{
-    height: 590px;
+    height: 610px;
     width: 600px;
 }
 
 .modal-content-confirmar-professor{
-    height: 510px;
+    height: 530px;
 }
 
 .modal-content-confirmar-secretario{
-    height: 510px;
+    height: 530px;
 }
 
 .modal-content-confirmar-paciente{
@@ -584,15 +591,16 @@
 .modal-content-confirmar .buttons-confirmar{
     display: flex;
     justify-content: space-between;
-    margin-top: 58px;
+    margin-top: 78px;
 }
 
-.modal-content-confirmar-paciente .buttons-confirmar-paciente{
-    margin-top: 55px;
+.modal-content-confirmar .buttons-confirmar-paciente{
+    margin-top: 26px;
+    margin-left: -20px;
 }
 
 .modal-content-confirmar .buttons-confirmar-aluno{
-    margin-top: 40px;
+    margin-top: 60px;
 }
 
 .buttons-confirmar-professor,
@@ -603,36 +611,38 @@
 
 .modal-content-confirmar .button-voltar-confirmar{
     color: #C760EB;
+    background: #fff;
+    transition: all 0.4s;
     font-weight: 500;
     font-size: 15px;
     padding: 10px 40px;
     border: 2px solid #C760EB;
     border-radius: 6px;
-    background: #fff;
+    margin-left: 20px;
 }
 
 .modal-content-confirmar .button-voltar-confirmar:hover{
-    background: #C760EB;
-    color: #fff;
     cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
 }
 
 .modal-content-confirmar .button-confirmar{
-    color: #C760EB;
+    color: #fff;
+    background: #C760EB;
+    transition: all 0.4s;
     font-weight: 500;
     font-size: 15px;
     padding: 10px 30px;
     margin-right: 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;
-    background: #fff;
 }
 
 .modal-content-confirmar .button-confirmar:hover {
     cursor: pointer;
-    color: #fff;
-    border: 2px solid #1ABB2A;
-    background: #1ABB2A;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
 }
 
 
@@ -686,18 +696,19 @@
 }
 
 .modal-sucesso-content #fechar{
-    color: #C760EB;
+    color: #fff;
+    background: #C760EB;
+    transition: all 0.4s;
     font-weight: 600;
     font-size: 0.9em;
     padding: 10px 40px;
     border: 2px solid #C760EB;
     border-radius: 6px;
-    background: #fff;
     margin-top: 10px;
 }
 
 .modal-sucesso-content #fechar:hover{
-    background: #C760EB;
-    color: #fff;
-    cursor: pointer; 
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
 }

@@ -93,6 +93,7 @@ export default function EditarProfessor({handleEditarClose, dadosProfessor, rend
             <input type="email" name="email" id="email" value={dadosAtualizados.email} onChange={(e) => setDadosAtualizados({...dadosAtualizados, email:e.target.value})}/>
             <label htmlFor="disciplina">Disciplina*</label>
             <input type="text" className="disciplina" value={dadosAtualizados.disciplina} onChange={(e) => setDadosAtualizados({...dadosAtualizados, disciplina:e.target.value})}/>
+            <p className="campo_obrigatorio">*Campo Obrigatório</p>
             <div className="buttons-form">
               <button className="button-cancelar" id="voltar" onClick={handleEditarClose}>
                 Cancelar

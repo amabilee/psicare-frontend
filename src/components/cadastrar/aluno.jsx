@@ -152,6 +152,7 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
                                 </select>
                             </div>
                         </div> 
+                        <p className="campo_obrigatorio">*Campo Obrigatório</p>
                         <div className="buttons-form buttons-form-aluno">
                             <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Cancelar</button>
                             <button className="button-cadastrar" id="cadastrar" onClick={handleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}>Cadastrar</button>  

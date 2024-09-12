@@ -416,7 +416,9 @@ export default function EditarPaciente({handleEditarClose, dadosPaciente, render
                     </select>
                 </div>
             </div>
-            <div className="buttons-form">
+            <p className="campo_obrigatorio">*Campo Obrigatório</p>
+
+            <div className="buttons-form buttons-form-paciente">
               <button className="button-cancelar" id="voltar" onClick={handleEditarClose}>
                 Cancelar
               </button>
@@ -568,14 +570,14 @@ export default function EditarPaciente({handleEditarClose, dadosPaciente, render
                         </div>
                     </div>
 
-                     <div className="buttons-confirmar buttons-confirmar-paciente">
-                  <button className="button-voltar-confirmar" id="voltar" onClick={handleVoltarConfirmar} >
-                    Voltar
-                  </button>
-                  <button type="submit" className="button-confirmar" id="cadastrar" onClick={handleSucessoConfirmar}>
-                    Confirmar
-                  </button>
-                </div> 
+                    <div className="buttons-confirmar buttons-confirmar-paciente">
+                        <button className="button-voltar-confirmar" id="voltar" onClick={handleVoltarConfirmar} >
+                            Voltar
+                        </button>
+                        <button type="submit" className="button-confirmar" id="cadastrar" onClick={handleSucessoConfirmar}>
+                            Confirmar
+                        </button>
+                    </div> 
                 </div> 
                 
             </div>
