@@ -100,7 +100,8 @@ export default function CadastrarSecretario({ handleCloseModal, renderForm }){
                         <p className="campo_obrigatorio">*Campo Obrigatório</p>
                         <div className="buttons-form">
                             <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Cancelar</button>
-                            <button className="button-cadastrar" id="cadastrar" onClick={HandleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}>Cadastrar</button>  
+                            <button className="button-cadastrar" id="cadastrar" onClick={HandleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}
+                            >Cadastrar</button>  
                             <Snackbar
                                 ContentProps={{sx: {borderRadius: '8px'}}}
                                 anchorOrigin={{ vertical, horizontal }}

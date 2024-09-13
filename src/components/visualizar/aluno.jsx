@@ -1,5 +1,6 @@
 import React from "react";
 import TableAlunoPaciente from "../table/alunoPacientes";
+import TableProfAluno from "../table/profAlunos";
 import voltar from "../../assets/voltar.svg";
 import "./style.css";
 

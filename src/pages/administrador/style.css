@@ -19,7 +19,7 @@
     line-height: normal;
 }
 
-button.button_cadastro {
+.body_admin .barra_pesquisa .button_cadastro {
     display: flex;
     align-items: center;
     color: #C760EBFA;
@@ -30,10 +30,35 @@ button.button_cadastro {
     border: 2px solid #C760EBFA;
 }
 
-button.button_cadastro:hover{
+.body_admin .barra_pesquisa .button_cadastro:hover{
     background: #C760EB;
     color: #fff;
     cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
+}
+
+.body_admin .barra_pesquisa .button_arquivados {
+    display: flex;
+    align-items: center;
+    color: #C760EBFA;
+    background: #fff;
+    border-radius: 5px;
+    width: 186px;
+    height: 40px;
+    padding-left: 25px;   
+    border: 2px solid #C760EBFA;
+    position: absolute;
+    left: 0;
+    margin-left: 220px;
+}
+
+.body_admin .barra_pesquisa .button_arquivados:hover {
+    background: #C760EB;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
 }
 
 .icon_cadastro {
@@ -64,6 +89,8 @@ button.button_cadastro:hover{
 .pesquisar:focus {
     border: 2px solid #C760EB;
     outline: none;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+    transition: all 0.2s;
 }
 
 .icon_pesquisa {
@@ -139,6 +166,8 @@ button.button_cadastro:hover{
 .modal-content-filtragem input:focus {
     border: 2px solid #C760EBFA;
     outline: none;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+    transition: all 0.2s;
 }
 
 .modal-content-filtragem .formulario .coluna1 {
@@ -191,6 +220,8 @@ button.button_cadastro:hover{
 .modal-content-filtragem .formulario select.sexo:focus {
     border: 2px solid #C760EBFA;
     outline: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
 }
 
 .modal-content-filtragem .formulario .turno,
@@ -255,11 +286,30 @@ button.button_cadastro:hover{
     border: 2px solid #C760EBFA;
 }
 
+.flex-informacoes-pessoais .data-nascimento div:hover,
+.flex-informacoes-tratamento .inicio-tratamento div:hover,
+.flex-informacoes-tratamento .termino-tratamento div:hover {
+    border-radius: 10px;
+    border: 2px solid #C760EBFA;
+}
+
+.flex-informacoes-pessoais .data-nascimento div:focus,
+.flex-informacoes-tratamento .inicio-tratamento div:focus,
+.flex-informacoes-tratamento .termino-tratamento div:focus {
+    border: 2px solid #C760EBFA;
+    outline: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
+}
 
 .modal-content-filtragem .data-nascimento input,
 .modal-content-filtragem .inicio-tratamento input,
 .modal-content-filtragem .termino-tratamento input {
     margin: 0;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    transition: none;
 }
 
 /* buttons de filtragem */
@@ -294,4 +344,28 @@ button.button_cadastro:hover{
     background: #C760EB;
     color: #fff;
     cursor: pointer; 
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
+}
+
+/* pacientes arquivados */
+
+.body_admin .barra_pesquisa .button_ativos {
+    display: flex;
+    align-items: center;
+    color: #C760EBFA;
+    background: #fff;
+    border-radius: 5px;
+    width: 186px;
+    height: 40px;   
+    padding-left: 40px;
+    border: 2px solid #C760EBFA;
+}
+
+.body_admin .barra_pesquisa .button_ativos:hover {
+    background: #C760EB;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
 }

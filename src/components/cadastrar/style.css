@@ -89,6 +89,8 @@
 .modal-content input:focus {
     border: 2px solid #C760EBFA;
     outline: none;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+    transition: all 0.2s;
 }
 
 .modal-content input#nome {
@@ -158,6 +160,8 @@
 {
     border: 2px solid #C760EBFA;
     outline: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
 }
 
 .modal-content select.turno{
@@ -235,7 +239,22 @@
 .flex-informacoes-tratamento .termino-tratamento div {
     border-radius: 10px;
     border: 2px solid #C760EBFA;
+}
 
+.flex-informacoes-pessoais .data-nascimento div:hover,
+.flex-informacoes-tratamento .inicio-tratamento div:hover,
+.flex-informacoes-tratamento .termino-tratamento div:hover {
+    border-radius: 10px;
+    border: 2px solid #C760EBFA;
+}
+
+.flex-informacoes-pessoais .data-nascimento div:focus,
+.flex-informacoes-tratamento .inicio-tratamento div:focus,
+.flex-informacoes-tratamento .termino-tratamento div:focus {
+    border: 2px solid #C760EBFA;
+    outline: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
 }
 
 
@@ -243,12 +262,17 @@
     z-index: 2000;
     margin-top: -200px;
     margin-left: 260px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .flex-informacoes-pessoais .data-nascimento input,
 .flex-informacoes-tratamento .inicio-tratamento input,
 .flex-informacoes-tratamento .termino-tratamento input {
-    margin: 0;
+    margin: 0; 
+    border: none;
+    outline: none;
+    box-shadow: none;
+    transition: none;
 }
 
 .flex-informacoes-pessoais .sexo {

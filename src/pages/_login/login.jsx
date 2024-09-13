@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import logo from "../../assets/logo.svg"
 import { Link, useNavigate } from "react-router-dom";
-// import Snackbar from '@mui/material/Snackbar';
-// import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import { UseAuth } from "../../hooks";
 import "./style.css"
 
@@ -11,14 +11,14 @@ export default function Login() {
     const { signIn, error } = UseAuth();
     const [ email, setEmail ] = useState('');
     const [ senha, setSenha ] = useState('');
-    // const [ message, setMessage ] = useState("");
-    // const [ state, setState] = React.useState({
-    //     open: false,
-    //     vertical: 'top',
-    //     horizontal: 'center',
-    // });
+    const [ message, setMessage ] = useState("");
+    const [ state, setState] = React.useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+    });
 
-    // const { vertical, horizontal, open } = state;
+    const { vertical, horizontal, open } = state;
 
     const navigate = useNavigate();
 
@@ -41,14 +41,14 @@ export default function Login() {
         
     }
 
-    // const handleMensagem = (newState) => {
-    //     setState({ ...newState, open: true });
-    //     setMessage("Não possui acesso? Entre em contato com o administrador do sistema.");
-    // }
+    const handleMensagem = (newState) => () => {
+        setState({ ...newState, open: true });
+        setMessage("Não possui acesso? Entre em contato com o administrador do sistema.");
+    }
 
-    // const handleClose = () => {
-    //     setState({ ...state, open: false });
-    // };
+    const handleClose = () => {
+        setState({ ...state, open: false });
+    };
     
     return(
         <div className="body">
@@ -62,26 +62,26 @@ export default function Login() {
                     </button>
                     <div className="mensagem_alerta" >
                         <h3 
-                        // onClick={handleMensagem({ vertical: 'bottom', horizontal: 'center' })}
-                        >Não possui cadastro ?</h3>
-                        {/* <Snackbar
-                            ContentProps={{sx: {borderRadius: '8px'}}}
-                            anchorOrigin={{ vertical, horizontal }}
-                            open={open}
-                            autoHideDuration={2000}
-                            onClose={handleClose}
-                            key={vertical + horizontal}
-                        >
-                            <Alert variant="filled"  severity="warning" onClose={handleClose} action="">
-                            {typeof message === 'string' ? message : ''}    
-                            </Alert> 
-                        </Snackbar> */}
+                        onClick={handleMensagem({ vertical: 'bottom', horizontal: 'center' })}
+                        >Não possui cadastro ?</h3>  
                     </div>
-                    
                     {/* <Link to="/secretarios" className="link-button-login">Entrar</Link> */}
                 </div>
-                
             </div>
+            <Snackbar
+                ContentProps={{sx: {borderRadius: '8px'}}}
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                autoHideDuration={2500}
+                onClose={handleClose}
+                key={vertical + horizontal}
+            >
+                <Alert variant="filled" severity="warning" 
+                onClose={handleClose} 
+                action="">
+                {typeof message === 'string' ? message : ''}    
+                </Alert> 
+            </Snackbar>
         </div>
     )
 }

@@ -84,7 +84,6 @@ export default function Secretario(){
                         <IoMdPersonAdd className="icon_cadastro"/>
                         Novo Cadastro 
                     </button>
-                    
                     <img src={filtragem} alt="filtragem" className="icon_pesquisa_avançada" onClick={modalFiltragemClick}/>
                     <div className="container">
                         <input type="text" value={pesquisaUsuario} onChange={(e) => setPesquisaUsuario(e.target.value)} className="pesquisar" />

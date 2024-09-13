@@ -168,7 +168,7 @@ export default function TableProfAluno({  alunosProfessor }){
           {isVisualizarOpen && (
             <VisualizarAluno
               handleCloseVisualizar={handleCloseVisualizar}
-              dadosSecretario={usuarioClick}
+              dadosAluno={usuarioClick}
             />
           )}
       </div>

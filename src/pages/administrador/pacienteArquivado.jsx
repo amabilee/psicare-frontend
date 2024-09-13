@@ -1,19 +1,15 @@
 import React, {useState, useEffect} from "react";
 import SideBar from "../../components/SideBar/sidebar";
-import TablePaciente from "../../components/table/paciente";
+// import TablePaciente from "../../components/table/paciente";
 import 'rsuite/dist/rsuite.css';
 import { DatePicker } from 'rsuite';
-import CadastrarPaciente from "../../components/cadastrar/paciente";
-import PacienteArquivado from "./pacienteArquivado";
 import filtragem from "../../assets/filtragem.svg";
 import {IMaskInput} from "react-imask";
 import { IoMdPersonAdd } from "react-icons/io";
 import icon_pesquisa from "../../assets/pesquisa.svg"
 import "./style.css";
 
-export default function Paciente(){
-    const [isCadastroOpen, setIsCadastroOpen] = useState(false);
-    const [isArquivadosOpen, setIsArquivadosOpen] = useState(false);
+export default function PacienteArquivado({handleCloseModal}){
     const [isFiltragemOpen, setIsFiltragemOpen] = useState(false);
     const [renderFormTable, setRenderFormTable] = useState();
     const [pesquisaUsuario, setPesquisaUsuario] = useState("");
@@ -42,24 +38,11 @@ export default function Paciente(){
         setIsCadastroOpen(true);
     };
 
-    const handleCloseModal = () => {
-        setIsCadastroOpen(false);
-        setIsArquivadosOpen(false)
-    };
-
-    const handleArquivados = () => {
-        setIsArquivadosOpen(true);
-    }
-
     const modalFiltragemClick = () => {
         setIsFiltragemOpen(true);
         if(isFiltragemOpen){
             setIsFiltragemOpen(false)
         }
-    }
-
-    const renderProps = (codigo) => {
-        setRenderFormTable(codigo);
     }
 
     const handlePesquisar = (e) => {
@@ -99,18 +82,13 @@ export default function Paciente(){
     return(
         <>
             <SideBar />
-            {!isArquivadosOpen && (
-                <div className="body_admin">
+            <div className="body_admin">
                 <h1 className="h1">Pacientes</h1>
                 <div className="barra_pesquisa">
-                    <button className="button_cadastro" onClick={handleNovoCadastroClick} >
-                        <IoMdPersonAdd className="icon_cadastro"/>
-                        Novo Cadastro 
-                    </button>
-                    <button className="button_arquivados" 
-                    onClick={handleArquivados} 
+                    <button className="button_ativos" 
+                    onClick={handleCloseModal} 
                     >
-                        Visualizar Arquivados
+                        Visualizar Ativos
                     </button>
                     <img src={filtragem} alt="filtragem" className="icon_pesquisa_avançada" onClick={modalFiltragemClick}/>
                     <div className="container">
@@ -192,12 +170,8 @@ export default function Paciente(){
                         </div>
                     </div>
                 )}
-                <TablePaciente renderFormTable={renderFormTable} pesquisar={pesquisaUsuario} filtrarPesquisa={enviarFiltragem}/>
-                {isCadastroOpen && (<CadastrarPaciente handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
-                
+                {/* <TablePaciente renderFormTable={renderFormTable} pesquisar={pesquisaUsuario} filtrarPesquisa={enviarFiltragem}/> */}
             </div>
-            )}
-            {isArquivadosOpen && (<PacienteArquivado handleCloseModal={handleCloseModal}/>)}
         </>
     )
 }

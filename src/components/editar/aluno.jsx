@@ -27,7 +27,6 @@ export default function EditarAluno({handleEditarClose, dadosAluno, renderDadosA
       setState({ ...state, open: false });
   };
 
-
   useEffect(() => {
     buscarProfessores();
   }, []);

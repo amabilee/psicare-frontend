@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import voltar from "../../assets/voltar.svg";
 import TableProfAluno from "../table/profAlunos";
 import "./style.css";
 
-export default function VisualizarProfessor({handleCloseVisualizar, dadosProfessor}){
+export default function VisualizarProfessor({handleCloseVisualizar, dadosProfessor}){   
     const alunosProfessor = dadosProfessor._id;
-
     return(
         <div className="visualizar">
             <div className="body-visualizar">
@@ -44,7 +43,6 @@ export default function VisualizarProfessor({handleCloseVisualizar, dadosProfess
                         </div>
                     </div>   
                 </div>     
-                
             </div>
             <TableProfAluno alunosProfessor={alunosProfessor}/>
         </div>
