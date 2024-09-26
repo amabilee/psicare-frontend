@@ -11,6 +11,7 @@ import "./style.css";
 
 
 export default function Professor(){
+    const [loading, setLoading] = useState(true)
     const [isCadastroOpen, setIsCadastroOpen] = useState(false);
     const [isFiltragemOpen, setIsFiltragemOpen] = useState(false);
     const [renderFormTable, setRenderFormTable] = useState();
@@ -77,6 +78,14 @@ export default function Professor(){
         }
     }, [isFiltragemOpen]);
 
+    const detectarLoading = (childData) => {
+        setLoading(childData);
+    }
+
+    useEffect(() => {
+        detectarLoading()
+    }, [])
+
     return(
         <>
             <SideBar />
@@ -121,7 +130,7 @@ export default function Professor(){
                         </div>
                     </div>
                 )}
-                <TableProfessor renderFormTable={renderFormTable} pesquisar={pesquisaUsuario} filtrarPesquisa={enviarFiltragem}/>
+                <TableProfessor renderFormTable={renderFormTable} pesquisar={pesquisaUsuario} filtrarPesquisa={enviarFiltragem} loadingStatus={detectarLoading}/>
                 {isCadastroOpen && (<CadastrarProfessor handleCloseModal={handleCloseModal} renderForm={renderProps}/>)}
             </div>
         </>

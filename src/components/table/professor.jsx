@@ -9,7 +9,7 @@ import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
 
-export default function TableProfessor({ renderFormTable, pesquisar, filtrarPesquisa }){
+export default function TableProfessor({ renderFormTable, pesquisar, filtrarPesquisa, loadingStatus }){
     const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
     const [isExcluirOpen, setIsExcluirOpen] = useState(false);
     const [isEditarOpen, setIsEditarOpen] = useState(false);
@@ -61,16 +61,14 @@ export default function TableProfessor({ renderFormTable, pesquisar, filtrarPesq
             "authorization": `Bearer ${token}`
           }
         });//requisação get para os "dadosPaginados" contruido
-        console.log(receberDados)
 
         const { professores, totalPages, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
-        console.log("quantidade total de itens: ", totalItems)
 
         //professor: lista de professores, e totalPages: numero total de paginas tudo retornado pela api
         setDadosProfessor({ professores }); //atualiza os dadosprofessores para os dados da minha api "professores"
         setTotalPages(totalPages); //atualiza o totalPages com o "total" retorndo da minha apis
         setTotalProfessoresTable(totalItems);
-
+        loadingStatus(false)
         const professoresAcumulados = ((currentPage - 1) * 15 + professores.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
         setAcumularProfessoresPage(professoresAcumulados);
       } catch (e) {

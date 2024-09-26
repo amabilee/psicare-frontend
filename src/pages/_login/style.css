@@ -1,8 +1,7 @@
 .box {
     background-color: #fff;
-    width: 500px;
-    /* max-width: 700px; */
-    height: 400px;
+    width: 25vw;
+    height: fit-content;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -20,20 +19,21 @@
 }
 
 .form img {
-    margin-bottom: 30px;
-    width: 190px;
+    margin: 10px 0 80px 0;
+    width: 200px;
 }
 
 .form input {
     padding: 8px;
     margin-top: 15px;
-    width: 410px;
-    border: 1px solid gainsboro;
+    width: 75%;
+    border: 2px solid gainsboro;
     border-radius: 6px;
+    font-weight: 500;
 }
 
 .form input:hover {
-    border: 1px solid #C760EB;
+    border: 2px solid #C760EB;
     transition-property: border;
     transition-duration: 0.2s;
     transition-timing-function: linear;
@@ -44,7 +44,7 @@
 }
 
 .form input:focus {
-    border: 1px solid #D5B8FF;
+    border: 2px solid #D5B8FF;
     outline: none;
     padding: 8px;
 }
@@ -53,9 +53,9 @@
     color: #C760EB;
     font-weight: 600;
     font-size: 0.94em;
-    width: 428px;
+    width: 80%;
     padding: 8px 0;
-    margin-top: 18px;
+    margin-top: 35px;
     border: 2px solid #C760EB;
     border-radius: 6px;
     background: #fff;
@@ -73,7 +73,7 @@
     font-size: 0.9em;
     width: 410px;
     padding: 8px;
-    margin-top: 15px;
+    margin-top: 30px;
     text-align: center;
     text-decoration: none;
     border: 2px solid #C760EB;
@@ -92,7 +92,10 @@
     font-weight: 500;
     color: #767474;
     font-size: 15px;
-    margin-left: -215px;
-    margin-top: 15px;
     cursor: pointer;
+}
+
+.mensagem_alerta{
+    width: 80%;
+    margin: 20px 0 -10px 0px;
 }

@@ -9,7 +9,7 @@ import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
 
-export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesquisa }) {
+export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesquisa, loadingStatus }) {
   const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
   const [isExcluirOpen, setIsExcluirOpen] = useState(false);
   const [isEditarOpen, setIsEditarOpen] = useState(false);
@@ -71,7 +71,6 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
           "authorization": `Bearer ${token}`
         }
       });//requisação get para os "dadosPaginados" contruidos
-      console.log(receberDados)
 
       const { pacientes, totalPages, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
       console.log("quantidade total de itens: ", totalItems)
@@ -79,6 +78,7 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
       setDadosPaciente({ pacientes }); //atualiza os dadosPaciente para os dados da minha api "pacientes"
       setTotalPages(totalPages); //atualiza o totalPages com o "total" retorndo da minha apis
       setTotalPacientesTable(totalItems);
+      loadingStatus(false)
 
       const pacientesAcumulados = ((currentPage - 1) * 15 + pacientes.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
       setAcumularPacientesPage(pacientesAcumulados);

@@ -9,7 +9,7 @@ import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
 
-export default function TableSecretario({ renderFormTable, pesquisar, filtrarPesquisa }) {
+export default function TableSecretario({ renderFormTable, pesquisar, filtrarPesquisa, loadingStatus }) {
   const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
   const [isExcluirOpen, setIsExcluirOpen] = useState(false);
   const [isEditarOpen, setIsEditarOpen] = useState(false);
@@ -29,7 +29,6 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
 
   const receberDadosSecretario = async() => {
     const token = localStorage.getItem("user_token")
-    console.log(token)
     try {
       let dadosPaginados = `/secretario?page=${currentPage}`;//numero de pagina atual para a api 
 
@@ -64,15 +63,13 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
           "authorization": `Bearer ${token}`
         }
       });//requisação get para os "dadosPaginados" contruidos
-      console.log(receberDados)
 
       const { secretarios, totalPages, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
-      console.log("quantidade total de itens: ", totalItems)
       //secretario: lista de secretarios, e totalPages: numero total de paginas tudo retornado pela api
       setDadosSecretario({ secretarios }); //atualiza os dadosSecretarios para os dados da minha api "secretarios"
       setTotalPages(totalPages); //atualiza o totalPages com o "total" retorndo da minha apis
       setTotalSecretariosTable(totalItems);
-
+      loadingStatus(false)
       const secretariosAcumulados = ((currentPage - 1) * 15 + secretarios.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
       setAcumularSecretariosPage(secretariosAcumulados);
     } catch (e) {
