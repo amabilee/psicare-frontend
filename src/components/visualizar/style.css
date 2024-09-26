@@ -98,7 +98,7 @@
 
 .visualizar-info-paciente .coluna1 {
     justify-content:  space-between;
-    margin-right: 50px;
+    margin-right: 200px;
 }
 
 .visualizar-info-paciente .coluna1 .CPF,
@@ -148,7 +148,7 @@
 
 .visualizar-info-paciente .coluna2 {
     justify-content: space-between;
-    margin-right: 40px;
+    margin-right: 190px;
 }
 
 .visualizar-info .coluna3{
@@ -168,7 +168,7 @@
 
 .visualizar-info-paciente .coluna3{
     justify-content: space-between;
-    margin-right: 65px;
+    margin-right: 207px;
 }
 
 .visualizar-info-paciente .coluna4 {

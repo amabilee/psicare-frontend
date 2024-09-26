@@ -96,13 +96,17 @@ export default function Secretario() {
                     </button>
                     <img src={filtragem} alt="filtragem" className="icon_pesquisa_avançada" onClick={modalFiltragemClick} />
                     <div className="container">
-                        <input type="text" value={pesquisaUsuario} onChange={(e) => setPesquisaUsuario(e.target.value)} className="pesquisar" />
+                        <input type="text" value={pesquisaUsuario} onChange={(e) => setPesquisaUsuario(e.target.value)} className="pesquisar" placeholder="Escreva aqui para pesquisar..."/>
                         <img src={icon_pesquisa} alt="icon_pesquisa" id="icon_pesquisa" className="icon_pesquisa" />
                     </div>
                 </div>
 
                 {isFiltragemOpen && (
-                    <div className="modal-filtragem">
+                    <div className="modal-filtragem" onClick={(e) => {
+                        if (e.target === e.currentTarget) {
+                            modalFiltragemClick();
+                        }
+                    }}>
                         <div className="modal-content-filtragem">
                             <h1>Filtrar por</h1>
                             <hr />

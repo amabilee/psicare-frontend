@@ -13,23 +13,25 @@
 
 /* body */
 
-.body_admin{
+.body_admin {
     margin-left: 250px;
-    margin-top: 53px; 
-    max-width: calc(100vw - 250px); /*ajuste para nao sobrepor a sidebar*/
+    margin-top: 53px;
+    max-width: calc(100vw - 250px);
+    /*ajuste para nao sobrepor a sidebar*/
     position: relative;
     height: calc(100vh - 53px);
-    z-index: 2000; /*conteudo principal com z-index mais alto que a sidebar*/
+    z-index: 2000;
+    /*conteudo principal com z-index mais alto que a sidebar*/
 }
 
-.barra_pesquisa{
+.barra_pesquisa {
     display: flex;
     justify-content: space-between;
     position: relative;
     height: 5%;
 }
 
-.body_admin .h1{
+.body_admin .h1 {
     font-size: 25px;
     margin: 0px 0 30px 0;
     font-weight: 400;
@@ -44,11 +46,11 @@
     background: #fff;
     border-radius: 5px;
     width: 186px;
-    height: 40px;   
+    height: 40px;
     border: 2px solid #C760EBFA;
 }
 
-.body_admin .barra_pesquisa .button_cadastro:hover{
+.body_admin .barra_pesquisa .button_cadastro:hover {
     background: #C760EB;
     color: #fff;
     cursor: pointer;
@@ -64,7 +66,7 @@
     border-radius: 5px;
     width: 186px;
     height: 40px;
-    padding-left: 25px;   
+    padding-left: 25px;
     border: 2px solid #C760EBFA;
     position: absolute;
     left: 0;
@@ -86,22 +88,23 @@
     padding-left: 25px;
 }
 
-.icon_pesquisa_avançada{
+.icon_pesquisa_avançada {
     position: absolute;
     right: 600px;
     margin-top: 7px;
     cursor: pointer;
 }
 
-.pesquisar  {
+.pesquisar {
     width: 573px;
     height: 40px;
     border-radius: 6px;
     border: 2px solid #C760EB;
     margin-right: 20px;
-    padding-left: 40px; /*espaço suficiente para alocar o ícone*/
-    box-sizing: border-box; /*inclui o padding na largura total*/
-    text-transform: capitalize;
+    padding-left: 40px;
+    /*espaço suficiente para alocar o ícone*/
+    box-sizing: border-box;
+    /*inclui o padding na largura total*/
 }
 
 .pesquisar:focus {
@@ -112,37 +115,43 @@
 }
 
 .icon_pesquisa {
-    position: absolute; /*posiciona o ícone dentro do input*/
+    position: absolute;
+    /*posiciona o ícone dentro do input*/
     right: 560px;
     width: 24px;
     margin-top: 7px;
-    pointer-events: none; /*impede interação com o ícone*/
+    pointer-events: none;
+    /*impede interação com o ícone*/
 }
 
 /* pesquisa avançada */
-.modal-filtragem{
+.modal-filtragem {
     display: flex;
-    justify-content: center;
-    margin-left: 0%;
-    margin-top: 0px;
+    justify-content: flex-end;
+    margin-top: -53px;
     position: absolute;
-    z-index: 1;
+    top: 0;
     right: 0;
-    margin-right: 630px;
-    top: 6.5%;
+    z-index: 1;
     border: none;
+    height: 100vh;
+    width: 100vw;
+    background-color: #0000000b;
 }
 
-.modal-content-filtragem{
+.modal-content-filtragem {
     background-color: #fefefe;
     padding: 15px 20px 30px 20px;
     border: 1px solid #888;
     border-radius: 8px;
     width: 270px;
     height: 400px;
-    top: 12px;
-    left: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 99;
+    position: absolute;
+    right: 0;
+    top: 12%;
+    margin-right: 630px;
 }
 
 .modal-content-filtragem-aluno {
@@ -192,24 +201,24 @@
     display: flex;
 }
 
-.modal-content-filtragem-paciente .formulario .coluna1 .div-CPF .CPF{
+.modal-content-filtragem-paciente .formulario .coluna1 .div-CPF .CPF {
     width: 135px;
 }
 
-.modal-content-filtragem-paciente .formulario .coluna1 .div-dataNascimento{
+.modal-content-filtragem-paciente .formulario .coluna1 .div-dataNascimento {
     margin-right: 10px;
 }
 
-.modal-content-filtragem .formulario .coluna1 .div-CPF input ,
+.modal-content-filtragem .formulario .coluna1 .div-CPF input,
 .modal-content-filtragem .formulario .coluna1 .div-telefone input {
     width: 115px;
 }
 
-.modal-content-filtragem .formulario .coluna1 .div-CPF{
+.modal-content-filtragem .formulario .coluna1 .div-CPF {
     margin-right: 7px;
 }
 
-.modal-content-filtragem-paciente .formulario .coluna1 .div-CPF input{
+.modal-content-filtragem-paciente .formulario .coluna1 .div-CPF input {
     width: 140px;
 }
 
@@ -217,12 +226,14 @@
 .modal-content-filtragem .formulario select.periodo,
 .modal-content-filtragem .formulario select.professorNome,
 .modal-content-filtragem .formulario select.tratamento,
-.modal-content-filtragem .formulario select.sexo{
+.modal-content-filtragem .formulario select.sexo {
     padding: 7px;
     border: 2px solid #C760EBFA;
     border-radius: 12px;
-    -webkit-appearance: none; /* Remove o estilo padrão da seta no Safari */
-    -moz-appearance: none; /* Remove o estilo padrão da seta no Firefox */
+    -webkit-appearance: none;
+    /* Remove o estilo padrão da seta no Safari */
+    -moz-appearance: none;
+    /* Remove o estilo padrão da seta no Firefox */
     appearance: none;
     background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 10L12 16L18 10" stroke="%23710198" stroke-linecap="round"/></svg>');
     background-repeat: no-repeat;
@@ -243,33 +254,33 @@
 }
 
 .modal-content-filtragem .formulario .turno,
-.modal-content-filtragem .formulario .disciplina{
+.modal-content-filtragem .formulario .disciplina {
     display: flex;
     width: 160px;
 }
 
-.modal-content-filtragem .formulario .tratamento{
+.modal-content-filtragem .formulario .tratamento {
     display: flex;
     width: 310px;
 }
 
-.modal-content-filtragem .formulario .sexo{
+.modal-content-filtragem .formulario .sexo {
     display: flex;
     width: 170px;
 }
 
-.modal-content-filtragem .formulario .matricula{
+.modal-content-filtragem .formulario .matricula {
     display: flex;
     width: 120px;
     margin-right: 8px;
 }
 
-.modal-content-filtragem .formulario .periodo{
+.modal-content-filtragem .formulario .periodo {
     display: flex;
     width: 120px;
 }
 
-.modal-content-filtragem .formulario .professorNome{
+.modal-content-filtragem .formulario .professorNome {
     display: flex;
     width: 262px;
 }
@@ -285,7 +296,7 @@
     margin: 8px 0;
 }
 
-.modal-content-filtragem .coluna2 .div-inicioTratamento{
+.modal-content-filtragem .coluna2 .div-inicioTratamento {
     margin-right: 10px;
 }
 
@@ -337,12 +348,12 @@
     font-weight: 500;
     font-size: 15px;
     padding: 6px 25px;
-    margin-left: 120px;
     margin-top: 25px;
     border: 2px solid #C760EB;
     border-radius: 6px;
     background: #fff;
     transition: all 0.3s;
+    width: 100%;
 }
 
 .modal-content-filtragem-paciente .formulario .button-filtro {
@@ -350,18 +361,16 @@
     font-weight: 500;
     font-size: 15px;
     padding: 6px 25px;
-    margin-left: 160px;
-    margin-top: 25px;
     border: 2px solid #C760EB;
     border-radius: 6px;
     background: #fff;
     transition: all 0.3s;
 }
 
-.modal-content-filtragem .formulario .button-filtro:hover{
+.modal-content-filtragem .formulario .button-filtro:hover {
     background: #C760EB;
     color: #fff;
-    cursor: pointer; 
+    cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
 }
@@ -375,7 +384,7 @@
     background: #fff;
     border-radius: 5px;
     width: 186px;
-    height: 40px;   
+    height: 40px;
     padding-left: 40px;
     border: 2px solid #C760EBFA;
 }

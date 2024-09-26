@@ -125,12 +125,16 @@ export default function Paciente() {
                         </button>
                         <img src={filtragem} alt="filtragem" className="icon_pesquisa_avançada" onClick={modalFiltragemClick} />
                         <div className="container">
-                            <input type="text" value={pesquisaUsuario} onChange={handlePesquisar} className="pesquisar" />
+                            <input type="text" value={pesquisaUsuario} onChange={handlePesquisar} className="pesquisar" placeholder="Escreva aqui para pesquisar..."/>
                             <img src={icon_pesquisa} alt="icon_pesquisa" id="icon_pesquisa" className="icon_pesquisa" />
                         </div>
                     </div>
                     {isFiltragemOpen && (
-                        <div className="modal-filtragem">
+                        <div className="modal-filtragem" onClick={(e) => {
+                            if (e.target === e.currentTarget) {
+                                modalFiltragemClick();
+                            }
+                        }}>
                             <div className="modal-content-filtragem modal-content-filtragem-paciente">
                                 <h1>Filtrar por</h1>
                                 <hr />
@@ -148,7 +152,6 @@ export default function Paciente() {
                                                 className="data-nascimento"
                                                 format="dd/MM/yyyy"
                                                 placeholder="dd/mm/aaaa"
-                                                // value={filtrarPesquisa.dataNascimento}
                                                 onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, dataNascimento: e })}
                                             />
                                         </div>
@@ -165,7 +168,6 @@ export default function Paciente() {
                                                 className="inicio-tratamento"
                                                 format="dd/MM/yyyy"
                                                 placeholder="dd/mm/aaaa"
-                                                // value={filtrarPesquisa.dataNascimento}
                                                 onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, dataInicioTratamento: e })}
                                             />
                                         </div>
@@ -175,7 +177,6 @@ export default function Paciente() {
                                                 className="termino-tratamento"
                                                 format="dd/MM/yyyy"
                                                 placeholder="dd/mm/aaaa"
-                                                // value={filtrarPesquisa.dataNascimento}
                                                 onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, dataTerminoTratamento: e })}
                                             />
                                         </div>

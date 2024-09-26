@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { api } from "../../services/server";
 import VisualizarPaciente from "../visualizar/paciente";
-import ExcluirPaciente from "../excluir/paciente";
-import EditarPaciente from "../editar/paciente";
-import IconEditar from "../../assets/editar-icon.svg";
-import IconExcluir from "../../assets/excluir-icon.svg";
+
+
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+
+import AtivarIcon from "../../assets/ativar-icon.svg"
+
 import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
 
-export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesquisa, loadingStatus }) {
+export default function TablePacienteArquivado({ renderFormTable, pesquisar, filtrarPesquisa, loadingStatus }) {
   const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
-  const [isExcluirOpen, setIsExcluirOpen] = useState(false);
-  const [isEditarOpen, setIsEditarOpen] = useState(false);
   const [usuarioClick, setUsuarioClick] = useState({});
   const [dadosPaciente, setDadosPaciente] = useState({ pacientes: [] });
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,19 +22,30 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
   const [acumularPacientesPage, setAcumularPacientesPage] = useState(0);
   const [checkboxSelecionadas, setCheckboxSelecionadas] = useState({}); // Novo estado para contagem de checkboxes selecionadas
   const [todasCheckboxSelecionadas, setTodasCheckboxSelecionadas] = useState({});
-  const [idsSelecionados, setIdsSelecionados] = useState([]);
+
+  const [message, setMessage] = useState({});
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: 'top',
+    horizontal: 'center',
+  });
+  const { vertical, horizontal, open } = state;
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
 
   useEffect(() => {
     receberDadosPaciente();
   }, [renderFormTable, currentPage, pesquisar, filtrarPesquisa]);
 
-  const receberDadosPaciente = async() => {
+  const receberDadosPaciente = async () => {
     const token = localStorage.getItem("user_token")
-    
+    console.log(token)
     try {
       let dadosPaginados = `/paciente?page=${currentPage}`;//numero de pagina atual para a api 
-     
-      let filtrar = [`&ativo=true`];
+
+      let filtrar = [`&ativo=false`];
       if (pesquisar) {
         filtrar += `&q=${pesquisar}`;
       }
@@ -61,11 +73,11 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
       if (filtrarPesquisa.sexo) {
         filtrar += `&sexo=${filtrarPesquisa.sexo}`;
       }
-      if(filtrar.length > 0){
+      if (filtrar.length > 0) {
         dadosPaginados += `&${filtrar}`
       }
 
-      const receberDados = await api.get(dadosPaginados ,{
+      const receberDados = await api.get(dadosPaginados, {
         headers: {
           "Content-Type": "application/json",
           "authorization": `Bearer ${token}`
@@ -73,7 +85,7 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
       });//requisação get para os "dadosPaginados" contruidos
 
       const { pacientes, totalPages, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
-      
+
       //paciente: lista de pacientes, e totalPages: numero total de paginas tudo retornado pela api
       setDadosPaciente({ pacientes }); //atualiza os dadosPaciente para os dados da minha api "pacientes"
       setTotalPages(totalPages); //atualiza o totalPages com o "total" retorndo da minha apis
@@ -97,33 +109,26 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
     setIsVisualizarOpen(false);
   };
 
-  //relacionado a Excluir itens
-  const handleExcluirClick = (originalData) => {
-    setUsuarioClick(originalData);
-    setIsExcluirOpen(true);
-  };
-
-  const handleExcluirSelecionados = () => {
-    setUsuarioClick({ _ids: idsSelecionados });
-    setIsExcluirOpen(true);
-  }
-
-  const handleExcluirClose = () => {
-    setIsExcluirOpen(false);
-  };
-
-  const atualizarTableExcluir = () => {
-    receberDadosPaciente();
-  }
-
-  //relacionado a editar
-  const handleEditarClick = (originalData) => {
-    setUsuarioClick(originalData);
-    setIsEditarOpen(true);
-  };
-
-  const handleEditarClose = () => {
-    setIsEditarOpen(false);
+  //relacionado a ativar
+  const handleAtivarClick = async (originalData) => {
+    // setUsuarioClick(originalData);
+    // setIsActiveOpen(true);
+    let newPaciente = ({ ...originalData, ativoPaciente: true })
+    const token = localStorage.getItem("user_token")
+    try {
+      await api.patch(`/paciente/${newPaciente._id}`, newPaciente, {
+        headers: {
+          "Content-Type": "application/json",
+          "authorization": `Bearer ${token}`
+        }
+      });
+      renderDadosPaciente(newPaciente);
+      setState({ ...{ vertical: 'bottom', horizontal: 'center' }, open: true });
+      setMessage("Paciente ativado com sucesso.");
+      console.log(1)
+    } catch (e) {
+      console.log("Erro ao atualizar dados:", e)
+    }
   };
 
   //Relacionado a atualizar os dados editados
@@ -133,89 +138,9 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
       return {
         ...prevDados, //operador spread(...) é usado para criar um cópia do objeto, para manter a propriedade inalterada
         pacientes: prevDados.pacientes.map((paciente) => //percorre cada item na array pacientes
-        paciente._id === dadosAtualizados._id ? dadosAtualizados : paciente
+          paciente._id === dadosAtualizados._id ? dadosAtualizados : paciente
         ),
-        };
-    });
-  };
-
-  //Tudo relacionado as checkboxes da tabela
-  const contarTotalCheckboxSelecionadas = () => {//calcula as checkbox marcadas em todas as paginas
-    let totalSelecionados = 0;
-    for (const pagina in checkboxSelecionadas) {//usando um loop "for", percorrendo cada propriedade definida como pagina no objeto checkboxSelecionadas
-      totalSelecionados += Object.keys(checkboxSelecionadas[pagina]).length;//para cada página ele obtem o numero de chaves no checkboxSelecionadas em cada pagina, adicionando a contagem das checkbox na variável "totalSelecionados"
-    }
-
-    return totalSelecionados
-  };
-
-  const algumaCheckboxSelecionada = () => {// verifica se pelo menos uma checkbox está marcada em todas as páginas
-    return contarTotalCheckboxSelecionadas() > 0;
-  };
-
-  const handleCheckboxSelecionada = (index, id) => (e) => {
-    const isChecked = e.target.checked;
-
-    setCheckboxSelecionadas((prev) => {
-      const novaSelection = { ...prev };
-      const paginaAtual = `page-${currentPage}`  // Obtém a chave da página atual para armazenar o estado das checkboxes
-      
-      if(!novaSelection[paginaAtual]) {//se a novaSelection não tiver uma propriedade key com pagina atual
-        novaSelection[paginaAtual] = {} //criará um objeto vazio
-      } 
-      if(isChecked) { // se a caixa de seleção estiver marcada (isChecked == true)
-        novaSelection[paginaAtual][index] = true;//defini o valor como true, significando que a caixa de sleção fornecida "index" na página atual está marcada
-        //set é uma estrutura de dados que armazena valores unicos, vou usar um set para que os ids não sejam duplicados
-        setIdsSelecionados((prev) => {
-          const novoSet = new Set(prev);
-          novoSet.add(id);
-          return Array.from(novoSet)
-        })
-      } else {//caso nao estiver marcada
-        delete novaSelection[paginaAtual][index] //exclui a propriedade, significando que a caixa de seleção fornecida "index" está desmarcada
-        //defini como o novo estado deve ser atualizado com base no estado anterior
-        setIdsSelecionados((prev) => prev.filter((IdSelecionado) => IdSelecionado !== id))//.filter É um método de array em JavaScript que cria um novo array
-      }
-      return novaSelection;
-    }); 
-  };
-
-  const handleSelecionarTudo = (e) => {
-    const isChecked = e.target.checked; //verifica se a checkbox esta marcada
-    const paginaAtual = `page-${currentPage}`; // Obtém a chave da página atual para armazenar o estado das checkboxes
-
-    // Atualiza o estado de todasCheckboxSelecionadas com base na página atual e se está marcada ou não
-    setTodasCheckboxSelecionadas((prev) => ({
-      ...prev,
-      [paginaAtual]: isChecked,
-    }));
-
-    // Atualiza o estado de checkboxSelecionadas com base na página atual e na seleção de "Selecionar tudo"
-    setCheckboxSelecionadas((prev) => {
-      const novaSelection = { ...prev };//estado anterior de checkboxSelecionadas
-
-      if(isChecked) {
-        novaSelection [paginaAtual] = {}; //Inicializa um objeto vazio para armazenar as checkboxes selecionadas na página atual.
-        const novosIds = []
-
-        //dadosPaciente é o estado que contem os dados do paciente e pacientes é a lista de array dos pacientes
-        dadosPaciente.pacientes.forEach((paciente, index) => {//itera sobre cada item de dadosPaciente.pacientes
-          novaSelection[paginaAtual][index] = true; //define a checkbox como marcada na pagina atual
-          novosIds.push(paciente._id);//adiciona o Id do paciente ao array de novosIds, que será usada em idsSelecionados
-        });
-
-        setIdsSelecionados((prev) => {//atualiza os ids dos pacientes selecionados
-          const novoSet = new Set(prev);//utiliza um conjunto Set para que não tenha ids duplicados
-          //forEach percorre os itens de uma array
-          novosIds.forEach((id) => novoSet.add(id));
-          return Array.from(novoSet);
-        })
-      } else {
-        delete novaSelection[paginaAtual];//remove a seleção da página atual
-        setIdsSelecionados((prev) => prev.filter((id) => !dadosPaciente.pacientes.some((paciente) => paciente._id === id))); // Remove os IDs da página atual do estado idsSelecionados
-      }
-
-      return novaSelection
+      };
     });
   };
 
@@ -237,7 +162,7 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
     for (let i = 0; i < contadorLinhas; i++) {//loop for que ira iterar "contadorLinhas"
       linhasVazias.push( //adicionado a array linhasVazias com um push
         //criar uma nova linha com uma chave key unica, para renderizar de forma eficiente quando adicionar um elemento
-        <tr key={`empty-${i}`} className="tr-vazia"> 
+        <tr key={`empty-${i}`} className="tr-vazia">
           <td colSpan="1">&nbsp;</td>
         </tr>
       );
@@ -261,49 +186,25 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
     <div className="table-container">
       <table className="table">
         <thead>
-          {algumaCheckboxSelecionada() ? ( // ? avalia a condição para retornar um dos dois valores
-            <tr className="tr-body">
-              <th>
-                <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo}/>
-              </th>
-              <th>{contarTotalCheckboxSelecionadas()} selecionados</th>
-              <th colSpan={5} className="deletar-selecionados">
-                <span onClick={handleExcluirSelecionados}>Deletar Selecionados</span>
-              </th>
-            </tr>
-          ) : (
-            <tr className="tr-body">
-              <th>
-                <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo}/>
-              </th>
-              <th>Nome</th>
-              <th>Telefone</th>
-              <th>Email</th>
-              <th>Tratamento</th>
-              <th>Data de nascimento</th>
-              <th></th>
-            </tr>
-          )}
+          <tr className="tr-body">
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Email</th>
+            <th>Tratamento</th>
+            <th>Data de nascimento</th>
+            <th></th>
+          </tr>
         </thead>
         <tbody className="table-body">
           {dadosVazios ? (
             <tr>
               <td colSpan="6" className="nenhum-Dado">
-                  Nenhum paciente encontrado.
+                Nenhum paciente encontrado.
               </td>
             </tr>
           ) : (Array.isArray(dadosPaciente.pacientes) &&
             dadosPaciente.pacientes.map((paciente, index) => (
               <tr key={paciente._id} >
-                <td>
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    onChange={handleCheckboxSelecionada(index, paciente._id)} // index é o item do secretário na lista
-                    checked={checkboxSelecionadas[`page-${currentPage}`]?.hasOwnProperty(index) || false}// se o index estiver presente em checkboxSelecionadas para a página atual, marcar o checkbox
-                    //hasOwnProperty -> esse método retorna um booleano indicando se o objeto possui uma propriedade específica, que no caso é o index
-                  />
-                </td>
                 <td className="table-content" id="td-nome" onClick={() => handleVisualizarClick(paciente)}>
                   {paciente.nome}
                 </td>
@@ -321,16 +222,10 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
                 </td>
                 <td>
                   <img
-                    src={IconEditar}
-                    alt="editar"
+                    src={AtivarIcon}
+                    alt="ativar"
                     className="icon-editar"
-                    onClick={() => handleEditarClick(paciente)}
-                  />
-                  <img
-                    src={IconExcluir}
-                    alt="excluir"
-                    className="icon-excluir"
-                    onClick={() => handleExcluirClick(paciente)}
+                    onClick={() => handleAtivarClick(paciente)}
                   />
                 </td>
               </tr>
@@ -384,25 +279,18 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
           dadosPaciente={usuarioClick}
         />
       )}
-      {isExcluirOpen && (
-        <ExcluirPaciente 
-        handleExcluirClose={handleExcluirClose} 
-        dadosPaciente={usuarioClick}  
-        atualizarTableExcluir={() => {
-          atualizarTableExcluir();
-          setCheckboxSelecionadas({});
-          setTodasCheckboxSelecionadas({});
-        }}
-        />
-        
-      )}
-      {isEditarOpen && (
-        <EditarPaciente
-          handleEditarClose={handleEditarClose}
-          dadosPaciente={usuarioClick}
-          renderDadosPaciente={renderDadosPaciente}
-        />
-      )}
+      <Snackbar
+        ContentProps={{ sx: { borderRadius: '8px' } }}
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        key={vertical + horizontal}
+      >
+        <Alert variant="filled" severity="success" onClose={handleClose} action="">
+          {message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
