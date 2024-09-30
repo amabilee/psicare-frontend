@@ -3,6 +3,11 @@
     height: 80%;
 }
 
+.table-container-ProfAlunos{
+    height: 55%;
+    min-height: 55%;
+}
+
 .table-container .table h2 {
     padding: 0;
     font-size: 18px;

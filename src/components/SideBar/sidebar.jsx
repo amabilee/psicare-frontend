@@ -14,16 +14,16 @@ export default function SideBar() {
     const location = useLocation();
     const { signOut } = UseAuth();
 
-    const [isCadastroOpen, setIsCadastroOpen] = useState(() => { //estdado para verificar se cadastro está aberto, inicia com base na localização atual
+    const [isCadastroOpen, setIsCadastroOpen] = useState(() => {
         return location.pathname.includes("/secretarios") ||
                 location.pathname.includes("/professores") ||
                 location.pathname.includes("/alunos") ||
                 location.pathname.includes("/pacientes");
     });
-    const [itemAtivo, setItemAtivo] = useState(location.pathname); //armazena o item ativo
+    const [itemAtivo, setItemAtivo] = useState(location.pathname);
 
     const handleItemClick = (path) => {
-        navigate(path); //navegação para um caminho específico
+        navigate(path);
 
         if (path.includes("/secretarios") || 
             path.includes("/professores") || 
@@ -32,7 +32,7 @@ export default function SideBar() {
             setIsCadastroOpen(true);
         }
 
-        setItemAtivo(path); //define o item ativo para o caminho clicado
+        setItemAtivo(path);
     }
 
     const toggleCadastro = () => {

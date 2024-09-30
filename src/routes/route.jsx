@@ -1,11 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "../pages/_login/login";
-import Agenda from "../pages/administrador/agenda"
-import Secretarios from "../pages/administrador/secretario";
-import Professores from "../pages/administrador/professor";
-import Alunos from "../pages/administrador/aluno";
-import Pacientes from "../pages/administrador/paciente";
-import Relatorios from "../pages/administrador/relatorio";
+
+import {
+  Agenda, Secretarios, Professores, Alunos, Pacientes, Relatorios
+} from '../components/PrivateRoute.jsx'
 
 function Router() {
   return (

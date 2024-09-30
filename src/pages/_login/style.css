@@ -52,7 +52,7 @@
 .button-login{
     color: #C760EB;
     font-weight: 600;
-    font-size: 0.94em;
+    font-size: 15px;
     width: 80%;
     padding: 8px 0;
     margin-top: 35px;
@@ -98,4 +98,12 @@
 .mensagem_alerta{
     width: 80%;
     margin: 20px 0 -10px 0px;
+}
+
+.error-message-login {
+    color: #ab2323;
+    text-align: center;
+    margin: 10px 0 0 0;
+    font-size: 15px;
+    font-weight: 500;
 }

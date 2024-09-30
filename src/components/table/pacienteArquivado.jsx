@@ -41,7 +41,6 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
 
   const receberDadosPaciente = async () => {
     const token = localStorage.getItem("user_token")
-    console.log(token)
     try {
       let dadosPaginados = `/paciente?page=${currentPage}`;//numero de pagina atual para a api 
 
@@ -125,7 +124,6 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
       renderDadosPaciente(newPaciente);
       setState({ ...{ vertical: 'bottom', horizontal: 'center' }, open: true });
       setMessage("Paciente ativado com sucesso.");
-      console.log(1)
     } catch (e) {
       console.log("Erro ao atualizar dados:", e)
     }

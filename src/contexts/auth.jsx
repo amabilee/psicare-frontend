@@ -1,63 +1,62 @@
 import { AuthContext } from "./authContext";
-import React ,{ useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { api } from "../services/server";
 
 const AuthProvider = ({ children }) => {
-    const [ user, setUser ] = useState(); //armazenar informações do usuario autenticado
-    const [ error, setError ] = useState(''); //armazenar mensagens de erro de autenticação
-    const [ auth, setAuth ] = useState(false);//booleano que indica se o usuário esta autenticado ou nao
+    const [user, setUser] = useState('');
+    const [error, setError] = useState('');
+    const [auth, setAuth] = useState(false);
 
-    useEffect(() => {//ao carregar a aplicação irá verificar o token e user
-        const verificaData = async() => {
-            const userToken = localStorage.getItem("user_token");//acessa o armazenamento local do navegador e recupera o item com a chave user_token armazenando o valor desse item que é o token do usário
-            console.log(userToken)
+    useEffect(() => {
+        const verificaData = async () => {
+            const userToken = localStorage.getItem("user_token");
+            if (userToken) {
+                if (typeof userToken == 'string'){
+                    setUser(userToken);
+                } else {
+                    setUser(JSON.parse(userToken));
+                }
+                setAuth(true);
+                api.defaults.headers.common['authorization'] = `${userToken}`;
+            }
 
-            // localStorage.setItem("user_token", JSON.stringify(userToken))
-            // setUser(JSON.parse(userToken));
-
-            // if(userToken) { //userToken é o token / userStorage é o nosso usuário. entao verifica se tem o token e usuario
-            //     setUser(JSON.parse(userToken));//converte a string JSON armazenada de volta para objeto JS
-            //     setAuth(true);//atualiza o estado auth para true, indicando que o usuário esta autenticado
-            //     api.defaults.headers.common['authorization'] = `${userToken}`;
-            // } 
         }
         verificaData();
     }, []);
 
-    async function signIn(email, senha){
-        try {
-            const response = await api.post("/user/login", {email, senha})
-            //token e dados do usuário serao extraidos da resposta do servidor 
-            const tokenResponse = response.data.token;
-            console.log(response)
-
-            setAuth(true);
-
-            //dados de usuario sendo armazenados em localStorage
-            localStorage.setItem("user_token", tokenResponse);
-
-            // console.log('Token armazenado:', localStorage.getItem('user_token'));
-            return true
-        } catch (e) {
-            setAuth(false);
-            if (e.response) {
-                setError(e.response.data.message);
-            } else if (e.code === 'ERR_NETWORK') {
-                setError('Não foi possível conectar ao servidor.');
-            } else {
-                setError('Ocorreu um erro ao tentar fazer login.');
+    async function signIn(email, senha) {
+        if (String(email.length) != 0 && String(senha.length) != 0) {
+            try {
+                const response = await api.post("/user/login", { email, senha })
+                const tokenResponse = response.data.token;
+                setAuth(true);
+                localStorage.setItem("user_token", tokenResponse);
+                return true
+            } catch (e) {
+                setAuth(false);
+                if (e.response && e.response.data) {
+                    setError(e.response.data);
+                } else if (e.code === 'ERR_NETWORK') {
+                    setError('Não foi possível conectar ao servidor.');
+                } else if (e.code === "ERR_BAD_REQUEST") {
+                    setError('Credenciais inválidas');
+                } else {
+                    setError('Ocorreu um erro ao tentar fazer login.');
+                }
             }
+        } else {
+            setError('Insira as suas credenciais.');
         }
     }
 
     function signOut() {
         setUser(null)
         setAuth(false)
+        setError('')
         localStorage.removeItem("user_token")
-        delete api.defaults.headers.common['Authorization'];
     }
 
-    return(
+    return (
         <AuthContext.Provider value={{ user, auth, error, signIn, signOut }}>
             {children}
         </AuthContext.Provider>
