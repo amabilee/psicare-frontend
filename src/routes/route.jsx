@@ -3,7 +3,7 @@ import Login from "../pages/_login/login";
 
 import {
   Agenda, Secretarios, Professores, Alunos, Pacientes, Relatorios
-} from '../components/PrivateRoute.jsx'
+} from './PrivateRoute.jsx'
 
 function Router() {
   return (

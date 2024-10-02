@@ -118,9 +118,7 @@ export default function Paciente() {
                             <IoMdPersonAdd className="icon_cadastro" />
                             Novo Cadastro
                         </button>
-                        <button className="button_arquivados"
-                            onClick={handleArquivados}
-                        >
+                        <button className="button_arquivados" onClick={handleArquivados} >
                             Visualizar Arquivados
                         </button>
                         <img src={filtragem} alt="filtragem" className="icon_pesquisa_avançada" onClick={modalFiltragemClick} />

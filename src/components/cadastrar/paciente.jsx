@@ -200,7 +200,6 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                     "authorization": `Bearer ${token}`
                 }
             });
-            console.log(selectAlunos)
             setAlunosNome(selectAlunos.data);
         } catch (e) {
             console.log("Erro ao buscar alunos: ", e)

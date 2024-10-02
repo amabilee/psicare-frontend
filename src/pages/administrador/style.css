@@ -163,6 +163,16 @@
     height: 550px;
 }
 
+.modal-content-filtragem-relatorio {
+    width: 320px;
+    height: 420px;
+}
+
+.modal-content-filtragem-relatorio .formulario{
+    display: flex;
+    flex-direction: column;
+}
+
 .modal-content-filtragem h1 {
     font-size: 22px;
     color: #00000099;
@@ -395,4 +405,79 @@
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
+}
+
+/* agenda */
+
+.popUpAgendaContainer{
+    background-color: #0000001b;
+    position: absolute;
+    top: 0;
+    margin: -53px 0 0 -20px;
+    right: 0;
+    z-index: 99;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popUpAgendaContainer .popUpBody{
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    width: 600px;
+    height: 800px;
+    border-radius: 20px;
+}
+
+.popUpAgendaContainer  .popUpTop{
+    border-radius: 20px 20px 0 0;
+    padding: 30px;
+    background-color: #E4CDED;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popUpAgendaContainer  .popUpTop p:nth-of-type(1){
+    font-size: 23px;
+    font-weight: 600;
+}
+
+.rbc-event-content div p:nth-of-type(1){
+    font-size: 15px;
+    font-weight: 600;  
+    color: #710198;
+}
+
+.rbc-event-content div p:nth-of-type(1) span:nth-of-type(1){
+    font-size: 13px;
+    font-weight: 500;  
+}
+
+.rbc-event-content div p:nth-of-type(1) span:nth-of-type(2){
+    font-size: 13px;
+    font-weight: 500;  
+}
+
+.rbc-row-segment{
+    margin: 0 0 2px 0;
+}
+
+.body_admin .rbc-calendar{
+    height: 80vh;
+    width: calc(100% - 20px);
+}
+
+.rbc-toolbar-label,
+.rbc-day-bg,
+.rbc-header span{
+  text-transform: capitalize;
+}
+
+.rbc-event-label{
+    color: #710198;
+    font-weight: 800;
 }

@@ -74,11 +74,9 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
                 console.log(dadosEnviados)
                 setIsSucessModalOpen(true);
                 renderForm(true)
-                // renderForm={renderFormCadastro} 
             } catch (e) {
-                console.log("Erro ao cadastrar o aluno:", e)
-                setState({ ...newState, open: true });
-                setMessage("Erro ao cadastrar o aluno.");
+                setState({ ...state, open: true });
+                setMessage(e.response.data);
             }
         }
     }
@@ -94,7 +92,11 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
             });
             setProfessoresNome(selectProfessores.data);
         } catch (e) {
-            console.log("Erro ao buscar professores: ", e)
+            if (e.response.status == 401) {
+                signOut()
+            } else {
+                console.log("Erro ao buscar professores: ", e)
+            }
         }
     }
 

@@ -9,9 +9,12 @@ import { IMaskInput } from "react-imask";
 import icon_pesquisa from "../../assets/pesquisa.svg"
 import "./style.css";
 
+import { UseAuth } from '../../hooks';
+
 import Loader from '../../components/loader/index';
 
 export default function Aluno() {
+    const { signOut } = UseAuth();
     const [loading, setLoading] = useState(true)
     const [isCadastroOpen, setIsCadastroOpen] = useState(false);
     const [isFiltragemOpen, setIsFiltragemOpen] = useState(false);
@@ -104,7 +107,11 @@ export default function Aluno() {
             });
             setProfessoresNome(selectProfessores.data);
         } catch (e) {
-            console.log("Erro ao buscar professores: ", e)
+            if (e.response.status == 401) {
+                signOut()
+            } else {
+                console.log("Erro ao buscar professores: ", e)
+            }
         }
     }
 
