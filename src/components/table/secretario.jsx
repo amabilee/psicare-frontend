@@ -8,8 +8,10 @@ import IconExcluir from "../../assets/excluir-icon.svg";
 import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
+import { UseAuth } from '../../hooks';
 
 export default function TableSecretario({ renderFormTable, pesquisar, filtrarPesquisa, loadingStatus }) {
+  const { signOut } = UseAuth();
   const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
   const [isExcluirOpen, setIsExcluirOpen] = useState(false);
   const [isEditarOpen, setIsEditarOpen] = useState(false);
@@ -27,11 +29,11 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
     receberDadosSecretario();
   }, [renderFormTable, currentPage, pesquisar, filtrarPesquisa]);
 
-  const receberDadosSecretario = async() => {
+  const receberDadosSecretario = async () => {
     const token = localStorage.getItem("user_token")
     try {
       let dadosPaginados = `/secretario?page=${currentPage}`;//numero de pagina atual para a api 
-
+      console.log('esta req')
       // filtro de pesquisa
       let filtrar = [];
       if (pesquisar) {
@@ -52,12 +54,12 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
       if (filtrarPesquisa.turno) {
         filtrar += `&turno=${filtrarPesquisa.turno}`;
       }
-      if(filtrar.length > 0){
+      if (filtrar.length > 0) {
         dadosPaginados += `&${filtrar}`
       }
 
       // autorização do get de secretario
-      const receberDados = await api.get(dadosPaginados ,{
+      const receberDados = await api.get(dadosPaginados, {
         headers: {
           "Content-Type": "application/json",
           "authorization": `Bearer ${token}`
@@ -73,7 +75,11 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
       const secretariosAcumulados = ((currentPage - 1) * 15 + secretarios.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
       setAcumularSecretariosPage(secretariosAcumulados);
     } catch (e) {
-      console.log("Erro ao buscar dados do secretário:", e);
+      if (e.response.status == 401) {
+        signOut()
+      } else {
+        console.log("Erro ao buscar secretários: ", e)
+      }
     }
   };
 
@@ -123,9 +129,9 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
       return {
         ...prevDados, //operador spread(...) é usado para criar um cópia do objeto, para manter a propriedade inalterada
         secretarios: prevDados.secretarios.map((secretario) => //percorre cada item na array secretarios
-        secretario._id === dadosAtualizados._id ? dadosAtualizados : secretario
+          secretario._id === dadosAtualizados._id ? dadosAtualizados : secretario
         ),
-        };
+      };
     });
   };
 
@@ -149,11 +155,11 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
     setCheckboxSelecionadas((prev) => {
       const novaSelection = { ...prev };
       const paginaAtual = `page-${currentPage}`  // Obtém a chave da página atual para armazenar o estado das checkboxes
-      
-      if(!novaSelection[paginaAtual]) {//se a novaSelection não tiver uma propriedade key com pagina atual
+
+      if (!novaSelection[paginaAtual]) {//se a novaSelection não tiver uma propriedade key com pagina atual
         novaSelection[paginaAtual] = {} //criará um objeto vazio
-      } 
-      if(isChecked) { // se a caixa de seleção estiver marcada (isChecked == true)
+      }
+      if (isChecked) { // se a caixa de seleção estiver marcada (isChecked == true)
         novaSelection[paginaAtual][index] = true;//defini o valor como true, significando que a caixa de sleção fornecida "index" na página atual está marcada
         //set é uma estrutura de dados que armazena valores unicos, vou usar um set para que os ids não sejam duplicados
         setIdsSelecionados((prev) => {
@@ -167,7 +173,7 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
         setIdsSelecionados((prev) => prev.filter((IdSelecionado) => IdSelecionado !== id))//.filter É um método de array em JavaScript que cria um novo array
       }
       return novaSelection;
-    }); 
+    });
   };
 
   const handleSelecionarTudo = (e) => {
@@ -184,8 +190,8 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
     setCheckboxSelecionadas((prev) => {
       const novaSelection = { ...prev };//estado anterior de checkboxSelecionadas
 
-      if(isChecked) {
-        novaSelection [paginaAtual] = {}; //Inicializa um objeto vazio para armazenar as checkboxes selecionadas na página atual.
+      if (isChecked) {
+        novaSelection[paginaAtual] = {}; //Inicializa um objeto vazio para armazenar as checkboxes selecionadas na página atual.
         const novosIds = []
 
         //dadosSecretario é o estado que contem os dados do secretario e secretarios é a lista de array dos secretarios
@@ -227,7 +233,7 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
     for (let i = 0; i < contadorLinhas; i++) {//loop for que ira iterar "contadorLinhas"
       linhasVazias.push( //adicionado a array linhasVazias com um push
         //criar uma nova linha com uma chave key unica, para renderizar de forma eficiente quando adicionar um elemento
-        <tr key={`empty-${i}`} className="tr-vazia"> 
+        <tr key={`empty-${i}`} className="tr-vazia">
           <td colSpan="1">&nbsp;</td>
         </tr>
       );
@@ -246,7 +252,7 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
           {algumaCheckboxSelecionada() ? ( // ? avalia a condição para retornar um dos dois valores
             <tr className="tr-body">
               <th>
-                <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo}/>
+                <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo} />
               </th>
               <th>{contarTotalCheckboxSelecionadas()} selecionados</th>
               <th colSpan={5} className="deletar-selecionados">
@@ -256,7 +262,7 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
           ) : (
             <tr className="tr-body">
               <th>
-                <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo}/>
+                <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo} />
               </th>
               <th>Nome</th>
               <th>Telefone</th>
@@ -271,7 +277,7 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
           {dadosVazios ? (
             <tr>
               <td colSpan="6" className="nenhum-Dado">
-                  Nenhum secretario encontrado.
+                Nenhum secretario encontrado.
               </td>
             </tr>
           ) : (Array.isArray(dadosSecretario.secretarios) &&
@@ -283,7 +289,7 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
                     className="checkbox"
                     onChange={handleCheckboxSelecionada(index, secretario._id)} // index é o item do secretário na lista
                     checked={checkboxSelecionadas[`page-${currentPage}`]?.hasOwnProperty(index) || false}// se o index estiver presente em checkboxSelecionadas para a página atual, marcar o checkbox
-                    //hasOwnProperty -> esse método retorna um booleano indicando se o objeto possui uma propriedade específica, que no caso é o index
+                  //hasOwnProperty -> esse método retorna um booleano indicando se o objeto possui uma propriedade específica, que no caso é o index
                   />
                 </td>
                 <td className="table-content" id="td-nome" onClick={() => handleVisualizarClick(secretario)}>
@@ -367,16 +373,16 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
         />
       )}
       {isExcluirOpen && (
-        <ExcluirSecretario 
-        handleExcluirClose={handleExcluirClose} 
-        dadosSecretario={usuarioClick}  
-        atualizarTableExcluir={() => {
-          atualizarTableExcluir();
-          setCheckboxSelecionadas({});
-          setTodasCheckboxSelecionadas({});
-        }}
+        <ExcluirSecretario
+          handleExcluirClose={handleExcluirClose}
+          dadosSecretario={usuarioClick}
+          atualizarTableExcluir={() => {
+            atualizarTableExcluir();
+            setCheckboxSelecionadas({});
+            setTodasCheckboxSelecionadas({});
+          }}
         />
-        
+
       )}
       {isEditarOpen && (
         <EditarSecretario

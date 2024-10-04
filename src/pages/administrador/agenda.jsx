@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import SideBar from "../../components/SideBar/sidebar";
+import voltar from "../../assets/voltar.svg";
+import { IoMdPersonAdd } from "react-icons/io";
 import { Calendar as BigCalendar, dateFnsLocalizer } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import moment from "moment";
@@ -30,19 +32,42 @@ const messages = {
     date: 'Data',
     time: 'Hora',
     event: 'Evento',
-    showMore: (total) => `+ (${total}) Eventos`,
+    showMore: (total) => `+ ${total} Eventos`,
+    noEventsInRange: 'Nenhum evento encontrado neste período.',
+};
+
+let formats = {
+    agendaHeaderFormat: ({ start, end }, culture, localizer) =>
+        localizer.format(start, 'd MMMM, yyyy', culture) + ' — ' +
+        localizer.format(end, 'd MMMM, yyyy', culture),
+
+    agendaDateFormat: (date, culture, localizer) =>
+        localizer.format(date, 'dd/MM/yyyy', culture),
+
+    agendaTimeFormat: ({ start, end }, culture, localizer) =>
+        localizer.format(start, 'HH:mm', culture) + ' - ' +
+        localizer.format(end, 'HH:mm', culture),
+
+    agendaEventFormat: (event) =>
+        `Paciente: ${event.paciente || ''}, Estudante: ${event.estudante || ''}, 
+      Sala: ${event.sala || ''}, Status: ${event.status || 'Agendado'}`,
 };
 
 export default function Agenda() {
     const [seePopup, setSeePopup] = useState('');
+    const [isCadastroOpen, setIsCadastroOpen] = useState(false);
     const [currentView, setCurrentView] = useState('month');
     const [events, setEvents] = useState([
         {
             id: 0,
             nome: "Dor de cabeça",
             paciente: "Lucas Souza Santos",
-            observacao: "Paciente não gosta de barulhos altos",
+            estudante: "Estudante 1",
             sala: "H101",
+            status: "Pendente",
+            tipo: 'Individual',
+            intervalo: 'Sessão única',
+            observacao: 'Paciente não gosta de barulhos altos',
             allDay: false,
             start: new Date(2024, 9, 7, 14, 30, 0),
             end: new Date(2024, 9, 7, 15, 30, 0),
@@ -51,8 +76,9 @@ export default function Agenda() {
             id: 1,
             nome: "Dor de barriga",
             paciente: "Marília Castro Neves",
-            observacao: "Paciente não gosta de barulhos altos",
-            sala: "H101",
+            estudante: "Estudante 2",
+            sala: "H102",
+            status: "Concluída",
             allDay: true,
             start: new Date(2024, 9, 8),
             end: new Date(2024, 9, 8),
@@ -90,7 +116,7 @@ export default function Agenda() {
         {
             id: 5,
             nome: "Terapia de Casal",
-            paciente: "Juliano e Fernanda",
+            paciente: "Fernanda Castro Neves",
             observacao: "Casal está passando por dificuldades de comunicação.",
             sala: "H105",
             allDay: false,
@@ -140,12 +166,90 @@ export default function Agenda() {
         {
             id: 10,
             nome: "Desenvolvimento Pessoal",
-            paciente: "Gabriel Martins",
+            paciente: "Gabriel Martins Neves",
             observacao: "Paciente quer trabalhar em suas habilidades sociais.",
             sala: "H110",
             allDay: false,
-            start: new Date(2024, 9, 16, 10, 30, 0),
-            end: new Date(2024, 9, 16, 11, 30, 0),
+            start: new Date(2024, 9, 16, 11, 30, 0),
+            end: new Date(2024, 9, 16, 12, 30, 0),
+        },
+        {
+            id: 10,
+            nome: "Desenvolvimento Pessoal",
+            paciente: "Gabriel Martins Neves",
+            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
+            sala: "H110",
+            allDay: false,
+            start: new Date(2024, 9, 16, 12, 35, 0),
+            end: new Date(2024, 9, 16, 13, 30, 0),
+        }, {
+            id: 10,
+            nome: "Desenvolvimento Pessoal",
+            paciente: "Gabriel Martins Neves",
+            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
+            sala: "H110",
+            allDay: false,
+            start: new Date(2024, 9, 16, 13, 35, 0),
+            end: new Date(2024, 9, 16, 14, 30, 0),
+        },
+        {
+            id: 10,
+            nome: "Desenvolvimento Pessoal",
+            paciente: "Gabriel Martins Neves",
+            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
+            sala: "H110",
+            allDay: false,
+            start: new Date(2024, 9, 16, 14, 35, 0),
+            end: new Date(2024, 9, 16, 15, 30, 0),
+        }, {
+            id: 10,
+            nome: "Desenvolvimento Pessoal",
+            paciente: "Gabriel Martins Neves",
+            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
+            sala: "H110",
+            allDay: false,
+            start: new Date(2024, 9, 16, 15, 35, 0),
+            end: new Date(2024, 9, 16, 16, 30, 0),
+        }
+        , {
+            id: 10,
+            nome: "Desenvolvimento Pessoal",
+            paciente: "Gabriel Martins Neves",
+            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
+            sala: "H110",
+            allDay: false,
+            start: new Date(2024, 9, 16, 16, 35, 0),
+            end: new Date(2024, 9, 16, 17, 30, 0),
+        }
+        , {
+            id: 10,
+            nome: "Desenvolvimento Pessoal",
+            paciente: "Gabriel Martins Neves",
+            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
+            sala: "H110",
+            allDay: false,
+            start: new Date(2024, 9, 16, 17, 35, 0),
+            end: new Date(2024, 9, 16, 18, 30, 0),
+        },
+        {
+            id: 10,
+            nome: "Desenvolvimento Pessoal",
+            paciente: "Gabriel Martins Neves",
+            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
+            sala: "H110",
+            allDay: false,
+            start: new Date(2024, 9, 16, 19, 35, 0),
+            end: new Date(2024, 9, 16, 20, 30, 0),
+        },
+        {
+            id: 10,
+            nome: "Desenvolvimento Pessoal",
+            paciente: "Gabriel Martins Neves",
+            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
+            sala: "H110",
+            allDay: false,
+            start: new Date(2024, 9, 16, 21, 35, 0),
+            end: new Date(2024, 9, 16, 22, 30, 0),
         }
     ]);
 
@@ -167,10 +271,21 @@ export default function Agenda() {
         setCurrentView(view);
     };
 
+    const handleNovoCadastroClick = () => {
+        setIsCadastroOpen(true);
+    };
+
     return (
         <>
             <SideBar />
             <div className="body_admin">
+                <h1 className="h1">Agenda</h1>
+                <div className="barra_pesquisa">
+                    <button className="button_cadastro" onClick={handleNovoCadastroClick} >
+                        <IoMdPersonAdd className="icon_cadastro" />
+                        Nova Consulta
+                    </button>
+                </div>
                 <div className="" style={{ minHeight: 580 }}>
                     <BigCalendar
                         localizer={localizer}
@@ -181,12 +296,13 @@ export default function Agenda() {
                         selectable
                         views={['month', 'week', 'agenda']}
                         step={120}
+                        formats={formats}
                         culture="pt-BR"
                         showMultiDayTimes
                         defaultDate={new Date(2024, 9, 7)}
                         style={{ minHeight: 690, borderRadius: '8px' }}
                         eventPropGetter={(event) => {
-                            const backgroundColor = currentView !== 'agenda' ? '#E4CDED' : 'transparent';
+                            const backgroundColor = currentView !== 'agenda' ? 'rgb(226 189 239)' : 'transparent';
                             return {
                                 style: {
                                     backgroundColor,
@@ -203,23 +319,30 @@ export default function Agenda() {
                                 <div>
                                     {currentView === 'month' ? (
                                         <p>{event.paciente}</p>
-                                    ) : event.allDay ? (
-                                        <p>
-                                            {event.paciente}
-                                            <span> ({event.nome}) </span>
-                                            <span>
-                                                - {moment(event.start).format('h:mm')} - {moment(event.end).format('h:mm')} - {event.sala}
-                                            </span>
-                                        </p>
+                                    ) : currentView == 'week' ? (
+                                        event.allDay ? (
+                                            <p>
+                                                {event.paciente}
+                                                <br />
+                                                <span> {event.nome} </span>
+                                                <span>
+                                                    <br /> Sala {event.sala}
+                                                </span>
+                                            </p>
+                                        ) : (
+                                            <p>
+                                                {event.paciente}
+                                            </p>
+                                        )
                                     ) : (
                                         <p>
-                                            {event.paciente}
-                                            <span> ({event.nome}) </span>
-                                            <span>
-                                                - {moment(event.start).format('h:mm')} - {moment(event.end).format('h:mm')} - </span>
-                                            Sala {event.sala}
+                                            <p><span>Paciente:</span> {event.paciente || ''}</p>
+                                            <p><span>Estudante:</span> {event.estudante || ''}</p>
+                                            <p><span>Sala:</span> {event.sala || ''}</p>
+                                            <p><span>Status:</span> {event.status || 'Agendado'}</p>
                                         </p>
-                                    )}
+                                    )
+                                    }
                                 </div>
                             ),
                         }}
@@ -228,11 +351,71 @@ export default function Agenda() {
                         <div className="popUpAgendaContainer">
                             <div className="popUpBody">
                                 <div className="popUpTop">
-                                    <p>{seePopup.nome}</p>
-                                    <p onClick={() => setSeePopup('')}>Sair</p>
+                                    <div className="header-visualizar-info">
+                                        <img src={voltar} alt="seta-voltar" className="seta-voltar" onClick={() => setSeePopup('')} />
+                                        <h1 onClick={() => setSeePopup('')}>Informações do agendamento</h1>
+                                    </div>
+                                    <div
+                                    className={
+                                        seePopup.status === 'Pendente' ? 'background-consulta-pendente':
+                                        seePopup.status === 'Concluída' ? 'background-consulta-concluida':
+                                        ''
+                                    }
+                                    >
+                                        <p>
+                                        {seePopup.status}
+                                        </p>
+                                    </div>
                                 </div>
                                 <div className="popUpContent">
-                                    <p>Descrição da consulta</p>
+                                    <div className="linha">
+                                        <div>
+                                            <p>Título da consulta</p>
+                                            <h1>{seePopup.nome}</h1>
+                                        </div>
+                                        <div>
+                                            <p>Responsável</p>
+                                            <h1>{seePopup.estudante}</h1>
+                                        </div>
+                                        <div>
+                                            <p>Tipo da consulta</p>
+                                            <h1>{seePopup.tipo}</h1>
+                                        </div>
+                                    </div>
+                                    <div className="linha">
+                                        <div>
+                                            <p>Paciente</p>
+                                            <h1>{seePopup.paciente}</h1>
+                                        </div>
+                                        <div>
+                                            <p>Local</p>
+                                            <h1>{seePopup.sala}</h1>
+                                        </div>
+                                        <div>
+                                            <p>Intervalo</p>
+                                            <h1>{seePopup.intervalo}</h1>
+                                        </div>
+                                    </div>
+                                    <div className="linha">
+                                        <div>
+                                            <p>Data da consulta</p>
+                                            <h1>{moment(seePopup.start).format('DD/MM/YYYY')}</h1>
+                                        </div>
+                                        <div>
+                                            <p>Intervalo de tempo</p>
+                                            <h1>{moment(seePopup.start).format('HH:mm')} - {moment(seePopup.end).format('HH:mm')}</h1>
+                                        </div>
+                                        <div>
+                                            <p>Observação</p>
+                                            <h1>{seePopup.observacao}</h1>
+                                        </div>
+                                    </div>
+                                    <div className="linha">
+                                        <div>
+                                            <p>Status da consulta</p>
+                                            <h1>{seePopup.status}</h1>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

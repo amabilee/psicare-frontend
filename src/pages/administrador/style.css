@@ -168,7 +168,7 @@
     height: 420px;
 }
 
-.modal-content-filtragem-relatorio .formulario{
+.modal-content-filtragem-relatorio .formulario {
     display: flex;
     flex-direction: column;
 }
@@ -409,7 +409,84 @@
 
 /* agenda */
 
-.popUpAgendaContainer{
+.rbc-event-content div p:nth-of-type(1) {
+    font-size: 15px;
+    font-weight: 600;
+    color: #710198;
+}
+
+.rbc-event-content div p:nth-of-type(1) span:nth-of-type(1) {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.rbc-event-content div p:nth-of-type(1) span:nth-of-type(2) {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.rbc-row-segment {
+    margin: 0 0 2px 0;
+}
+
+.body_admin .rbc-calendar {
+    height: 80vh;
+    width: calc(100% - 20px);
+}
+
+.rbc-toolbar-label,
+.rbc-day-bg,
+.rbc-header span {
+    text-transform: capitalize;
+}
+
+.rbc-event-label {
+    color: #710198;
+    font-weight: 800;
+}
+
+.rbc-time-content .rbc-event[style] {
+    height: 100px;
+    overflow: hidden;
+    left: 0 !important;
+    width: 100% !important;
+    height: 4.16667% !important;
+}
+
+.rbc-day-slot .rbc-events-container {
+    margin-right: 0 !important;
+}
+
+.rbc-agenda-view {
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+}
+
+.rbc-calendar {
+    margin: 20px 0 0 0
+}
+
+.rbc-agenda-event-cell div p span {
+    font-weight: 800;
+}
+
+.rbc-agenda-event-cell div p {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.rbc-agenda-event-cell div p p {
+    width: 25%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+/* agenda popup */
+
+.popUpAgendaContainer {
     background-color: #0000001b;
     position: absolute;
     top: 0;
@@ -423,61 +500,101 @@
     align-items: center;
 }
 
-.popUpAgendaContainer .popUpBody{
+.popUpAgendaContainer .popUpBody {
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    width: 600px;
+    width: 1000px;
     height: 800px;
     border-radius: 20px;
 }
 
-.popUpAgendaContainer  .popUpTop{
+.popUpAgendaContainer .popUpTop {
     border-radius: 20px 20px 0 0;
     padding: 30px;
-    background-color: #E4CDED;
+    border-bottom: 2px solid #D7A0EA;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
 
-.popUpAgendaContainer  .popUpTop p:nth-of-type(1){
-    font-size: 23px;
+.popUpAgendaContainer .popUpTop h1:nth-of-type(1) {
+    font-size: 25px;
+    font-weight: 400;
+    color: #000;
+}
+
+Pendente,
+Concluída,
+Cancelada,
+Em andamento,
+Paciente faltou,
+Aluno faltou .popUpAgendaContainer .popUpTop div:nth-of-type(2) {
+    width: 300px;
+    height: 50px;
+}
+
+.background-consulta-pendente,
+.background-consulta-concluida {
+    width: 150px;
+    height: 30px;
+    font-size: 17px;
+    font-weight: 700;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.background-consulta-pendente {
+    background-color: #FFDBA0;
+    border: 1px solid #FFB030;
+    color: #D98600;
+}
+
+.background-consulta-concluida {
+    background-color: #E1F5E8;
+    border: 1px solid #00C344;
+    color: #156832;
+}
+
+.popUpContent {
+    padding: 20px;
+}
+
+.popUpContent .linha {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 30px 0;
+}
+
+.popUpContent .linha div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 50px;
+}
+
+.popUpContent .linha div {
+    width: 33%;
+}
+
+.popUpContent .linha div p {
+    font-size: 18px;
     font-weight: 600;
+    color: #000;
+    line-height: normal;
 }
 
-.rbc-event-content div p:nth-of-type(1){
+.popUpContent .linha div h1 {
     font-size: 15px;
-    font-weight: 600;  
-    color: #710198;
-}
-
-.rbc-event-content div p:nth-of-type(1) span:nth-of-type(1){
-    font-size: 13px;
-    font-weight: 500;  
-}
-
-.rbc-event-content div p:nth-of-type(1) span:nth-of-type(2){
-    font-size: 13px;
-    font-weight: 500;  
-}
-
-.rbc-row-segment{
-    margin: 0 0 2px 0;
-}
-
-.body_admin .rbc-calendar{
-    height: 80vh;
-    width: calc(100% - 20px);
-}
-
-.rbc-toolbar-label,
-.rbc-day-bg,
-.rbc-header span{
-  text-transform: capitalize;
-}
-
-.rbc-event-label{
-    color: #710198;
-    font-weight: 800;
+    font-weight: 400;
+    color: #000;
+    line-height: normal;
 }
