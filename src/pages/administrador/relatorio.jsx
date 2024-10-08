@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TbReportAnalytics } from "react-icons/tb";
 import icon_pesquisa from "../../assets/pesquisa.svg";
 import filtragem from "../../assets/filtragem.svg";
@@ -29,6 +29,13 @@ export default function Relatorio() {
         dataCriacao: "",
         encaminhador: ""
     })
+
+    const [userLevel, setUserLevel] = useState(null);
+
+    useEffect(() => {
+        const level = localStorage.getItem('user_level');
+        setUserLevel(level);
+    }, []);
 
     const handlePesquisar = (e) => {
         setPesquisaUsuario(e.target.value);
@@ -77,14 +84,19 @@ export default function Relatorio() {
             {!isArquivadosOpen && (
                 <div className="body_admin">
                     <h1 className="h1">Relatórios</h1>
-                    <div className="barra_pesquisa">
-                        <button className="button_cadastro" onClick={handleNovoCadastroClick}>
-                            <TbReportAnalytics className="icon_cadastro" />
-                            Novo Relatório
-                        </button>
-                        <button className="button_arquivados" onClick={handleArquivados} >
-                            Visualizar Arquivados
-                        </button>
+                    <div className={(userLevel === '2' || userLevel === '3') ? "barra_pesquisa-visualizar" : "barra_pesquisa"}>
+                        {(userLevel === '0' || userLevel === '1') && (
+                            <>
+                                <button className="button_cadastro" onClick={handleNovoCadastroClick}>
+                                    <TbReportAnalytics className="icon_cadastro" />
+                                    Novo Relatório
+                                </button>
+
+                                <button className="button_arquivados" onClick={handleArquivados} >
+                                    Visualizar Arquivados
+                                </button>
+                            </>
+                        )}
                         <img src={filtragem} alt="filtragem" className="icon_pesquisa_avançada" onClick={modalFiltragemClick} />
                         <div className="container">
                             <input type="text" value={pesquisaUsuario} onChange={handlePesquisar} className="pesquisar" placeholder="Escreva aqui para pesquisar..." />

@@ -41,6 +41,13 @@ export default function Paciente() {
         sexo: ""
     })
 
+    const [userLevel, setUserLevel] = useState(null);
+
+    useEffect(() => {
+        const level = localStorage.getItem('user_level');
+        setUserLevel(level);
+    }, []);
+
     const handleNovoCadastroClick = () => {
         setIsCadastroOpen(true);
     };
@@ -113,17 +120,22 @@ export default function Paciente() {
             {!isArquivadosOpen && (
                 <div className="body_admin">
                     <h1 className="h1">Pacientes</h1>
-                    <div className="barra_pesquisa">
-                        <button className="button_cadastro" onClick={handleNovoCadastroClick} >
-                            <IoMdPersonAdd className="icon_cadastro" />
-                            Novo Cadastro
-                        </button>
-                        <button className="button_arquivados" onClick={handleArquivados} >
-                            Visualizar Arquivados
-                        </button>
+                    <div className={ (userLevel === '2' || userLevel === '3') ? "barra_pesquisa-visualizar" : "barra_pesquisa"}>
+                        {(userLevel === '0' || userLevel === '1') && (
+                            <>
+                                <button className="button_cadastro" onClick={handleNovoCadastroClick} >
+                                    <IoMdPersonAdd className="icon_cadastro" />
+                                    Novo Cadastro
+                                </button>
+
+                                <button className="button_arquivados" onClick={handleArquivados} >
+                                    Visualizar Arquivados
+                                </button>
+                            </>
+                        )}
                         <img src={filtragem} alt="filtragem" className="icon_pesquisa_avançada" onClick={modalFiltragemClick} />
                         <div className="container">
-                            <input type="text" value={pesquisaUsuario} onChange={handlePesquisar} className="pesquisar" placeholder="Escreva aqui para pesquisar..."/>
+                            <input type="text" value={pesquisaUsuario} onChange={handlePesquisar} className="pesquisar" placeholder="Escreva aqui para pesquisar..." />
                             <img src={icon_pesquisa} alt="icon_pesquisa" id="icon_pesquisa" className="icon_pesquisa" />
                         </div>
                     </div>

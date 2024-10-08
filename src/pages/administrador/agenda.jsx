@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SideBar from "../../components/SideBar/sidebar";
 import voltar from "../../assets/voltar.svg";
 import { IoMdPersonAdd } from "react-icons/io";
@@ -255,6 +255,13 @@ export default function Agenda() {
         }
     ]);
 
+    const [userLevel, setUserLevel] = useState(null);
+
+    useEffect(() => {
+        const level = localStorage.getItem('user_level');
+        setUserLevel(level);
+    }, []);
+
     const onSelectEventHandler = (event) => {
         console.log(event);
         setSeePopup(event);
@@ -295,11 +302,13 @@ export default function Agenda() {
             <SideBar />
             <div className="body_admin">
                 <h1 className="h1">Agenda</h1>
-                <div className="barra_pesquisa">
-                    <button className="button_cadastro" onClick={handleNovoCadastroClick} >
-                        <IoMdPersonAdd className="icon_cadastro" />
-                        Nova Consulta
-                    </button>
+                <div className={(userLevel === '2' || userLevel === '3') ? "barra_pesquisa-visualizar" : "barra_pesquisa"}>
+                    {(userLevel === '0' || userLevel === '1') && (
+                        <button className="button_cadastro" onClick={handleNovoCadastroClick} >
+                            <IoMdPersonAdd className="icon_cadastro" />
+                            Nova Consulta
+                        </button>
+                    )}
                 </div>
                 <div className="" style={{ minHeight: 580 }}>
                     <BigCalendar
