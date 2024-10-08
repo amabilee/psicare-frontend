@@ -28,7 +28,7 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
 
     const [state, setState] = React.useState({
         open: false,
-        vertical: 'top',
+        vertical: 'bottom',
         horizontal: 'center',
       }, []);
 
@@ -76,7 +76,7 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
                 renderForm(true)
             } catch (e) {
                 setState({ ...state, open: true });
-                setMessage(e.response.data);
+                setMessage(e.response.data.error);
             }
         }
     }
@@ -95,7 +95,7 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
             if (e.response.status == 401) {
                 signOut()
             } else {
-                console.log("Erro ao buscar professores: ", e)
+                console.log("Erro ao buscar aluno: ", e)
             }
         }
     }

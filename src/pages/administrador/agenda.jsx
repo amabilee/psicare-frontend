@@ -8,6 +8,8 @@ import moment from "moment";
 import ptBR from "date-fns/locale/pt-BR";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
+import CadastrarConsulta from "../../components/cadastrar/consulta";
+
 const locales = {
     'pt-BR': ptBR,
 };
@@ -67,7 +69,7 @@ export default function Agenda() {
             status: "Pendente",
             tipo: 'Individual',
             intervalo: 'Sessão única',
-            observacao: 'Paciente não gosta de barulhos altos',
+            observacao: 'Paciente não gosta de barulhos altos, Paciente não gosta de barulhos altos',
             allDay: false,
             start: new Date(2024, 9, 7, 14, 30, 0),
             end: new Date(2024, 9, 7, 15, 30, 0),
@@ -271,9 +273,22 @@ export default function Agenda() {
         setCurrentView(view);
     };
 
+    const handleEditarConsulta = () => {
+        console.log(seePopup)
+    }
+
     const handleNovoCadastroClick = () => {
         setIsCadastroOpen(true);
     };
+
+    const handleCloseModal = () => {
+        setIsCadastroOpen(false);
+    };
+
+    const renderProps = (codigo) => {
+        setRenderFormTable(codigo);
+    }
+
 
     return (
         <>
@@ -356,14 +371,14 @@ export default function Agenda() {
                                         <h1 onClick={() => setSeePopup('')}>Informações do agendamento</h1>
                                     </div>
                                     <div
-                                    className={
-                                        seePopup.status === 'Pendente' ? 'background-consulta-pendente':
-                                        seePopup.status === 'Concluída' ? 'background-consulta-concluida':
-                                        ''
-                                    }
+                                        className={
+                                            seePopup.status === 'Pendente' ? 'background-consulta-pendente' :
+                                                seePopup.status === 'Concluída' ? 'background-consulta-concluida' :
+                                                    ''
+                                        }
                                     >
                                         <p>
-                                        {seePopup.status}
+                                            {seePopup.status}
                                         </p>
                                     </div>
                                 </div>
@@ -412,14 +427,14 @@ export default function Agenda() {
                                     </div>
                                     <div className="linha">
                                         <div>
-                                            <p>Status da consulta</p>
-                                            <h1>{seePopup.status}</h1>
+                                            <button onClick={handleEditarConsulta}>Editar</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     )}
+                    {isCadastroOpen && (<CadastrarConsulta handleCloseModal={handleCloseModal} renderForm={renderProps} />)}
                 </div>
             </div>
         </>

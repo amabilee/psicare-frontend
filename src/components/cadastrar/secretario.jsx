@@ -59,12 +59,11 @@ export default function CadastrarSecretario({ handleCloseModal, renderForm }){
                     console.log(dadosEnviados)
 
                     setIsSucessModalOpen(true);
-                    renderForm(true)
-                    // renderForm={renderFormCadastro} 
+                    renderForm(true) 
                 } catch (e) {
                     console.log(e)
                     setState({ ...newState, open: true });
-                    setMessage(e.response.data);
+                    setMessage(e.response.data.error);
                 }  
         }
     }

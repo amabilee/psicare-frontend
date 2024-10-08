@@ -28,9 +28,10 @@ const AuthProvider = ({ children }) => {
         if (String(email.length) != 0 && String(senha.length) != 0) {
             try {
                 const response = await api.post("/user/login", { email, senha })
-                const tokenResponse = response.data.token;
+                const tokenResponse = response.data;
                 setAuth(true);
-                localStorage.setItem("user_token", tokenResponse);
+                localStorage.setItem("user_token", tokenResponse.token);
+                localStorage.setItem("user_level", tokenResponse.userLevelAccess);
                 return true
             } catch (e) {
                 setAuth(false);
@@ -54,6 +55,7 @@ const AuthProvider = ({ children }) => {
         setAuth(false)
         setError('')
         localStorage.removeItem("user_token")
+        localStorage.removeItem("user_level")
     }
 
     return (

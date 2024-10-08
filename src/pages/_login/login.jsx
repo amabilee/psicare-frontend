@@ -26,28 +26,43 @@ export default function Login() {
         event.preventDefault();
 
         try {
-            const sucesso = await signIn(email, senha)
+            const sucesso = await signIn(email, senha);
             if (sucesso) {
-                navigate("/secretarios")
-                return
+                const userLevel = localStorage.getItem('user_level');
+                const firstAccessiblePage = getFirstAccessiblePage(userLevel);
+                navigate(firstAccessiblePage);
+                return;
             }
         } catch (e) {
-            setState({ ...{ vertical: 'bottom', horizontal: 'center' }, open: true });
+            setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Algo inesperado aconteceu.");
         }
     }
+
+    const getFirstAccessiblePage = (userLevel) => {
+        const accessMap = {
+            '0': '/agenda', // Admin
+            '1': '/agenda', // Secretario
+            '2': '/pacientes', // Professor
+            '3': '/agenda', // Aluno
+        };
+
+        return accessMap[userLevel] || '/entrar';
+    };
 
     useEffect(() => {
         const handleKeyPress = async (event) => {
             if (event.key === 'Enter') {
                 try {
-                    const sucesso = await signIn(email, senha)
+                    const sucesso = await signIn(email, senha);
                     if (sucesso) {
-                        navigate("/secretarios")
-                        return
+                        const userLevel = localStorage.getItem('user_level');
+                        const firstAccessiblePage = getFirstAccessiblePage(userLevel);
+                        navigate(firstAccessiblePage);
+                        return;
                     }
                 } catch (e) {
-                    setState({ ...{ vertical: 'bottom', horizontal: 'center' }, open: true });
+                    setState({ vertical: 'bottom', horizontal: 'center', open: true });
                     setMessage("Algo inesperado aconteceu.");
                 }
             }
@@ -58,7 +73,7 @@ export default function Login() {
         return () => {
             document.removeEventListener('keydown', handleKeyPress);
         };
-    }, [email, senha, navigate, signIn]);
+    }, [email, senha, navigate, signIn, setState, setMessage]);
 
     const handleMensagem = (newState) => () => {
         setState({ ...newState, open: true });

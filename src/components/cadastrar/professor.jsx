@@ -61,7 +61,7 @@ export default function CadastrarProfessor({ handleCloseModal, renderForm }) {
                 renderForm(true)
             } catch (e) {
                 setState({ ...newState, open: true });
-                setMessage(e.response.data);
+                setMessage(e.response.data.error);
             }
         }
     }

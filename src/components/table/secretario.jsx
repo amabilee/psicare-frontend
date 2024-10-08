@@ -33,7 +33,6 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
     const token = localStorage.getItem("user_token")
     try {
       let dadosPaginados = `/secretario?page=${currentPage}`;//numero de pagina atual para a api 
-      console.log('esta req')
       // filtro de pesquisa
       let filtrar = [];
       if (pesquisar) {
