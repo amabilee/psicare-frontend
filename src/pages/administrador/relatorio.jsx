@@ -6,28 +6,32 @@ import SideBar from "../../components/SideBar/sidebar";
 
 import { IMaskInput } from "react-imask";
 import { DatePicker } from 'rsuite';
+import Loader from '../../components/loader/index';
+
+import TableRelatorio from "../../components/table/relatorio";
+import RelatorioArquivado from "./relatorioArquivado"
 
 
 export default function Relatorio() {
+    const [loading, setLoading] = useState(true)
     const [pesquisaUsuario, setPesquisaUsuario] = useState("");
+    const [renderFormTable, setRenderFormTable] = useState();
     const [isCadastroOpen, setIsCadastroOpen] = useState(false);
     const [isArquivadosOpen, setIsArquivadosOpen] = useState(false);
     const [isFiltragemOpen, setIsFiltragemOpen] = useState(false);
 
     const [enviarFiltragem, setEnviarFiltragem] = useState({
-        aluno: "",
-        paciente: "",
-        tipoDeTratamento: "",
-        dataCriacao: "",
-        encaminhador: ""
+        nomeAluno: "",
+        nomePaciente: "",
+        tipoTratamento: "",
+        dataCriacao: ""
     })
 
     const [filtrarPesquisa, setFiltrarPesquisa] = useState({
-        aluno: "",
-        paciente: "",
-        tipoDeTratamento: "",
-        dataCriacao: "",
-        encaminhador: ""
+        nomeAluno: "",
+        nomePaciente: "",
+        tipoTratamento: "",
+        dataCriacao: ""
     })
 
     const [userLevel, setUserLevel] = useState(null);
@@ -45,18 +49,15 @@ export default function Relatorio() {
         setIsFiltragemOpen(false)
         setPesquisaUsuario("")
         setEnviarFiltragem(filtrarPesquisa)
-        setFiltrarPesquisa({
-            aluno: "",
-            paciente: "",
-            tipoDeTratamento: "",
-            dataCriacao: "",
-            encaminhador: ""
-        })
-        console.log(filtrarPesquisa)
     };
 
     const handleNovoCadastroClick = () => {
         setIsCadastroOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsCadastroOpen(false);
+        setIsArquivadosOpen(false)
     };
 
     const handleArquivados = () => {
@@ -67,16 +68,32 @@ export default function Relatorio() {
         setIsFiltragemOpen(true);
         if (isFiltragemOpen) {
             setIsFiltragemOpen(false)
-            setFiltrarPesquisa({
-                aluno: "",
-                paciente: "",
-                tipoDeTratamento: "",
-                dataCriacao: "",
-                encaminhador: ""
-            })
         }
     }
 
+    useEffect(() => {
+        if (isFiltragemOpen) {
+            setEnviarFiltragem({
+                nomeAluno: "",
+                nomePaciente: "",
+                tipoTratamento: "",
+                dataCriacao: ""
+            }), setFiltrarPesquisa({
+                nomeAluno: "",
+                nomePaciente: "",
+                tipoTratamento: "",
+                dataCriacao: ""
+            });
+        }
+    }, [isFiltragemOpen]);
+
+    const detectarLoading = (childData) => {
+        setLoading(childData);
+    }
+
+    useEffect(() => {
+        detectarLoading()
+    }, [])
 
     return (
         <>
@@ -84,8 +101,8 @@ export default function Relatorio() {
             {!isArquivadosOpen && (
                 <div className="body_admin">
                     <h1 className="h1">Relatórios</h1>
-                    <div className={(userLevel === '2' || userLevel === '3') ? "barra_pesquisa-visualizar" : "barra_pesquisa"}>
-                        {(userLevel === '0' || userLevel === '1') && (
+                    <div className={(userLevel === '1' || userLevel === '2') ? "barra_pesquisa-visualizar" : "barra_pesquisa"}>
+                        {(userLevel === '0' || userLevel === '3') && (
                             <>
                                 <button className="button_cadastro" onClick={handleNovoCadastroClick}>
                                     <TbReportAnalytics className="icon_cadastro" />
@@ -114,14 +131,14 @@ export default function Relatorio() {
                                 <hr />
                                 <div className="formulario">
                                     <label htmlFor="Nome">Aluno</label>
-                                    <input type="text" id="nome" value={filtrarPesquisa.aluno} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, aluno: e.target.value })} />
+                                    <input type="text" id="nome" value={filtrarPesquisa.nomeAluno} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nomeAluno: e.target.value })} />
                                     <label htmlFor="labelEncaminhador">Paciente</label>
                                     <input type="text" className="encaminhadorInput" id="encaminhadorInput"
-                                        value={filtrarPesquisa.paciente}
-                                        onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, paciente: e.target.value })}
+                                        value={filtrarPesquisa.nomePaciente}
+                                        onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nomePaciente: e.target.value })}
                                     />
                                     <label htmlFor="tratamento">Tipo de tratamento</label>
-                                    <select className="tratamento" name="tratamento" id="tratamento" value={filtrarPesquisa.tipoDeTratamento} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, tipoDeTratamento: e.target.value })}>
+                                    <select className="tratamento" name="tratamento" id="tratamento" value={filtrarPesquisa.tipoTratamento} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, tipoTratamento: e.target.value })}>
                                         <option value="">Nenhum</option>
                                         <option value="psicoterapia">Psicoterapia</option>
                                         <option value="plantao">Plantão</option>
@@ -143,10 +160,20 @@ export default function Relatorio() {
                             </div>
                         </div>
                     )}
-                    {/* <TableSecretario renderFormTable={renderFormTable} pesquisar={pesquisaUsuario}/>
-                {isCadastroOpen && (<CadastrarSecretario handleCloseModal={handleCloseModal} renderForm={renderProps}/>)} */}
+                    {loading ? (
+                        <div className="loading-container">
+                            <Loader />
+                        </div>
+                    ) : (
+                        <TableRelatorio renderFormTable={renderFormTable} pesquisar={pesquisaUsuario} filtrarPesquisa={enviarFiltragem} loadingStatus={detectarLoading} />
+                    )
+                    }
+                
+                    
+                {/* {isCadastroOpen && (<CadastrarSecretario handleCloseModal={handleCloseModal} renderForm={renderProps}/>)} */}
                 </div>
             )}
+            {isArquivadosOpen && (<RelatorioArquivado handleCloseModal={handleCloseModal} />)}
         </>
     )
 }

@@ -19,7 +19,6 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
         professorId: "#",
         matricula: "",
         periodo: 0,
-        senha: "123456"
     });
 
     useEffect(() => {

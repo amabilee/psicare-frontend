@@ -27,8 +27,6 @@ const PrivateRoute = ({ component: Component, componentName, ...rest }) => {
     const isAuthenticated = !!userToken;
 
     if (isAuthenticated) {
-        console.log(userLevel)
-        console.log(hasAccess(userLevel, componentName))
         if (userLevel && hasAccess(userLevel, componentName)) {
             return <Component {...rest} />;
         } else {

@@ -98,7 +98,6 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
     }
   };
 
-  //visualizar informações
   const handleVisualizarClick = (originalData) => {
     setUsuarioClick(originalData);
     setIsVisualizarOpen(true);
@@ -108,10 +107,7 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
     setIsVisualizarOpen(false);
   };
 
-  //relacionado a ativar
   const handleAtivarClick = async (originalData) => {
-    // setUsuarioClick(originalData);
-    // setIsActiveOpen(true);
     let newPaciente = ({ ...originalData, ativoPaciente: true })
     const token = localStorage.getItem("user_token")
     try {
