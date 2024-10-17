@@ -70,6 +70,14 @@ export default function EditarSecretario({ handleEditarClose, dadosSecretario, r
     }
   };
 
+  const formatarCPF = (cpf) => {
+    if (cpf.length === 11) {
+
+      return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9)}`;
+    }
+    return cpf;
+  };
+
   return (
     <>
       {Editar && (
@@ -127,7 +135,7 @@ export default function EditarSecretario({ handleEditarClose, dadosSecretario, r
               <div className="coluna2">
                 <div className="CPF">
                   <p>CPF</p>
-                  <h1>{dadosAtualizados.cpf}</h1>
+                  <h1>{formatarCPF(dadosAtualizados.cpf)}</h1>
                 </div>
                 <div className="telefone">
                   <p>Telefone</p>

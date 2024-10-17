@@ -244,6 +244,14 @@ export default function TableProfessor({ renderFormTable, pesquisar, filtrarPesq
   const calculoLinhasVazias = 15 - dadosProfessor.professores.length;
   const dadosVazios = dadosProfessor.professores.length === 0;
 
+  const formatarCPF = (cpf) => {
+    if (cpf.length === 11) {
+
+      return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9)}`;
+    }
+    return cpf;
+  };
+
   return (
     <div className="table-container">
       <table className="table">
@@ -301,7 +309,7 @@ export default function TableProfessor({ renderFormTable, pesquisar, filtrarPesq
                   {professor.email}
                 </td>
                 <td className="table-content" onClick={() => handleVisualizarClick(professor)}>
-                  {professor.cpf}
+                  {formatarCPF(professor.cpf)}
                 </td>
                 <td className="table-content" id="td-disciplina" onClick={() => handleVisualizarClick(professor)}>
                   {professor.disciplina}

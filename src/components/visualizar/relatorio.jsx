@@ -107,7 +107,7 @@ export default function VisualizarRelatorio({ handleCloseVisualizar, dadosRelato
                         </div>
                         <h2>Conteúdo</h2>
                         <div className="coluna5">
-                            <div className="nome-encaminhador">
+                            <div>
                                 <h1>{formatarTexto(teste)}</h1>
                             </div>
                         </div>

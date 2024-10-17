@@ -108,35 +108,35 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
   };
 
   const handleAtivarClick = async (originalData) => {
-    let newPaciente = ({ ...originalData, ativoPaciente: true })
-    const token = localStorage.getItem("user_token")
+    let newPaciente = ({ ...originalData, ativoPaciente: true });
+    const token = localStorage.getItem("user_token");
+    
     try {
       await api.patch(`/paciente/${newPaciente._id}`, newPaciente, {
         headers: {
           "Content-Type": "application/json",
-          "authorization": `Bearer ${token}`
-        }
+          "authorization": `Bearer ${token}`,
+        },
       });
-      renderDadosPaciente(newPaciente);
+      
+      renderDadosPaciente(newPaciente._id); 
+  
       setState({ ...{ vertical: 'bottom', horizontal: 'center' }, open: true });
       setMessage("Paciente ativado com sucesso.");
     } catch (e) {
-      console.log("Erro ao atualizar dados:", e)
+      console.log("Erro ao atualizar dados:", e);
     }
   };
 
-  //Relacionado a atualizar os dados editados
-  const renderDadosPaciente = (dadosAtualizados) => { //recebe um objeto "dadosAtualizados", contendo informações de um paciente específico
-    //callback é uma função passada a outra função como argumento
-    setDadosPaciente((prevDados) => { //setDadosPaciente como uma função callback para atualizar o estado anterior(prevDados)
+  const renderDadosPaciente = (idPaciente) => {
+    setDadosPaciente((prevDados) => {
       return {
-        ...prevDados, //operador spread(...) é usado para criar um cópia do objeto, para manter a propriedade inalterada
-        pacientes: prevDados.pacientes.map((paciente) => //percorre cada item na array pacientes
-          paciente._id === dadosAtualizados._id ? dadosAtualizados : paciente
-        ),
+        ...prevDados,
+        pacientes: prevDados.pacientes.filter((paciente) => paciente._id !== idPaciente), // remove o paciente
       };
     });
   };
+  
 
   //Tudo relacionado a paginação da tabela
   const handlePaginaAnterior = () => {
@@ -175,6 +175,7 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
     const ano = dataObj.getFullYear();
     return `${dia}/${mes}/${ano}`;
   };
+  
 
   return (
     <div className="table-container">
@@ -203,7 +204,7 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
                   {paciente.nome}
                 </td>
                 <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
-                  {paciente.telefoneContato}
+                  {paciente.telefoneContato ? paciente.telefoneContato : paciente.telefone}
                 </td>
                 <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
                   {paciente.cpf}

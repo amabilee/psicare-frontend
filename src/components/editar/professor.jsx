@@ -66,7 +66,7 @@ export default function EditarProfessor({ handleEditarClose, dadosProfessor, ren
       renderDadosProfessor(dadosAtualizados);
     } catch (e) {
       setState({ vertical: 'bottom', horizontal: 'center', open: true });
-      setMessage(e.response.data.error);
+      setMessage(e.response.data);
     }
   };
 

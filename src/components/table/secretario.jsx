@@ -243,6 +243,13 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
   const calculoLinhasVazias = 15 - dadosSecretario.secretarios.length;
   const dadosVazios = dadosSecretario.secretarios.length === 0;
 
+  const formatarCPF = (cpf) => {
+    if (cpf.length === 11) {
+
+      return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9)}`;
+    }
+    return cpf;
+  };
 
   return (
     <div className="table-container">
@@ -301,7 +308,7 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
                   {secretario.email}
                 </td>
                 <td className="table-content" onClick={() => handleVisualizarClick(secretario)}>
-                  {secretario.cpf}
+                  {formatarCPF(secretario.cpf)}
                 </td>
                 <td className="table-content" id="td-turno" onClick={() => handleVisualizarClick(secretario)}>
                   {secretario.turno}

@@ -101,6 +101,12 @@
     margin-right: 200px;
 }
 
+.visualizar-info-paciente .coluna1 div:nth-child(1){
+    width: 300px;
+    max-width: 300px;
+    overflow-x: hidden;
+}
+
 .visualizar-info-paciente .coluna1 .CPF,
 .visualizar-info-paciente .coluna2 .telefone {
     position: fixed;
@@ -110,6 +116,10 @@
 .visualizar-info-paciente .coluna1 .data-nascimento {
     position: fixed;
     left: 65%;
+}
+
+.visualizar-info-paciente .coluna1 div:nth-of-type(4){
+    margin: 0 7px 0 0;
 }
 
 .visualizar-info .coluna2 {
@@ -124,6 +134,10 @@
 .visualizar-info-paciente .coluna2 .telefone {
     position: fixed;
     left: 45%;
+}
+
+.visualizar-info-paciente .coluna2 div:nth-of-type(3) h1{
+    text-transform: capitalize;
 }
 
 .visualizar-info-paciente .coluna3 .renda {
@@ -161,11 +175,6 @@
     left: 50%;
 }
 
-.coluna3 h1 {
-    text-transform: capitalize;
-    line-height: normal;
-}
-
 .visualizar-info-paciente .coluna3 {
     justify-content: space-between;
     margin-right: 207px;
@@ -174,7 +183,10 @@
 .visualizar-info-paciente .coluna4 {
     display: flex;
     justify-content: space-between;
-    margin-right: 1200px;
+}
+
+.visualizar-info-paciente .coluna3 div:nth-of-type(4){
+    margin: 0 -50px 0 0;
 }
 
 .visualizar-info-paciente .coluna5 {
@@ -187,6 +199,10 @@
     display: flex;
     justify-content: space-between;
     margin-right: 100px;
+}
+
+.visualizar-info-paciente .coluna6 div:nth-of-type(5) h1{
+    text-transform: capitalize;
 }
 
 
@@ -205,6 +221,10 @@
 }
 
 /* visualizar relatorio */
+
+.visualizar-info-relatorio{
+    width: 100%;
+}
 
 .visualizar-info-relatorio h1 {
     margin-bottom: 10px;
@@ -232,7 +252,7 @@
 .visualizar-info-relatorio .coluna1 div,
 .visualizar-info-relatorio .coluna2 div,
 .visualizar-info-relatorio .coluna3 div {
-    width: 600px;
+    width: 400px;
 }
 
 .visualizar-info-relatorio .coluna4 div:nth-of-type(1){
@@ -246,12 +266,13 @@
 
 .visualizar-info-relatorio .coluna4 div:nth-of-type(3),
 .visualizar-info-relatorio .coluna4 div:nth-of-type(4){
-    width: 600px;
+    width: 280px;
 }
 
 .visualizar-info-relatorio .coluna5 div{
     width: 95%;
-    max-height: 600px;
+    height: 400px;
+    max-height: 500px;
     overflow-y: scroll;
 }
 

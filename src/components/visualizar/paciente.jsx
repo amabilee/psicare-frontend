@@ -48,7 +48,7 @@ export default function VisualizarPaciente({handleCloseVisualizar, dadosPaciente
                             </div>
                             <div className="telefone">
                                 <p>Telefone</p>
-                                <h1>{dadosPaciente.telefoneContato}</h1>
+                                <h1>{dadosPaciente.telefoneContato ? dadosPaciente.telefoneContato : dadosPaciente.telefone}</h1>
                             </div>
                             <div className="estadoCivil">
                                 <p>Estado Civil</p>
@@ -131,7 +131,7 @@ export default function VisualizarPaciente({handleCloseVisualizar, dadosPaciente
                                 <h1>{formatarDataNascimento(dadosPaciente.dataInicioTratamento)}</h1>
                             </div>
                             <div className="terminoTratamento">
-                                <p>término do Tratamento</p>
+                                <p>Término do Tratamento</p>
                                 <h1>{formatarDataNascimento(dadosPaciente.dataTerminoTratamento)}</h1>
                             </div>
                             <div className="tipoTratamento">

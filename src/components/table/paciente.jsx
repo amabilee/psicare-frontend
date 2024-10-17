@@ -30,6 +30,13 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
     receberDadosPaciente();
   }, [renderFormTable, currentPage, pesquisar, filtrarPesquisa]);
 
+  const [userLevel, setUserLevel] = useState(null);
+
+  useEffect(() => {
+    const level = localStorage.getItem('user_level');
+    setUserLevel(level);
+  }, []);
+
   const receberDadosPaciente = async () => {
     const token = localStorage.getItem("user_token")
 
@@ -288,7 +295,9 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
               <th>Email</th>
               <th>Tratamento</th>
               <th>Data de nascimento</th>
-              <th></th>
+              {(userLevel === '0' || userLevel === '1') && (
+                <th></th>
+              )}
             </tr>
           )}
         </thead>
@@ -315,7 +324,7 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
                   {paciente.nome}
                 </td>
                 <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
-                  {paciente.telefoneContato}
+                  {paciente.telefoneContato ? paciente.telefoneContato : paciente.telefone}
                 </td>
                 <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
                   {paciente.cpf}
@@ -326,20 +335,24 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
                 <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
                   {formatarDataNascimento(paciente.dataNascimento)}
                 </td>
-                <td>
-                  <img
-                    src={IconEditar}
-                    alt="editar"
-                    className="icon-editar"
-                    onClick={() => handleEditarClick(paciente)}
-                  />
-                  <img
-                    src={IconExcluir}
-                    alt="excluir"
-                    className="icon-excluir"
-                    onClick={() => handleExcluirClick(paciente)}
-                  />
-                </td>
+                {(userLevel === '0' || userLevel === '1') && (
+                  <>
+                    <td>
+                      <img
+                        src={IconEditar}
+                        alt="editar"
+                        className="icon-editar"
+                        onClick={() => handleEditarClick(paciente)}
+                      />
+                      <img
+                        src={IconExcluir}
+                        alt="excluir"
+                        className="icon-excluir"
+                        onClick={() => handleExcluirClick(paciente)}
+                      />
+                    </td>
+                  </>
+                )}
               </tr>
             ))
           )}

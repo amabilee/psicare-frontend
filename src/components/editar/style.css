@@ -514,7 +514,6 @@
     color: #767474;
     margin-bottom: 10px;
     font-size: 15px;
-    /* font-weight: 600; */
 }
 
 .modal-content-confirmar .dados-inseridos h1{
@@ -536,66 +535,67 @@
 
 }
 
-.modal-content-confirmar-paciente .coluna1 {
+/* modal confirmar paciente */
+
+.modal-content-confirmar-paciente .coluna1,
+.modal-content-confirmar-paciente .coluna2,
+.modal-content-confirmar-paciente .coluna3,
+.modal-content-confirmar-paciente .coluna4,
+.modal-content-confirmar-paciente .coluna5,
+.modal-content-confirmar-paciente .coluna6,
+.modal-content-confirmar-paciente .coluna7,
+.modal-content-confirmar-paciente .coluna8 {
     display: flex;
     justify-content: space-between;
     margin-right: 80px;
 }
 
-.modal-content-confirmar .dados-inseridos .coluna2 {
-    display: flex;
-    justify-content: space-between;
-    margin-right: 80px;
+.modal-content-confirmar-paciente .coluna1 div:nth-child(1),
+.modal-content-confirmar-paciente .coluna2 div:nth-child(1),
+.modal-content-confirmar-paciente .coluna3 div:nth-child(1),
+.modal-content-confirmar-paciente .coluna3 div:nth-child(4),
+.modal-content-confirmar-paciente .coluna4 div:nth-child(1),
+.modal-content-confirmar-paciente .coluna4 div:nth-child(2),
+.modal-content-confirmar-paciente .coluna5 div:nth-child(1),
+.modal-content-confirmar-paciente .coluna6 div:nth-child(1),
+.modal-content-confirmar-paciente .coluna7 div:nth-child(1),
+.modal-content-confirmar-paciente .coluna7 div:nth-child(2),
+.modal-content-confirmar-paciente .coluna8 div:nth-child(1){
+    width: 300px;
 }
 
-.modal-content-confirmar-paciente .dados-inseridos .coluna2 .estadoCivil {
-    margin-right: 50px;
+.modal-content-confirmar-paciente .coluna1 div:nth-child(2),
+.modal-content-confirmar-paciente .coluna1 div:nth-child(3),
+.modal-content-confirmar-paciente .coluna1 div:nth-child(4),
+.modal-content-confirmar-paciente .coluna2 div:nth-child(2),
+.modal-content-confirmar-paciente .coluna2 div:nth-child(3),
+.modal-content-confirmar-paciente .coluna2 div:nth-child(4),
+.modal-content-confirmar-paciente .coluna3 div:nth-child(2),
+.modal-content-confirmar-paciente .coluna3 div:nth-child(3),
+.modal-content-confirmar-paciente .coluna3 div:nth-child(4),
+.modal-content-confirmar-paciente .coluna5 div:nth-child(2),
+.modal-content-confirmar-paciente .coluna5 div:nth-child(3),
+.modal-content-confirmar-paciente .coluna6 div:nth-child(2),
+.modal-content-confirmar-paciente .coluna6 div:nth-child(3),
+.modal-content-confirmar-paciente .coluna8 div:nth-child(2),
+.modal-content-confirmar-paciente .coluna8 div:nth-child(3){
+    width: 200px;
 }
 
-.modal-content-confirmar-paciente .dados-inseridos .coluna3{
-    display: flex;
-    justify-content: space-between;
-    margin-right: 80px;
+.modal-content-confirmar-paciente .coluna1 div:nth-child(1){
+    max-width: 300px;
+    overflow-x: hidden;
 }
 
-.modal-content-confirmar-paciente .dados-inseridos .coluna4{
-    display: flex;
-    justify-content: space-between;
-    margin-right: 590px;
+.modal-content-confirmar-paciente .coluna4,
+.modal-content-confirmar-paciente .coluna7{
+    width: 650px;
 }
 
-.modal-content-confirmar .dados-inseridos .coluna5{
-    display: flex;
-    justify-content: space-between;
-    margin-right: 138px;
-}
-
-.modal-content-confirmar-paciente .dados-inseridos .coluna5{
-    margin-right: 80px;
-}
-
-.modal-content-confirmar-paciente .dados-inseridos .coluna5 .logradouro{
-    margin-right: 160px;
-}
-
-.modal-content-confirmar-paciente .dados-inseridos .coluna6{
-    display: flex;
-    justify-content: space-between;
-    margin-right: 170px;
-}
-
-.modal-content-confirmar-paciente .dados-inseridos .coluna6 .complemento{
-    margin-right: 70px;
-}
-
-.modal-content-confirmar-paciente .dados-inseridos .coluna6 .UF{
-    margin-right: 95px;
-}
-
-.modal-content-confirmar-paciente .dados-inseridos .coluna7{
-    display: flex;
-    justify-content: space-between;
-    margin-right: 300px;
+.modal-content-confirmar-paciente .coluna5,
+.modal-content-confirmar-paciente .coluna6,
+.modal-content-confirmar-paciente .coluna8{
+    width: 800px;
 }
 
 .modal-content-confirmar-paciente .dados-inseridos .coluna8{

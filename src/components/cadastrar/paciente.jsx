@@ -18,7 +18,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         cpf: "",
         dataNascimento: "",
         email: "",
-        telefoneContato: "",
+        telefone: "",
         sexo: "",
         estadoCivil: "",
         religiao: "",
@@ -91,7 +91,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
         } else if (!validator.isEmail(dadosForm.email)){
             setState({ ...newState, open: true });
             setMessage("Insira um email válido.");
-        } else if (dadosForm.telefoneContato.length != 15){
+        } else if (dadosForm.telefone.length != 15){
             setState({ ...newState, open: true }); 
             setMessage("Insira um telefone válido.");
         } else if (dadosForm.estadoCivil === ""){
@@ -185,7 +185,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                 } catch (e) {
                     console.log(e)
                     setState({ ...newState, open: true });
-                    setMessage(e.response.data);
+                    setMessage(e.response.data.error);
                 }  
         }
     }
@@ -254,7 +254,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 </div>  
                             <div className="div-flex">
                                 <label htmlFor="Telefone">Telefone*</label>
-                                <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={dadosForm.telefoneContato} onChange={(e) => setDadosForm({...dadosForm, telefoneContato:e.target.value})} />
+                                <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={dadosForm.telefone} onChange={(e) => setDadosForm({...dadosForm, telefone:e.target.value})} />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="estado-civil">Estado civil*</label>
@@ -262,11 +262,11 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                  value={dadosForm.estadoCivil} onChange={(e) =>  setDadosForm({...dadosForm, estadoCivil: e.target.value})}
                                  >
                                     <option value="" disabled>Selecione uma opção</option>
-                                    <option value="solteiro">Solteiro</option>
-                                    <option value="casado">Casado</option>
-                                    <option value="separado">Separado</option>
-                                    <option value="divorciado">Divorciado</option>
-                                    <option value="viuvo">Viúvo</option>
+                                    <option value="Solteiro">Solteiro</option>
+                                    <option value="Casado">Casado</option>
+                                    <option value="Separado">Separado</option>
+                                    <option value="Divorciado">Divorciado</option>
+                                    <option value="Viúvo">Viúvo</option>
                                 </select>
                             </div>
                             <div className="div-flex">
@@ -436,10 +436,10 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }){
                                 <label htmlFor="tratamento">Tipo de tratamento*</label>
                                 <select className="tratamento" name="tratamento" id="tratamento" value={dadosForm.tipoDeTratamento} onChange={(e) =>  setDadosForm({...dadosForm, tipoDeTratamento:e.target.value})}>
                                     <option value="" disabled>Selecione uma opção</option>
-                                    <option value="psicoterapia">Psicoterapia</option>
-                                    <option value="plantao">Plantão</option>
-                                    <option value="psicodiagnostico">Psicodiagnóstico</option>
-                                    <option value="avaliacao diagnostica">Avaliação diagnóstica</option>
+                                    <option value="Psicoterapia">Psicoterapia</option>
+                                    <option value="Plantão">Plantão</option>
+                                    <option value="Psicodiagnóstico">Psicodiagnóstico</option>
+                                    <option value="Avaliação diagnóstica">Avaliação diagnóstica</option>
                                 </select>
                             </div>
                         </div>

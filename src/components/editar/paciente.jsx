@@ -46,6 +46,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
 
     const handleEditarConfirmar = (newState) => () => {
         const idade = calcularIdade(dadosAtualizados.dataNascimento)
+        console.log(dadosAtualizados.telefone)
         if (dadosAtualizados.nome.length <= 6) {
             setState({ ...newState, open: true });
             setMessage("Insira o nome completo.");
@@ -61,7 +62,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
         } else if (!validator.isEmail(dadosAtualizados.email)) {
             setState({ ...newState, open: true });
             setMessage("Insira um email válido.");
-        } else if (dadosAtualizados.telefoneContato.length != 15) {
+        } else if (dadosAtualizados.telefone === "" || dadosAtualizados.telefone.length != 15) {
             setState({ ...newState, open: true });
             setMessage("Insira um telefone válido.");
         } else if (dadosAtualizados.estadoCivil === "") {
@@ -146,7 +147,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
             renderDadosPaciente(dadosAtualizados);
         } catch (e) {
             setState({ ...state, open: true });
-            setMessage(e.response.data.message);
+            setMessage(e.response.data);
         }
     };
 
@@ -211,7 +212,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         <option value="" disabled>Selecione uma opção</option>
                                         <option value="Masculino">Masculino</option>
                                         <option value="Feminino">Feminino</option>
-                                        <option value="prefiro nao informar">Prefiro não informar</option>
+                                        <option value="Prefiro nãoo informar">Prefiro não informar</option>
                                     </select>
                                 </div>
                             </div>
@@ -224,7 +225,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="Telefone">Telefone*</label>
-                                    <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={dadosAtualizados.telefoneContato} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, telefoneContato: e.target.value })} />
+                                    <IMaskInput type="text" className="telefone" id="telefone" mask="(00)0 0000-0000" value={dadosAtualizados.telefone} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, telefone: e.target.value })} />
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="estado-civil">Estado civil*</label>
@@ -232,11 +233,11 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         value={dadosAtualizados.estadoCivil} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, estadoCivil: e.target.value })}
                                     >
                                         <option value="" disabled>Selecione uma opção</option>
-                                        <option value="solteiro">Solteiro</option>
-                                        <option value="casado">Casado</option>
-                                        <option value="separado">Separado</option>
-                                        <option value="divorciado">Divorciado</option>
-                                        <option value="viuvo">Viúvo</option>
+                                        <option value="Solteiro">Solteiro</option>
+                                        <option value="Casado">Casado</option>
+                                        <option value="Separado">Separado</option>
+                                        <option value="Divorciado">Divorciado</option>
+                                        <option value="Viúvo">Viúvo</option>
                                     </select>
                                 </div>
                                 <div className="div-flex">
@@ -409,10 +410,10 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                     <label htmlFor="tratamento">Tipo de tratamento*</label>
                                     <select className="tratamento" name="tratamento" id="tratamento" value={dadosAtualizados.tipoDeTratamento} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, tipoDeTratamento: e.target.value })}>
                                         <option value="" disabled>Selecione uma opção</option>
-                                        <option value="psicoterapia">Psicoterapia</option>
-                                        <option value="plantao">Plantão</option>
-                                        <option value="psicodiagnostico">Psicodiagnóstico</option>
-                                        <option value="avaliacao diagnostica">Avaliação diagnóstica</option>
+                                        <option value="Psicoterapia">Psicoterapia</option>
+                                        <option value="Plantão">Plantão</option>
+                                        <option value="Psicodiagnóstico">Psicodiagnóstico</option>
+                                        <option value="Avaliação diagnóstica">Avaliação diagnóstica</option>
                                     </select>
                                 </div>
                             </div>
@@ -463,7 +464,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                 </div>
                                 <div className="telefone">
                                     <p>Telefone</p>
-                                    <h1>{dadosAtualizados.telefoneContato}</h1>
+                                    <h1>{dadosAtualizados.telefone}</h1>
                                 </div>
                                 <div className="estadoCivil">
                                     <p>Estado Civil</p>
@@ -549,7 +550,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                     <h1>{formatarDataNascimento(dadosAtualizados.dataInicioTratamento)}</h1>
                                 </div>
                                 <div className="terminoTratamento">
-                                    <p>término do Tratamento</p>
+                                    <p>Término do Tratamento</p>
                                     <h1>{formatarDataNascimento(dadosAtualizados.dataTerminoTratamento)}</h1>
                                 </div>
                                 <div className="tipoTratamento">

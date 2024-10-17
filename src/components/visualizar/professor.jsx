@@ -5,6 +5,15 @@ import "./style.css";
 
 export default function VisualizarProfessor({handleCloseVisualizar, dadosProfessor}){   
     const alunosProfessor = dadosProfessor._id;
+
+    const formatarCPF = (cpf) => {
+        if (cpf.length === 11) {
+    
+          return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9)}`;
+        }
+        return cpf;
+      };
+
     return(
         <div className="visualizar">
             <div className="body-visualizar">
@@ -39,7 +48,7 @@ export default function VisualizarProfessor({handleCloseVisualizar, dadosProfess
                         </div>
                         <div className="cpf">
                             <p>CPF</p>
-                            <h1>{dadosProfessor.cpf}</h1>
+                            <h1>{formatarCPF(dadosProfessor.cpf)}</h1>
                         </div>
                     </div>   
                 </div>     
