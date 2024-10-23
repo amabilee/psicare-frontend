@@ -457,7 +457,7 @@
 }
 
 .modal-content-confirmar-aluno{
-    height: 610px;
+    height: 690px;
     width: 600px;
 }
 
@@ -535,6 +535,12 @@
 
 }
 
+/* modal confirmar secretario */
+
+.modal-content-confirmar-secretario .coluna4 h1{
+    text-transform: capitalize;
+}
+
 /* modal confirmar paciente */
 
 .modal-content-confirmar-paciente .coluna1,
@@ -558,10 +564,13 @@
 .modal-content-confirmar-paciente .coluna4 div:nth-child(2),
 .modal-content-confirmar-paciente .coluna5 div:nth-child(1),
 .modal-content-confirmar-paciente .coluna6 div:nth-child(1),
-.modal-content-confirmar-paciente .coluna7 div:nth-child(1),
-.modal-content-confirmar-paciente .coluna7 div:nth-child(2),
-.modal-content-confirmar-paciente .coluna8 div:nth-child(1){
+.modal-content-confirmar-paciente .coluna7 div:nth-child(1){
     width: 300px;
+}
+
+
+.modal-content-confirmar-paciente .coluna7 div:nth-child(2){
+    width: 900px;
 }
 
 .modal-content-confirmar-paciente .coluna1 div:nth-child(2),
@@ -578,7 +587,8 @@
 .modal-content-confirmar-paciente .coluna6 div:nth-child(2),
 .modal-content-confirmar-paciente .coluna6 div:nth-child(3),
 .modal-content-confirmar-paciente .coluna8 div:nth-child(2),
-.modal-content-confirmar-paciente .coluna8 div:nth-child(3){
+.modal-content-confirmar-paciente .coluna8 div:nth-child(3),
+.modal-content-confirmar-paciente .coluna8 div:nth-child(1){
     width: 200px;
 }
 
@@ -587,14 +597,20 @@
     overflow-x: hidden;
 }
 
-.modal-content-confirmar-paciente .coluna4,
-.modal-content-confirmar-paciente .coluna7{
+.modal-content-confirmar-paciente .coluna4{
     width: 650px;
 }
 
-.modal-content-confirmar-paciente .coluna5,
-.modal-content-confirmar-paciente .coluna6,
 .modal-content-confirmar-paciente .coluna8{
+    width: 700px;
+}
+
+.modal-content-confirmar-paciente .coluna7{
+    width: 1000px;
+}
+
+.modal-content-confirmar-paciente .coluna5,
+.modal-content-confirmar-paciente .coluna6{
     width: 800px;
 }
 
@@ -607,22 +623,11 @@
 .modal-content-confirmar .buttons-confirmar{
     display: flex;
     justify-content: space-between;
-    margin-top: 78px;
 }
 
 .modal-content-confirmar .buttons-confirmar-paciente{
     margin-top: 53px;
     margin-left: -20px;
-}
-
-.modal-content-confirmar .buttons-confirmar-aluno{
-    margin-top: 60px;
-}
-
-.buttons-confirmar-professor,
-.buttons-confirmar-secretario
-{
-    margin-top: 69px;
 }
 
 .modal-content-confirmar .button-voltar-confirmar{

@@ -14,7 +14,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
     const [Editar, setEditar] = useState(true);
     const [alunosNome, setAlunosNome] = useState({ alunos: [] })
     const [SucessoEditar, setSucessoEditar] = useState(false);
-    const [message, setMessage] = useState({});
+    const [message, setMessage] = useState("");
     const [dadosAtualizados, setDadosAtualizados] = useState(dadosPaciente);
     const [state, setState] = React.useState({
         open: false,
@@ -109,7 +109,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
             setMessage("Selecione um encaminhador.");
         } else if (dadosAtualizados.encaminhador === "" && dadosAtualizados.alunoUnieva) {
             setState({ ...newState, open: true });
-            setMessage("Selecione o AlunoUnieva");
+            setMessage("Selecione um aluno");
         } else if (dadosAtualizados.encaminhador.length <= 4 && dadosAtualizados.funcionarioUnieva) {
             setState({ ...newState, open: true });
             setMessage("Insira o funcionario");
@@ -135,6 +135,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
 
     const handleSucessoConfirmar = async () => {
         const token = localStorage.getItem("user_token")
+
         try {
             await api.patch(`/paciente/${dadosAtualizados._id}`, dadosAtualizados, {
                 headers: {
@@ -147,7 +148,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
             renderDadosPaciente(dadosAtualizados);
         } catch (e) {
             setState({ ...state, open: true });
-            setMessage(e.response.data);
+            setMessage(typeof e.response.data === 'string' ? e.response.data : e.response.data.message);
         }
     };
 
@@ -175,6 +176,15 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
         const ano = dataObj.getFullYear();
         return `${dia}/${mes}/${ano}`;
     };
+
+
+    const formatarCPF = (cpf) => {
+        if (cpf.length === 11) {
+    
+          return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9)}`;
+        }
+        return cpf;
+      };
 
     return (
         <>
@@ -352,20 +362,32 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                     <label htmlFor="labelEncaminhador">Nome do Encaminhador*</label>
                                     {dadosAtualizados.alunoUnieva ? (
                                         <select
-                                            className="encaminhadorSelect" id="encaminhadorSelect"
-                                            value={dadosAtualizados.encaminhador}
-                                            onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, encaminhador: e.target.value })}
-                                            disabled={!dadosAtualizados.alunoUnieva}
-                                        >
-                                            <option value="" disabled>Selecione uma opção</option>
-                                            {alunosNome.alunos.map(aluno => (
-                                                <option
-                                                    key={aluno.nome}
-                                                    value={aluno.nome}>
-                                                    {aluno.nome}
-                                                </option>
-                                            ))}
-                                        </select>
+                                        className="encaminhadorSelect"
+                                        id="encaminhadorSelect"
+                                        value={dadosAtualizados.alunoId}
+                                        onChange={(e) => {
+                                          const selectedOptionText = e.target.options[e.target.selectedIndex].text;
+                                          setDadosAtualizados({ 
+                                            ...dadosAtualizados, 
+                                            encaminhador: selectedOptionText,
+                                            alunoId: e.target.value 
+                                          });
+                                      
+                                          console.log(selectedOptionText, e.target.value);
+                                        }}
+                                        disabled={!dadosAtualizados.alunoUnieva}
+                                      >
+                                        <option value="" disabled>Selecione uma opção</option>
+                                        {alunosNome.alunos.map(aluno => (
+                                          <option
+                                            key={aluno.nome}
+                                            value={aluno._id}
+                                          >
+                                            {aluno.nome}
+                                          </option>
+                                        ))}
+                                      </select>
+                                      
                                     ) : (
                                         <input type="text" className="encaminhadorInput" id="encaminhadorInput"
                                             value={dadosAtualizados.encaminhador}
@@ -446,7 +468,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                 </div>
                                 <div className="CPF">
                                     <p>CPF</p>
-                                    <h1>{dadosAtualizados.cpf}</h1>
+                                    <h1>{formatarCPF(dadosAtualizados.cpf)}</h1>
                                 </div>
                                 <div className="data-nascimento">
                                     <p>Data Nascimento</p>

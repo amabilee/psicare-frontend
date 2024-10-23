@@ -254,7 +254,7 @@ export default function TableProfessor({ renderFormTable, pesquisar, filtrarPesq
 
   return (
     <div className="table-container">
-      <table className="table">
+      <table className="table table-professor">
         <thead>
           {algumaCheckboxSelecionada() ? ( // ? avalia a condição para retornar um dos dois valores
             <tr className="tr-body">

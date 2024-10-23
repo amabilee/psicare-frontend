@@ -167,3 +167,169 @@
 .deletar-selecionados span {
     cursor: pointer;
 }
+
+/* secretario */
+
+.table-secretario thead,
+.table-secretario tbody,
+.table-secretario thead tr-body,
+.table-secretario table-body{
+    width: 100%;
+}
+
+
+.table-secretario thead tr th:nth-child(1),
+.table-secretario tbody tr:nth-child(1),
+.table-secretario thead tr th:nth-child(7),
+.table-secretario tbody tr:nth-child(7){
+    width: 40px;
+}
+
+.table-secretario thead tr th:nth-child(3),
+.table-secretario tbody tr:nth-child(3),
+.table-secretario thead tr th:nth-child(5),
+.table-secretario tbody tr:nth-child(5),
+.table-secretario thead tr th:nth-child(6),
+.table-secretario tbody tr:nth-child(6){
+    width: 15%;
+}
+
+.table-secretario thead tr th:nth-child(2),
+.table-secretario tbody tr:nth-child(2),
+.table-secretario thead tr th:nth-child(4),
+.table-secretario tbody tr:nth-child(4){
+    width: 22%;
+}
+
+/* professor */
+
+
+.table-professor thead,
+.table-professor tbody,
+.table-professor thead tr-body,
+.table-professor table-body{
+    width: 100%;
+}
+
+
+.table-professor thead tr th:nth-child(1),
+.table-professor tbody tr:nth-child(1),
+.table-professor thead tr th:nth-child(7),
+.table-professor tbody tr:nth-child(7){
+    width: 40px;
+}
+
+.table-professor thead tr th:nth-child(3),
+.table-professor tbody tr:nth-child(3),
+.table-professor thead tr th:nth-child(5),
+.table-professor tbody tr:nth-child(5),
+.table-professor thead tr th:nth-child(6),
+.table-professor tbody tr:nth-child(6){
+    width: 15%;
+}
+
+.table-professor thead tr th:nth-child(2),
+.table-professor tbody tr:nth-child(2),
+.table-professor thead tr th:nth-child(4),
+.table-professor tbody tr:nth-child(4){
+    width: 22%;
+}
+
+/* aluno */
+
+
+.table-aluno thead,
+.table-aluno tbody,
+.table-aluno thead tr-body,
+.table-aluno table-body{
+    width: 100%;
+}
+
+
+.table-aluno thead tr th:nth-child(1),
+.table-aluno tbody tr:nth-child(1),
+.table-aluno thead tr th:nth-child(7),
+.table-aluno tbody tr:nth-child(7){
+    width: 40px;
+}
+
+.table-aluno thead tr th:nth-child(3),
+.table-aluno tbody tr:nth-child(3),
+.table-aluno thead tr th:nth-child(5),
+.table-aluno tbody tr:nth-child(5),
+.table-aluno thead tr th:nth-child(4),
+.table-aluno tbody tr:nth-child(4){
+    width: 15%;
+}
+
+.table-aluno thead tr th:nth-child(2),
+.table-aluno tbody tr:nth-child(2),
+.table-aluno thead tr th:nth-child(6),
+.table-aluno tbody tr:nth-child(6){
+    width: 22%;
+}
+
+/* paciente */
+
+
+.table-paciente thead,
+.table-paciente tbody,
+.table-paciente thead tr-body,
+.table-paciente table-body{
+    width: 100%;
+}
+
+
+.table-paciente thead tr th:nth-child(1),
+.table-paciente tbody tr:nth-child(1),
+.table-paciente thead tr th:nth-child(7),
+.table-paciente tbody tr:nth-child(7){
+    width: 40px;
+}
+
+.table-paciente thead tr th:nth-child(3),
+.table-paciente tbody tr:nth-child(3),
+.table-paciente thead tr th:nth-child(5),
+.table-paciente tbody tr:nth-child(5),
+.table-paciente thead tr th:nth-child(6),
+.table-paciente tbody tr:nth-child(6){
+    width: 15%;
+}
+
+.table-paciente thead tr th:nth-child(2),
+.table-paciente tbody tr:nth-child(2),
+.table-paciente thead tr th:nth-child(4),
+.table-paciente tbody tr:nth-child(4){
+    width: 22%;
+}
+
+/* paciente arquivado */
+
+
+.table-paciente-arquivado thead,
+.table-paciente-arquivado tbody,
+.table-paciente-arquivado thead tr-body,
+.table-paciente-arquivado table-body{
+    width: 100%;
+}
+
+.table-paciente-arquivado thead tr th:nth-child(6),
+.table-paciente-arquivado tbody tr:nth-child(6){
+    width: 40px;
+}
+
+.table-paciente-arquivado thead tr th:nth-child(2),
+.table-paciente-arquivado tbody tr:nth-child(2),
+.table-paciente-arquivado thead tr th:nth-child(4),
+.table-paciente-arquivado tbody tr:nth-child(4),
+.table-paciente-arquivado thead tr th:nth-child(5),
+.table-paciente-arquivado tbody tr:nth-child(5){
+    width: 15%;
+}
+
+.table-paciente-arquivado thead tr th:nth-child(1),
+.table-paciente-arquivado tbody tr:nth-child(1),
+.table-paciente-arquivado thead tr th:nth-child(3),
+.table-paciente-arquivado tbody tr:nth-child(3){
+    width: 22%;
+}

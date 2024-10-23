@@ -253,7 +253,7 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
 
   return (
     <div className="table-container">
-      <table className="table">
+      <table className="table table-secretario">
         <thead>
           {algumaCheckboxSelecionada() ? ( // ? avalia a condição para retornar um dos dois valores
             <tr className="tr-body">

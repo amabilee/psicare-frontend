@@ -42,9 +42,13 @@ export default function VisualizarSecretario({handleCloseVisualizar, dadosSecret
                         </div>
                     </div>  
                     <div className="coluna3">
-                        <div className="tuno">
+                        <div>
                             <p>Turno</p>
-                            <h1>{dadosSecretario.turno}</h1>
+                            <h1 
+                                style={{textTransform: "capitalize"}}
+                            >
+                            {dadosSecretario.turno}
+                            </h1>
                         </div>
                         <div className="cpf">
                             <p>CPF</p>

@@ -11,7 +11,7 @@ export default function EditarSecretario({ handleEditarClose, dadosSecretario, r
   const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
   const [Editar, setEditar] = useState(true);
   const [SucessoEditar, setSucessoEditar] = useState(false);
-  const [message, setMessage] = useState({});
+  const [message, setMessage] = useState("");
   const [dadosAtualizados, setDadosAtualizados] = useState(dadosSecretario);
   const [state, setState] = React.useState({
     open: false,
@@ -149,8 +149,8 @@ export default function EditarSecretario({ handleEditarClose, dadosSecretario, r
                 </div>
               </div>
               <div className="coluna4">
-                <div className="turno">
-                  <p>turno</p>
+                <div>
+                  <p>Turno</p>
                   <h1>{dadosAtualizados.turno}</h1>
                 </div>
               </div>

@@ -265,7 +265,7 @@ export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa
 
   return (
     <div className="table-container">
-      <table className="table">
+      <table className="table table-aluno">
         <thead>
           {algumaCheckboxSelecionada() ? ( // ? avalia a condição para retornar um dos dois valores
             <tr className="tr-body">

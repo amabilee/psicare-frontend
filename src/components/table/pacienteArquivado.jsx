@@ -23,7 +23,7 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
   const [checkboxSelecionadas, setCheckboxSelecionadas] = useState({}); // Novo estado para contagem de checkboxes selecionadas
   const [todasCheckboxSelecionadas, setTodasCheckboxSelecionadas] = useState({});
 
-  const [message, setMessage] = useState({});
+  const [message, setMessage] = useState("");
   const [state, setState] = React.useState({
     open: false,
     vertical: 'top',
@@ -179,7 +179,7 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
 
   return (
     <div className="table-container">
-      <table className="table">
+      <table className="table table-paciente-arquivado">
         <thead>
           <tr className="tr-body">
             <th>Nome</th>
@@ -207,7 +207,7 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
                   {paciente.telefoneContato ? paciente.telefoneContato : paciente.telefone}
                 </td>
                 <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
-                  {paciente.cpf}
+                  {paciente.email}
                 </td>
                 <td className="table-content" id="td-tratamento" onClick={() => handleVisualizarClick(paciente)}>
                   {paciente.tipoDeTratamento}

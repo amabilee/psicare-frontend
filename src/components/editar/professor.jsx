@@ -11,7 +11,7 @@ export default function EditarProfessor({ handleEditarClose, dadosProfessor, ren
   const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
   const [Editar, setEditar] = useState(true);
   const [SucessoEditar, setSucessoEditar] = useState(false);
-  const [message, setMessage] = useState({});
+  const [message, setMessage] = useState("");
   const [dadosAtualizados, setDadosAtualizados] = useState(dadosProfessor);
   const [state, setState] = React.useState({
     open: false,
@@ -70,6 +70,14 @@ export default function EditarProfessor({ handleEditarClose, dadosProfessor, ren
     }
   };
 
+  const formatarCPF = (cpf) => {
+    if (cpf.length === 11) {
+
+      return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9)}`;
+    }
+    return cpf;
+  };
+
   return (
     <>
       {Editar && (
@@ -123,7 +131,7 @@ export default function EditarProfessor({ handleEditarClose, dadosProfessor, ren
               <div className="coluna2">
                 <div className="CPF">
                   <p>CPF</p>
-                  <h1>{dadosAtualizados.cpf}</h1>
+                  <h1>{formatarCPF(dadosAtualizados.cpf)}</h1>
                 </div>
                 <div className="telefone">
                   <p>Telefone</p>

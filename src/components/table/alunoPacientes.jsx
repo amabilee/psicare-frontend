@@ -116,7 +116,7 @@ export default function TableAlunoPaciente({ pacienteAlunos }){
                     {paciente.nome}
                   </td>
                   <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
-                    {paciente.telefoneContato}
+                    {paciente.telefone}
                   </td>
                   <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
                     {paciente.cpf}

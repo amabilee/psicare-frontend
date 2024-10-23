@@ -2,7 +2,7 @@ import React from "react";
 import voltar from "../../assets/voltar.svg";
 import "./style.css";
 
-export default function VisualizarPaciente({handleCloseVisualizar, dadosPaciente}){
+export default function VisualizarPaciente({ handleCloseVisualizar, dadosPaciente }) {
     const alunosPaciente = dadosPaciente._id;
 
     const formatarDataNascimento = (data) => {
@@ -11,26 +11,34 @@ export default function VisualizarPaciente({handleCloseVisualizar, dadosPaciente
         const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); // Meses são baseados em zero
         const ano = dataObj.getFullYear();
         return `${dia}/${mes}/${ano}`;
-      };
-    return(
+    };
+
+    const formatarCPF = (cpf) => {
+        if (cpf.length === 11) {
+
+            return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9)}`;
+        }
+        return cpf;
+    };
+    return (
         <div className="visualizar">
             <div className="body-visualizar">
                 <div className="header-visualizar header-visualizar-paciente">
                     <div className="header-visualizar-info">
-                    <img src={voltar} alt="seta-voltar" className="seta-voltar" onClick={handleCloseVisualizar} />
+                        <img src={voltar} alt="seta-voltar" className="seta-voltar" onClick={handleCloseVisualizar} />
                         <h1 onClick={handleCloseVisualizar}>Informações sobre paciente</h1>
                     </div>
-                    <hr />  
+                    <hr />
                     <div className="visualizar-info visualizar-info-paciente">
-                    <h2>Informações Pessoais</h2>
-                    <div className="coluna1">
+                        <h2>Informações Pessoais</h2>
+                        <div className="coluna1">
                             <div className="nome">
                                 <p>Nome Completo</p>
                                 <h1>{dadosPaciente.nome}</h1>
                             </div>
                             <div className="CPF">
                                 <p>CPF</p>
-                                <h1>{dadosPaciente.cpf}</h1>
+                                <h1>{formatarCPF(dadosPaciente.cpf)}</h1>
                             </div>
                             <div className="data-nascimento">
                                 <p>Data Nascimento</p>
@@ -40,7 +48,7 @@ export default function VisualizarPaciente({handleCloseVisualizar, dadosPaciente
                                 <p>Sexo</p>
                                 <h1>{dadosPaciente.sexo}</h1>
                             </div>
-                        </div> 
+                        </div>
                         <div className="coluna2">
                             <div className="email">
                                 <p>Email</p>
@@ -81,11 +89,11 @@ export default function VisualizarPaciente({handleCloseVisualizar, dadosPaciente
                             <div className="nomeContato">
                                 <p>Nome do contato/responsável</p>
                                 <h1>{dadosPaciente.nomeDoContatoResponsavel === "" ? ("Não informado") : (dadosPaciente.nomeDoContatoResponsavel)}</h1>
-                            </div>  
+                            </div>
                             <div className="outro">
                                 <p>Telefone contato/responsável</p>
                                 <h1>{dadosPaciente.outroContato === "" ? ("Não informado") : (dadosPaciente.outroContato)}</h1>
-                            </div>  
+                            </div>
                         </div>
 
                         <h2>Endereço</h2>
@@ -114,7 +122,7 @@ export default function VisualizarPaciente({handleCloseVisualizar, dadosPaciente
                                 <p>Complemento</p>
                                 <h1>{dadosPaciente.enderecoComplemento === "" ? ("Não informado") : (dadosPaciente.enderecoComplemento)}</h1>
                             </div>
-                            
+
                         </div>
                         <h2>Informações de Tratamento</h2>
                         <div className="coluna6">
@@ -137,10 +145,10 @@ export default function VisualizarPaciente({handleCloseVisualizar, dadosPaciente
                             <div className="tipoTratamento">
                                 <p>Tipo de Tratamento</p>
                                 <h1>{dadosPaciente.tipoDeTratamento}</h1>
-                            </div> 
+                            </div>
                         </div>
-                    </div>   
-                </div>  
+                    </div>
+                </div>
             </div>
         </div>
     )

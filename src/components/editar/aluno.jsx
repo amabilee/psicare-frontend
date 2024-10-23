@@ -11,7 +11,7 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
   const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
   const [Editar, setEditar] = useState(true);
   const [SucessoEditar, setSucessoEditar] = useState(false);
-  const [message, setMessage] = useState({});
+  const [message, setMessage] = useState("");
   const [dadosAtualizados, setDadosAtualizados] = useState(dadosAluno);
   const [professoresNome, setProfessoresNome] = useState({ professores: [] });
   const [state, setState] = React.useState({
