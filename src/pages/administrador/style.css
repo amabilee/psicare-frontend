@@ -478,17 +478,18 @@
     font-weight: 800;
 }
 
-.rbc-agenda-event-cell div p {
+.rbc-agenda-event-cell div div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.rbc-agenda-event-cell div p p {
+.rbc-agenda-event-cell div div p {
     width: 25%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    margin: 0;
 }
 
 /* agenda popup */

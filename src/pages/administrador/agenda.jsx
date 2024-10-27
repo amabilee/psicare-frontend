@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { api } from "../../services/server";
 import SideBar from "../../components/SideBar/sidebar";
 import voltar from "../../assets/voltar.svg";
 import { IoMdPersonAdd } from "react-icons/io";
@@ -8,7 +9,10 @@ import moment from "moment";
 import ptBR from "date-fns/locale/pt-BR";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
+import { startOfMonth, endOfMonth, subDays, addDays, addMonths } from 'date-fns';
+
 import CadastrarConsulta from "../../components/cadastrar/consulta";
+import EditarConsulta from "../../components/editar/consulta";
 
 const locales = {
     'pt-BR': ptBR,
@@ -40,8 +44,7 @@ const messages = {
 
 let formats = {
     agendaHeaderFormat: ({ start, end }, culture, localizer) =>
-        localizer.format(start, 'd MMMM, yyyy', culture) + ' — ' +
-        localizer.format(end, 'd MMMM, yyyy', culture),
+        `${localizer.format(start, 'd MMMM, yyyy', culture)} — ${localizer.format(end, 'd MMMM, yyyy', culture)}`,
 
     agendaDateFormat: (date, culture, localizer) =>
         localizer.format(date, 'dd/MM/yyyy', culture),
@@ -58,209 +61,12 @@ let formats = {
 export default function Agenda() {
     const [seePopup, setSeePopup] = useState('');
     const [isCadastroOpen, setIsCadastroOpen] = useState(false);
+    const [isEditarOpen, setIsEditarOpen] = useState(false);
     const [currentView, setCurrentView] = useState('month');
-    const [events, setEvents] = useState([
-        {
-            id: 0,
-            nome: "Dor de cabeça",
-            paciente: "Lucas Souza Santos",
-            estudante: "Estudante 1",
-            sala: "H101",
-            status: "Pendente",
-            tipo: 'Individual',
-            intervalo: 'Sessão única',
-            observacao: 'Paciente não gosta de barulhos altos, Paciente não gosta de barulhos altos',
-            allDay: false,
-            start: new Date(2024, 9, 7, 14, 30, 0),
-            end: new Date(2024, 9, 7, 15, 30, 0),
-        },
-        {
-            id: 1,
-            nome: "Dor de barriga",
-            paciente: "Marília Castro Neves",
-            estudante: "Estudante 2",
-            sala: "H102",
-            status: "Concluída",
-            allDay: true,
-            start: new Date(2024, 9, 8),
-            end: new Date(2024, 9, 8),
-        },
-        {
-            id: 2,
-            nome: "Ansiedade",
-            paciente: "Maria Fernanda",
-            observacao: "Paciente tem dificuldade para relaxar.",
-            sala: "H102",
-            allDay: false,
-            start: new Date(2024, 9, 8, 10, 0, 0),
-            end: new Date(2024, 9, 8, 11, 0, 0),
-        },
-        {
-            id: 3,
-            nome: "Depressão",
-            paciente: "Carlos Almeida",
-            observacao: "Paciente está se sentindo isolado.",
-            sala: "H103",
-            allDay: false,
-            start: new Date(2024, 9, 9, 16, 0, 0),
-            end: new Date(2024, 9, 9, 17, 0, 0),
-        },
-        {
-            id: 4,
-            nome: "Estresse",
-            paciente: "Ana Clara",
-            observacao: "Paciente reporta dificuldades no trabalho.",
-            sala: "H104",
-            allDay: false,
-            start: new Date(2024, 9, 10, 9, 30, 0),
-            end: new Date(2024, 9, 10, 10, 30, 0),
-        },
-        {
-            id: 5,
-            nome: "Terapia de Casal",
-            paciente: "Fernanda Castro Neves",
-            observacao: "Casal está passando por dificuldades de comunicação.",
-            sala: "H105",
-            allDay: false,
-            start: new Date(2024, 9, 11, 15, 0, 0),
-            end: new Date(2024, 9, 11, 16, 0, 0),
-        },
-        {
-            id: 6,
-            nome: "Autoconhecimento",
-            paciente: "Bruno Costa",
-            observacao: "Paciente quer explorar suas emoções.",
-            sala: "H106",
-            allDay: false,
-            start: new Date(2024, 9, 12, 11, 0, 0),
-            end: new Date(2024, 9, 12, 12, 0, 0),
-        },
-        {
-            id: 7,
-            nome: "Fobias",
-            paciente: "Mariana Lima",
-            observacao: "Paciente tem medo de lugares fechados.",
-            sala: "H107",
-            allDay: false,
-            start: new Date(2024, 9, 13, 13, 30, 0),
-            end: new Date(2024, 9, 13, 14, 30, 0),
-        },
-        {
-            id: 8,
-            nome: "Transtorno Obsessivo-Compulsivo",
-            paciente: "Ricardo Mendes",
-            observacao: "Paciente apresenta rituais diários.",
-            sala: "H108",
-            allDay: false,
-            start: new Date(2024, 9, 14, 9, 0, 0),
-            end: new Date(2024, 9, 14, 10, 0, 0),
-        },
-        {
-            id: 9,
-            nome: "Luto",
-            paciente: "Sofia Ribeiro",
-            observacao: "Paciente está lidando com a perda de um familiar.",
-            sala: "H109",
-            allDay: false,
-            start: new Date(2024, 9, 15, 14, 0, 0),
-            end: new Date(2024, 9, 15, 15, 0, 0),
-        },
-        {
-            id: 10,
-            nome: "Desenvolvimento Pessoal",
-            paciente: "Gabriel Martins Neves",
-            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
-            sala: "H110",
-            allDay: false,
-            start: new Date(2024, 9, 16, 11, 30, 0),
-            end: new Date(2024, 9, 16, 12, 30, 0),
-        },
-        {
-            id: 10,
-            nome: "Desenvolvimento Pessoal",
-            paciente: "Gabriel Martins Neves",
-            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
-            sala: "H110",
-            allDay: false,
-            start: new Date(2024, 9, 16, 12, 35, 0),
-            end: new Date(2024, 9, 16, 13, 30, 0),
-        }, {
-            id: 10,
-            nome: "Desenvolvimento Pessoal",
-            paciente: "Gabriel Martins Neves",
-            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
-            sala: "H110",
-            allDay: false,
-            start: new Date(2024, 9, 16, 13, 35, 0),
-            end: new Date(2024, 9, 16, 14, 30, 0),
-        },
-        {
-            id: 10,
-            nome: "Desenvolvimento Pessoal",
-            paciente: "Gabriel Martins Neves",
-            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
-            sala: "H110",
-            allDay: false,
-            start: new Date(2024, 9, 16, 14, 35, 0),
-            end: new Date(2024, 9, 16, 15, 30, 0),
-        }, {
-            id: 10,
-            nome: "Desenvolvimento Pessoal",
-            paciente: "Gabriel Martins Neves",
-            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
-            sala: "H110",
-            allDay: false,
-            start: new Date(2024, 9, 16, 15, 35, 0),
-            end: new Date(2024, 9, 16, 16, 30, 0),
-        }
-        , {
-            id: 10,
-            nome: "Desenvolvimento Pessoal",
-            paciente: "Gabriel Martins Neves",
-            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
-            sala: "H110",
-            allDay: false,
-            start: new Date(2024, 9, 16, 16, 35, 0),
-            end: new Date(2024, 9, 16, 17, 30, 0),
-        }
-        , {
-            id: 10,
-            nome: "Desenvolvimento Pessoal",
-            paciente: "Gabriel Martins Neves",
-            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
-            sala: "H110",
-            allDay: false,
-            start: new Date(2024, 9, 16, 17, 35, 0),
-            end: new Date(2024, 9, 16, 18, 30, 0),
-        },
-        {
-            id: 10,
-            nome: "Desenvolvimento Pessoal",
-            paciente: "Gabriel Martins Neves",
-            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
-            sala: "H110",
-            allDay: false,
-            start: new Date(2024, 9, 16, 19, 35, 0),
-            end: new Date(2024, 9, 16, 20, 30, 0),
-        },
-        {
-            id: 10,
-            nome: "Desenvolvimento Pessoal",
-            paciente: "Gabriel Martins Neves",
-            observacao: "Paciente quer trabalhar em suas habilidades sociais.",
-            sala: "H110",
-            allDay: false,
-            start: new Date(2024, 9, 16, 21, 35, 0),
-            end: new Date(2024, 9, 16, 22, 30, 0),
-        }
-    ]);
-
+    const [events, setEvents] = useState([]);
     const [userLevel, setUserLevel] = useState(null);
-
-    useEffect(() => {
-        const level = localStorage.getItem('user_level');
-        setUserLevel(level);
-    }, []);
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
 
     const onSelectEventHandler = (event) => {
         console.log(event);
@@ -281,7 +87,8 @@ export default function Agenda() {
     };
 
     const handleEditarConsulta = () => {
-        console.log(seePopup)
+        console.log(seePopup);
+        setIsEditarOpen(true);
     }
 
     const handleNovoCadastroClick = () => {
@@ -295,6 +102,77 @@ export default function Agenda() {
     const renderProps = (codigo) => {
         setRenderFormTable(codigo);
     }
+
+    const buscarConsultas = async () => {
+        const token = localStorage.getItem("user_token");
+
+        try {
+            const startFormatted = startDate.toISOString().split('T')[0];
+            const endFormatted = endDate.toISOString().split('T')[0];
+
+            const consultas = await api.get(`/consulta?start=${startFormatted}&end=${endFormatted}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`,
+                }
+            });
+
+            const formattedConsultas = consultas.data.consultas.map((consulta) => ({
+                ...consulta,
+                start: new Date(consulta.start),
+                end: new Date(consulta.end),
+            }));
+
+            setEvents(formattedConsultas);
+        } catch (e) {
+            console.log("Erro ao buscar consultas: ", e);
+        }
+    };
+
+
+
+    useEffect(() => {
+        const level = localStorage.getItem('user_level');
+        setUserLevel(level);
+        buscarConsultas();
+    }, [startDate, endDate]);
+
+    const renderDadosConsulta = (dadosAtualizados) => {
+        setEvents((prevDados) => {
+            return {
+                ...prevDados.map((consulta) =>
+                    consulta._id === dadosAtualizados._id ? dadosAtualizados : consulta
+                ),
+            };
+        });
+    };
+
+    const handleEditarClose = () => {
+        setIsEditarOpen(false);
+    };
+
+    const handleNavigate = (date, view) => {
+        let newStartDate;
+        let newEndDate;
+
+        if (view === 'month') {
+            newStartDate = startOfMonth(date);
+            newEndDate = endOfMonth(date);
+        } else if (view === 'week') {
+            newStartDate = subDays(date, 7);
+            newEndDate = addDays(date, 7);
+        } else if (view === 'agenda') {
+            newStartDate = startOfMonth(date);
+            newEndDate = endOfMonth(addMonths(date, 1));
+        }
+
+        setStartDate(newStartDate);
+        setEndDate(newEndDate);
+        console.log(date, view);
+        console.log(newStartDate, newEndDate);
+        buscarConsultas();
+    };
+
 
 
     return (
@@ -338,33 +216,35 @@ export default function Agenda() {
                         onSelectSlot={(slot) => handleOpenDialog(slot)}
                         onSelectEvent={(event) => handleOpenEvent(event)}
                         onView={handleViewChange}
+                        onNavigate={handleNavigate}
                         components={{
                             event: ({ event }) => (
                                 <div>
                                     {currentView === 'month' ? (
-                                        <p>{event.paciente}</p>
+                                        <p>{event.nomePaciente}</p>
                                     ) : currentView == 'week' ? (
                                         event.allDay ? (
                                             <p>
-                                                {event.paciente}
+                                                {event.nomePaciente}
                                                 <br />
-                                                <span> {event.nome} </span>
+                                                <span> {event.Nome} </span>
                                                 <span>
                                                     <br /> Sala {event.sala}
                                                 </span>
                                             </p>
                                         ) : (
                                             <p>
-                                                {event.paciente}
+                                                {event.nomePaciente}
                                             </p>
                                         )
                                     ) : (
-                                        <p>
-                                            <p><span>Paciente:</span> {event.paciente || ''}</p>
-                                            <p><span>Estudante:</span> {event.estudante || ''}</p>
+                                        <div>
+                                            <p><span>Paciente:</span> {event.nomePaciente || ''}</p>
+                                            <p><span>Estudante:</span> {event.nomeAluno || ''}</p>
                                             <p><span>Sala:</span> {event.sala || ''}</p>
-                                            <p><span>Status:</span> {event.status || 'Agendado'}</p>
-                                        </p>
+                                            <p><span>Status:</span> {event.statusDaConsulta || 'Agendado'}</p>
+                                        </div>
+
                                     )
                                     }
                                 </div>
@@ -374,76 +254,34 @@ export default function Agenda() {
                     {seePopup && (
                         <div className="popUpAgendaContainer">
                             <div className="popUpBody">
-                                <div className="popUpTop">
-                                    <div className="header-visualizar-info">
-                                        <img src={voltar} alt="seta-voltar" className="seta-voltar" onClick={() => setSeePopup('')} />
-                                        <h1 onClick={() => setSeePopup('')}>Informações do agendamento</h1>
-                                    </div>
-                                    <div
-                                        className={
-                                            seePopup.status === 'Pendente' ? 'background-consulta-pendente' :
-                                                seePopup.status === 'Concluída' ? 'background-consulta-concluida' :
-                                                    ''
-                                        }
-                                    >
-                                        <p>
-                                            {seePopup.status}
-                                        </p>
-                                    </div>
+                                <div className="popUpHeader">
+                                    <span>Detalhes da Consulta</span>
+                                    <button onClick={() => setSeePopup('')} className="btn_close">
+                                        <img src={voltar} alt="Voltar" />
+                                    </button>
                                 </div>
-                                <div className="popUpContent">
-                                    <div className="linha">
-                                        <div>
-                                            <p>Título da consulta</p>
-                                            <h1>{seePopup.nome}</h1>
-                                        </div>
-                                        <div>
-                                            <p>Responsável</p>
-                                            <h1>{seePopup.estudante}</h1>
-                                        </div>
-                                        <div>
-                                            <p>Tipo da consulta</p>
-                                            <h1>{seePopup.tipo}</h1>
-                                        </div>
-                                    </div>
-                                    <div className="linha">
-                                        <div>
-                                            <p>Paciente</p>
-                                            <h1>{seePopup.paciente}</h1>
-                                        </div>
-                                        <div>
-                                            <p>Local</p>
-                                            <h1>{seePopup.sala}</h1>
-                                        </div>
-                                        <div>
-                                            <p>Intervalo</p>
-                                            <h1>{seePopup.intervalo}</h1>
-                                        </div>
-                                    </div>
-                                    <div className="linha">
-                                        <div>
-                                            <p>Data da consulta</p>
-                                            <h1>{moment(seePopup.start).format('DD/MM/YYYY')}</h1>
-                                        </div>
-                                        <div>
-                                            <p>Intervalo de tempo</p>
-                                            <h1>{moment(seePopup.start).format('HH:mm')} - {moment(seePopup.end).format('HH:mm')}</h1>
-                                        </div>
-                                        <div>
-                                            <p>Observação</p>
-                                            <h1>{seePopup.observacao}</h1>
-                                        </div>
-                                    </div>
-                                    <div className="linha">
-                                        <div>
-                                            <button onClick={handleEditarConsulta}>Editar</button>
-                                        </div>
-                                    </div>
+                                <div className="dados-consulta">
+                                    <p><strong>Nome do Paciente:</strong> {seePopup.nomePaciente || ''}</p>
+                                    <p><strong>Estudante:</strong> {seePopup.nomeAluno || ''}</p>
+                                    <p><strong>Data da Consulta:</strong> {moment(seePopup.start).format("DD/MM/YYYY")}</p>
+                                    <p><strong>Hora:</strong> {moment(seePopup.start).format("HH:mm")}</p>
+                                    <p><strong>Sala:</strong> {seePopup.sala || ''}</p>
+                                    <p><strong>Status:</strong> {seePopup.status || ''}</p>
                                 </div>
+                                <button onClick={handleEditarConsulta}>Editar</button>
                             </div>
                         </div>
                     )}
-                    {isCadastroOpen && (<CadastrarConsulta handleCloseModal={handleCloseModal} renderForm={renderProps} />)}
+                    {isCadastroOpen && (
+                        <CadastrarConsulta handleClose={handleCloseModal} setRenderFormTable={renderProps} />
+                    )}
+                    {isEditarOpen && (
+                        <EditarConsulta
+                            handleClose={handleEditarClose}
+                            dados={seePopup}
+                            renderDadosConsulta={renderDadosConsulta}
+                        />
+                    )}
                 </div>
             </div>
         </>

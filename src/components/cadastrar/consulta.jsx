@@ -7,15 +7,14 @@ import Alert from '@mui/material/Alert';
 
 import 'rsuite/dist/rsuite.css';
 import { DatePicker } from 'rsuite';
-import { FaCalendar, FaClock } from 'react-icons/fa';
 
 import "./style.css"
 
 export default function CadastrarConsulta({ handleCloseModal, renderForm }) {
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
     const [message, setMessage] = useState("");
-    const [pacientesNome, setPacientesNome] = useState({ pacientes: [] });
-    const [alunosNome, setAlunosNome] = useState({ alunos: [] });
+    const [pacientesNome, setPacientesNome] = useState([]);
+    const [alunosNome, setAlunosNome] = useState([]);
     const [frequenciaOpcoes, setFrequenciaOpcoes] = useState([]);
     const [dadosForm, setDadosForm] = useState({
         Nome: "",
@@ -24,11 +23,10 @@ export default function CadastrarConsulta({ handleCloseModal, renderForm }) {
         createAt: "",
         sala: "",
         TipoDeConsulta: "",
-        pacienteId: "#",
+        pacienteld: "#",
         alunoId: "#",
         statusDaConsulta: "Pendente",
         allDay: false,
-
         intervalo: "",
         frequenciaIntervalo: "",
         observacao: "",
@@ -51,70 +49,114 @@ export default function CadastrarConsulta({ handleCloseModal, renderForm }) {
         setState({ ...state, open: false });
     };
 
-    const handleFormSubmit = (newState) => async () => {
-        console.log(dadosForm)
-        if (dadosForm.Nome.length <= 6) {
+    const handleFormSubmit = async (newState) => {
+        if (!dadosForm.Nome || dadosForm.Nome.length <= 6) {
+            setMessage("Insira um título válido para a consulta (mínimo 6 caracteres).");
             setState({ ...newState, open: true });
-            setMessage("Insira título para a consulta.");
+            return;
         }
-        else {
-            console.log(dadosForm)
-            // const token = localStorage.getItem("user_token")
-            // console.log(dadosForm)
-            // try {
-            //     const dadosEnviados = await api.post("/consulta", dadosForm, {
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //             "authorization": `Bearer ${token}`
-            //         }
-            //     });
-            //     console.log(dadosEnviados)
-            //     setIsSucessModalOpen(true);
-            //     renderForm(true)
-            // } catch (e) {
-            //     setState({ ...state, open: true });
-            //     setMessage(e.response.data.error);
-            // }
+        if (dadosForm.pacienteld === "#") {
+            setMessage("Selecione um paciente.");
+            setState({ ...newState, open: true });
+            return;
         }
-    }
+        if (!dadosForm.createAt) {
+            setMessage("Insira uma data para a consulta.");
+            setState({ ...newState, open: true });
+            return;
+        }
+        if (!dadosForm.start || !dadosForm.end) {
+            setMessage("Insira o horário de início e fim da consulta.");
+            setState({ ...newState, open: true });
+            return;
+        }
+        if (!dadosForm.sala) {
+            setMessage("Selecione uma sala.");
+            setState({ ...newState, open: true });
+            return;
+        }
+        if (!dadosForm.TipoDeConsulta) {
+            setMessage("Selecione o tipo de consulta.");
+            setState({ ...newState, open: true });
+            return;
+        }
+        if (dadosForm.alunoId === "#") {
+            setMessage("Selecione o aluno responsável.");
+            setState({ ...newState, open: true });
+            return;
+        }
+        if (!dadosForm.intervalo) {
+            setMessage("Selecione o intervalo.");
+            setState({ ...newState, open: true });
+            return;
+        }
+        if (dadosForm.intervalo !== "Sessão Única" && !dadosForm.frequenciaIntervalo) {
+            setMessage("Selecione a frequência do intervalo.");
+            setState({ ...newState, open: true });
+            return;
+        }
+        if (!dadosForm.observacao) {
+            setMessage("Insira uma observação.");
+            setState({ ...newState, open: true });
+            return;
+        }
+
+        const formattedData = {
+            ...dadosForm,
+            createAt: new Date(dadosForm.createAt).toString(),
+            start: new Date(dadosForm.start).toString(),
+            end: new Date(dadosForm.end).toString(),
+        };
+        
+        
+
+        try {
+            const token = localStorage.getItem("user_token");
+            await api.post("/consulta", formattedData, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${token}`,
+                },
+            });
+            setMessage("Consulta criada com sucesso!");
+            setIsSucessModalOpen(true);
+            renderForm(true);
+        } catch (e) {
+            setMessage("Erro ao criar consulta");
+            setState({ ...state, open: true });
+        }
+    };
+
 
     const buscarPacientes = async () => {
-        const token = localStorage.getItem("user_token")
+        const token = localStorage.getItem("user_token");
         try {
             const response = await api.get(`/paciente`, {
                 headers: {
                     "Content-Type": "application/json",
-                    "authorization": `Bearer ${token}`
-                }
+                    authorization: `Bearer ${token}`,
+                },
             });
-            setPacientesNome(response.data);
+            setPacientesNome(response.data.pacientes);
         } catch (e) {
-            if (e.response.status == 401) {
-                signOut()
-            } else {
-                console.log("Erro ao buscar alunos ", e)
-            }
+            console.error("Erro ao buscar pacientes:", e);
         }
-    }
+    };
 
     const buscarAlunos = async () => {
-        const token = localStorage.getItem("user_token")
+        const token = localStorage.getItem("user_token");
         try {
             const response = await api.get(`/aluno`, {
                 headers: {
                     "Content-Type": "application/json",
-                    "authorization": `Bearer ${token}`
-                }
+                    authorization: `Bearer ${token}`,
+                },
             });
-            setAlunosNome(response.data);
+            setAlunosNome(response.data.alunos);
         } catch (e) {
-            if (e.response.status == 401) {
-                signOut()
-            } else {
-                console.log("Erro ao buscar alunos ", e)
-            }
+            console.error("Erro ao buscar alunos:", e);
         }
-    }
+    };
 
     useEffect(() => {
         if (dadosForm.intervalo === 'Semanal') {
@@ -143,9 +185,13 @@ export default function CadastrarConsulta({ handleCloseModal, renderForm }) {
                         <input type="text" value={dadosForm.Nome} onChange={(e) => setDadosForm({ ...dadosForm, Nome: e.target.value })} />
 
                         <label>Paciente*</label>
-                        <select className="professorNome" value={dadosForm.pacienteId} onChange={(e) => setDadosForm({ ...dadosForm, pacienteId: e.target.value })}>
+                        <select
+                            className="professorNome"
+                            value={dadosForm.pacienteld}
+                            onChange={(e) => setDadosForm({ ...dadosForm, pacienteld: e.target.value })}
+                        >
                             <option value="#" disabled>Selecione uma opção</option>
-                            {pacientesNome.pacientes.map(paciente => (
+                            {pacientesNome.map((paciente) => (
                                 <option key={paciente._id} value={paciente._id}>
                                     {paciente.nome}
                                 </option>
@@ -169,8 +215,8 @@ export default function CadastrarConsulta({ handleCloseModal, renderForm }) {
                                 <label>Intervalo Temporal*</label>
                                 <DatePicker
                                     className="data-nascimento"
-                                    format="HH:ss"
-                                    placeholder="HH:ss"
+                                    format="HH:mm"
+                                    placeholder="HH:mm"
                                     style={{
                                         width: "150px"
                                     }}
@@ -180,8 +226,8 @@ export default function CadastrarConsulta({ handleCloseModal, renderForm }) {
                             <p>às</p>
                             <DatePicker
                                 className="data-nascimento"
-                                format="HH:ss"
-                                placeholder="HH:ss"
+                                format="HH:mm"
+                                placeholder="HH:mm"
                                 style={{
                                     width: "150px"
                                 }}
@@ -223,7 +269,7 @@ export default function CadastrarConsulta({ handleCloseModal, renderForm }) {
                         <label>Aluno responsável*</label>
                         <select className="professorNome" value={dadosForm.alunoId} onChange={(e) => setDadosForm({ ...dadosForm, alunoId: e.target.value })}>
                             <option value="#" disabled>Selecione uma opção</option>
-                            {alunosNome.alunos.map(aluno => (
+                            {alunosNome.map(aluno => (
                                 <option key={aluno._id} value={aluno._id}>
                                     {aluno.nome}
                                 </option>
@@ -261,10 +307,14 @@ export default function CadastrarConsulta({ handleCloseModal, renderForm }) {
                         <label>Observações*</label>
                         <input type="text" value={dadosForm.observacao} onChange={(e) => setDadosForm({ ...dadosForm, observacao: e.target.value })} />
 
-                        <p className="campo_obrigatorio">*Campo Obrigatório</p>
+                        <span className="campo_obrigatorio">*Campo Obrigatório</span>
+
                         <div className="buttons-form buttons-form-aluno">
                             <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Cancelar</button>
-                            <button className="button-cadastrar" id="cadastrar" onClick={handleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}>Cadastrar</button>
+                            <button className="button-cadastrar" id="cadastrar" onClick={() => handleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}>
+                                Cadastrar
+                            </button>
+
                             <Snackbar
                                 ContentProps={{ sx: { borderRadius: '8px' } }}
                                 anchorOrigin={{ vertical, horizontal }}
@@ -287,7 +337,7 @@ export default function CadastrarConsulta({ handleCloseModal, renderForm }) {
                 <div className="modal-sucesso">
                     <div className="modal-sucesso-content">
                         <h1>Sucesso!</h1>
-                        <h2>Aluno cadastrado com sucesso.</h2>
+                        <h2>Consulta cadastrada com sucesso.</h2>
                         <button className="button-fechar" id="fechar" onClick={handleCloseModal} >Fechar</button>
                     </div>
                 </div>
@@ -295,17 +345,3 @@ export default function CadastrarConsulta({ handleCloseModal, renderForm }) {
         </>
     )
 }
-
-//   resourceID: { type: String, required: true },
-//   recorrencia: RecorrenciaSchema,
-//   consultaRecorrenteID: { type: String, required: true },
-//   AlunoID: { type: String, required: true },
-
-//   Nome: { type: String, required: true },
-//   start: { type: Date, required: true },
-//   end: { type: Date, required: true },
-//   sala: { type: String, required: true },
-//   TipoDeConsulta: { type: String, required: true },
-//   observacao: { type: String, required: true },
-//   statusDaConsulta: { type: String },
-//   createAt: { type: Date, default: Date.now },

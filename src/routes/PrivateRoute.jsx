@@ -26,6 +26,10 @@ const PrivateRoute = ({ component: Component, componentName, ...rest }) => {
     const userLevel = localStorage.getItem("user_level");
     const isAuthenticated = !!userToken;
 
+    if (Component == "empty") {
+        return <Navigate to="/entrar" />;
+    }
+
     if (isAuthenticated) {
         if (userLevel && hasAccess(userLevel, componentName)) {
             return <Component {...rest} />;
@@ -39,6 +43,7 @@ const PrivateRoute = ({ component: Component, componentName, ...rest }) => {
     }
 };
 
+const Empty = (props) => <PrivateRoute component="empty" componentName="Login" {...props} />;
 const Agenda = (props) => <PrivateRoute component={AgendaPage} componentName="Agenda" {...props} />;
 const Secretarios = (props) => <PrivateRoute component={SecretariosPage} componentName="Secretarios" {...props} />;
 const Professores = (props) => <PrivateRoute component={ProfessoresPage} componentName="Professores" {...props} />;
@@ -47,5 +52,5 @@ const Pacientes = (props) => <PrivateRoute component={PacientesPage} componentNa
 const Relatorios = (props) => <PrivateRoute component={RelatoriosPage} componentName="Relatorios" {...props} />;
 
 export {
-    Agenda, Secretarios, Professores, Alunos, Pacientes, Relatorios
+    Empty, Agenda, Secretarios, Professores, Alunos, Pacientes, Relatorios
 };

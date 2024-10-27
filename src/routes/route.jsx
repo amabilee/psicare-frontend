@@ -2,13 +2,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "../pages/_login/login";
 
 import {
-  Agenda, Secretarios, Professores, Alunos, Pacientes, Relatorios
+  Empty, Agenda, Secretarios, Professores, Alunos, Pacientes, Relatorios
 } from './PrivateRoute.jsx'
 
 function Router() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Empty />} />
         <Route path="/entrar" element={<Login />} />
         <Route path="/agenda" element={<Agenda />} />
         <Route path="/secretarios" element={<Secretarios />} />
