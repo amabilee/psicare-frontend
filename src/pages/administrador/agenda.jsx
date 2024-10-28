@@ -4,7 +4,7 @@ import SideBar from "../../components/SideBar/sidebar";
 import voltar from "../../assets/voltar.svg";
 import { IoMdPersonAdd } from "react-icons/io";
 import { Calendar as BigCalendar, dateFnsLocalizer } from "react-big-calendar";
-import { format, parse, startOfWeek, getDay } from "date-fns";
+import { format, parse, startOfWeek, getDay, parseISO } from "date-fns";
 import moment from "moment";
 import ptBR from "date-fns/locale/pt-BR";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -96,19 +96,29 @@ export default function Agenda() {
     };
 
     const handleCloseModal = () => {
+        console.log(1)
         setIsCadastroOpen(false);
     };
 
-    const renderProps = (codigo) => {
-        setRenderFormTable(codigo);
+    const renderProps = () => {
+        const currentDate = parseISO(new Date().toISOString().split('T')[0]);
+        handleNavigate(currentDate, 'month');
     }
 
-    const buscarConsultas = async () => {
+    const buscarConsultas = async (start, end) => {
         const token = localStorage.getItem("user_token");
 
         try {
-            const startFormatted = startDate.toISOString().split('T')[0];
-            const endFormatted = endDate.toISOString().split('T')[0];
+            let startFormatted
+            let endFormatted
+
+            if (start && end) {
+                startFormatted = start.toISOString().split('T')[0];
+                endFormatted = end.toISOString().split('T')[0];
+            } else {
+                startFormatted = startDate.toISOString().split('T')[0];
+                endFormatted = endDate.toISOString().split('T')[0];
+            }
 
             const consultas = await api.get(`/consulta?start=${startFormatted}&end=${endFormatted}`, {
                 headers: {
@@ -116,6 +126,8 @@ export default function Agenda() {
                     "authorization": `Bearer ${token}`,
                 }
             });
+
+            console.log(consultas)
 
             const formattedConsultas = consultas.data.consultas.map((consulta) => ({
                 ...consulta,
@@ -129,23 +141,28 @@ export default function Agenda() {
         }
     };
 
-
-
     useEffect(() => {
         const level = localStorage.getItem('user_level');
         setUserLevel(level);
-        buscarConsultas();
-    }, [startDate, endDate]);
+        const currentDate = parseISO(new Date().toISOString().split('T')[0]);
+        handleNavigate(currentDate, 'month');
+    }, []);
+
 
     const renderDadosConsulta = (dadosAtualizados) => {
-        setEvents((prevDados) => {
-            return {
-                ...prevDados.map((consulta) =>
-                    consulta._id === dadosAtualizados._id ? dadosAtualizados : consulta
-                ),
-            };
-        });
+        console.log(dadosAtualizados)
+        setEvents((prevDados) => 
+            prevDados.map((consulta) => 
+                consulta._id === dadosAtualizados._id ? {
+                    ...dadosAtualizados,
+                    start: new Date(dadosAtualizados.start),
+                    end: new Date(dadosAtualizados.end),
+                } : consulta
+            )
+        );
+        setSeePopup(dadosAtualizados);
     };
+    
 
     const handleEditarClose = () => {
         setIsEditarOpen(false);
@@ -158,6 +175,8 @@ export default function Agenda() {
         if (view === 'month') {
             newStartDate = startOfMonth(date);
             newEndDate = endOfMonth(date);
+            newStartDate = subDays(newStartDate, 7);
+            newEndDate = addDays(newEndDate, 7);
         } else if (view === 'week') {
             newStartDate = subDays(date, 7);
             newEndDate = addDays(date, 7);
@@ -168,9 +187,7 @@ export default function Agenda() {
 
         setStartDate(newStartDate);
         setEndDate(newEndDate);
-        console.log(date, view);
-        console.log(newStartDate, newEndDate);
-        buscarConsultas();
+        buscarConsultas(newStartDate, newEndDate);
     };
 
 
@@ -204,11 +221,17 @@ export default function Agenda() {
                         defaultDate={new Date(2024, 9, 7)}
                         style={{ minHeight: 690, borderRadius: '8px' }}
                         eventPropGetter={(event) => {
-                            const backgroundColor = currentView !== 'agenda' ? 'rgb(226 189 239)' : 'transparent';
+                            const backgroundColor = currentView === 'agenda' ? 'transparent' :
+                                                    event.statusDaConsulta === 'Pendente' ? '#FFDBA0' :
+                                                    event.statusDaConsulta === 'Concluída' ? '#B3FFA0' :
+                                                    event.statusDaConsulta === 'Cancelada' || event.statusDaConsulta === 'Paciente faltou' || event.statusDaConsulta === 'Aluno faltou '? '#FFA0A0' :
+                                                    event.statusDaConsulta === 'Em andamento' ? '#92D9FF' :
+                                                    'rgb(226 189 239)'
+
                             return {
                                 style: {
                                     backgroundColor,
-                                    borderRadius: '8px',
+                                    borderRadius: '4px',
                                     minHeight: '10px',
                                 },
                             };
@@ -254,36 +277,89 @@ export default function Agenda() {
                     {seePopup && (
                         <div className="popUpAgendaContainer">
                             <div className="popUpBody">
-                                <div className="popUpHeader">
-                                    <span>Detalhes da Consulta</span>
-                                    <button onClick={() => setSeePopup('')} className="btn_close">
-                                        <img src={voltar} alt="Voltar" />
-                                    </button>
+                                <div className="popUpTop">
+                                    <div className="header-visualizar-info">
+                                        <img src={voltar} alt="seta-voltar" className="seta-voltar" onClick={() => setSeePopup('')} />
+                                        <h1 onClick={() => setSeePopup('')}>Informações do agendamento</h1>
+                                    </div>
+                                    <div
+                                        className={
+                                            seePopup.statusDaConsulta === 'Pendente' ? 'background-consulta-pendente' :
+                                                seePopup.statusDaConsulta === 'Concluída' ? 'background-consulta-concluida' :
+                                                    seePopup.statusDaConsulta === 'Cancelada' || seePopup.statusDaConsulta === 'Paciente faltou' || seePopup.statusDaConsulta === 'Aluno faltou' ? 'background-consulta-cancelada' :
+                                                        seePopup.statusDaConsulta === 'Em andamento' ? 'background-consulta-andamento' :
+                                                    ''
+                                        }
+                                    >
+                                        <p>
+                                            {seePopup.statusDaConsulta}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="dados-consulta">
-                                    <p><strong>Nome do Paciente:</strong> {seePopup.nomePaciente || ''}</p>
-                                    <p><strong>Estudante:</strong> {seePopup.nomeAluno || ''}</p>
-                                    <p><strong>Data da Consulta:</strong> {moment(seePopup.start).format("DD/MM/YYYY")}</p>
-                                    <p><strong>Hora:</strong> {moment(seePopup.start).format("HH:mm")}</p>
-                                    <p><strong>Sala:</strong> {seePopup.sala || ''}</p>
-                                    <p><strong>Status:</strong> {seePopup.status || ''}</p>
+                                <div className="popUpContent">
+                                    <div className="linha">
+                                        <div>
+                                            <p>Título da consulta</p>
+                                            <h1>{seePopup.Nome}</h1>
+                                        </div>
+                                        <div>
+                                            <p>Responsável</p>
+                                            <h1>{seePopup.nomeAluno}</h1>
+                                        </div>
+                                        <div>
+                                            <p>Tipo da consulta</p>
+                                            <h1>{seePopup.TipoDeConsulta}</h1>
+                                        </div>
+                                    </div>
+                                    <div className="linha">
+                                        <div>
+                                            <p>Paciente</p>
+                                            <h1>{seePopup.nomePaciente}</h1>
+                                        </div>
+                                        <div>
+                                            <p>Local</p>
+                                            <h1>{seePopup.sala}</h1>
+                                        </div>
+                                        <div>
+                                            <p>Intervalo</p>
+                                            <h1>{seePopup.intervalo}</h1>
+                                        </div>
+                                    </div>
+                                    <div className="linha">
+                                        <div>
+                                            <p>Data da consulta</p>
+                                            <h1>{moment(seePopup.createAt).format('DD/MM/YYYY')}</h1>
+                                        </div>
+                                        <div>
+                                            <p>Intervalo de tempo</p>
+                                            <h1>{moment(seePopup.start).format('HH:mm')} - {moment(seePopup.end).format('HH:mm')}</h1>
+                                        </div>
+                                        <div>
+                                            <p>Observação</p>
+                                            <h1>{seePopup.observacao}</h1>
+                                        </div>
+                                    </div>
+                                    <div className="linha">
+                                        <div>
+                                            <button onClick={handleEditarConsulta}>Editar</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <button onClick={handleEditarConsulta}>Editar</button>
                             </div>
                         </div>
                     )}
                     {isCadastroOpen && (
-                        <CadastrarConsulta handleClose={handleCloseModal} setRenderFormTable={renderProps} />
+                        <CadastrarConsulta handleCloseModal={handleCloseModal} renderTable={renderProps} />
                     )}
                     {isEditarOpen && (
                         <EditarConsulta
-                            handleClose={handleEditarClose}
-                            dados={seePopup}
+                        handleEditarClose={handleEditarClose}
+                            dadosConsulta={seePopup}
                             renderDadosConsulta={renderDadosConsulta}
                         />
                     )}
                 </div>
-            </div>
+            </div >
         </>
     );
 }

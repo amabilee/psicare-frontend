@@ -418,8 +418,8 @@
 
 .rbc-event-content div p:nth-of-type(1) {
     font-size: 15px;
-    font-weight: 600;
-    color: #710198;
+    font-weight: 500;
+    color: #000;
 }
 
 .rbc-event-content div p:nth-of-type(1) span:nth-of-type(1) {
@@ -448,7 +448,7 @@
 }
 
 .rbc-event-label {
-    color: #710198;
+    color: #000000;
     font-weight: 800;
 }
 
@@ -458,6 +458,7 @@
     left: 0 !important;
     width: 100% !important;
     height: 4.16667% !important;
+    border: none;
 }
 
 .rbc-day-slot .rbc-events-container {
@@ -490,6 +491,15 @@
     flex-direction: row;
     justify-content: flex-start;
     margin: 0;
+}
+
+.rbc-day-slot .rbc-event-label{
+    margin-top: -3px !important;
+}
+
+.rbc-day-slot .rbc-event-content{
+    line-height: 38px !important;
+    margin-left: -78px !important;
 }
 
 /* agenda popup */
@@ -526,9 +536,9 @@
 }
 
 .popUpAgendaContainer .popUpTop h1:nth-of-type(1) {
-    color: #767474;
-    font-size: 20px;
-    font-weight: 500;
+    color: #000;
+    font-size: 23px;
+    font-weight: 400;
 }
 
 .popUpTop .header-visualizar-info{
@@ -542,15 +552,10 @@
     height: 20px;
 }
 
-/* Pendente,
-Concluída,
-Cancelada,
-Em andamento,
-Paciente faltou,
-Aluno faltou  */
-
 .background-consulta-pendente,
-.background-consulta-concluida {
+.background-consulta-concluida,
+.background-consulta-cancelada,
+.background-consulta-andamento {
     width: 150px;
     height: 30px;
     font-size: 17px;
@@ -571,9 +576,21 @@ Aluno faltou  */
 }
 
 .background-consulta-concluida {
-    background-color: #E1F5E8;
+    background-color: #B3FFA0;
     border: 1px solid #00C344;
     color: #156832;
+}
+
+.background-consulta-cancelada {
+    background-color: #FFA0A0;
+    border: 1px solid #FF2F2F;
+    color: #9C0000;
+}
+
+.background-consulta-andamento {
+    background-color: #92D9FF;
+    border: 1px solid #63B1DB;
+    color: #1F88C1;
 }
 
 .popUpContent {

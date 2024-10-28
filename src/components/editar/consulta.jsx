@@ -32,7 +32,7 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
     };
 
 
-    const handleEditarConfirmar = (newState) => () => {
+    const handleEditarConfirmar = (newState) => {
         if (!dadosAtualizados.Nome || dadosAtualizados.Nome.length <= 6) {
             setMessage("Insira um título válido para a consulta (mínimo 6 caracteres).");
             setState({ ...newState, open: true });
@@ -68,18 +68,13 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
             setState({ ...newState, open: true });
             return;
         }
-        if (!dadosAtualizados.intervalo) {
-            setMessage("Selecione o intervalo.");
-            setState({ ...newState, open: true });
-            return;
-        }
-        if (dadosAtualizados.intervalo !== "Sessão Única" && !dadosAtualizados.frequenciaIntervalo) {
-            setMessage("Selecione a frequência do intervalo.");
-            setState({ ...newState, open: true });
-            return;
-        }
         if (!dadosAtualizados.observacao) {
             setMessage("Insira uma observação.");
+            setState({ ...newState, open: true });
+            return;
+        }
+        if (!dadosAtualizados.statusDaConsulta) {
+            setMessage("Insira um status.");
             setState({ ...newState, open: true });
             return;
         } else {
@@ -96,12 +91,30 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
     const handleSucessoConfirmar = async () => {
         const token = localStorage.getItem("user_token")
 
+        const createAtDate = new Date(dadosAtualizados.createAt);
+
+        console.log(createAtDate)
+        console.log(dadosAtualizados.createAt)
+
         const formattedData = {
             ...dadosAtualizados,
-            createAt: new Date(dadosAtualizados.createAt).toString(),
-            start: new Date(dadosAtualizados.start).toString(),
-            end: new Date(dadosAtualizados.end).toString(),
+            createAt: dadosAtualizados.createAt,
+            start: new Date(createAtDate).setHours(
+                new Date(dadosAtualizados.start).getHours(),
+                new Date(dadosAtualizados.start).getMinutes(),
+                new Date(dadosAtualizados.start).getSeconds()
+            ),
+            end: new Date(createAtDate).setHours(
+                new Date(dadosAtualizados.end).getHours(),
+                new Date(dadosAtualizados.end).getMinutes(),
+                new Date(dadosAtualizados.end).getSeconds()
+            ),
+            intervalo: 1,
+            frequenciaIntervalo: 'Sessão Única'
         };
+        delete formattedData.createdAt;
+        formattedData.start = new Date(formattedData.start).toString();
+        formattedData.end = new Date(formattedData.end).toString();
 
         try {
             await api.patch(`/consulta/${dadosAtualizados._id}`, formattedData, {
@@ -112,10 +125,11 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
             });
 
             setSucessoEditar(true);
-            renderDadosAluno(dadosAtualizados);
+            renderDadosConsulta(formattedData);
         } catch (e) {
+            console.log(e)
             setState({ ...state, open: true });
-            setMessage(e.response.data);
+            setMessage('Erro ao atualizar consulta');
         }
     };
 
@@ -170,20 +184,12 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
         buscarAlunos();
     }, []);
 
-    const formatarCPF = (cpf) => {
-        if (cpf.length === 11) {
-
-            return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9)}`;
-        }
-        return cpf;
-    };
-
     return (
         <>
             {Editar && (
                 <div className="modal">
                     <div className="modal-content">
-                        <h2>Cadastro de consulta</h2>
+                        <h2>Edição de consulta</h2>
                         <hr />
                         <div className="formulario">
                             <label>Título da consulta*</label>
@@ -217,15 +223,12 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                                         style={{
                                             width: "160px"
                                         }}
-                                        value={new Date(dadosAtualizados.createdAt)} 
-                                        onChange={(e) => {
-                                            console.log('Data CreateAt:', e);
-                                            setDadosAtualizados({ ...dadosAtualizados, createdAt: e.toISOString() });
-                                        }}
+                                        value={new Date(dadosAtualizados.createAt)}
+                                        onChange={(e) => setDadosAtualizados({
+                                            ...dadosAtualizados,
+                                            createAt: new Date(e).toISOString()
+                                        })}
                                     />
-
-
-
                                 </div>
                                 <div className="div-flex">
                                     <label>Intervalo Temporal*</label>
@@ -237,10 +240,7 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                                             width: "150px"
                                         }}
                                         value={dadosAtualizados.start ? new Date(dadosAtualizados.start) : null}
-                                        onChange={(e) => {
-                                            console.log('Data Start:', e);
-                                            setDadosAtualizados({ ...dadosAtualizados, start: e.toString() });
-                                        }}
+                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, start: e.toString() })}
                                     />
                                 </div>
                                 <p>às</p>
@@ -294,43 +294,29 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                                 ))}
                             </select>
 
-                            <div className="flex-informacoes-pessoais div-flex-consulta">
-                                <div className="div-flex">
-                                    <label>Intervalo*</label>
-                                    <select className="sexo"
-                                        value={dadosAtualizados.intervalo}
-                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, intervalo: e.target.value })}
-                                    >
-                                        <option value="" disabled>Selecione uma opção</option>
-                                        <option value="Sessão Única">Sessão Única</option>
-                                        <option value="Semanal">Semanal</option>
-                                        <option value="Mensal">Mensal</option>
-                                    </select>
-                                </div>
-                                <div className="div-flex" style={{ marginLeft: "20px" }}>
-                                    <label>Frequência do intervalo*</label>
-                                    <select className="sexo"
-                                        value={dadosAtualizados.frequenciaIntervalo}
-                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, frequenciaIntervalo: e.target.value })}
-                                        disabled={dadosAtualizados.intervalo === 'Sessão Única'}
-                                    >
-                                        <option value="" disabled>Selecione uma opção</option>
-                                        {frequenciaOpcoes.map(opcao => (
-                                            <option key={opcao} value={opcao}>{opcao}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-
                             <label>Observações*</label>
                             <input type="text" value={dadosAtualizados.observacao} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, observacao: e.target.value })} />
+
+                            <label>Status da consulta*</label>
+                            <select
+                                className="professorNome"
+                                value={dadosAtualizados.statusDaConsulta}
+                                onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, statusDaConsulta: e.target.value })}
+                            >
+                                <option value="Pendente">Pendente</option>
+                                <option value="Concluída">Concluída</option>
+                                <option value="Em andamento">Em andamento</option>
+                                <option value="Cancelada">Cancelada</option>
+                                <option value="Paciente faltou">Paciente faltou</option>
+                                <option value="Aluno faltou">Aluno faltou</option>
+                            </select>
 
                             <span className="campo_obrigatorio">*Campo Obrigatório</span>
 
                             <div className="buttons-form buttons-form-aluno">
                                 <button className="button-voltar" id="voltar" onClick={handleEditarClose} >Cancelar</button>
-                                <button className="button-cadastrar" id="cadastrar" onClick={() => handleSucessoConfirmar({ vertical: 'bottom', horizontal: 'center' })}>
-                                    Cadastrar
+                                <button className="button-cadastrar" id="cadastrar" onClick={() => handleEditarConfirmar({ vertical: 'bottom', horizontal: 'center' })}>
+                                    Confirmar
                                 </button>
 
                                 <Snackbar
@@ -350,51 +336,51 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                     </div>
                 </div>
             )}
-
-
             {isEditarConfirmar && (
                 <div className="modal-confirmar">
-                    <div className="modal-content-confirmar modal-content-confirmar-aluno">
+                    <div className="modal-content-confirmar modal-content-confirmar-consulta">
                         <h2>Confirmar Edição de Consulta</h2>
                         <hr />
                         <div className="dados-inseridos">
                             <div className="coluna1">
-                                <div className="nome">
-                                    <p>Nome Completo</p>
+                                <div>
+                                    <p>Título da consulta</p>
                                     <h1>{dadosAtualizados.Nome}</h1>
                                 </div>
                             </div>
                             <div className="coluna2">
-                                <div className="cpf-aluno">
-                                    <p>CPF</p>
-                                    <h1>{formatarCPF(dadosAtualizados.cpf)}</h1>
+                                <div>
+                                    <p>Responsável</p>
+                                    <h1>{dadosAtualizados.nomeAluno}</h1>
                                 </div>
-                                <div className="telefone">
-                                    <p>Telefone</p>
-                                    <h1>{dadosAtualizados.telefone}</h1>
+                                <div>
+                                    <p>Paciente</p>
+                                    <h1>{dadosAtualizados.nomePaciente}</h1>
+                                </div>
+                                <div>
+
+                                    <p>Observação</p>
+                                    <h1>{dadosAtualizados.observacao}</h1>
                                 </div>
                             </div>
                             <div className="coluna3">
-                                <div className="email">
-                                    <p>Email</p>
-                                    <h1>{dadosAtualizados.email}</h1>
+                                <div>
+                                    <p>Local</p>
+                                    <h1>{dadosAtualizados.sala}</h1>
                                 </div>
-
+                                <div>
+                                    <p>Tipo da consulta</p>
+                                    <h1>{dadosAtualizados.TipoDeConsulta}</h1>
+                                </div>
                             </div>
                             <div className="coluna4">
-                                <div className="professorNome">
-                                    <p>Professor</p>
-                                    <h1>{dadosAtualizados.nomeProfessor}</h1>
+                                <div>
+                                    <p>Data da consulta</p>
+                                    <h1>{moment(dadosAtualizados.createAt).format('DD/MM/YYYY')}</h1>
                                 </div>
-                            </div>
-                            <div className="coluna5">
-                                <div className="matricula">
-                                    <p>Matrícula</p>
-                                    <h1>{dadosAtualizados.matricula}</h1>
-                                </div>
-                                <div className="periodo">
-                                    <p>Periodo</p>
-                                    <h1>{dadosAtualizados.periodo}</h1>
+                                <div>
+                                    <p>Intervalo de tempo</p>
+                                    <h1>{moment(dadosAtualizados.start).format('HH:mm')} - {moment(dadosAtualizados.end).format('HH:mm')}</h1>
                                 </div>
                             </div>
 

@@ -10,7 +10,7 @@ import { DatePicker } from 'rsuite';
 
 import "./style.css"
 
-export default function CadastrarConsulta({ handleCloseModal, renderForm }) {
+export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
     const [message, setMessage] = useState("");
     const [pacientesNome, setPacientesNome] = useState([]);
@@ -101,14 +101,24 @@ export default function CadastrarConsulta({ handleCloseModal, renderForm }) {
             return;
         }
 
+        const createAtDate = new Date(dadosForm.createAt);
+
         const formattedData = {
             ...dadosForm,
-            createAt: new Date(dadosForm.createAt).toString(),
-            start: new Date(dadosForm.start).toString(),
-            end: new Date(dadosForm.end).toString(),
+            createAt: createAtDate.toString(),
+            start: new Date(createAtDate).setHours(
+                new Date(dadosForm.start).getHours(),
+                new Date(dadosForm.start).getMinutes(),
+                new Date(dadosForm.start).getSeconds()
+            ),
+            end: new Date(createAtDate).setHours(
+                new Date(dadosForm.end).getHours(),
+                new Date(dadosForm.end).getMinutes(),
+                new Date(dadosForm.end).getSeconds()
+            )
         };
-        
-        
+        formattedData.start = new Date(formattedData.start).toString();
+        formattedData.end = new Date(formattedData.end).toString();
 
         try {
             const token = localStorage.getItem("user_token");
@@ -120,8 +130,9 @@ export default function CadastrarConsulta({ handleCloseModal, renderForm }) {
             });
             setMessage("Consulta criada com sucesso!");
             setIsSucessModalOpen(true);
-            renderForm(true);
+            renderTable(true);
         } catch (e) {
+            console.log(e)
             setMessage("Erro ao criar consulta");
             setState({ ...state, open: true });
         }

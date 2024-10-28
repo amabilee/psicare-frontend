@@ -435,7 +435,7 @@
     justify-content: center;
     align-items: center;    
     position: fixed;
-    z-index: 2;
+    z-index: 99;
     left: 0;
     top: 0;
     width: 100vw;
@@ -619,6 +619,32 @@
     justify-content: space-between;
     margin-right: 540px;
 }
+
+/* modal confirmar consulta */
+
+.modal-content-confirmar-consulta{
+    height: 600px;
+    width: 600px;
+}
+
+.modal-content-confirmar-consulta .dados-inseridos .coluna1,
+.modal-content-confirmar-consulta .dados-inseridos .coluna4,
+.modal-content-confirmar-consulta .dados-inseridos .coluna3{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-content-confirmar-consulta .dados-inseridos .coluna3{
+    width: 328px;
+}
+
+.modal-content-confirmar-consulta .dados-inseridos .coluna4{
+    width: 350px;
+}
+
+/* confirmar buttons */
 
 .modal-content-confirmar .buttons-confirmar{
     display: flex;

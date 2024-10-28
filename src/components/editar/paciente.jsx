@@ -364,7 +364,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         <select
                                         className="encaminhadorSelect"
                                         id="encaminhadorSelect"
-                                        value={dadosAtualizados.alunoId}
+                                        value={dadosAtualizados.alunoId._id}
                                         onChange={(e) => {
                                           const selectedOptionText = e.target.options[e.target.selectedIndex].text;
                                           setDadosAtualizados({ 
