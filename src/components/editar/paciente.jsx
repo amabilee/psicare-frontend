@@ -10,6 +10,7 @@ import { cpf } from 'cpf-cnpj-validator';
 import "./style.css";
 
 export default function EditarPaciente({ handleEditarClose, dadosPaciente, renderDadosPaciente }) {
+    const [cidades, setCidades] = useState([]);
     const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
     const [Editar, setEditar] = useState(true);
     const [alunosNome, setAlunosNome] = useState({ alunos: [] })
@@ -37,7 +38,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
 
         let idade = dataAtual.getFullYear() - dataAniversario.getFullYear();
         const mes = dataAtual.getMonth() + 1
-        
+
         if (mes < dataAniversario.getMonth() || (mes === dataAniversario.getMonth() && dataAtual.getDate() < dataAniversario.getDate())) {
             idade--;
         }
@@ -154,7 +155,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
 
     const buscarAlunos = async () => {
         const token = localStorage.getItem("user_token")
-        
+
         try {
             const selectAlunos = await api.get(`/aluno`, {
                 headers: {
@@ -177,14 +178,90 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
         return `${dia}/${mes}/${ano}`;
     };
 
-
     const formatarCPF = (cpf) => {
         if (cpf.length === 11) {
-    
-          return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9)}`;
+
+            return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9)}`;
         }
         return cpf;
-      };
+    };
+
+    const buscarEnderecoPorCep = async (cep) => {
+        try {
+            const cepFormatado = cep.replace(/-/g, '');
+            const response = await fetch(`https://viacep.com.br/ws/${cepFormatado}/json/`);
+            const data = await response.json();
+
+            if (data.erro) {
+                setDadosAtualizados((prevState) => ({
+                    ...prevState,
+                    enderecoLogradouro: "",
+                    enderecoBairro: "",
+                    enderecoComplemento: "",
+                    enderecoCidade: "",
+                    enderecoUF: "",
+                }));
+                setCidades([]);
+                setState({ vertical: 'bottom', horizontal: 'center', open: true });
+                setMessage("CEP inválido! Por favor, preencha os campos manualmente.");
+            } else {
+                setDadosAtualizados((prevState) => ({
+                    ...prevState,
+                    enderecoLogradouro: data.logradouro,
+                    enderecoBairro: data.bairro,
+                    enderecoComplemento: data.complemento,
+                    enderecoCidade: data.localidade,
+                    enderecoUF: data.uf,
+                }));
+                handleChangeUF(data.uf)
+            }
+        } catch (error) {
+            setState({ vertical: 'bottom', horizontal: 'center', open: true });
+            setMessage("Erro ao buscar endereço");
+        }
+    };
+
+    const buscarCidadesPorUF = async (uf) => {
+        try {
+            const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`);
+            if (!response.ok) {
+                setState({ vertical: 'bottom', horizontal: 'center', open: true });
+                setMessage("Erro ao buscar endereço");
+            } else {
+                const data = await response.json();
+                setCidades(data);
+            }
+        } catch (error) {
+            setState({ vertical: 'bottom', horizontal: 'center', open: true });
+            setMessage("Erro ao buscar cidades");
+        }
+    };
+
+    const handleChangeUF = (uf) => {
+        const ufSelecionado = uf
+        setDadosAtualizados((prevDados) => ({
+            ...prevDados,
+            enderecoUF: ufSelecionado,
+        }));
+
+        if (ufSelecionado) {
+            buscarCidadesPorUF(ufSelecionado);
+        } else {
+            setCidades([]);
+        }
+    };
+
+    const handleCepChange = (e) => {
+        const cepValue = e.target.value;
+        setDadosAtualizados((prevState) => ({
+            ...prevState,
+            enderecoCep: cepValue
+        }));
+        setCidades([]);
+        if (cepValue.length === 9) {
+            buscarEnderecoPorCep(cepValue);
+        }
+    };
 
     return (
         <>
@@ -298,30 +375,55 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                             <div className="flex-endereco">
                                 <div className="div-flex">
                                     <label htmlFor="cep">CEP*</label>
-                                    <IMaskInput type="text" className="cep" id="cep" mask="00000-000" value={dadosAtualizados.enderecoCep} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, enderecoCep: e.target.value })} />
-                                </div>
-                                <div className="div-flex">
-                                    <label htmlFor="logradouro">Logradouro*</label>
-                                    <input type="text" className="logradouro" id="logradouro" value={dadosAtualizados.enderecoLogradouro} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, enderecoLogradouro: e.target.value })} />
+                                    <IMaskInput
+                                        type="text"
+                                        className="cep"
+                                        id="cep"
+                                        mask="00000-000"
+                                        value={dadosAtualizados.enderecoCep}
+                                        onChange={handleCepChange} />
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="bairro">Bairro*</label>
-                                    <input type="text" className="bairro" id="bairro" value={dadosAtualizados.enderecoBairro} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, enderecoBairro: e.target.value })} />
+                                    <input
+                                        type="text"
+                                        className="bairro"
+                                        id="bairro"
+                                        disabled={String(dadosAtualizados.enderecoCep).length === 9 ? false : true}
+                                        value={String(dadosAtualizados.enderecoCep).length === 9 ? dadosAtualizados.enderecoBairro : ""}
+                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, enderecoBairro: e.target.value })} />
+                                </div>
+                                <div className="div-flex">
+                                    <label htmlFor="logradouro">Logradouro*</label>
+                                    <input
+                                        type="text"
+                                        className="logradouro"
+                                        id="logradouro"
+                                        disabled={String(dadosAtualizados.enderecoCep).length === 9 ? false : true}
+                                        value={String(dadosAtualizados.enderecoCep).length === 9 ? dadosAtualizados.enderecoLogradouro : ""}
+                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, enderecoLogradouro: e.target.value })} />
+                                </div>
+                                <div className="div-flex">
+                                    <label htmlFor="complemento">Complemento</label>
+                                    <input
+                                        type="text"
+                                        className="complemento"
+                                        id="complemento"
+                                        disabled={String(dadosAtualizados.enderecoCep).length === 9 ? false : true}
+                                        value={String(dadosAtualizados.enderecoCep).length === 9 ? dadosAtualizados.enderecoComplemento : ""}
+                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, enderecoComplemento: e.target.value })} />
                                 </div>
                             </div>
                             <div className="flex-endereco">
                                 <div className="div-flex">
-                                    <label htmlFor="cidade">Cidade*</label>
-                                    <input type="text" className="cidade" id="cidade" value={dadosAtualizados.enderecoCidade} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, enderecoCidade: e.target.value })} />
-                                </div>
-                                <div className="div-flex">
-                                    <label htmlFor="complemento">Complemento</label>
-                                    <input type="text" className="complemento" id="complemento" value={dadosAtualizados.enderecoComplemento} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, enderecoComplemento: e.target.value })} />
-                                </div>
-                                <div className="div-flex">
                                     <label htmlFor="uf">UF*</label>
-                                    <select className="uf" name="uf" id="uf"
-                                        value={dadosAtualizados.enderecoUF} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, enderecoUF: e.target.value })}
+                                    <select
+                                        className="uf"
+                                        name="uf"
+                                        id="uf"
+                                        disabled={String(dadosAtualizados.enderecoCep).length === 9 ? false : true}
+                                        value={String(dadosAtualizados.enderecoCep).length === 9 ? dadosAtualizados.enderecoUF : ""}
+                                        onChange={(e) => handleChangeUF(e.target.value)}
                                     >
                                         <option value="" disabled></option>
                                         <option value="AC">AC</option>
@@ -353,6 +455,22 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         <option value="TO">TO</option>
                                     </select>
                                 </div>
+                                <div className="div-flex">
+                                    <label htmlFor="cidade">Cidade*</label>
+                                    <select
+                                        type="text"
+                                        className="cidade"
+                                        id="cidade"
+                                        value={dadosAtualizados.enderecoCidade}
+                                        disabled={!dadosAtualizados.enderecoUF}
+                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, enderecoCidade: e.target.value })}
+                                    >
+                                        <option value="">Selecione a cidade</option>
+                                        {cidades.map((cidade) => (
+                                            <option key={cidade.id} value={cidade.nome}>{cidade.nome}</option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
 
                             <h2>Informações de tratamento</h2>
@@ -362,32 +480,32 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                     <label htmlFor="labelEncaminhador">Nome do Encaminhador*</label>
                                     {dadosAtualizados.alunoUnieva ? (
                                         <select
-                                        className="encaminhadorSelect"
-                                        id="encaminhadorSelect"
-                                        value={dadosAtualizados.alunoId._id}
-                                        onChange={(e) => {
-                                          const selectedOptionText = e.target.options[e.target.selectedIndex].text;
-                                          setDadosAtualizados({ 
-                                            ...dadosAtualizados, 
-                                            encaminhador: selectedOptionText,
-                                            alunoId: e.target.value 
-                                          });
-                                      
-                                          console.log(selectedOptionText, e.target.value);
-                                        }}
-                                        disabled={!dadosAtualizados.alunoUnieva}
-                                      >
-                                        <option value="" disabled>Selecione uma opção</option>
-                                        {alunosNome.alunos.map(aluno => (
-                                          <option
-                                            key={aluno.nome}
-                                            value={aluno._id}
-                                          >
-                                            {aluno.nome}
-                                          </option>
-                                        ))}
-                                      </select>
-                                      
+                                            className="encaminhadorSelect"
+                                            id="encaminhadorSelect"
+                                            value={dadosAtualizados.alunoId._id}
+                                            onChange={(e) => {
+                                                const selectedOptionText = e.target.options[e.target.selectedIndex].text;
+                                                setDadosAtualizados({
+                                                    ...dadosAtualizados,
+                                                    encaminhador: selectedOptionText,
+                                                    alunoId: e.target.value
+                                                });
+
+                                                console.log(selectedOptionText, e.target.value);
+                                            }}
+                                            disabled={!dadosAtualizados.alunoUnieva}
+                                        >
+                                            <option value="" disabled>Selecione uma opção</option>
+                                            {alunosNome.alunos.map(aluno => (
+                                                <option
+                                                    key={aluno.nome}
+                                                    value={aluno._id}
+                                                >
+                                                    {aluno.nome}
+                                                </option>
+                                            ))}
+                                        </select>
+
                                     ) : (
                                         <input type="text" className="encaminhadorInput" id="encaminhadorInput"
                                             value={dadosAtualizados.encaminhador}

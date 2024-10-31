@@ -93,9 +93,6 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
 
         const createAtDate = new Date(dadosAtualizados.createAt);
 
-        console.log(createAtDate)
-        console.log(dadosAtualizados.createAt)
-
         const formattedData = {
             ...dadosAtualizados,
             createAt: dadosAtualizados.createAt,
@@ -108,9 +105,7 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                 new Date(dadosAtualizados.end).getHours(),
                 new Date(dadosAtualizados.end).getMinutes(),
                 new Date(dadosAtualizados.end).getSeconds()
-            ),
-            intervalo: 1,
-            frequenciaIntervalo: 'Sessão Única'
+            )
         };
         delete formattedData.createdAt;
         formattedData.start = new Date(formattedData.start).toString();
@@ -129,7 +124,7 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
         } catch (e) {
             console.log(e)
             setState({ ...state, open: true });
-            setMessage('Erro ao atualizar consulta');
+            setMessage(e.response.data);
         }
     };
 

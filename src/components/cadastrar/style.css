@@ -179,7 +179,7 @@
 .modal-content select.uf{
     display: flex;
     width: 70px;
-    margin-right: 230px;
+    margin: 8px 40px 8px 0;
 }
 
 .modal-content select.status{
@@ -305,24 +305,33 @@
     
 }
 
-.flex-endereco .cep,
-.flex-endereco .bairro,
+.flex-endereco .cep{
+    width: 120px;
+}
+
+.flex-endereco .renda{
+    width: 230px;
+    min-width: 230px;
+    max-width: 230px;
+    padding: 10px;
+}
+
 .flex-endereco .cidade {
     display: flex;
     width: 278px;
 }
 
+.flex-endereco .bairro,
 .flex-endereco .logradouro,
 .flex-endereco .complemento {
     display: flex;
-    width: 378px;
+    width: 270px;
 }
 
-/* .flex-endereco .uf {
+.flex-endereco .div-flex {
     display: flex;
-    width: 70px;
-    margin-right: 208px;
-} */
+    flex-direction: column;
+}
 
 .flex-informacoes-tratamento .encaminhadorInput{
     display: flex;

@@ -15,8 +15,6 @@ export default function ExcluirRelatorio({handleExcluirClose, dadosRelatorio, at
                 ativoRelatorio: false
             }
 
-            console.log("mudar estado", mudarEstado)
-
             const deleteIds = async(id) => {
                 await api.patch(`/relatorio/arquivar/${id}`,mudarEstado ,{
                     headers: {

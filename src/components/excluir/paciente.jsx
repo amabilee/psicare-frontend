@@ -14,7 +14,6 @@ export default function ExcluirPaciente({handleExcluirClose, dadosPaciente, atua
                 ...dadosPaciente,
                 ativoPaciente: false
             }
-            console.log("mudar estado", mudarEstado)
 
             const deleteIds = async(id) => {
                 await api.patch(`/paciente/arquivar/${id}`,mudarEstado ,{

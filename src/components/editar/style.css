@@ -339,25 +339,6 @@
     
 }
 
-.flex-endereco .cep,
-.flex-endereco .bairro,
-.flex-endereco .cidade {
-    display: flex;
-    width: 278px;
-}
-
-.flex-endereco .logradouro,
-.flex-endereco .complemento {
-    display: flex;
-    width: 378px;
-}
-
-/* .flex-endereco .uf {
-    display: flex;
-    width: 70px;
-    margin-right: 208px;
-} */
-
 .flex-informacoes-tratamento .encaminhadorInput{
     display: flex;
     width: 308px;

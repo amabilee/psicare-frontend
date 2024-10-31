@@ -23,7 +23,7 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
         createAt: "",
         sala: "",
         TipoDeConsulta: "",
-        pacienteld: "#",
+        pacienteId: "#",
         alunoId: "#",
         statusDaConsulta: "Pendente",
         allDay: false,
@@ -55,7 +55,7 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
             setState({ ...newState, open: true });
             return;
         }
-        if (dadosForm.pacienteld === "#") {
+        if (dadosForm.pacienteId === "#") {
             setMessage("Selecione um paciente.");
             setState({ ...newState, open: true });
             return;
@@ -133,7 +133,7 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
             renderTable(true);
         } catch (e) {
             console.log(e)
-            setMessage("Erro ao criar consulta");
+            setMessage(e.response.data.error);
             setState({ ...state, open: true });
         }
     };
@@ -198,8 +198,8 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
                         <label>Paciente*</label>
                         <select
                             className="professorNome"
-                            value={dadosForm.pacienteld}
-                            onChange={(e) => setDadosForm({ ...dadosForm, pacienteld: e.target.value })}
+                            value={dadosForm.pacienteId}
+                            onChange={(e) => setDadosForm({ ...dadosForm, pacienteId: e.target.value })}
                         >
                             <option value="#" disabled>Selecione uma opção</option>
                             {pacientesNome.map((paciente) => (

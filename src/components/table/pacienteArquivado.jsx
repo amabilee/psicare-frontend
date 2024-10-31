@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { api } from "../../services/server";
 import VisualizarPaciente from "../visualizar/paciente";
 
-
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
@@ -20,8 +19,6 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
   const [totalPages, setTotalPages] = useState(1);
   const [totalPacientesTable, setTotalPacientesTable] = useState(0);
   const [acumularPacientesPage, setAcumularPacientesPage] = useState(0);
-  const [checkboxSelecionadas, setCheckboxSelecionadas] = useState({}); // Novo estado para contagem de checkboxes selecionadas
-  const [todasCheckboxSelecionadas, setTodasCheckboxSelecionadas] = useState({});
 
   const [message, setMessage] = useState("");
   const [state, setState] = React.useState({
@@ -132,7 +129,7 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
     setDadosPaciente((prevDados) => {
       return {
         ...prevDados,
-        pacientes: prevDados.pacientes.filter((paciente) => paciente._id !== idPaciente), // remove o paciente
+        pacientes: prevDados.pacientes.filter((paciente) => paciente._id !== idPaciente), 
       };
     });
   };

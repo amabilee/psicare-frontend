@@ -68,7 +68,7 @@ export default function SideBar() {
                                 <li className="item-menu-cadastro" onClick={toggleCadastro}>
                                     <button className="cadastro">
                                         <span className="icon"><RiContactsBookLine className="icon" /></span>
-                                        <span className="texto-button">Cadastro</span>
+                                        <span className="texto-button">Pessoas</span>
                                         <span className="icon-seta">
                                             {isCadastroOpen ? <FaChevronUp /> : <FaChevronDown />}
                                         </span>

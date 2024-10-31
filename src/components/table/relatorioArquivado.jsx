@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { api } from "../../services/server";
 import VisualizarRelatorio from "../visualizar/relatorio";
-import ExcluirPaciente from "../excluir/paciente";
-import EditarPaciente from "../editar/paciente";
 
 import AtivarIcon from "../../assets/ativar-icon.svg"
 
@@ -10,22 +8,32 @@ import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
 
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+
 import { UseAuth } from '../../hooks';
 
 export default function TableRelatorioArquivado({ renderFormTable, pesquisar, filtrarPesquisa, loadingStatus }) {
   const { signOut } = UseAuth();
   const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
-  const [isExcluirOpen, setIsExcluirOpen] = useState(false);
-  const [isEditarOpen, setIsEditarOpen] = useState(false);
   const [usuarioClick, setUsuarioClick] = useState({});
   const [dadosRelatorio, setDadosRelatorio] = useState({ relatorios: [] });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalRelatorioTable, setTotalRelatorioTable] = useState(0);
   const [acumularRelatorioPage, setAcumularRelatorioPage] = useState(0);
-  const [checkboxSelecionadas, setCheckboxSelecionadas] = useState({}); 
-  const [todasCheckboxSelecionadas, setTodasCheckboxSelecionadas] = useState({});
-  const [idsSelecionados, setIdsSelecionados] = useState([]);
+
+  const [message, setMessage] = useState("");
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: 'top',
+    horizontal: 'center',
+  });
+  const { vertical, horizontal, open } = state;
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
 
   useEffect(() => {
     receberDadosRelatorio();
@@ -76,17 +84,15 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
         }
       });
 
-      console.log(receberDados.data)
+      const { relatorios, totalPages, totalItems } = receberDados.data;
 
-      const { relatorios, totalPages, totalItems } = receberDados.data; 
 
-      
-      setDadosRelatorio({ relatorios }); 
-      setTotalPages(totalPages); 
+      setDadosRelatorio({ relatorios });
+      setTotalPages(totalPages);
       setTotalRelatorioTable(totalItems);
       loadingStatus(false)
 
-      const relatoriosAcumulados = ((currentPage - 1) * 15 + relatorios.length) 
+      const relatoriosAcumulados = ((currentPage - 1) * 15 + relatorios.length)
       setAcumularRelatorioPage(relatoriosAcumulados);
     } catch (e) {
       if (e.response.status == 401) {
@@ -97,7 +103,7 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
     }
   };
 
-  
+
   const handleVisualizarClick = (originalData) => {
     setUsuarioClick(originalData);
     setIsVisualizarOpen(true);
@@ -107,142 +113,32 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
     setIsVisualizarOpen(false);
   };
 
-  
-  const handleExcluirClick = (originalData) => {
-    setUsuarioClick(originalData);
-    setIsExcluirOpen(true);
-  };
-
-  const handleExcluirSelecionados = () => {
-    setUsuarioClick({ _ids: idsSelecionados });
-    setIsExcluirOpen(true);
-  }
-
-  const handleExcluirClose = () => {
-    setIsExcluirOpen(false);
-  };
-
-  const atualizarTableExcluir = () => {
-    receberDadosRelatorio();
-  }
-
-  const handleEditarClick = (originalData) => {
-    setUsuarioClick(originalData);
-    setIsEditarOpen(true);
-  };
-
-  const handleEditarClose = () => {
-    setIsEditarOpen(false);
-  };
-
   const renderDadosRelatorio = (dadosAtualizados) => {
     setDadosRelatorio((prevDados) => {
       return {
         ...prevDados,
-        relatorios: prevDados.relatorios.map((relatorio) =>
-          relatorio._id === dadosAtualizados._id ? dadosAtualizados : relatorio
-        ),
+        relatorios: prevDados.relatorios.filter((relatorio) => relatorio._id !== dadosAtualizados._id),
       };
     });
   };
 
-  const contarTotalCheckboxSelecionadas = () => {
-    let totalSelecionados = 0;
-    for (const pagina in checkboxSelecionadas) {
-      totalSelecionados += Object.keys(checkboxSelecionadas[pagina]).length;
-    }
-
-    return totalSelecionados
-  };
-
-  const algumaCheckboxSelecionada = () => {
-    return contarTotalCheckboxSelecionadas() > 0;
-  };
-
-  const handleCheckboxSelecionada = (index, id) => (e) => {
-    const isChecked = e.target.checked;
-
-    setCheckboxSelecionadas((prev) => {
-      const novaSelection = { ...prev };
-      const paginaAtual = `page-${currentPage}`
-
-      if (!novaSelection[paginaAtual]) {
-        novaSelection[paginaAtual] = {} 
-      }
-      if (isChecked) {
-        novaSelection[paginaAtual][index] = true;
-        
-        setIdsSelecionados((prev) => {
-          const novoSet = new Set(prev);
-          novoSet.add(id);
-          return Array.from(novoSet)
-        })
-      } else {
-        delete novaSelection[paginaAtual][index] 
-        
-        setIdsSelecionados((prev) => prev.filter((IdSelecionado) => IdSelecionado !== id))
-      }
-      return novaSelection;
-    });
-  };
-
-  const handleSelecionarTudo = (e) => {
-    const isChecked = e.target.checked; 
-    const paginaAtual = `page-${currentPage}`; 
-
-    
-    setTodasCheckboxSelecionadas((prev) => ({
-      ...prev,
-      [paginaAtual]: isChecked,
-    }));
-
-    
-    setCheckboxSelecionadas((prev) => {
-      const novaSelection = { ...prev };
-
-      if (isChecked) {
-        novaSelection[paginaAtual] = {}; 
-        const novosIds = []
-
-        
-        dadosRelatorio.relatorios.forEach((relatorio, index) => {
-          novaSelection[paginaAtual][index] = true; 
-          novosIds.push(relatorio._id);
-        });
-
-        setIdsSelecionados((prev) => {
-          const novoSet = new Set(prev);
-          
-          novosIds.forEach((id) => novoSet.add(id));
-          return Array.from(novoSet);
-        })
-      } else {
-        delete novaSelection[paginaAtual];
-        setIdsSelecionados((prev) => prev.filter((id) => !dadosRelatorio.relatorios.some((relatorio) => relatorio._id === id))); 
-      }
-
-      return novaSelection
-    });
-  };
-
-  
   const handlePaginaAnterior = () => {
-    if (currentPage > 1) { 
-      setCurrentPage(currentPage - 1); 
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
   };
 
   const handlePaginaSeguinte = () => {
-    if (currentPage < totalPages) { 
-      setCurrentPage(currentPage + 1); 
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
     }
   };
 
-  const renderLinhasVazias = (contadorLinhas) => { 
-    const linhasVazias = []; 
+  const renderLinhasVazias = (contadorLinhas) => {
+    const linhasVazias = [];
     for (let i = 0; i < contadorLinhas; i++) {
-      linhasVazias.push( 
-        
+      linhasVazias.push(
+
         <tr key={`empty-${i}`} className="tr-vazia">
           <td colSpan="1">&nbsp;</td>
         </tr>
@@ -250,7 +146,7 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
     }
     return linhasVazias;
   };
-  
+
   const calculoLinhasVazias = 15 - dadosRelatorio.relatorios.length;
   const dadosVazios = dadosRelatorio.relatorios.length === 0;
 
@@ -258,7 +154,7 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
   const formatarData = (data) => {
     const dataObj = new Date(data);
     const dia = String(dataObj.getDate()).padStart(2, '0');
-    const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); 
+    const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
     const ano = dataObj.getFullYear();
     return `${dia}/${mes}/${ano}`;
   };
@@ -267,7 +163,6 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
     let newRelatorio = ({ ...originalData, ativoRelatorio: true });
     const token = localStorage.getItem("user_token");
 
-    console.log(newRelatorio);
     try {
       await api.patch(`/relatorio/${newRelatorio._id}`, newRelatorio, {
         headers: {
@@ -275,9 +170,9 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
           "authorization": `Bearer ${token}`
         }
       });
-      renderDadosPaciente(newRelatorio);
-    //   setState({ ...{ vertical: 'bottom', horizontal: 'center' }, open: true });
-    //   setMessage("Relatorio ativado com sucesso.");
+      renderDadosRelatorio(newRelatorio);
+      setState({ ...{ vertical: 'bottom', horizontal: 'center' }, open: true });
+      setMessage("Relatório ativado com sucesso.");
     } catch (e) {
       console.log("Erro ao atualizar dados:", e)
     }
@@ -287,28 +182,14 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
     <div className="table-container">
       <table className="table">
         <thead>
-          {algumaCheckboxSelecionada() ? ( 
-            <tr className="tr-body">
-              <th>
-                <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo} />
-              </th>
-              <th>{contarTotalCheckboxSelecionadas()} selecionados</th>
-              <th colSpan={5} className="deletar-selecionados">
-                <span onClick={handleExcluirSelecionados}>Deletar Selecionados</span>
-              </th>
-            </tr>
-          ) : (
-            <tr className="tr-body">
-              <th>
-                <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo} />
-              </th>
-              <th>Data de Criação</th>
-              <th>Paciente</th>
-              <th>Tipo de Tratamento</th>
-              <th>Aluno responsável</th>
-              <th></th>
-            </tr>
-          )}
+          <tr className="tr-body">
+            <th>Data de Criação</th>
+            <th>Paciente</th>
+            <th>Tipo de Tratamento</th>
+            <th>Aluno responsável</th>
+            <th></th>
+          </tr>
+
         </thead>
         <tbody className="table-body">
           {dadosVazios ? (
@@ -320,15 +201,6 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
           ) : (Array.isArray(dadosRelatorio.relatorios) &&
             dadosRelatorio.relatorios.map((relatorio, index) => (
               <tr key={relatorio._id} >
-                <td>
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    onChange={handleCheckboxSelecionada(index, relatorio._id)} 
-                    checked={checkboxSelecionadas[`page-${currentPage}`]?.hasOwnProperty(index) || false}
-                  
-                  />
-                </td>
                 <td className="table-content" id="td-nome" onClick={() => handleVisualizarClick(relatorio)}>
                   {formatarData(relatorio.dataCriacao)}
                 </td>
@@ -400,6 +272,18 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
           dadosRelatorio={usuarioClick}
         />
       )}
+      <Snackbar
+        ContentProps={{ sx: { borderRadius: '8px' } }}
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        key={vertical + horizontal}
+      >
+        <Alert variant="filled" severity="success" onClose={handleClose} action="">
+          {message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

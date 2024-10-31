@@ -62,8 +62,6 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
         dadosPaginados += `&${filtrar}`
       }
 
-      console.log(filtrar)
-
       const receberDados = await api.get(dadosPaginados, {
         headers: {
           "Content-Type": "application/json",
