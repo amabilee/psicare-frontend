@@ -278,7 +278,7 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
               <th>Data de Criação</th>
               <th>Paciente</th>
               <th>Tipo de Tratamento</th>
-              <th>Aluno responsável</th>
+              <th>Aluno / Funcionário responsável</th>
               <th></th>
             </tr>
           )}
@@ -312,7 +312,7 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
                   {relatorio.tipoTratamento}
                 </td>
                 <td className="table-content" id="td-tratamento" onClick={() => handleVisualizarClick(relatorio)}>
-                  {relatorio.nomeAluno}
+                  {relatorio.alunoUnieva? relatorio.nomeAluno : relatorio.nome_funcionario}
                 </td>
                 <td>
                   <img

@@ -77,7 +77,7 @@ export default function VisualizarRelatorio({ handleCloseVisualizar, dadosRelato
                         <div className="coluna3">
                             <div className="religiao">
                                 <p>Nome encaminhador</p>
-                                <h1>{dadosRelatorio.nomeAluno}</h1>
+                                <h1>{dadosRelatorio.alunoUnieva ? dadosRelatorio.nomeAluno : dadosRelatorio.nome_funcionario}</h1>
                             </div>
                             <div className="status-encaminhador">
                                 <p>Status do encaminhador</p>
@@ -95,7 +95,7 @@ export default function VisualizarRelatorio({ handleCloseVisualizar, dadosRelato
                                 <h1>{formatarData(dadosRelatorio.ultimaAtualizacao)}</h1>
                             </div>
                             <div className="data-nascimento">
-                                <h2>Arquivos do Aluno</h2>
+                                <h2>Arquivos Submetidos</h2>
                                 <p>Data de criação do relatório</p>
                                 <h1>{formatarData(dadosRelatorio.dataCriacao)}</h1>
                             </div>

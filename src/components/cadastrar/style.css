@@ -1,7 +1,7 @@
-.modal{
+.modal {
     display: flex;
     justify-content: center;
-    align-items: center;    
+    align-items: center;
     position: fixed;
     z-index: 99;
     left: 0;
@@ -12,7 +12,7 @@
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-.modal-content{
+.modal-content {
     background-color: #fefefe;
     padding: 30px 20px;
     border: 1px solid #888;
@@ -32,7 +32,7 @@
     z-index: 3000;
 }
 
-.modal-content h2{
+.modal-content h2 {
     color: #767474;
     font-size: 20px;
     font-weight: 500;
@@ -40,7 +40,7 @@
     line-height: normal;
 }
 
-.modal-content hr{
+.modal-content hr {
     height: 2px;
     background-color: #D9D9D9;
     border: none;
@@ -54,14 +54,14 @@
     margin: 0 0 0 15px;
 }
 
-.modal-content .formulario{
+.modal-content .formulario {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
     margin-left: 20px;
 }
 
-.modal-content-paciente .formulario{
+.modal-content-paciente .formulario {
     margin-top: 0px;
 }
 
@@ -70,7 +70,7 @@
     font-size: 15px;
 }
 
-.modal-content input{
+.modal-content input {
     padding: 10px;
     border: 2px solid #C760EBFA;
     border-radius: 12px;
@@ -93,29 +93,29 @@
     text-transform: capitalize;
 }
 
-.modal-content .flex-input{
+.modal-content .flex-input {
     display: flex;
 }
 
-.modal-content .div-matricula .matricula{
+.modal-content .div-matricula .matricula {
     display: flex;
     width: 240px;
     margin-right: 20px;
 }
 
 .modal-content .div-telefone .telefone,
-.modal-content .div-periodo .periodo{
+.modal-content .div-periodo .periodo {
     display: flex;
 }
 
-.modal-content .div-CPF .CPF{
+.modal-content .div-CPF .CPF {
     display: flex;
     width: 225px;
     margin-right: 25px;
 }
 
 
-.modal-content .div-telefone .telefone{
+.modal-content .div-telefone .telefone {
     width: 225px;
 }
 
@@ -128,13 +128,15 @@
 .modal-content select.tratamento,
 .modal-content select.renda,
 .modal-content select.encaminhadorSelect,
-.modal-content select.uf
-{
+.modal-content select.uf,
+.modal-content-relatorio .formulario .div-flex:nth-of-type(1) select {
     padding: 10px;
     border: 2px solid #C760EBFA;
     border-radius: 12px;
-    -webkit-appearance: none; /* Remove o estilo padrão da seta no Safari */
-    -moz-appearance: none; /* Remove o estilo padrão da seta no Firefox */
+    -webkit-appearance: none;
+    /* Remove o estilo padrão da seta no Safari */
+    -moz-appearance: none;
+    /* Remove o estilo padrão da seta no Firefox */
     appearance: none;
     background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 10L12 16L18 10" stroke="%23710198" stroke-linecap="round"/></svg>');
     background-repeat: no-repeat;
@@ -143,7 +145,7 @@
     margin: 8px 0;
 }
 
-.modal-content select.turno:focus, 
+.modal-content select.turno:focus,
 .modal-content select.sexo:focus,
 .modal-content select.estado-civil:focus,
 .modal-content select.professorNome:focus,
@@ -152,47 +154,46 @@
 .modal-content select.tratamento:focus,
 .modal-content select.renda:focus,
 .modal-content select.encaminhadorSelect:focus,
-.modal-content select.uf:focus
-{
+.modal-content select.uf:focus {
     border: 2px solid #C760EBFA;
     outline: none;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
 }
 
-.modal-content select.turno{
+.modal-content select.turno {
     width: 245px;
 }
 
-.modal-content select.estado-civil{
+.modal-content select.estado-civil {
     width: 210px;
 }
 
-.modal-content select.sexo{
+.modal-content select.sexo {
     width: 190px;
 }
 
-.modal-content select.encaminhadorSelect{
+.modal-content select.encaminhadorSelect {
     width: 330px;
 }
 
-.modal-content select.uf{
+.modal-content select.uf {
     display: flex;
     width: 70px;
     margin: 8px 40px 8px 0;
 }
 
-.modal-content select.status{
+.modal-content select.status {
     display: flex;
     width: 438px;
     margin-right: 300px;
 }
 
-.modal-content .professorNome{
+.modal-content .professorNome {
     width: 520px;
 }
 
-.modal-content .disciplina{
+.modal-content .disciplina {
     width: 225px;
 }
 
@@ -264,7 +265,7 @@
 .flex-informacoes-pessoais .data-nascimento input,
 .flex-informacoes-tratamento .inicio-tratamento input,
 .flex-informacoes-tratamento .termino-tratamento input {
-    margin: 0; 
+    margin: 0;
     border: none;
     outline: none;
     box-shadow: none;
@@ -302,14 +303,14 @@
 .flex-informacoes-pessoais .nome-contato {
     width: 368px;
     display: flex;
-    
+
 }
 
-.flex-endereco .cep{
+.flex-endereco .cep {
     width: 120px;
 }
 
-.flex-endereco .renda{
+.flex-endereco .renda {
     width: 230px;
     min-width: 230px;
     max-width: 230px;
@@ -333,18 +334,18 @@
     flex-direction: column;
 }
 
-.flex-informacoes-tratamento .encaminhadorInput{
+.flex-informacoes-tratamento .encaminhadorInput {
     display: flex;
     width: 308px;
 }
 
 .flex-informacoes-tratamento .inicio-tratamento,
-.flex-informacoes-tratamento .termino-tratamento{
+.flex-informacoes-tratamento .termino-tratamento {
     display: flex;
     width: 260px;
 }
 
-.flex-informacoes-tratamento #tratamento{
+.flex-informacoes-tratamento #tratamento {
     display: flex;
     width: 230px;
     margin-right: 300px;
@@ -355,11 +356,13 @@
     line-height: normal;
     margin: 20px 0;
     color: black;
+    font-weight: 400;
+    font-size: 18px;
 }
 
 /* buttons de cadastro */
 
-.modal-content .buttons-form{
+.modal-content .buttons-form {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
@@ -384,10 +387,10 @@
     margin-right: 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;
-    
+
 }
 
-.modal-content .buttons-form .button-voltar:hover{
+.modal-content .buttons-form .button-voltar:hover {
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
@@ -403,10 +406,10 @@
     margin-right: 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;
-    
+
 }
 
-.modal-content .buttons-form .button-cadastrar:hover{
+.modal-content .buttons-form .button-cadastrar:hover {
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
@@ -439,7 +442,7 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.modal-sucesso-content h1{
+.modal-sucesso-content h1 {
     color: #767474;
     font-size: 40px;
     font-weight: 600;
@@ -448,7 +451,7 @@
     line-height: normal;
 }
 
-.modal-sucesso-content h2{
+.modal-sucesso-content h2 {
     color: #767474;
     font-size: 20px;
     font-weight: 500;
@@ -456,7 +459,7 @@
     line-height: normal;
 }
 
-.modal-sucesso-content #fechar{
+.modal-sucesso-content #fechar {
     color: #C760EB;
     font-weight: 500;
     font-size: 15px;
@@ -467,8 +470,98 @@
     margin-top: 10px;
 }
 
-.modal-sucesso-content #fechar:hover{
+.modal-sucesso-content #fechar:hover {
     background: #C760EB;
     color: #fff;
     cursor: pointer;
+}
+
+/* relatorio */
+
+.modal-content-relatorio {
+    width: 1000px;
+    height: 800px;
+    overflow: hidden;
+    z-index: 3000;
+}
+
+.modal-content-relatorio h2 {
+    width: calc(100% - 30px);
+    padding: 0 0 10px 0;
+    margin-left: 15px;
+}
+
+.modal-content-relatorio hr {
+    width: calc(100% - 30px);
+}
+
+.modal-content-relatorio .formulario .div-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.modal-content-relatorio .formulario .flex-informacoes-tratamento {
+    width: calc(100% - 20px);
+}
+
+.modal-content-relatorio .formulario .flex-informacoes-tratamento .div-flex:nth-of-type(1) select,
+.modal-content-relatorio .formulario .flex-informacoes-tratamento .div-flex:nth-of-type(3) select {
+    width: 370px;
+    margin: 8px 0 0 0;
+}
+
+.modal-content-relatorio .formulario .flex-informacoes-tratamento .div-flex:nth-of-type(2) select {
+    width: 200px;
+    margin: 8px 0 0 0
+}
+
+.modal-content-relatorio .formulario h2{
+    padding: 0;
+    margin: 0;
+    color: black;
+    font-size: 18px;
+    font-weight: 400;
+    margin: 10px 0 10px 0;
+}
+
+.modal-content-relatorio .formulario .flex-informacoes-relatorio .div-flex:nth-of-type(1){
+    width: calc(100% - 20px);
+    height: 400px;
+}
+
+.modal-content-relatorio .formulario .flex-informacoes-relatorio .div-flex:nth-of-type(1) textarea{
+    margin: 10px 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border: 2px solid #C760EB;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 15px;
+}
+
+.input-data .rs-picker-popup.rs-picker-popup-date {
+    z-index: 2000;
+    margin-top: -200px;
+    margin-left: 260px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.input-data{
+    display: flex;
+    width: 260px;
+    height: 40px;
+}
+
+.input-data div{
+    /* border-radius: 10px;
+    border: 2px solid #C760EBFA; */
+    height: 40px;
+}
+
+.input-data div input{
+    padding-right: 0;
 }

@@ -186,7 +186,7 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
             <th>Data de Criação</th>
             <th>Paciente</th>
             <th>Tipo de Tratamento</th>
-            <th>Aluno responsável</th>
+            <th>Aluno / Funcionário responsável</th>
             <th></th>
           </tr>
 
@@ -211,7 +211,7 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
                   {relatorio.tipoTratamento}
                 </td>
                 <td className="table-content" id="td-tratamento" onClick={() => handleVisualizarClick(relatorio)}>
-                  {relatorio.nomeAluno}
+                  {relatorio.alunoUnieva ? relatorio.nomeAluno : relatorio.nome_funcionario}
                 </td>
                 <td>
                   <img

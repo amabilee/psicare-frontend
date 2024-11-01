@@ -251,9 +251,14 @@
 
 .visualizar-info-relatorio .coluna1 div,
 .visualizar-info-relatorio .coluna2 div,
-.visualizar-info-relatorio .coluna3 div {
+.visualizar-info-relatorio .coluna3 div:nth-child(1){
     width: 400px;
 }
+
+.visualizar-info-relatorio .coluna3 div:nth-child(2){
+    width: 600px;
+}
+
 
 .visualizar-info-relatorio .coluna4 div:nth-of-type(1){
     width: 340px;

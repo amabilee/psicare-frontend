@@ -4,12 +4,12 @@ import icon_pesquisa from "../../assets/pesquisa.svg";
 import filtragem from "../../assets/filtragem.svg";
 import SideBar from "../../components/SideBar/sidebar";
 
-import { IMaskInput } from "react-imask";
 import { DatePicker } from 'rsuite';
 import Loader from '../../components/loader/index';
 
 import TableRelatorio from "../../components/table/relatorio";
-import RelatorioArquivado from "./relatorioArquivado"
+import RelatorioArquivado from "./relatorioArquivado";
+import CadastrarRelatorio from '../../components/cadastrar/relatorio'
 
 
 export default function Relatorio() {
@@ -43,6 +43,10 @@ export default function Relatorio() {
 
     const handlePesquisar = (e) => {
         setPesquisaUsuario(e.target.value);
+    }
+
+    const renderProps = (codigo) => {
+        setRenderFormTable(codigo);
     }
 
     const handleFiltrarPesquisa = () => {
@@ -168,9 +172,9 @@ export default function Relatorio() {
                         <TableRelatorio renderFormTable={renderFormTable} pesquisar={pesquisaUsuario} filtrarPesquisa={enviarFiltragem} loadingStatus={detectarLoading} />
                     )
                     }
-                
-                    
-                {/* {isCadastroOpen && (<CadastrarSecretario handleCloseModal={handleCloseModal} renderForm={renderProps}/>)} */}
+
+
+                    {isCadastroOpen && (<CadastrarRelatorio handleCloseModal={handleCloseModal} renderForm={renderProps} />)}
                 </div>
             )}
             {isArquivadosOpen && (<RelatorioArquivado handleCloseModal={handleCloseModal} />)}

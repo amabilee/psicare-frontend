@@ -63,7 +63,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
 
     const calcularIdade = (dataNascimento) => {
         const dataAtual = new Date();
-        const dataAniversario = new Date(dataNascimento); //converte o argumento fornecido para um objeto date
+        const dataAniversario = new Date(dataNascimento);
 
         let idade = dataAtual.getFullYear() - dataAniversario.getFullYear();
         const mes = dataAtual.getMonth() + 1
