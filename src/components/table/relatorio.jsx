@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { api } from "../../services/server";
 import VisualizarRelatorio from "../visualizar/relatorio";
 import ExcluirRelatorio from "../excluir/relatorio";
-import EditarPaciente from "../editar/paciente";
+import EditarRelatorio from "../editar/relatorio";
 import IconEditar from "../../assets/editar-icon.svg";
 import IconExcluir from "../../assets/excluir-icon.svg";
 import paginacaoWhite from "../../assets/paginacao-white.svg";
@@ -392,7 +392,7 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
 
       )}
       {isEditarOpen && (
-        <EditarPaciente
+        <EditarRelatorio
           handleEditarClose={handleEditarClose}
           dadosRelatorio={usuarioClick}
           renderDadosRelatorio={renderDadosRelatorio}

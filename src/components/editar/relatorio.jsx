@@ -9,22 +9,16 @@ import TrashIcon from '../../assets/excluir-icon.svg'
 import 'rsuite/dist/rsuite.css';
 import { DatePicker } from 'rsuite';
 
-export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
-    const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
+export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, renderDadosRelatorio }) {
+    const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
+    const [Editar, setEditar] = useState(true);
+    const [SucessoEditar, setSucessoEditar] = useState(false);
     const [message, setMessage] = useState("");
-    const [userLevel, setUserLevel] = useState(null);
+    const [dadosAtualizados, setDadosAtualizados] = useState(dadosAluno);
     const [pacientesNome, setPacientesNome] = useState({ pacientes: [] });
     const [alunosNome, setAlunosNome] = useState({ alunos: [] });
-    const [dadosForm, setDadosForm] = useState({
-        pacienteId: "#",
-        alunoId: "",
-        alunoUnieva: false,
-        funcionarioUnieva: false,
-        nome_funcionario: "",
-        conteudo: "",
-        dataCriacao: "",
-        prontuario: []
-    });
+
+    const [userLevel, setUserLevel] = useState(null);
 
     useEffect(() => {
         buscarPacientes();
@@ -45,49 +39,60 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
         setState({ ...state, open: false });
     };
 
-    const handleFormSubmit = () => async () => {
-        console.log(dadosForm)
-        const token = localStorage.getItem("user_token");
-        if (!dadosForm.pacienteId) {
+    const handleEditarConfirmar = () => () => {
+        if (!dadosAtualizados.pacienteId) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione um paciente.");
         }
-        if (userLevel === '0' && !dadosForm.alunoUnieva && !dadosForm.funcionarioUnieva) {
+        if (userLevel === '0' && !dadosAtualizados.alunoUnieva && !dadosAtualizados.funcionarioUnieva) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione o status do encaminhador.");
         }
-        if (userLevel === '0' && dadosForm.alunoUnieva && !dadosForm.alunoId) {
+        if (userLevel === '0' && dadosAtualizados.alunoUnieva && !dadosAtualizados.alunoId) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione um aluno.");
         }
-        if (userLevel === '0' && dadosForm.funcionarioUnieva && !dadosForm.nome_funcionario) {
+        if (userLevel === '0' && dadosAtualizados.funcionarioUnieva && !dadosAtualizados.nome_funcionario) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Preencha o nome do funcionário.");
         }
-        if (!dadosForm.conteudo) {
+        if (!dadosAtualizados.conteudo) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Preencha o conteúdo do relatório.");
         }
-        if (!dadosForm.dataCriacao) {
+        if (!dadosAtualizados.dataCriacao) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
-            setMessage("Escreva a data de criação."); 
+            setMessage("Escreva a data de criação.");
+        } else {
+            setIsEditarConfirmar(true);
+            setEditar(false);
         }
+    }
+
+    const handleVoltarConfirmar = () => {
+        setIsEditarConfirmar(false);
+        setEditar(true);
+      }
+
+    const handleSucessoConfirmar = () => async () => {
+        console.log(dadosAtualizados)
+        const token = localStorage.getItem("user_token");
         try {
             const formData = new FormData();
-            formData.append("pacienteId", dadosForm.pacienteId);
+            formData.append("pacienteId", dadosAtualizados.pacienteId);
             if (userLevel == '0') {
-                formData.append("alunoId", dadosForm.alunoId);
-                formData.append("alunoUnieva", dadosForm.alunoUnieva);
-                formData.append("funcionarioUnieva", dadosForm.funcionarioUnieva);
-                formData.append("nome_funcionario", dadosForm.nome_funcionario);
+                formData.append("alunoId", dadosAtualizados.alunoId);
+                formData.append("alunoUnieva", dadosAtualizados.alunoUnieva);
+                formData.append("funcionarioUnieva", dadosAtualizados.funcionarioUnieva);
+                formData.append("nome_funcionario", dadosAtualizados.nome_funcionario);
             }
-            formData.append("conteudo", dadosForm.conteudo);
-            formData.append("dataCriacao", dadosForm.dataCriacao);
-            dadosForm.prontuario.forEach((file) => {
+            formData.append("conteudo", dadosAtualizados.conteudo);
+            formData.append("dataCriacao", dadosAtualizados.dataCriacao);
+            dadosAtualizados.prontuario.forEach((file) => {
                 formData.append('prontuario', file);
             });
 
-            const dadosEnviados = await api.post("/relatorio", formData, {
+            const dadosEnviados = await api.patch(`/relatorio/${dadosAtualizados._id}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     "authorization": `Bearer ${token}`

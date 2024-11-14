@@ -1,6 +1,8 @@
 import React from "react";
 import voltar from "../../assets/voltar.svg";
 import "./style.css";
+import Download from "../../assets/download.svg"
+import { api } from "../../services/server";
 
 export default function VisualizarRelatorio({ handleCloseVisualizar, dadosRelatorio }) {
 
@@ -23,8 +25,6 @@ export default function VisualizarRelatorio({ handleCloseVisualizar, dadosRelato
         return age;
     }
 
-    const teste = `Introdução\nMaria Silva iniciou a terapia cognitivo-comportamental em 01/05/2022, com queixa de ansiedade, sentimentos de desesperança, e dificuldade em lidar com situações estressantes no trabalho e na vida pessoal. Durante as primeiras sessões, a paciente relatou dificuldade em controlar os pensamentos negativos, especialmente em relação a sua capacidade de enfrentar desafios.\nHistória clínica\nA paciente já havia tentado tratar sua ansiedade com outros profissionais de saúde mental, mas nunca havia experimentado a terapia cognitivo-comportamental. Ela relatou um histórico de eventos estressantes em sua vida, incluindo um relacionamento abusivo no passado e dificuldades financeiras recentes. Além disso, a paciente informou que possui familiares com histórico de transtornos de ansiedade.\nTratamento\nO tratamento consistiu em sessões semanais de 1 hora, nas quais foram utilizadas técnicas de terapia cognitivo-comportamental para ajudar a paciente a identificar e questionar seus pensamentos negativos. A paciente também recebeu orientações sobre técnicas de relaxamento e habilidades de resolução de problemas para lidar com situações estressantes.\nResultados\nAo longo das sessões, a paciente relatou uma melhora significativa em sua ansiedade e uma maior capacidade de lidar com situações estressantes. Ela também relatou uma melhora na autoestima e na capacidade de se afirmar em situações difíceis no trabalho. Na última sessão, a paciente demonstrou satisfação com os resultados obtidos e relatou sentir-se mais confiante em relação ao futuro.\nConclusão\nA terapia cognitivo-comportamental se mostrou eficaz no tratamento da ansiedade e sintomas relacionados em Maria Silva. A paciente demonstrou uma melhora significativa em seus sintomas, que pode ser atribuída às técnicas e habilidades ensinadas ao longo das sessões. A paciente também mostrou-se satisfeita com o tratamento e com a sua capacidade de lidar com situações estressantes de maneira mais saudável e assertiva.`;
-
     const formatarTexto = (texto) => {
         return texto.split('\n').map((linha, index) => (
             <React.Fragment key={index}>
@@ -33,6 +33,15 @@ export default function VisualizarRelatorio({ handleCloseVisualizar, dadosRelato
             </React.Fragment>
         ));
     };
+
+    const downloadFile = (arquivo) => {
+        const relativePath = arquivo.target.alt;
+        const fullURL = `${api.defaults.baseURL}${relativePath}`;
+
+        window.open(fullURL, '_blank');
+        console.log(`Abrindo URL: ${fullURL}`);
+    };
+
 
 
     return (
@@ -96,19 +105,31 @@ export default function VisualizarRelatorio({ handleCloseVisualizar, dadosRelato
                             </div>
                             <div className="data-nascimento">
                                 <h2>Arquivos Submetidos</h2>
-                                <p>Data de criação do relatório</p>
-                                <h1>{formatarData(dadosRelatorio.dataCriacao)}</h1>
+                                <div className="files-box">
+                                    {dadosRelatorio.prontuario.map((arquivo, index) => (
+                                        <div className="file-container" key={index}>
+                                            <p>{arquivo.nome}</p>
+                                            <button onClick={(e) => downloadFile(e)}><img src={Download} alt={arquivo.id} /></button>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                             <div className="data-nascimento">
                                 <h2>Assinatura do Professor</h2>
-                                <p>Data de criação do relatório</p>
-                                <h1>{formatarData(dadosRelatorio.dataCriacao)}</h1>
+                                <div className="files-box">
+                                    {dadosRelatorio.assinatura.map((arquivo, index) => (
+                                        <div className="file-container" key={index}>
+                                            <p>{arquivo.nome}</p>
+                                            <button onClick={(e) => downloadFile(e)}><img src={Download} alt={arquivo.id} /></button>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                         <h2>Conteúdo</h2>
                         <div className="coluna5">
                             <div>
-                                <h1>{formatarTexto(teste)}</h1>
+                                <h1>{formatarTexto(dadosRelatorio.conteudo)}</h1>
                             </div>
                         </div>
                     </div>

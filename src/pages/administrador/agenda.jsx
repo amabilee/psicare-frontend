@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { api } from "../../services/server";
 import SideBar from "../../components/SideBar/sidebar";
 import voltar from "../../assets/voltar.svg";
 import { IoMdPersonAdd } from "react-icons/io";
 import { Calendar as BigCalendar, dateFnsLocalizer } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay, parseISO } from "date-fns";
+import { UseAuth } from '../../hooks';
 import moment from "moment";
 import ptBR from "date-fns/locale/pt-BR";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -59,6 +60,7 @@ let formats = {
 };
 
 export default function Agenda() {
+    const { signOut } = UseAuth();
     const [seePopup, setSeePopup] = useState('');
     const [isCadastroOpen, setIsCadastroOpen] = useState(false);
     const [isEditarOpen, setIsEditarOpen] = useState(false);
@@ -79,7 +81,6 @@ export default function Agenda() {
 
     const handleOpenEvent = (event) => {
         setSeePopup(event);
-        console.log("Evento selecionado:", event);
     };
 
     const handleViewChange = (view) => {
@@ -87,7 +88,6 @@ export default function Agenda() {
     };
 
     const handleEditarConsulta = () => {
-        console.log(seePopup);
         setIsEditarOpen(true);
     }
 
@@ -96,50 +96,12 @@ export default function Agenda() {
     };
 
     const handleCloseModal = () => {
-        console.log(1)
         setIsCadastroOpen(false);
     };
 
     const renderProps = () => {
-        const currentDate = parseISO(new Date().toISOString().split('T')[0]);
-        handleNavigate(currentDate, 'month');
+        handleNavigate(startDate, 'month', 'render');
     }
-
-    const buscarConsultas = async (start, end) => {
-        const token = localStorage.getItem("user_token");
-
-        try {
-            let startFormatted
-            let endFormatted
-
-            if (start && end) {
-                startFormatted = start.toISOString().split('T')[0];
-                endFormatted = end.toISOString().split('T')[0];
-            } else {
-                startFormatted = startDate.toISOString().split('T')[0];
-                endFormatted = endDate.toISOString().split('T')[0];
-            }
-
-            const consultas = await api.get(`/consulta?start=${startFormatted}&end=${endFormatted}`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": `Bearer ${token}`,
-                }
-            });
-
-            console.log(consultas)
-
-            const formattedConsultas = consultas.data.consultas.map((consulta) => ({
-                ...consulta,
-                start: new Date(consulta.start),
-                end: new Date(consulta.end),
-            }));
-
-            setEvents(formattedConsultas);
-        } catch (e) {
-            console.log("Erro ao buscar consultas: ", e);
-        }
-    };
 
     useEffect(() => {
         const level = localStorage.getItem('user_level');
@@ -150,9 +112,8 @@ export default function Agenda() {
 
 
     const renderDadosConsulta = (dadosAtualizados) => {
-        console.log(dadosAtualizados)
-        setEvents((prevDados) => 
-            prevDados.map((consulta) => 
+        setEvents((prevDados) =>
+            prevDados.map((consulta) =>
                 consulta._id === dadosAtualizados._id ? {
                     ...dadosAtualizados,
                     start: new Date(dadosAtualizados.start),
@@ -162,35 +123,56 @@ export default function Agenda() {
         );
         setSeePopup(dadosAtualizados);
     };
-    
 
     const handleEditarClose = () => {
         setIsEditarOpen(false);
     };
 
-    const handleNavigate = (date, view) => {
-        let newStartDate;
-        let newEndDate;
-
-        if (view === 'month') {
-            newStartDate = startOfMonth(date);
-            newEndDate = endOfMonth(date);
-            newStartDate = subDays(newStartDate, 7);
-            newEndDate = addDays(newEndDate, 7);
-        } else if (view === 'week') {
-            newStartDate = subDays(date, 7);
-            newEndDate = addDays(date, 7);
-        } else if (view === 'agenda') {
-            newStartDate = startOfMonth(date);
-            newEndDate = endOfMonth(addMonths(date, 1));
-        }
+    const handleNavigate = (date) => {
+        let newStartDate = startOfMonth(date);
+        let newEndDate = endOfMonth(date);
+        newStartDate = subDays(newStartDate, 7);
+        newEndDate = addDays(newEndDate, 7);
 
         setStartDate(newStartDate);
         setEndDate(newEndDate);
         buscarConsultas(newStartDate, newEndDate);
     };
 
+    const buscarConsultas = async (start, end) => {
+        const token = localStorage.getItem("user_token");
 
+        try {
+            let startFormatted = start.toISOString().split('T')[0];
+            let endFormatted = end.toISOString().split('T')[0];
+
+            const consultas = await api.get(`/consulta?start=${startFormatted}&end=${endFormatted}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`,
+                }
+            });
+
+            const formattedConsultas = consultas.data.consultas.map((consulta) => ({
+                ...consulta,
+                start: new Date(consulta.start),
+                end: new Date(consulta.end),
+            }));
+
+            setEvents(formattedConsultas);
+        } catch (e) {
+            if (e.response.status === 401) {
+                signOut();
+            } else {
+                console.log("Erro ao buscar consultas: ", e);
+            }
+        }
+    };
+
+    const handleShowMore = useCallback((events, date) => {
+        setCurrentView('week');
+        handleNavigate(date);
+    }, []);
 
     return (
         <>
@@ -218,18 +200,20 @@ export default function Agenda() {
                         formats={formats}
                         culture="pt-BR"
                         showMultiDayTimes
-                        defaultDate={new Date(2024, 9, 7)}
+                        view={currentView}
+                        defaultDate={new Date()}
                         style={{ minHeight: 690, borderRadius: '8px' }}
                         eventPropGetter={(event) => {
                             const backgroundColor = currentView === 'agenda' ? 'transparent' :
-                                                    event.statusDaConsulta === 'Pendente' ? '#FFDBA0' :
-                                                    event.statusDaConsulta === 'Concluída' ? '#B3FFA0' :
-                                                    event.statusDaConsulta === 'Cancelada' || event.statusDaConsulta === 'Paciente faltou' || event.statusDaConsulta === 'Aluno faltou '? '#FFA0A0' :
-                                                    event.statusDaConsulta === 'Em andamento' ? '#92D9FF' :
-                                                    'rgb(226 189 239)'
+                                event.statusDaConsulta === 'Pendente' ? '#FFDBA0' :
+                                    event.statusDaConsulta === 'Concluída' ? '#B3FFA0' :
+                                        event.statusDaConsulta === 'Cancelada' || event.statusDaConsulta === 'Paciente faltou' || event.statusDaConsulta === 'Aluno faltou ' ? '#FFA0A0' :
+                                            event.statusDaConsulta === 'Em andamento' ? '#92D9FF' :
+                                                'rgb(226 189 239)'
 
                             return {
                                 style: {
+                                    border: '1px solid #EDEDED',
                                     backgroundColor,
                                     borderRadius: '4px',
                                     minHeight: '10px',
@@ -240,6 +224,7 @@ export default function Agenda() {
                         onSelectEvent={(event) => handleOpenEvent(event)}
                         onView={handleViewChange}
                         onNavigate={handleNavigate}
+                        onShowMore={handleShowMore}
                         components={{
                             event: ({ event }) => (
                                 <div>
@@ -288,7 +273,7 @@ export default function Agenda() {
                                                 seePopup.statusDaConsulta === 'Concluída' ? 'background-consulta-concluida' :
                                                     seePopup.statusDaConsulta === 'Cancelada' || seePopup.statusDaConsulta === 'Paciente faltou' || seePopup.statusDaConsulta === 'Aluno faltou' ? 'background-consulta-cancelada' :
                                                         seePopup.statusDaConsulta === 'Em andamento' ? 'background-consulta-andamento' :
-                                                    ''
+                                                            ''
                                         }
                                     >
                                         <p>
@@ -340,9 +325,11 @@ export default function Agenda() {
                                         </div>
                                     </div>
                                     <div className="linha">
-                                        <div>
-                                            <button onClick={handleEditarConsulta}>Editar</button>
-                                        </div>
+                                        {(userLevel === '0' || userLevel === '1') && (
+                                            <div>
+                                                <button onClick={handleEditarConsulta}>Editar</button>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -353,7 +340,7 @@ export default function Agenda() {
                     )}
                     {isEditarOpen && (
                         <EditarConsulta
-                        handleEditarClose={handleEditarClose}
+                            handleEditarClose={handleEditarClose}
                             dadosConsulta={seePopup}
                             renderDadosConsulta={renderDadosConsulta}
                         />

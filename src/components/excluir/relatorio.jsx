@@ -6,39 +6,45 @@ export default function ExcluirRelatorio({handleExcluirClose, dadosRelatorio, at
     const [isConfirmarExluir, setIsConfirmarExcluir] = useState(false);
     
 
-    const handleConfirmarOpen = async() => {
+    const handleConfirmarOpen = async () => {
         try {
-            const token = localStorage.getItem("user_token")
-            console.log(token)
+            const token = localStorage.getItem("user_token");
+            
             const mudarEstado = {
                 ...dadosRelatorio,
                 ativoRelatorio: false
-            }
+            };
 
-            const deleteIds = async(id) => {
-                await api.patch(`/relatorio/arquivar/${id}`,mudarEstado ,{
+            console.log(mudarEstado)
+    
+            const deleteIds = async (id) => {
+                console.log(`Tentando excluir ID: ${id}`);
+                const response = await api.patch(`/relatorio/${id}`, mudarEstado, {
                     headers: {
                         "Content-Type": "application/json",
                         "authorization": `Bearer ${token}`
-                        }
+                    }
                 });
-            }
-
-            if (Array.isArray(dadosRelatorio._ids) && dadosRelatorio._ids.length > 0){ 
-                
-                for (const id of dadosRelatorio._ids){ 
+                console.log("Resposta do servidor:", response.data);
+            };
+    
+            if (Array.isArray(dadosRelatorio._ids) && dadosRelatorio._ids.length > 0) {
+                for (const id of dadosRelatorio._ids) { 
                     await deleteIds(id);
                 }
+            } else if (dadosRelatorio._id) {
+                await deleteIds(dadosRelatorio._id);
             } else {
-                await deleteIds(dadosRelatorio._id)
+                console.error("Nenhum ID disponível para exclusão.");
             }
-
+    
             atualizarTableExcluir();
             setIsConfirmarExcluir(true);
         } catch (e) {
-            console.log("deu erro ao deletar: ", e)
+            console.error("Erro ao deletar:", e);
         }
-    }   
+    };
+     
 
     return(
         <>

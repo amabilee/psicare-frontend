@@ -277,9 +277,11 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
         <thead>
           {algumaCheckboxSelecionada() ? ( // ? avalia a condição para retornar um dos dois valores
             <tr className="tr-body">
-              <th>
-                <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo} />
-              </th>
+              {(userLevel === '0' || userLevel === '1') && (
+                <th>
+                  <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo} />
+                </th>
+              )}
               <th>{contarTotalCheckboxSelecionadas()} selecionados</th>
               <th colSpan={5} className="deletar-selecionados">
                 <span onClick={handleExcluirSelecionados}>Deletar Selecionados</span>
@@ -287,9 +289,11 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
             </tr>
           ) : (
             <tr className="tr-body">
-              <th>
-                <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo} />
-              </th>
+              {(userLevel === '0' || userLevel === '1') && (
+                <th>
+                  <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo} />
+                </th>
+              )}
               <th>Nome</th>
               <th>Telefone</th>
               <th>Email</th>
@@ -311,15 +315,17 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
           ) : (Array.isArray(dadosPaciente.pacientes) &&
             dadosPaciente.pacientes.map((paciente, index) => (
               <tr key={paciente._id} >
-                <td>
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    onChange={handleCheckboxSelecionada(index, paciente._id)} // index é o item do secretário na lista
-                    checked={checkboxSelecionadas[`page-${currentPage}`]?.hasOwnProperty(index) || false}// se o index estiver presente em checkboxSelecionadas para a página atual, marcar o checkbox
-                  //hasOwnProperty -> esse método retorna um booleano indicando se o objeto possui uma propriedade específica, que no caso é o index
-                  />
-                </td>
+                {(userLevel === '0' || userLevel === '1') && (
+                  <td>
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      onChange={handleCheckboxSelecionada(index, paciente._id)} // index é o item do secretário na lista
+                      checked={checkboxSelecionadas[`page-${currentPage}`]?.hasOwnProperty(index) || false}// se o index estiver presente em checkboxSelecionadas para a página atual, marcar o checkbox
+                    //hasOwnProperty -> esse método retorna um booleano indicando se o objeto possui uma propriedade específica, que no caso é o index
+                    />
+                  </td>
+                )}
                 <td className="table-content" id="td-nome" onClick={() => handleVisualizarClick(paciente)}>
                   {paciente.nome}
                 </td>

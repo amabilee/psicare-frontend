@@ -101,7 +101,7 @@
     margin-right: 200px;
 }
 
-.visualizar-info-paciente .coluna1 div:nth-child(1){
+.visualizar-info-paciente .coluna1 div:nth-child(1) {
     width: 300px;
     max-width: 300px;
     overflow-x: hidden;
@@ -118,7 +118,7 @@
     left: 65%;
 }
 
-.visualizar-info-paciente .coluna1 div:nth-of-type(4){
+.visualizar-info-paciente .coluna1 div:nth-of-type(4) {
     margin: 0 7px 0 0;
 }
 
@@ -136,7 +136,7 @@
     left: 45%;
 }
 
-.visualizar-info-paciente .coluna2 div:nth-of-type(3) h1{
+.visualizar-info-paciente .coluna2 div:nth-of-type(3) h1 {
     text-transform: capitalize;
 }
 
@@ -185,7 +185,7 @@
     justify-content: space-between;
 }
 
-.visualizar-info-paciente .coluna3 div:nth-of-type(4){
+.visualizar-info-paciente .coluna3 div:nth-of-type(4) {
     margin: 0 -50px 0 0;
 }
 
@@ -201,7 +201,7 @@
     margin-right: 100px;
 }
 
-.visualizar-info-paciente .coluna6 div:nth-of-type(5) h1{
+.visualizar-info-paciente .coluna6 div:nth-of-type(5) h1 {
     text-transform: capitalize;
 }
 
@@ -222,7 +222,7 @@
 
 /* visualizar relatorio */
 
-.visualizar-info-relatorio{
+.visualizar-info-relatorio {
     width: 100%;
 }
 
@@ -241,7 +241,7 @@
 .visualizar-info-relatorio .coluna2,
 .visualizar-info-relatorio .coluna3,
 .visualizar-info-relatorio .coluna4,
-.visualizar-info-relatorio .coluna5  {
+.visualizar-info-relatorio .coluna5 {
     display: flex;
     align-items: center;
     width: fit-content;
@@ -249,39 +249,94 @@
     margin: 0 0 10px 0;
 }
 
+.visualizar-info-relatorio .coluna5{
+    width: 100%;
+}
+
 .visualizar-info-relatorio .coluna1 div,
 .visualizar-info-relatorio .coluna2 div,
-.visualizar-info-relatorio .coluna3 div:nth-child(1){
+.visualizar-info-relatorio .coluna3 div:nth-child(1) {
     width: 400px;
 }
 
-.visualizar-info-relatorio .coluna3 div:nth-child(2){
+.visualizar-info-relatorio .coluna3 div:nth-child(2) {
     width: 600px;
 }
 
 
-.visualizar-info-relatorio .coluna4 div:nth-of-type(1){
+.visualizar-info-relatorio .coluna4 .data-nascimento:nth-of-type(1) {
     width: 340px;
 }
 
-.visualizar-info-relatorio .coluna4 div:nth-of-type(2){
+.visualizar-info-relatorio .coluna4 .data-nascimento:nth-of-type(2) {
     width: 260px;
     margin: 70px 0 0 0;
 }
 
-.visualizar-info-relatorio .coluna4 div:nth-of-type(3),
-.visualizar-info-relatorio .coluna4 div:nth-of-type(4){
-    width: 280px;
+.visualizar-info-relatorio .coluna4 .data-nascimento:nth-of-type(3),
+.visualizar-info-relatorio .coluna4 .data-nascimento:nth-of-type(4) {
+    height: 140px;
+    width: 360px;
 }
 
-.visualizar-info-relatorio .coluna5 div{
-    width: 95%;
-    height: 400px;
-    max-height: 500px;
+.visualizar-info-relatorio .coluna4 .files-box {
+    width: 100%;
+    height: 100px;
+    max-height: 100px;
     overflow-y: scroll;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
-.visualizar-info-relatorio .coluna5 div h1{
+.visualizar-info-relatorio .coluna4 .data-nascimento:nth-of-type(3) {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 140px;
+    max-height: 140px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.visualizar-info-relatorio .coluna5 div {
+    width: 95%;
+    height: 350px;
+    max-height: 350px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.visualizar-info-relatorio .coluna5 div h1 {
     font-size: 18px;
 }
 
+
+.file-container {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    margin: 0 0 10px 0 !important;
+}
+
+.file-container p {
+    color: #767474;
+    font-size: 20px;
+    margin: 0 10px 0 0;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.file-container button {
+    background-color: transparent;
+    background: none;
+}
+
+.file-container img {
+    width: 25px;
+    height: 25px;
+}

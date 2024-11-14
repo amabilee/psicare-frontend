@@ -20,9 +20,7 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
     horizontal: 'center',
   });
   const { vertical, horizontal, open } = state;
-
-
-
+  
   const handleClose = () => {
     setState({ ...state, open: false });
   };

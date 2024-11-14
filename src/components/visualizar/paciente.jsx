@@ -120,7 +120,7 @@ export default function VisualizarPaciente({ handleCloseVisualizar, dadosPacient
                             </div>
                             <div className="complemento">
                                 <p>Complemento</p>
-                                <h1>{dadosPaciente.enderecoComplemento === "" ? ("Não informado") : (dadosPaciente.enderecoComplemento)}</h1>
+                                <h1>{dadosPaciente.enderecoComplemento === "" || !dadosPaciente.enderecoComplemento ? ("Não informado") : (dadosPaciente.enderecoComplemento)}</h1>
                             </div>
 
                         </div>
