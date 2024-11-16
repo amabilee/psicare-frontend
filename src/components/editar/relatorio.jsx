@@ -14,10 +14,9 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
     const [Editar, setEditar] = useState(true);
     const [SucessoEditar, setSucessoEditar] = useState(false);
     const [message, setMessage] = useState("");
-    const [dadosAtualizados, setDadosAtualizados] = useState(dadosAluno);
+    const [dadosAtualizados, setDadosAtualizados] = useState(dadosRelatorio);
     const [pacientesNome, setPacientesNome] = useState({ pacientes: [] });
     const [alunosNome, setAlunosNome] = useState({ alunos: [] });
-
     const [userLevel, setUserLevel] = useState(null);
 
     useEffect(() => {
@@ -72,7 +71,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
     const handleVoltarConfirmar = () => {
         setIsEditarConfirmar(false);
         setEditar(true);
-      }
+    }
 
     const handleSucessoConfirmar = () => async () => {
         console.log(dadosAtualizados)
@@ -100,8 +99,8 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
             });
 
             console.log(dadosEnviados);
-            setIsSucessModalOpen(true);
-            renderForm(true);
+            setSucessoEditar(true);
+            renderDadosRelatorio(dadosEnviados);
         } catch (e) {
             setState({ ...state, open: true });
             setMessage(e.response.data.error);
@@ -110,12 +109,12 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
 
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
-        setDadosForm({ ...dadosForm, prontuario: [...dadosForm.prontuario, ...files] });
+        setDadosAtualizados({ ...dadosAtualizados, prontuario: [...dadosAtualizados.prontuario, ...files] });
     };
 
     const handleRemoveFile = (index) => {
-        const updatedProntuario = dadosForm.prontuario.filter((_, i) => i !== index);
-        setDadosForm({ ...dadosForm, prontuario: updatedProntuario });
+        const updatedProntuario = dadosAtualizados.prontuario.filter((_, i) => i !== index);
+        setDadosAtualizados({ ...dadosAtualizados, prontuario: updatedProntuario });
     };
 
 
@@ -159,145 +158,207 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
 
     return (
         <>
-            <div className="modal" >
-                <div className="modal-content modal-content-relatorio">
-                    <h2>Cadastro de relatório</h2>
-                    <hr />
-                    <div className="formulario">
-                        <h2>Informações de tratamento</h2>
-                        <div className="flex-informacoes-tratamento">
-                            <div className="div-flex">
-                                <label htmlFor="pacienteNome">Paciente*</label>
-                                <select id="pacienteNome" value={dadosForm.pacienteId} onChange={(e) => setDadosForm({ ...dadosForm, pacienteId: e.target.value })} required>
-                                    <option value="#">Selecione uma opção</option>
-                                    {pacientesNome.pacientes.map(paciente => (
-                                        <option key={paciente._id} value={paciente._id}>
-                                            {paciente.nome}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            {(userLevel === '0') && (
-                                <>
-                                    <div className="div-flex">
-                                        <label htmlFor="status">Status Encaminhador*</label>
-                                        <select className="status" name="status" id="status"
-                                            value={dadosForm.alunoUnieva ? "Aluno" : dadosForm.funcionarioUnieva ? "Funcionário" : ""}
-                                            onChange={(e) => {
-                                                setDadosForm({
-                                                    ...dadosForm,
-                                                    alunoUnieva: e.target.value === "Aluno",
-                                                    funcionarioUnieva: e.target.value === "Funcionário",
-                                                    nome_funcionario: "",
-                                                    alunoId: ""
-                                                })
-                                            }}>
-                                            <option value="" disabled>Selecione uma opção</option>
-                                            <option value="Aluno">Aluno</option>
-                                            <option value="Funcionário">Funcionário</option>
-                                        </select>
-                                    </div>
-                                    <div className="div-flex">
-                                        <label htmlFor="labelEncaminhador">Nome do Encaminhador*</label>
-                                        {dadosForm.alunoUnieva ? (
-                                            <select
-                                                className="encaminhadorSelect" id="encaminhadorSelect"
-                                                value={dadosForm.alunoId}
-                                                onChange={(e) => setDadosForm({ ...dadosForm, alunoId: e.target.value })}
-                                                disabled={!dadosForm.alunoUnieva}>
-                                                <option value="" disabled>Selecione uma opção</option>
-                                                {alunosNome.alunos.map(aluno => (
-                                                    <option key={aluno._id} value={aluno._id}>
-                                                        {aluno.nome}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        ) : (
-                                            <input type="text" className="encaminhadorInput" id="encaminhadorInput"
-                                                value={dadosForm.nome_funcionario}
-                                                onChange={(e) => setDadosForm({ ...dadosForm, nome_funcionario: e.target.value })}
-                                                disabled={!dadosForm.funcionarioUnieva}
-                                            />
-                                        )}
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                        <h2>Informações de relatório</h2>
-                        <div className="div-flex input-data">
-                            <label>Data de criação*</label>
-                            <DatePicker
-                                format="dd/MM/yyyy"
-                                placeholder="dd/mm/aaaa"
-                                onChange={(e) => setDadosForm({ ...dadosForm, dataCriacao: e })}
-                            />
-                        </div>
-                        <div className="flex-informacoes-relatorio">
-                            <div className="div-flex">
-                                <label htmlFor="conteudoRelatorio">Conteúdo*</label>
-                                <div className="textarea-container">
-                                    <textarea
-                                        name="conteudoRelatorio"
-                                        value={dadosForm.conteudo}
-                                        onChange={(e) => setDadosForm({ ...dadosForm, conteudo: e.target.value })}
-                                    />
-                                    <input
-                                        type="file"
-                                        accept=".pdf"
-                                        multiple
-                                        style={{ display: 'none' }}
-                                        id="fileUpload"
-                                        onChange={handleFileChange}
-                                    />
-                                    <label htmlFor="fileUpload" className="clip-icon-label">
-                                        <img src={ClipIcon} alt="Attach" className="clip-icon" />
-                                    </label>
-                                    <div className="files-added">
-                                        {dadosForm.prontuario.map((arquivo, index) => (
-                                            <div key={index}>
-                                                <p>{arquivo.name}</p>
-                                                <img src={TrashIcon}
-                                                    alt="Remove"
-                                                    className="trash-icon"
-                                                    onClick={() => handleRemoveFile(index)}
-                                                />
-                                            </div>
+            {Editar && (
+                <div className="modal-editar" >
+                    <div className="modal-content modal-content-relatorio">
+                        <h2>Edição de relatório</h2>
+                        <hr />
+                        <div className="formulario">
+                            <h2>Informações de tratamento</h2>
+                            <div className="flex-informacoes-tratamento">
+                                <div className="div-flex">
+                                    <label htmlFor="pacienteNome">Paciente*</label>
+                                    <select id="pacienteNome" value={dadosAtualizados.pacienteId} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, pacienteId: e.target.value })} required>
+                                        <option value="#">Selecione uma opção</option>
+                                        {pacientesNome.pacientes.map(paciente => (
+                                            <option key={paciente._id} value={paciente._id}>
+                                                {paciente.nome}
+                                            </option>
                                         ))}
+                                    </select>
+                                </div>
+                                {(userLevel === '0') && (
+                                    <>
+                                        <div className="div-flex">
+                                            <label htmlFor="status">Status Encaminhador*</label>
+                                            <select className="status" name="status" id="status"
+                                                value={dadosAtualizados.alunoUnieva ? "Aluno" : dadosAtualizados.funcionarioUnieva ? "Funcionário" : ""}
+                                                onChange={(e) => {
+                                                    setDadosAtualizados({
+                                                        ...dadosAtualizados,
+                                                        alunoUnieva: e.target.value === "Aluno",
+                                                        funcionarioUnieva: e.target.value === "Funcionário",
+                                                        nome_funcionario: "",
+                                                        alunoId: ""
+                                                    })
+                                                }}>
+                                                <option value="" disabled>Selecione uma opção</option>
+                                                <option value="Aluno">Aluno</option>
+                                                <option value="Funcionário">Funcionário</option>
+                                            </select>
+                                        </div>
+                                        <div className="div-flex">
+                                            <label htmlFor="labelEncaminhador">Nome do Encaminhador*</label>
+                                            {dadosAtualizados.alunoUnieva ? (
+                                                <select
+                                                    className="encaminhadorSelect" id="encaminhadorSelect"
+                                                    value={dadosAtualizados.alunoId}
+                                                    onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, alunoId: e.target.value })}
+                                                    disabled={!dadosAtualizados.alunoUnieva}>
+                                                    <option value="" disabled>Selecione uma opção</option>
+                                                    {alunosNome.alunos.map(aluno => (
+                                                        <option key={aluno._id} value={aluno._id}>
+                                                            {aluno.nome}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            ) : (
+                                                <input type="text" className="encaminhadorInput" id="encaminhadorInput"
+                                                    value={dadosAtualizados.nome_funcionario}
+                                                    onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, nome_funcionario: e.target.value })}
+                                                    disabled={!dadosAtualizados.funcionarioUnieva}
+                                                />
+                                            )}
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                            <h2>Informações de relatório</h2>
+                            <div className="div-flex input-data">
+                                <label>Data de criação*</label>
+                                <DatePicker
+                                    format="dd/MM/yyyy"
+                                    placeholder="dd/mm/aaaa"
+                                    value={new Date(dadosAtualizados.dataCriacao)}
+                                    onChange={(e) => 
+                                        setDadosAtualizados({ ...dadosAtualizados, dataCriacao: e })
+                                    }
+                                />
+                            </div>
+                            <div className="flex-informacoes-relatorio">
+                                <div className="div-flex">
+                                    <label htmlFor="conteudoRelatorio">Conteúdo*</label>
+                                    <div className="textarea-container">
+                                        <textarea
+                                            name="conteudoRelatorio"
+                                            value={dadosAtualizados.conteudo}
+                                            onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, conteudo: e.target.value })}
+                                        />
+                                        <input
+                                            type="file"
+                                            accept=".pdf"
+                                            multiple
+                                            style={{ display: 'none' }}
+                                            id="fileUpload"
+                                            onChange={handleFileChange}
+                                        />
+                                        <label htmlFor="fileUpload" className="clip-icon-label">
+                                            <img src={ClipIcon} alt="Attach" className="clip-icon" />
+                                        </label>
+                                        <div className="files-added">
+                                            {dadosAtualizados.prontuario.map((arquivo, index) => (
+                                                <div key={index}>
+                                                    <p>{arquivo.nome}</p>
+                                                    <img src={TrashIcon}
+                                                        alt="Remove"
+                                                        className="trash-icon"
+                                                        onClick={() => handleRemoveFile(index)}
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <p className="campo_obrigatorio">*Campo Obrigatório</p>
-                        <div className="buttons-form buttons-form-aluno">
-                            <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Cancelar</button>
-                            <button className="button-cadastrar" id="cadastrar" onClick={handleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}>Cadastrar</button>
-                            <Snackbar
-                                ContentProps={{ sx: { borderRadius: '8px' } }}
-                                anchorOrigin={{ vertical, horizontal }}
-                                open={open}
-                                autoHideDuration={2000}
-                                onClose={handleClose}
-                                key={vertical + horizontal}
-                            >
-                                <Alert variant="filled" severity="error" onClose={handleClose} action="">
-                                    {typeof message === 'string' ? message : ''}
-                                </Alert>
-
-                            </Snackbar>
+                            <p className="campo_obrigatorio">*Campo Obrigatório</p>
+                            <div className="buttons-form buttons-form-aluno">
+                                <button className="button-voltar" id="voltar" onClick={handleEditarClose} >Cancelar</button>
+                                <button className="button-cadastrar" id="cadastrar" onClick={handleEditarConfirmar({ vertical: 'bottom', horizontal: 'center' })}>Cadastrar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            )}
+            {isEditarConfirmar && (
+                <div className="modal-confirmar">
+                    <div className="modal-content-confirmar modal-content-confirmar-aluno">
+                        <h2>Confirmar Edição de Aluno</h2>
+                        <hr />
+                        <div className="dados-inseridos">
+                            <div className="coluna1">
+                                <div className="nome">
+                                    <p>Nome Completo</p>
+                                    <h1>{dadosAtualizados.nome}</h1>
+                                </div>
+                            </div>
+                            <div className="coluna2">
+                                <div className="cpf-aluno">
+                                    <p>CPF</p>
+                                    <h1>{formatarCPF(dadosAtualizados.cpf)}</h1>
+                                </div>
+                                <div className="telefone">
+                                    <p>Telefone</p>
+                                    <h1>{dadosAtualizados.telefone}</h1>
+                                </div>
+                            </div>
+                            <div className="coluna3">
+                                <div className="email">
+                                    <p>Email</p>
+                                    <h1>{dadosAtualizados.email}</h1>
+                                </div>
 
-            {isSucessModalOpen && (
+                            </div>
+                            <div className="coluna4">
+                                <div className="professorNome">
+                                    <p>Professor</p>
+                                    <h1>{dadosAtualizados.nomeProfessor}</h1>
+                                </div>
+                            </div>
+                            <div className="coluna5">
+                                <div className="matricula">
+                                    <p>Matrícula</p>
+                                    <h1>{dadosAtualizados.matricula}</h1>
+                                </div>
+                                <div className="periodo">
+                                    <p>Periodo</p>
+                                    <h1>{dadosAtualizados.periodo}</h1>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className="buttons-confirmar buttons-confirmar-aluno">
+                            <button className="button-voltar-confirmar" id="voltar" onClick={handleVoltarConfirmar} >
+                                Voltar
+                            </button>
+                            <button type="submit" className="button-confirmar" id="cadastrar" onClick={handleSucessoConfirmar}>
+                                Confirmar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {SucessoEditar && (
                 <div className="modal-sucesso">
                     <div className="modal-sucesso-content">
                         <h1>Sucesso!</h1>
                         <h2>Relatório cadastrado com sucesso.</h2>
-                        <button className="button-fechar" id="fechar" onClick={handleCloseModal} >Fechar</button>
+                        <button className="button-fechar" id="fechar" onClick={handleEditarClose} >Fechar</button>
                     </div>
                 </div>
             )}
+            <Snackbar
+                ContentProps={{ sx: { borderRadius: '8px' } }}
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                autoHideDuration={2000}
+                onClose={handleClose}
+                key={vertical + horizontal}
+            >
+                <Alert variant="filled" severity="error" onClose={handleClose} action="">
+                    {typeof message === 'string' ? message : ''}
+                </Alert>
+
+            </Snackbar>
         </>
     )
 }
