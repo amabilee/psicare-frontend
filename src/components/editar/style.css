@@ -740,3 +740,11 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
 }
+
+/* relatorio */
+
+.modal-content-confirmar-relatorio{
+    padding-bottom: 40px;
+    height: fit-content;
+    max-height: 700px;
+}

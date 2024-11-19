@@ -19,7 +19,7 @@ export default function ExcluirRelatorio({handleExcluirClose, dadosRelatorio, at
     
             const deleteIds = async (id) => {
                 console.log(`Tentando excluir ID: ${id}`);
-                const response = await api.patch(`/relatorio/${id}`, mudarEstado, {
+                const response = await api.patch(`/relatorio/arquivar/${id}`, mudarEstado, {
                     headers: {
                         "Content-Type": "application/json",
                         "authorization": `Bearer ${token}`

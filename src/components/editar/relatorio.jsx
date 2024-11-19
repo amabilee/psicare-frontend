@@ -19,6 +19,8 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
     const [alunosNome, setAlunosNome] = useState({ alunos: [] });
     const [userLevel, setUserLevel] = useState(null);
 
+    console.log(dadosRelatorio)
+
     useEffect(() => {
         buscarPacientes();
         buscarAlunos();
@@ -73,7 +75,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
         setEditar(true);
     }
 
-    const handleSucessoConfirmar = () => async () => {
+    const handleSucessoConfirmar = async () => {
         console.log(dadosAtualizados)
         const token = localStorage.getItem("user_token");
         try {
@@ -110,11 +112,13 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
         setDadosAtualizados({ ...dadosAtualizados, prontuario: [...dadosAtualizados.prontuario, ...files] });
+        console.log(files)
     };
 
     const handleRemoveFile = (index) => {
         const updatedProntuario = dadosAtualizados.prontuario.filter((_, i) => i !== index);
         setDadosAtualizados({ ...dadosAtualizados, prontuario: updatedProntuario });
+        console.log(updatedProntuario)
     };
 
 
@@ -155,6 +159,14 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
             }
         }
     }
+
+    const formatarData = (data) => {
+        const dataObj = new Date(data);
+        const dia = String(dataObj.getDate()).padStart(2, '0');
+        const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); // Meses são baseados em zero
+        const ano = dataObj.getFullYear();
+        return `${dia}/${mes}/${ano}`;
+    };
 
     return (
         <>
@@ -230,7 +242,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                     format="dd/MM/yyyy"
                                     placeholder="dd/mm/aaaa"
                                     value={new Date(dadosAtualizados.dataCriacao)}
-                                    onChange={(e) => 
+                                    onChange={(e) =>
                                         setDadosAtualizados({ ...dadosAtualizados, dataCriacao: e })
                                     }
                                 />
@@ -258,7 +270,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                         <div className="files-added">
                                             {dadosAtualizados.prontuario.map((arquivo, index) => (
                                                 <div key={index}>
-                                                    <p>{arquivo.nome}</p>
+                                                    <p>{arquivo.nome ? arquivo.nome : arquivo.name}</p>
                                                     <img src={TrashIcon}
                                                         alt="Remove"
                                                         className="trash-icon"
@@ -273,7 +285,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                             <p className="campo_obrigatorio">*Campo Obrigatório</p>
                             <div className="buttons-form buttons-form-aluno">
                                 <button className="button-voltar" id="voltar" onClick={handleEditarClose} >Cancelar</button>
-                                <button className="button-cadastrar" id="cadastrar" onClick={handleEditarConfirmar({ vertical: 'bottom', horizontal: 'center' })}>Cadastrar</button>
+                                <button className="button-cadastrar" id="cadastrar" onClick={handleEditarConfirmar({ vertical: 'bottom', horizontal: 'center' })}>Confirmar</button>
                             </div>
                         </div>
                     </div>
@@ -281,52 +293,45 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
             )}
             {isEditarConfirmar && (
                 <div className="modal-confirmar">
-                    <div className="modal-content-confirmar modal-content-confirmar-aluno">
-                        <h2>Confirmar Edição de Aluno</h2>
+                    <div className="modal-content-confirmar modal-content-confirmar-relatorio">
+                        <h2>Confirmar Edição de Relatório</h2>
                         <hr />
                         <div className="dados-inseridos">
                             <div className="coluna1">
                                 <div className="nome">
-                                    <p>Nome Completo</p>
-                                    <h1>{dadosAtualizados.nome}</h1>
+                                    <p>Paciente</p>
+                                    <h1>
+                                        {pacientesNome.pacientes.find(paciente => paciente._id === dadosAtualizados.pacienteId)?.nome || "Nome não encontrado"}
+                                    </h1>
+                                </div>
+                                <div className="nome">
+                                    <p>Encaminhador</p>
+                                    <h1>
+                                        {alunosNome.alunos.find(aluno => aluno._id === dadosAtualizados.alunoId)?.nome || "Nome não encontrado"}
+                                    </h1>
                                 </div>
                             </div>
                             <div className="coluna2">
                                 <div className="cpf-aluno">
-                                    <p>CPF</p>
-                                    <h1>{formatarCPF(dadosAtualizados.cpf)}</h1>
+                                    <p>Data de criação</p>
+                                    <h1>{formatarData(dadosAtualizados.dataCriacao)}</h1>
                                 </div>
                                 <div className="telefone">
-                                    <p>Telefone</p>
-                                    <h1>{dadosAtualizados.telefone}</h1>
+                                    <p>Conteudo</p>
+                                    <h1>{dadosAtualizados.conteudo}</h1>
                                 </div>
                             </div>
                             <div className="coluna3">
                                 <div className="email">
-                                    <p>Email</p>
-                                    <h1>{dadosAtualizados.email}</h1>
+                                    <p>Prontuário</p>
+                                    {dadosAtualizados.prontuario.map((arquivo, index) => (
+                                        <h1 key={index}> {arquivo.nome ? arquivo.nome : arquivo.name}</h1>
+                                    ))}
                                 </div>
 
                             </div>
-                            <div className="coluna4">
-                                <div className="professorNome">
-                                    <p>Professor</p>
-                                    <h1>{dadosAtualizados.nomeProfessor}</h1>
-                                </div>
-                            </div>
-                            <div className="coluna5">
-                                <div className="matricula">
-                                    <p>Matrícula</p>
-                                    <h1>{dadosAtualizados.matricula}</h1>
-                                </div>
-                                <div className="periodo">
-                                    <p>Periodo</p>
-                                    <h1>{dadosAtualizados.periodo}</h1>
-                                </div>
-                            </div>
-
                         </div>
-                        <div className="buttons-confirmar buttons-confirmar-aluno">
+                        <div className="buttons-confirmar buttons-confirmar-relatorio">
                             <button className="button-voltar-confirmar" id="voltar" onClick={handleVoltarConfirmar} >
                                 Voltar
                             </button>
@@ -341,7 +346,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                 <div className="modal-sucesso">
                     <div className="modal-sucesso-content">
                         <h1>Sucesso!</h1>
-                        <h2>Relatório cadastrado com sucesso.</h2>
+                        <h2>Relatório editado com sucesso.</h2>
                         <button className="button-fechar" id="fechar" onClick={handleEditarClose} >Fechar</button>
                     </div>
                 </div>

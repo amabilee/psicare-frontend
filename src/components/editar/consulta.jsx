@@ -25,12 +25,9 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
     });
     const { vertical, horizontal, open } = state;
 
-
-
     const handleClose = () => {
         setState({ ...state, open: false });
     };
-
 
     const handleEditarConfirmar = (newState) => {
         if (!dadosAtualizados.Nome || dadosAtualizados.Nome.length <= 6) {
