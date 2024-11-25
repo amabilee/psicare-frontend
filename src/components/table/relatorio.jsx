@@ -312,22 +312,24 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
                   {relatorio.tipoTratamento}
                 </td>
                 <td className="table-content" id="td-tratamento" onClick={() => handleVisualizarClick(relatorio)}>
-                  {relatorio.alunoUnieva? relatorio.nomeAluno : relatorio.nome_funcionario}
+                  {relatorio.alunoUnieva ? relatorio.nomeAluno : relatorio.nome_funcionario}
                 </td>
-                <td>
-                  <img
-                    src={IconEditar}
-                    alt="editar"
-                    className="icon-editar"
-                    onClick={() => handleEditarClick(relatorio)}
-                  />
-                  <img
-                    src={IconExcluir}
-                    alt="excluir"
-                    className="icon-excluir"
-                    onClick={() => handleExcluirClick(relatorio)}
-                  />
-                </td>
+                {!algumaCheckboxSelecionada() && (
+                  <td>
+                    <img
+                      src={IconEditar}
+                      alt="editar"
+                      className="icon-editar"
+                      onClick={() => handleEditarClick(relatorio)}
+                    />
+                    <img
+                      src={IconExcluir}
+                      alt="excluir"
+                      className="icon-excluir"
+                      onClick={() => handleExcluirClick(relatorio)}
+                    />
+                  </td>
+                )}
               </tr>
             ))
           )}

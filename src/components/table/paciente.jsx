@@ -273,7 +273,7 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
 
   return (
     <div className="table-container">
-      <table className="table table-paciente">
+      <table className="table">
         <thead>
           {algumaCheckboxSelecionada() ? ( // ? avalia a condição para retornar um dos dois valores
             <tr className="tr-body">
@@ -341,7 +341,7 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
                 <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
                   {formatarDataNascimento(paciente.dataNascimento)}
                 </td>
-                {(userLevel === '0' || userLevel === '1') && (
+                {(userLevel === '0' || userLevel === '1') && !algumaCheckboxSelecionada() && (
                   <>
                     <td>
                       <img

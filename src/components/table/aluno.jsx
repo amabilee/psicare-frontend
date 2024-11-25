@@ -265,7 +265,7 @@ export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa
 
   return (
     <div className="table-container">
-      <table className="table table-aluno">
+      <table className="table">
         <thead>
           {algumaCheckboxSelecionada() ? ( // ? avalia a condição para retornar um dos dois valores
             <tr className="tr-body">
@@ -327,7 +327,7 @@ export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa
                 <td className="table-content" id="td-prof" onClick={() => handleVisualizarClick(aluno)}>
                   {aluno.nomeProfessor}
                 </td>
-                {(userLevel === '0') && (
+                {(userLevel === '0') && !algumaCheckboxSelecionada() && (
                   <>
                     <td>
                       <img

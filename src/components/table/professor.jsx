@@ -254,7 +254,7 @@ export default function TableProfessor({ renderFormTable, pesquisar, filtrarPesq
 
   return (
     <div className="table-container">
-      <table className="table table-professor">
+      <table className="table">
         <thead>
           {algumaCheckboxSelecionada() ? ( // ? avalia a condição para retornar um dos dois valores
             <tr className="tr-body">
@@ -314,20 +314,22 @@ export default function TableProfessor({ renderFormTable, pesquisar, filtrarPesq
                 <td className="table-content" id="td-disciplina" onClick={() => handleVisualizarClick(professor)}>
                   {professor.disciplina}
                 </td>
-                <td>
-                  <img
-                    src={IconEditar}
-                    alt="editar"
-                    className="icon-editar"
-                    onClick={() => handleEditarClick(professor)}
-                  />
-                  <img
-                    src={IconExcluir}
-                    alt="excluir"
-                    className="icon-excluir"
-                    onClick={() => handleExcluirClick(professor)}
-                  />
-                </td>
+                {!algumaCheckboxSelecionada() && (
+                  <td>
+                    <img
+                      src={IconEditar}
+                      alt="editar"
+                      className="icon-editar"
+                      onClick={() => handleEditarClick(professor)}
+                    />
+                    <img
+                      src={IconExcluir}
+                      alt="excluir"
+                      className="icon-excluir"
+                      onClick={() => handleExcluirClick(professor)}
+                    />
+                  </td>
+                )}
               </tr>
             ))
           )}

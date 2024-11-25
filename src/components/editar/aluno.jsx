@@ -151,7 +151,7 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
               <div className="flex-input">
                 <div className="div-matricula">
                   <label htmlFor="matricula">Matrícula*</label>
-                  <input type="text" className="matricula" id="matricula" value={dadosAtualizados.matricula} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, matricula: e.target.value })} />
+                  <input type="text" className="matricula" id="matricula" maxLength='7' value={dadosAtualizados.matricula} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, matricula: e.target.value.replace(/[^0-9]/g, "") })} />
                 </div>
                 <div className="div-periodo">
                   <label htmlFor="periodo">Período*</label>

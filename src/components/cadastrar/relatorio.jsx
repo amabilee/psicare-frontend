@@ -51,26 +51,32 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
         if (!dadosForm.pacienteId) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione um paciente.");
+            return;
         }
         if (userLevel === '0' && !dadosForm.alunoUnieva && !dadosForm.funcionarioUnieva) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione o status do encaminhador.");
+            return;
         }
         if (userLevel === '0' && dadosForm.alunoUnieva && !dadosForm.alunoId) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione um aluno.");
+            return;
         }
         if (userLevel === '0' && dadosForm.funcionarioUnieva && !dadosForm.nome_funcionario) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Preencha o nome do funcionário.");
+            return;
         }
         if (!dadosForm.conteudo) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Preencha o conteúdo do relatório.");
+            return;
         }
         if (!dadosForm.dataCriacao) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
-            setMessage("Escreva a data de criação."); 
+            setMessage("Escreva a data de criação.");
+            return;
         }
         try {
             const formData = new FormData();

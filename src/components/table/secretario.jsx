@@ -253,7 +253,7 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
 
   return (
     <div className="table-container">
-      <table className="table table-secretario">
+      <table className="table">
         <thead>
           {algumaCheckboxSelecionada() ? ( // ? avalia a condição para retornar um dos dois valores
             <tr className="tr-body">
@@ -261,7 +261,7 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
                 <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo} />
               </th>
               <th>{contarTotalCheckboxSelecionadas()} selecionados</th>
-              <th colSpan={5} className="deletar-selecionados">
+              <th colSpan={6} className="deletar-selecionados">
                 <span onClick={handleExcluirSelecionados}>Deletar Selecionados</span>
               </th>
             </tr>
@@ -313,20 +313,22 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
                 <td className="table-content" id="td-turno" onClick={() => handleVisualizarClick(secretario)}>
                   {secretario.turno}
                 </td>
-                <td>
-                  <img
-                    src={IconEditar}
-                    alt="editar"
-                    className="icon-editar"
-                    onClick={() => handleEditarClick(secretario)}
-                  />
-                  <img
-                    src={IconExcluir}
-                    alt="excluir"
-                    className="icon-excluir"
-                    onClick={() => handleExcluirClick(secretario)}
-                  />
-                </td>
+                {!algumaCheckboxSelecionada() && (
+                  <td>
+                    <img
+                      src={IconEditar}
+                      alt="editar"
+                      className="icon-editar"
+                      onClick={() => handleEditarClick(secretario)}
+                    />
+                    <img
+                      src={IconExcluir}
+                      alt="excluir"
+                      className="icon-excluir"
+                      onClick={() => handleExcluirClick(secretario)}
+                    />
+                  </td>
+                )}
               </tr>
             ))
           )}

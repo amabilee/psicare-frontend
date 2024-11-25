@@ -27,8 +27,9 @@
 
 .modal-content-paciente {
     width: 1150px;
-    height: 960px;
-    overflow: hidden;
+    height: 800px;
+    overflow-x: hidden;
+    overflow-y: scroll;
     z-index: 3000;
 }
 
