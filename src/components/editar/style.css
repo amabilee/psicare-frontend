@@ -31,7 +31,7 @@
 
 .modal-content-editar-paciente{
     width: 1150px;
-    height: 960px;
+    height: 80vh;
     overflow: hidden;
     z-index: 3000;
 }

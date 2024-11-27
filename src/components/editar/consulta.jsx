@@ -212,13 +212,11 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                                         className="data-nascimento"
                                         format="dd/MM/yyyy"
                                         placeholder="dd/mm/aaaa"
-                                        style={{
-                                            width: "160px"
-                                        }}
-                                        value={new Date(dadosAtualizados.createAt)}
+                                        style={{ width: "160px" }}
+                                        value={dadosAtualizados.createAt ? new Date(dadosAtualizados.createAt) : null}
                                         onChange={(e) => setDadosAtualizados({
                                             ...dadosAtualizados,
-                                            createAt: new Date(e).toISOString()
+                                            createAt: e ? new Date(e).toISOString() : null,
                                         })}
                                     />
                                 </div>
@@ -228,11 +226,12 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                                         className="data-nascimento"
                                         format="HH:mm"
                                         placeholder="HH:mm"
-                                        style={{
-                                            width: "150px"
-                                        }}
+                                        style={{ width: "150px" }}
                                         value={dadosAtualizados.start ? new Date(dadosAtualizados.start) : null}
-                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, start: e.toString() })}
+                                        onChange={(e) => setDadosAtualizados({
+                                            ...dadosAtualizados,
+                                            start: e ? new Date(e).toISOString() : null,
+                                        })}
                                     />
                                 </div>
                                 <p>às</p>
@@ -240,11 +239,12 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                                     className="data-nascimento"
                                     format="HH:mm"
                                     placeholder="HH:mm"
-                                    style={{
-                                        width: "150px"
-                                    }}
+                                    style={{ width: "150px" }}
                                     value={dadosAtualizados.end ? new Date(dadosAtualizados.end) : null}
-                                    onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, end: e.toString() })}
+                                    onChange={(e) => setDadosAtualizados({
+                                        ...dadosAtualizados,
+                                        end: e ? new Date(e).toISOString() : null,
+                                    })}
                                 />
 
                             </div>

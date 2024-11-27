@@ -54,7 +54,7 @@ export default function Secretario() {
 
     const handleFiltrarPesquisa = () => {
         setIsFiltragemOpen(false)
-        setPesquisaUsuario("")
+        setPesquisaUsuario("")        
         setEnviarFiltragem(filtrarPesquisa)
     };
 
@@ -116,7 +116,7 @@ export default function Secretario() {
                                 <div className="coluna1">
                                     <div className="div-CPF">
                                         <label htmlFor="CPF">CPF</label>
-                                        <IMaskInput type="text" className="CPF" id="CPF" mask="000.000.000-00" value={filtrarPesquisa.cpf} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, cpf: e.target.value })} />
+                                        <input type="text" className="CPF" id="CPF" mask="000.000.000-00" value={filtrarPesquisa.cpf} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, cpf: e.target.value })} />
                                     </div>
                                     <div className="div-telefone">
                                         <label htmlFor="Telefone">Telefone</label>
