@@ -4,7 +4,7 @@ import SideBar from "../../components/SideBar/sidebar";
 import voltar from "../../assets/voltar.svg";
 import { IoMdPersonAdd } from "react-icons/io";
 import { Calendar as BigCalendar, dateFnsLocalizer } from "react-big-calendar";
-import { format, parse, startOfWeek, getDay, addMonths } from "date-fns";
+import { format, parse, startOfWeek, getDay, addMonths, subMonths, parseISO } from "date-fns";
 import { UseAuth } from "../../hooks";
 import moment from "moment";
 import ptBR from "date-fns/locale/pt-BR";
@@ -57,12 +57,22 @@ const formats = {
     agendaDateFormat: (date, culture, localizer) =>
         localizer.format(date, "dd/MM/yyyy", culture),
 
-    agendaTimeFormat: ({ start, end }, culture, localizer) =>
-        `${localizer.format(start, "HH:mm", culture)} - ${localizer.format(
-            end,
+    agendaTimeFormat: ({ start, end }, culture, localizer) => {
+        const validStart = typeof start === "string" ? parseISO(start) : start;
+        const validEnd = typeof end === "string" ? parseISO(end) : end;
+
+        if (!(validStart instanceof Date && !isNaN(validStart)) ||
+            !(validEnd instanceof Date && !isNaN(validEnd))) {
+            console.error("Start or End is not a valid Date:", { start, end });
+            return "Horário inválido";
+        }
+
+        return `${localizer.format(validStart, "HH:mm", culture)} - ${localizer.format(
+            validEnd,
             "HH:mm",
             culture
-        )}`,
+        )}`;
+    },
 
     agendaEventFormat: (event) =>
         `Paciente: ${event.paciente || ""}, Estudante: ${event.estudante || ""
@@ -109,12 +119,6 @@ export default function Agenda() {
         setIsCadastroOpen(false);
     };
 
-    useEffect(() => {
-        const level = localStorage.getItem("user_level");
-        setUserLevel(level);
-        handleNavigate(new Date());
-    }, []);
-
     const renderDadosConsulta = (dadosAtualizados) => {
         setEvents((prevDados) =>
             prevDados.map((consulta) =>
@@ -136,52 +140,76 @@ export default function Agenda() {
     };
 
     const handleNavigate = (date, view = currentView) => {
-        console.log("Input Date:", date);
-        console.log("Current View:", view);
 
-        let newStartDate
-        let newEndDate
+        const parsedDate = typeof date === "string" ? parseISO(date) : date;
 
-        if (date === 'agenda') {
-            newStartDate = startOfMonth(startDate);
-            newEndDate = startOfMonth(addDays(endOfMonth(startDate), 1));
+        let newStartDate, newEndDate;
 
-            console.log("Agenda View New Start Date:", newStartDate);
-            console.log("Agenda View New End Date:", newEndDate);
+        if (view === "month" || view === "agenda") {
+            newStartDate = subDays(startOfMonth(parsedDate), 7);
+            newEndDate = addDays(endOfMonth(parsedDate), 7);
+        } else if (view === "week") {
+            newStartDate = startOfWeek(parsedDate);
+            newEndDate = addDays(newStartDate, 6);
         } else {
-            newStartDate = subDays(startOfMonth(date), 7);
-            newEndDate = addDays(endOfMonth(addMonths(date, 1)), 7);
-            console.log("Default New Start Date:", newStartDate);
-            console.log("Default New End Date:", newEndDate);
+            newStartDate = subDays(parsedDate, 7);
+            newEndDate = addDays(parsedDate, 7);
         }
 
-        console.log("Final New Start Date:", newStartDate);
-        console.log("Final New End Date:", newEndDate);
+        newStartDate = typeof newStartDate === "string" ? parseISO(newStartDate) : newStartDate;
+        newEndDate = typeof newEndDate === "string" ? parseISO(newEndDate) : newEndDate;
+
+        // console.log(newStartDate, newEndDate);
 
         setStartDate(newStartDate);
         setEndDate(newEndDate);
         buscarConsultas(newStartDate, newEndDate);
     };
 
-
     const buscarConsultas = async (start, end) => {
         const token = localStorage.getItem("user_token");
-        console.log('received', start, end)
+        // console.log("start:", start);
+        // console.log("end:", end);
+
         try {
+            let startDateSetting = typeof start === "string" ? parseISO(start) : start;
+            let endDateSetting = typeof end === "string" ? parseISO(end) : end;
 
-            const startFormatted = start?.toISOString().split("T")[0];
-            const endFormatted = end?.toISOString().split("T")[0];
+            if (String(start).length <= 20 && String(end).length <= 20) {
+                if (startDate) {
+                    startDateSetting = subDays(startOfMonth(startDate), 7);
+                    // console.log("Usando startDate como base para start");
+                }
 
-            console.log('startFormatted',startFormatted)
-            console.log('endFormatted',endFormatted)
+                if (endDate) {
+                    endDateSetting = addDays(endOfMonth(endDate), 7);
+                    // console.log("Usando endDate como base para end");
+                }
+            } else {
+                if (String(start).length <= 20) {
+                    startDateSetting = subDays(startOfMonth(endDateSetting), 7);
+                    // console.log("Calculando start com base em end");
+                }
+
+                if (String(end).length <= 20) {
+                    endDateSetting = addDays(endOfMonth(addMonths(startDateSetting, 1)), 7);
+                    // console.log("Calculando end com base em start");
+                }
+            }
+
+            // console.log("startDateSetting:", startDateSetting);
+            // console.log("endDateSetting:", endDateSetting);
+
+            const startFormatted = startDateSetting?.toISOString().split("T")[0];
+            const endFormatted = endDateSetting?.toISOString().split("T")[0];
+
+            // console.log("startFormatted:", startFormatted);
+            // console.log("endFormatted:", endFormatted);
 
             const response = await api.get(
                 `/consulta?start=${startFormatted}&end=${endFormatted}`,
                 { headers: { authorization: `Bearer ${token}` } }
             );
-
-            console.log(response.data.consultas)
-
 
             const formattedConsultas = response.data.consultas
                 .map((consulta) => ({
@@ -190,21 +218,34 @@ export default function Agenda() {
                     end: new Date(consulta.end),
                 }))
                 .filter(Boolean);
+
             setEvents(formattedConsultas);
         } catch (e) {
-            if (e.response?.status === 401) signOut();
-            else console.error("Erro ao buscar consultas:", e);
+            if (e.response?.status === 401) {
+                signOut();
+            } else {
+                console.error("Erro ao buscar consultas:", e);
+            }
         }
     };
 
+
     const handleShowMore = useCallback((events, date) => {
         setCurrentView("week");
-        handleNavigate(date);
+        handleNavigate(date, "week");
     }, []);
+
 
     const renderProps = () => {
         buscarConsultas(startDate, endDate);
     }
+
+
+    useEffect(() => {
+        const level = localStorage.getItem("user_level");
+        setUserLevel(level);
+        handleNavigate(new Date(), "month");
+    }, []);
 
 
     return (

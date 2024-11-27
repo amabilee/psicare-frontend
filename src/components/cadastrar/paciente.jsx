@@ -171,7 +171,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
             };
             console.log(dataNascimentoFormatada, dataInicioFormatada, dataTerminoFormatada)
             try {
-                var dadosEnviados = await api.post("/paciente", dadosFormAtualizados, {
+                await api.post("/paciente", dadosFormAtualizados, {
                     headers: {
                         "Content-Type": "application/json",
                         "authorization": `Bearer ${token}`
@@ -426,7 +426,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                                     onChange={(e) => setDadosForm({ ...dadosForm, enderecoComplemento: e.target.value })} />
                             </div>
                         </div>
-                        <div className="flex-endereco" style={{justifyContent: "flex-start"}}>
+                        <div className="flex-endereco" style={{ justifyContent: "flex-start" }}>
                             <div className="div-flex">
                                 <label htmlFor="uf">UF*</label>
                                 <select
@@ -571,7 +571,15 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                     </div>
                 </div>
             </div >
-
+            {isSucessModalOpen && (
+                <div className="modal-sucesso">
+                    <div className="modal-sucesso-content">
+                        <h1>Sucesso!</h1>
+                        <h2>Paciente cadastrado com sucesso.</h2>
+                        <button className="button-fechar" id="fechar" onClick={handleCloseModal} >Fechar</button>
+                    </div>
+                </div>
+            )}
         </>
     )
 
