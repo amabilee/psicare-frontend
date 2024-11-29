@@ -490,8 +490,6 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                                     encaminhador: selectedOptionText,
                                                     alunoId: e.target.value
                                                 });
-
-                                                console.log(selectedOptionText, e.target.value);
                                             }}
                                             disabled={!dadosAtualizados.alunoUnieva}
                                         >

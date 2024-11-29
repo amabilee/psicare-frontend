@@ -169,7 +169,6 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                 dataInicioTratamento: dataInicioFormatada,
                 dataTerminoTratamento: dataTerminoFormatada
             };
-            console.log(dataNascimentoFormatada, dataInicioFormatada, dataTerminoFormatada)
             try {
                 await api.post("/paciente", dadosFormAtualizados, {
                     headers: {

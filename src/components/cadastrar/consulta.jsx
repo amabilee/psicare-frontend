@@ -131,7 +131,6 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
             setMessage("Consulta criada com sucesso!");
             setIsSucessModalOpen(true);
             renderTable();
-            console.log('chamei render')
         } catch (e) {
             console.log(e)
             setMessage(e.response.data.error);

@@ -62,7 +62,6 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
         }
         else {
             const token = localStorage.getItem("user_token")
-            console.log(dadosForm)
             try {
                 const dadosEnviados = await api.post("/aluno", dadosForm, {
                     headers: {
@@ -70,7 +69,6 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }){
                         "authorization": `Bearer ${token}`
                     }
                 });
-                console.log(dadosEnviados)
                 setIsSucessModalOpen(true);
                 renderForm(true)
             } catch (e) {

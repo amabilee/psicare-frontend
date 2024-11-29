@@ -46,7 +46,6 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
     };
 
     const handleFormSubmit = () => async () => {
-        console.log(dadosForm)
         const token = localStorage.getItem("user_token");
         if (!dadosForm.pacienteId) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
@@ -100,7 +99,6 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
                 }
             });
 
-            console.log(dadosEnviados);
             setIsSucessModalOpen(true);
             renderForm(true);
         } catch (e) {
