@@ -20,7 +20,7 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
     horizontal: 'center',
   });
   const { vertical, horizontal, open } = state;
-  
+
   const handleClose = () => {
     setState({ ...state, open: false });
   };
@@ -33,18 +33,23 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
     if (dadosAtualizados.nome.length <= 6) {
       setState({ ...newState, open: true });
       setMessage("Insira o nome completo.");
+      return;
     } else if (!cpf.isValid(dadosAtualizados.cpf)) {
       setState({ ...newState, open: true });
       setMessage("Insira um cpf válido.");
+      return;
     } else if (dadosAtualizados.telefone.length != 15) {
       setState({ ...newState, open: true });
       setMessage("Insira um telefone válido.");
+      return;
     } else if (!validator.isEmail(dadosAtualizados.email)) {
       setState({ ...newState, open: true });
       setMessage("Insira um email válido.");
+      return;
     } else if (dadosAtualizados.turno === "#") {
       setState({ ...newState, open: true });
       setMessage("Selecione um turno.");
+      return;
 
     } else {
       setIsEditarConfirmar(true);
@@ -251,17 +256,17 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
         </div>
       )}
       <Snackbar
-                  ContentProps={{ sx: { borderRadius: '8px' } }}
-                  anchorOrigin={{ vertical, horizontal }}
-                  open={open}
-                  autoHideDuration={2000}
-                  onClose={handleClose}
-                  key={vertical + horizontal}
-                >
-                  <Alert variant="filled" severity="error" onClose={handleClose} action=" ">
-                    {message}
-                  </Alert>
-                </Snackbar>
+        ContentProps={{ sx: { borderRadius: '8px' } }}
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        key={vertical + horizontal}
+      >
+        <Alert variant="filled" severity="error" onClose={handleClose} action=" ">
+          {message}
+        </Alert>
+      </Snackbar>
     </>
 
   );

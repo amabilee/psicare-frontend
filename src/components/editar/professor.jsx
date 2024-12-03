@@ -28,18 +28,23 @@ export default function EditarProfessor({ handleEditarClose, dadosProfessor, ren
     if (dadosAtualizados.nome.length <= 6) {
       setState({ ...newState, open: true });
       setMessage("Insira o nome completo.");
+      return;
     } else if (!cpf.isValid(dadosAtualizados.cpf)) {
       setState({ ...newState, open: true });
       setMessage("Insira um cpf válido.");
+      return;
     } else if (dadosAtualizados.telefone.length != 15) {
       setState({ ...newState, open: true });
       setMessage("Insira um telefone válido.");
+      return;
     } else if (!validator.isEmail(dadosAtualizados.email)) {
       setState({ ...newState, open: true });
       setMessage("Insira um email válido.");
+      return;
     } else if (dadosAtualizados.turno === "#") {
       setState({ ...newState, open: true });
       setMessage("Selecione um turno.");
+      return;
 
     } else {
       setIsEditarConfirmar(true);

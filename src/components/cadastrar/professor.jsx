@@ -34,18 +34,23 @@ export default function CadastrarProfessor({ handleCloseModal, renderForm }) {
         if (dadosForm.nome.length <= 6) {
             setState({ ...newState, open: true });
             setMessage("Insira o nome completo.");
+            return;
         } else if (!cpf.isValid(dadosForm.cpf)) {
             setState({ ...newState, open: true });
             setMessage("Insira um cpf válido.");
+            return;
         } else if (dadosForm.telefone.length != 15) {
             setState({ ...newState, open: true });
             setMessage("Insira um telefone válido.");
+            return;
         } else if (!validator.isEmail(dadosForm.email)) {
             setState({ ...newState, open: true });
             setMessage("Insira um email válido.");
+            return;
         } else if (dadosForm.disciplina.length === 0) {
             setState({ ...newState, open: true });
             setMessage("Insira uma disciplina.");
+            return;
         } else {
             const token = localStorage.getItem("user_token")
             try {

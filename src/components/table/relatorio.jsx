@@ -69,8 +69,6 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
         }
       });
 
-      console.log(receberDados.data)
-
       const { relatorios, totalPages, totalItems } = receberDados.data;
 
 
@@ -312,7 +310,7 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
                   {relatorio.tipoTratamento}
                 </td>
                 <td className="table-content" id="td-tratamento" onClick={() => handleVisualizarClick(relatorio)}>
-                  {relatorio.alunoUnieva ? relatorio.nomeAluno : relatorio.nome_funcionario}
+                  {relatorio.nomeAluno ? relatorio.nomeAluno : relatorio.nome_funcionario}
                 </td>
                 {!algumaCheckboxSelecionada() && (
                   <td>

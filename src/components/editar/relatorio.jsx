@@ -19,8 +19,6 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
     const [alunosNome, setAlunosNome] = useState({ alunos: [] });
     const [userLevel, setUserLevel] = useState(null);
 
-    console.log(dadosRelatorio)
-
     useEffect(() => {
         buscarPacientes();
         buscarAlunos();
@@ -44,26 +42,32 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
         if (!dadosAtualizados.pacienteId) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione um paciente.");
+            return;
         }
         if (userLevel === '0' && !dadosAtualizados.alunoUnieva && !dadosAtualizados.funcionarioUnieva) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione o status do encaminhador.");
+            return;
         }
         if (userLevel === '0' && dadosAtualizados.alunoUnieva && !dadosAtualizados.alunoId) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione um aluno.");
+            return;
         }
         if (userLevel === '0' && dadosAtualizados.funcionarioUnieva && !dadosAtualizados.nome_funcionario) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Preencha o nome do funcionário.");
+            return;
         }
         if (!dadosAtualizados.conteudo) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Preencha o conteúdo do relatório.");
+            return;
         }
         if (!dadosAtualizados.dataCriacao) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Escreva a data de criação.");
+            return;
         } else {
             setIsEditarConfirmar(true);
             setEditar(false);
@@ -76,16 +80,21 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
     }
 
     const handleSucessoConfirmar = async () => {
-        console.log(dadosAtualizados)
         const token = localStorage.getItem("user_token");
         try {
             const formData = new FormData();
             formData.append("pacienteId", dadosAtualizados.pacienteId);
             if (userLevel == '0') {
-                formData.append("alunoId", dadosAtualizados.alunoId);
                 formData.append("alunoUnieva", dadosAtualizados.alunoUnieva);
+                if (dadosAtualizados.alunoUnieva) {
+                    console.log('aluno')
+                    formData.append("alunoId", dadosAtualizados.alunoId);
+                }
                 formData.append("funcionarioUnieva", dadosAtualizados.funcionarioUnieva);
-                formData.append("nome_funcionario", dadosAtualizados.nome_funcionario);
+                if (dadosAtualizados.funcionarioUnieva) {
+                    console.log('funcionario')
+                    formData.append("nome_funcionario", dadosAtualizados.nome_funcionario);
+                }
             }
             formData.append("conteudo", dadosAtualizados.conteudo);
             formData.append("dataCriacao", dadosAtualizados.dataCriacao);
@@ -100,9 +109,12 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                 }
             });
 
-            console.log(dadosEnviados);
+            console.log('return', dadosEnviados)
+            console.log('form', dadosAtualizados)
+
+
             setSucessoEditar(true);
-            renderDadosRelatorio(dadosEnviados);
+            renderDadosRelatorio(dadosAtualizados);
         } catch (e) {
             setState({ ...state, open: true });
             setMessage(e.response.data.error);
@@ -112,13 +124,11 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
         setDadosAtualizados({ ...dadosAtualizados, prontuario: [...dadosAtualizados.prontuario, ...files] });
-        console.log(files)
     };
 
     const handleRemoveFile = (index) => {
         const updatedProntuario = dadosAtualizados.prontuario.filter((_, i) => i !== index);
         setDadosAtualizados({ ...dadosAtualizados, prontuario: updatedProntuario });
-        console.log(updatedProntuario)
     };
 
 
@@ -132,6 +142,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                 }
             });
             setPacientesNome(selectPacientes.data);
+            console.log(selectPacientes.data)
         } catch (e) {
             if (e.response.status == 401) {
                 signOut()
@@ -198,8 +209,8 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                                 onChange={(e) => {
                                                     setDadosAtualizados({
                                                         ...dadosAtualizados,
-                                                        alunoUnieva: e.target.value === "Aluno",
-                                                        funcionarioUnieva: e.target.value === "Funcionário",
+                                                        alunoUnieva: e.target.value === "Aluno" ? true : false,
+                                                        funcionarioUnieva: e.target.value === "Funcionário" ? true : false,
                                                         nome_funcionario: "",
                                                         alunoId: ""
                                                     })
@@ -218,11 +229,16 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                                     onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, alunoId: e.target.value })}
                                                     disabled={!dadosAtualizados.alunoUnieva}>
                                                     <option value="" disabled>Selecione uma opção</option>
-                                                    {alunosNome.alunos.map(aluno => (
-                                                        <option key={aluno._id} value={aluno._id}>
-                                                            {aluno.nome}
-                                                        </option>
-                                                    ))}
+                                                    {alunosNome.alunos
+                                                        .filter(aluno =>
+                                                            pacientesNome.pacientes.some(paciente => paciente.alunoId === aluno._id)
+                                                        )
+                                                        .map(aluno => (
+                                                            <option key={aluno._id} value={aluno._id}>
+                                                                {aluno.nome}
+                                                            </option>
+                                                        ))}
+
                                                 </select>
                                             ) : (
                                                 <input type="text" className="encaminhadorInput" id="encaminhadorInput"
@@ -304,12 +320,14 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                         {pacientesNome.pacientes.find(paciente => paciente._id === dadosAtualizados.pacienteId)?.nome || "Nome não encontrado"}
                                     </h1>
                                 </div>
-                                <div className="nome">
-                                    <p>Encaminhador</p>
-                                    <h1>
-                                        {alunosNome.alunos.find(aluno => aluno._id === dadosAtualizados.alunoId)?.nome || "Nome não encontrado"}
-                                    </h1>
-                                </div>
+                                {userLevel != '3' &&
+                                    <div className="nome">
+                                        <p>Encaminhador</p>
+                                        <h1>
+                                            {alunosNome.alunos.find(aluno => aluno._id === dadosAtualizados.alunoId)?.nome || dadosAtualizados.nome_funcionario}
+                                        </h1>
+                                    </div>
+                                }
                             </div>
                             <div className="coluna2">
                                 <div className="cpf-aluno">
@@ -324,9 +342,9 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                             <div className="coluna3">
                                 <div className="email">
                                     <p>Prontuário</p>
-                                    {dadosAtualizados.prontuario.map((arquivo, index) => (
+                                    {dadosAtualizados.prontuario[0] ? dadosAtualizados.prontuario.map((arquivo, index) => (
                                         <h1 key={index}> {arquivo.nome ? arquivo.nome : arquivo.name}</h1>
-                                    ))}
+                                    )) : <h1>Não foram anexados arquivos</h1>}
                                 </div>
 
                             </div>

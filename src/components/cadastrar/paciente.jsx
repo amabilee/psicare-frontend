@@ -79,79 +79,104 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
         if (dadosForm.nome.length <= 6) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Insira o nome completo.");
+            return;
         } else if (!cpf.isValid(dadosForm.cpf)) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Insira um cpf válido.");
+            return;
         } else if (!validator.isDate(dadosForm.dataNascimento)) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Insira uma data de nascimento.");
+            return;
         } else if (dadosForm.sexo === "") {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione um sexo.");
+            return;
         } else if (!validator.isEmail(dadosForm.email)) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Insira um email válido.");
+            return;
         } else if (dadosForm.telefone.length != 15) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Insira um telefone válido.");
+            return;
         } else if (dadosForm.estadoCivil === "") {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione um estado civil.");
+            return;
         } else if (dadosForm.profissao <= 4) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione uma profissao.");
+            return;
         } else if (dadosForm.religiao <= 4) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione uma religião.");
+            return;
         } else if (dadosForm.rendaFamiliar === "") {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione uma renda.");
+            return;
         } else if (dadosForm.nacionalidade <= 4) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione uma nacionalidade.");
+            return;
         } else if (dadosForm.naturalidade <= 4) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione uma naturalidade.");
+            return;
         } else if (idade < 18 && dadosForm.nomeDoContatoResponsavel.length <= 4) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Insira o nome do contato/responsável.");
+            return;
         } else if (idade < 18 && dadosForm.outroContato.length != 15) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Insira um telefone do contato/responsável válido.");
+            return;
         } else if (dadosForm.enderecoCep === "") {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Insira um cep.");
+            return;
         } else if (dadosForm.enderecoLogradouro === "") {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Insira um Logradouro.");
+            return;
         } else if (dadosForm.enderecoBairro === "") {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Insira um Bairro.");
+            return;
         } else if (dadosForm.enderecoCidade === "") {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Insira um Cidade.");
+            return;
         } else if (dadosForm.enderecoUF === "") {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione uma Unidade Federativa.");
+            return;
         } else if (!dadosForm.alunoUnieva && !dadosForm.funcionarioUnieva) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione um encaminhador.");
+            return;
         } else if (!dadosForm.alunoId === "" && dadosForm.alunoUnieva) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione o AlunoUnieva");
+            return;
         } else if (dadosForm.encaminhador.length <= 4 && dadosForm.funcionarioUnieva) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Insira o funcionario");
+            return;
         } else if (!validator.isDate(dadosForm.dataInicioTratamento)) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Insira a data do início do tratamento.");
+            return;
         }
         else if (!validator.isDate(dadosForm.dataTerminoTratamento)) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Insira a data do término do tratamento.");
+            return;
         } else if (dadosForm.tipoDeTratamento === "") {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione um tipo de tratamento.");
+            return;
         }
 
         else {
