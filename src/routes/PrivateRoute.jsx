@@ -8,10 +8,11 @@ import ProfessoresPage from "../pages/administrador/professor";
 import AlunosPage from "../pages/administrador/aluno";
 import PacientesPage from "../pages/administrador/paciente";
 import RelatoriosPage from "../pages/administrador/relatorio";
+import GerenciaPage from '../pages/administrador/gerencia'
 
 const hasAccess = (userLevel, componentName) => {
     const accessControl = {
-        '0': ['Agenda', 'Secretarios', 'Professores', 'Alunos', 'Pacientes', 'Relatorios'],
+        '0': ['Agenda', 'Secretarios', 'Professores', 'Alunos', 'Pacientes', 'Relatorios', 'Gerencia'],
         '1': ['Agenda', 'Pacientes'],
         '2': ['Pacientes', 'Alunos', 'Relatorios'],
         '3': ['Agenda', 'Pacientes', 'Relatorios'],
@@ -50,7 +51,8 @@ const Professores = (props) => <PrivateRoute component={ProfessoresPage} compone
 const Alunos = (props) => <PrivateRoute component={AlunosPage} componentName="Alunos" {...props} />;
 const Pacientes = (props) => <PrivateRoute component={PacientesPage} componentName="Pacientes" {...props} />;
 const Relatorios = (props) => <PrivateRoute component={RelatoriosPage} componentName="Relatorios" {...props} />;
+const Gerencia = (props) => <PrivateRoute component={GerenciaPage} componentName="Gerencia" {...props} />;
 
 export {
-    Empty, Agenda, Secretarios, Professores, Alunos, Pacientes, Relatorios
+    Empty, Agenda, Secretarios, Professores, Alunos, Pacientes, Relatorios, Gerencia
 };

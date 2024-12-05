@@ -329,6 +329,8 @@
     margin: 0 10px 0 0;
     text-decoration: underline;
     cursor: pointer;
+    width: 270px;
+    overflow-x: hidden;
 }
 
 .file-container button {

@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "../pages/_login/login";
 
 import {
-  Empty, Agenda, Secretarios, Professores, Alunos, Pacientes, Relatorios
+  Empty, Agenda, Secretarios, Professores, Alunos, Pacientes, Relatorios, Gerencia
 } from './PrivateRoute.jsx'
 
 function Router() {
@@ -17,6 +17,7 @@ function Router() {
         <Route path="/alunos" element={<Alunos />} />
         <Route path="/pacientes" element={<Pacientes />} />
         <Route path="/relatorios" element={<Relatorios />} />
+        <Route path="/gerencia" element={<Gerencia />} />
       </Routes>
     </BrowserRouter>
   );

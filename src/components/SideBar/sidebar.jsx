@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaRegCalendar, FaChevronUp, FaChevronDown } from "react-icons/fa";
 import { RiContactsBookLine } from "react-icons/ri";
 import { SlNote } from "react-icons/sl";
+import { BsGear } from "react-icons/bs";
 import { useNavigate, useLocation } from "react-router-dom";
 import logoh from "../../assets/logo-h.svg";
 import iconeSair from "../../assets/sair-icone.svg";
@@ -15,9 +16,9 @@ export default function SideBar() {
 
     const [isCadastroOpen, setIsCadastroOpen] = useState(() => {
         return location.pathname.includes("/secretarios") ||
-                location.pathname.includes("/professores") ||
-                location.pathname.includes("/alunos") ||
-                location.pathname.includes("/pacientes");
+            location.pathname.includes("/professores") ||
+            location.pathname.includes("/alunos") ||
+            location.pathname.includes("/pacientes");
     });
     const [itemAtivo, setItemAtivo] = useState(location.pathname);
 
@@ -31,9 +32,9 @@ export default function SideBar() {
     const handleItemClick = (path) => {
         navigate(path);
 
-        if (path.includes("/secretarios") || 
-            path.includes("/professores") || 
-            path.includes("/alunos") || 
+        if (path.includes("/secretarios") ||
+            path.includes("/professores") ||
+            path.includes("/alunos") ||
             path.includes("/pacientes")) {
             setIsCadastroOpen(true);
         }
@@ -52,15 +53,15 @@ export default function SideBar() {
                     <img src={logoh} alt="logo" className="img_logo" id="img_logo" />
                 </div>
                 <nav className="conteudo-sideBar">
-                {(userLevel === '0' || userLevel === '1' || userLevel === '3') && (
-                    <ul>
-                        <li className={`item-menu ${itemAtivo === "/agenda" ? "item-menu-ativo" : ""}`}>
-                            <button className="link-nav" onClick={() => handleItemClick('/agenda')}>
-                                <span className="icon"><FaRegCalendar className="icon" /></span>
-                                <span className="texto-link">Agenda</span>
-                            </button>
-                        </li>
-                    </ul>
+                    {(userLevel === '0' || userLevel === '1' || userLevel === '3') && (
+                        <ul>
+                            <li className={`item-menu ${itemAtivo === "/agenda" ? "item-menu-ativo" : ""}`}>
+                                <button className="link-nav" onClick={() => handleItemClick('/agenda')}>
+                                    <span className="icon"><FaRegCalendar className="icon" /></span>
+                                    <span className="texto-link">Agenda</span>
+                                </button>
+                            </li>
+                        </ul>
                     )}
                     <div className="caixa-cadastro">
                         {(userLevel === '0' || userLevel === '1' || userLevel === '2' || userLevel === '3') && (
@@ -115,6 +116,16 @@ export default function SideBar() {
                                 <button className="link-nav" onClick={() => handleItemClick('/relatorios')}>
                                     <span className="icon"><SlNote className="icon" /></span>
                                     <span className="texto-link">Relatórios</span>
+                                </button>
+                            </li>
+                        )}
+                    </ul>
+                    <ul>
+                        {userLevel === '0' && (
+                            <li className={`item-menu ${itemAtivo === "/gerencia" ? "item-menu-ativo" : ""}`}>
+                                <button className="link-nav" onClick={() => handleItemClick('/gerencia')}>
+                                    <span className="icon"><BsGear className="icon" /></span>
+                                    <span className="texto-link">Gerência</span>
                                 </button>
                             </li>
                         )}

@@ -31,7 +31,7 @@
     height: 5%;
 }
 
-.barra_pesquisa-visualizar{
+.barra_pesquisa-visualizar {
     display: flex;
     justify-content: flex-end;
     position: relative;
@@ -493,11 +493,11 @@
     margin: 0;
 }
 
-.rbc-day-slot .rbc-event-label{
+.rbc-day-slot .rbc-event-label {
     margin-top: -3px !important;
 }
 
-.rbc-day-slot .rbc-event-content{
+.rbc-day-slot .rbc-event-content {
     line-height: 38px !important;
     margin-left: -78px !important;
     flex: none;
@@ -542,14 +542,14 @@
     font-weight: 400;
 }
 
-.popUpTop .header-visualizar-info{
+.popUpTop .header-visualizar-info {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
 }
 
-.popUpTop .header-visualizar-info img{
+.popUpTop .header-visualizar-info img {
     height: 20px;
 }
 
@@ -639,12 +639,12 @@
     align-items: center;
 }
 
-.popUpContent .linha:last-child div{
+.popUpContent .linha:last-child div {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    padding: 0 15px 0 0 ;
+    padding: 0 15px 0 0;
 }
 
 .popUpContent .linha button {
@@ -666,7 +666,7 @@
     transition: all 0.2s;
 }
 
-.div-flex-consulta{
+.div-flex-consulta {
     width: calc(100% - 30px);
     display: flex;
     flex-direction: row;
@@ -674,10 +674,147 @@
     align-items: center;
 }
 
-.div-flex-consulta p:nth-of-type(1){
+.div-flex-consulta p:nth-of-type(1) {
     padding: 15px 0 0 0;
 }
 
-.div-flex-consulta div:nth-of-type(3){
+.div-flex-consulta div:nth-of-type(3) {
     padding: 20px 0 0 0;
+}
+
+/* gerencia */
+
+.export-button {
+    width: 136px;
+    height: 40px;
+    border: 2px solid #C760EBFA;
+    border-radius: 5px;
+
+    color: #C760EBFA;
+    background: #fff;;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    margin: 0 250px 0 0;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gerencia-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 80vh;
+    width: 100%;
+    position: fixed;
+}
+
+.cards-quantity {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 50px 0 0 0;
+    align-items: center;
+    height: 100%;
+    width: fit-content;
+}
+
+.cards-quantity .card-box {
+    background-color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 10px;
+    height: 100px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 15px 20px;
+    margin: 0 0 35px 0;
+}
+
+.cards-quantity .card-box h2 {
+    color: #710198;
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.cards-quantity .card-box p {
+    color: #710198;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.atendimentos-report {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 100%;
+    margin: 0 0 0 70px;
+}
+
+.atendimentos-report select{
+    width: 186px;
+    height: 40px;
+    border: 2px solid #C760EBFA;
+    border-radius: 5px;
+
+    color: #C760EBFA;
+    background: #fff;;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.atendimentos-report .pie-chart-container {
+    background-color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 10px;
+    padding: 10px 60px 0 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.atendimentos-report .pie-chart-container h2 {
+    color: #000;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.atendimentos-report .table-atendimentos {
+    width: 100%;
+    height: calc(100% - 465px);
+    margin: 0 0 70px 0;
+}
+
+.relatorio-report {
+    background-color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 10px;
+    margin: 45px 0 0 70px;
+    padding: 10px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 320px;
+}
+
+.relatorio-report h2 {
+    color: #000;
+    font-size: 20px;
+    font-weight: 600;
 }

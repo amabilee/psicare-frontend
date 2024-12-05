@@ -5,6 +5,7 @@ import Alert from '@mui/material/Alert';
 import "./style.css"
 import ClipIcon from '../../assets/relatorio/clip.svg'
 import TrashIcon from '../../assets/excluir-icon.svg'
+import Download from "../../assets/download.svg"
 
 import 'rsuite/dist/rsuite.css';
 import { DatePicker } from 'rsuite';
@@ -101,6 +102,9 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
             dadosAtualizados.prontuario.forEach((file) => {
                 formData.append('prontuario', file);
             });
+            dadosAtualizados.assinatura.forEach((file) => {
+                formData.append('assinatura', file);
+            });
 
             const dadosEnviados = await api.patch(`/relatorio/${dadosAtualizados._id}`, formData, {
                 headers: {
@@ -126,11 +130,28 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
         setDadosAtualizados({ ...dadosAtualizados, prontuario: [...dadosAtualizados.prontuario, ...files] });
     };
 
+    const handleFileChangeAssinatura = (e) => {
+        const files = Array.from(e.target.files);
+        setDadosAtualizados({ ...dadosAtualizados, assinatura: [...dadosAtualizados.assinatura, ...files] });
+    };
+
     const handleRemoveFile = (index) => {
         const updatedProntuario = dadosAtualizados.prontuario.filter((_, i) => i !== index);
         setDadosAtualizados({ ...dadosAtualizados, prontuario: updatedProntuario });
     };
 
+    const handleRemoveFileAssinatura = (index) => {
+        const updatedAssinatura = dadosAtualizados.assinatura.filter((_, i) => i !== index);
+        setDadosAtualizados({ ...dadosAtualizados, assinatura: updatedAssinatura });
+    };
+
+    const handleDownloadFile = (index) => {
+        const updatedProntuario = dadosAtualizados.prontuario[index]; // Obtém o item pelo índice
+        console.log(updatedProntuario);
+        const fullURL = `${api.defaults.baseURL}${updatedProntuario.id}`;
+
+        window.open(fullURL, '_blank');
+    };
 
     const buscarPacientes = async () => {
         const token = localStorage.getItem("user_token")
@@ -189,17 +210,34 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                         <div className="formulario">
                             <h2>Informações de tratamento</h2>
                             <div className="flex-informacoes-tratamento">
-                                <div className="div-flex">
-                                    <label htmlFor="pacienteNome">Paciente*</label>
-                                    <select id="pacienteNome" value={dadosAtualizados.pacienteId} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, pacienteId: e.target.value })} required>
-                                        <option value="#">Selecione uma opção</option>
-                                        {pacientesNome.pacientes.map(paciente => (
-                                            <option key={paciente._id} value={paciente._id}>
-                                                {paciente.nome}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
+                                {userLevel === '2' ? (
+                                    <>
+                                        <div className="div-flex">
+                                            <label htmlFor="pacienteNome">Paciente</label>
+                                            <h3>{dadosAtualizados.nomePaciente}</h3>
+                                        </div>
+                                        <div className="div-flex">
+                                            <label htmlFor="pacienteNome">Encaminhador</label>
+                                            <h3>{dadosAtualizados.nomeAluno ? dadosAtualizados.nomeAluno : dadosAtualizados.nome_funcionario}</h3>
+                                        </div>
+                                        <div className="div-flex">
+                                            <label>Data de criação</label>
+                                            <h3>{formatarData(dadosAtualizados.dataCriacao)}</h3>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="div-flex">
+                                        <label htmlFor="pacienteNome">Paciente*</label>
+                                        <select id="pacienteNome" value={dadosAtualizados.pacienteId} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, pacienteId: e.target.value })} required>
+                                            <option value="#">Selecione uma opção</option>
+                                            {pacientesNome.pacientes.map(paciente => (
+                                                <option key={paciente._id} value={paciente._id}>
+                                                    {paciente.nome}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                )}
                                 {(userLevel === '0') && (
                                     <>
                                         <div className="div-flex">
@@ -252,123 +290,194 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                 )}
                             </div>
                             <h2>Informações de relatório</h2>
-                            <div className="div-flex input-data">
-                                <label>Data de criação*</label>
-                                <DatePicker
-                                    format="dd/MM/yyyy"
-                                    placeholder="dd/mm/aaaa"
-                                    value={new Date(dadosAtualizados.dataCriacao)}
-                                    onChange={(e) =>
-                                        setDadosAtualizados({ ...dadosAtualizados, dataCriacao: e })
-                                    }
-                                />
-                            </div>
-                            <div className="flex-informacoes-relatorio">
-                                <div className="div-flex">
-                                    <label htmlFor="conteudoRelatorio">Conteúdo*</label>
-                                    <div className="textarea-container">
-                                        <textarea
-                                            name="conteudoRelatorio"
-                                            value={dadosAtualizados.conteudo}
-                                            onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, conteudo: e.target.value })}
+                            {userLevel != '2' && (
+                                <div className="div-flex input-data">
+                                    <>
+                                        <label>Data de criação*</label>
+                                        <DatePicker
+                                            format="dd/MM/yyyy"
+                                            placeholder="dd/mm/aaaa"
+                                            value={new Date(dadosAtualizados.dataCriacao)}
+                                            onChange={(e) =>
+                                                setDadosAtualizados({ ...dadosAtualizados, dataCriacao: e })
+                                            }
                                         />
+                                    </>
+                                </div>
+                            )}
+                            <div className="flex-informacoes-relatorio">
+                                {userLevel === '2' ? (
+                                    <>
+                                        <label htmlFor="conteudoRelatorio">Conteúdo</label>
+                                        <h3 className="conteudo-wrap">{dadosAtualizados.conteudo.split('\n').map((line, index) => (
+                                            <React.Fragment key={index}>
+                                                {line}
+                                                <br />
+                                            </React.Fragment>
+                                        ))}</h3>
+                                        <div className="files-added">
+                                            {dadosAtualizados.prontuario.map((arquivo, index) => (
+                                                <div key={index}>
+                                                    <p>{arquivo.nome ? arquivo.nome : arquivo.name}</p>
+                                                    <img src={Download}
+                                                        alt="Remove"
+                                                        className="trash-icon"
+                                                        onClick={() => handleDownloadFile(index)}
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </>
+                                ) : (
+
+                                    <div className="div-flex">
+                                        <label htmlFor="conteudoRelatorio">Conteúdo*</label>
+                                        <div className="textarea-container">
+                                            <textarea
+                                                name="conteudoRelatorio"
+                                                value={dadosAtualizados.conteudo}
+                                                onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, conteudo: e.target.value })}
+                                            />
+                                            <input
+                                                type="file"
+                                                accept=".pdf"
+                                                multiple
+                                                style={{ display: 'none' }}
+                                                id="fileUpload"
+                                                onChange={handleFileChange}
+                                            />
+                                            <label htmlFor="fileUpload" className="clip-icon-label">
+                                                <img src={ClipIcon} alt="Attach" className="clip-icon" />
+                                            </label>
+                                            <div className="files-added">
+                                                {dadosAtualizados.prontuario.map((arquivo, index) => (
+                                                    <div key={index}>
+                                                        <p>{arquivo.nome ? arquivo.nome : arquivo.name}</p>
+                                                        <img src={TrashIcon}
+                                                            alt="Remove"
+                                                            className="trash-icon"
+                                                            onClick={() => handleRemoveFile(index)}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                )}
+                            </div>
+                            {userLevel != '3' && (
+                                <>
+                                    <h2 htmlFor="conteudoRelatorio">Assinatura</h2>
+                                    <div className="input-file-relatorio">
                                         <input
                                             type="file"
                                             accept=".pdf"
                                             multiple
                                             style={{ display: 'none' }}
                                             id="fileUpload"
-                                            onChange={handleFileChange}
+                                            onChange={handleFileChangeAssinatura}
                                         />
-                                        <label htmlFor="fileUpload" className="clip-icon-label">
-                                            <img src={ClipIcon} alt="Attach" className="clip-icon" />
+                                        <label htmlFor="fileUpload" className="">
+                                            Anexar arquivo <img src={ClipIcon} alt="Attach" className="" />
                                         </label>
-                                        <div className="files-added">
-                                            {dadosAtualizados.prontuario.map((arquivo, index) => (
-                                                <div key={index}>
-                                                    <p>{arquivo.nome ? arquivo.nome : arquivo.name}</p>
-                                                    <img src={TrashIcon}
-                                                        alt="Remove"
-                                                        className="trash-icon"
-                                                        onClick={() => handleRemoveFile(index)}
-                                                    />
-                                                </div>
-                                            ))}
-                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <p className="campo_obrigatorio">*Campo Obrigatório</p>
+                                    <div className="files-added" style={{ marginBottom: '40px' }}>
+                                        {dadosAtualizados.assinatura.map((arquivo, index) => (
+                                            <div key={index}>
+                                                <p>{arquivo.nome ? arquivo.nome : arquivo.name}</p>
+                                                <img src={TrashIcon}
+                                                    alt="Remove"
+                                                    className="trash-icon"
+                                                    onClick={() => handleRemoveFileAssinatura(index)}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
                             <div className="buttons-form buttons-form-aluno">
                                 <button className="button-voltar" id="voltar" onClick={handleEditarClose} >Cancelar</button>
                                 <button className="button-cadastrar" id="cadastrar" onClick={handleEditarConfirmar({ vertical: 'bottom', horizontal: 'center' })}>Confirmar</button>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
-            {isEditarConfirmar && (
-                <div className="modal-confirmar">
-                    <div className="modal-content-confirmar modal-content-confirmar-relatorio">
-                        <h2>Confirmar Edição de Relatório</h2>
-                        <hr />
-                        <div className="dados-inseridos">
-                            <div className="coluna1">
-                                <div className="nome">
-                                    <p>Paciente</p>
-                                    <h1>
-                                        {pacientesNome.pacientes.find(paciente => paciente._id === dadosAtualizados.pacienteId)?.nome || "Nome não encontrado"}
-                                    </h1>
-                                </div>
-                                {userLevel != '3' &&
+                </div >
+            )
+            }
+            {
+                isEditarConfirmar && (
+                    <div className="modal-confirmar">
+                        <div className="modal-content-confirmar modal-content-confirmar-relatorio">
+                            <h2>Confirmar Edição de Relatório</h2>
+                            <hr />
+                            <div className="dados-inseridos">
+                                <div className="coluna1">
                                     <div className="nome">
-                                        <p>Encaminhador</p>
+                                        <p>Paciente</p>
                                         <h1>
-                                            {alunosNome.alunos.find(aluno => aluno._id === dadosAtualizados.alunoId)?.nome || dadosAtualizados.nome_funcionario}
+                                            {pacientesNome.pacientes.find(paciente => paciente._id === dadosAtualizados.pacienteId)?.nome || "Nome não encontrado"}
                                         </h1>
                                     </div>
-                                }
+                                    {userLevel != '3' &&
+                                        <div className="nome">
+                                            <p>Encaminhador</p>
+                                            <h1>
+                                                {alunosNome.alunos.find(aluno => aluno._id === dadosAtualizados.alunoId)?.nome || dadosAtualizados.nome_funcionario}
+                                            </h1>
+                                        </div>
+                                    }
+                                </div>
+                                <div className="coluna2">
+                                    <div className="cpf-aluno">
+                                        <p>Data de criação</p>
+                                        <h1>{formatarData(dadosAtualizados.dataCriacao)}</h1>
+                                    </div>
+                                    <div className="telefone">
+                                        <p>Conteudo</p>
+                                        <h1>{dadosAtualizados.conteudo}</h1>
+                                    </div>
+                                </div>
+                                <div className="coluna3">
+                                    <div className="email">
+                                        <p>Prontuário</p>
+                                        {dadosAtualizados.prontuario[0] ? dadosAtualizados.prontuario.map((arquivo, index) => (
+                                            <h1 key={index}> {arquivo.nome ? arquivo.nome : arquivo.name}</h1>
+                                        )) : <h1>Não foram anexados arquivos</h1>}
+                                    </div>
+                                    {userLevel === '0' || userLevel === '2' && (
+                                        <div className="email">
+                                            <p>Assinatura</p>
+                                            {dadosAtualizados.assinatura[0] ? dadosAtualizados.assinatura.map((arquivo, index) => (
+                                                <h1 key={index}> {arquivo.nome ? arquivo.nome : arquivo.name}</h1>
+                                            )) : <h1>Não foram anexados arquivos</h1>}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                            <div className="coluna2">
-                                <div className="cpf-aluno">
-                                    <p>Data de criação</p>
-                                    <h1>{formatarData(dadosAtualizados.dataCriacao)}</h1>
-                                </div>
-                                <div className="telefone">
-                                    <p>Conteudo</p>
-                                    <h1>{dadosAtualizados.conteudo}</h1>
-                                </div>
-                            </div>
-                            <div className="coluna3">
-                                <div className="email">
-                                    <p>Prontuário</p>
-                                    {dadosAtualizados.prontuario[0] ? dadosAtualizados.prontuario.map((arquivo, index) => (
-                                        <h1 key={index}> {arquivo.nome ? arquivo.nome : arquivo.name}</h1>
-                                    )) : <h1>Não foram anexados arquivos</h1>}
-                                </div>
-
+                            <div className="buttons-confirmar buttons-confirmar-relatorio">
+                                <button className="button-voltar-confirmar" id="voltar" onClick={handleVoltarConfirmar} >
+                                    Voltar
+                                </button>
+                                <button type="submit" className="button-confirmar" id="cadastrar" onClick={handleSucessoConfirmar}>
+                                    Confirmar
+                                </button>
                             </div>
                         </div>
-                        <div className="buttons-confirmar buttons-confirmar-relatorio">
-                            <button className="button-voltar-confirmar" id="voltar" onClick={handleVoltarConfirmar} >
-                                Voltar
-                            </button>
-                            <button type="submit" className="button-confirmar" id="cadastrar" onClick={handleSucessoConfirmar}>
-                                Confirmar
-                            </button>
+                    </div>
+                )
+            }
+            {
+                SucessoEditar && (
+                    <div className="modal-sucesso">
+                        <div className="modal-sucesso-content">
+                            <h1>Sucesso!</h1>
+                            <h2>Relatório editado com sucesso.</h2>
+                            <button className="button-fechar" id="fechar" onClick={handleEditarClose} >Fechar</button>
                         </div>
                     </div>
-                </div>
-            )}
-            {SucessoEditar && (
-                <div className="modal-sucesso">
-                    <div className="modal-sucesso-content">
-                        <h1>Sucesso!</h1>
-                        <h2>Relatório editado com sucesso.</h2>
-                        <button className="button-fechar" id="fechar" onClick={handleEditarClose} >Fechar</button>
-                    </div>
-                </div>
-            )}
+                )
+            }
             <Snackbar
                 ContentProps={{ sx: { borderRadius: '8px' } }}
                 anchorOrigin={{ vertical, horizontal }}

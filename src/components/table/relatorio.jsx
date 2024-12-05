@@ -26,9 +26,16 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
   const [todasCheckboxSelecionadas, setTodasCheckboxSelecionadas] = useState({});
   const [idsSelecionados, setIdsSelecionados] = useState([]);
 
+  const [userLevel, setUserLevel] = useState(null);
+
   useEffect(() => {
     receberDadosRelatorio();
   }, [renderFormTable, currentPage, pesquisar, filtrarPesquisa]);
+
+  useEffect(() => {
+    const level = localStorage.getItem('user_level');
+    setUserLevel(level);
+  }, []);
 
   const formatarDataRequest = (data) => {
     const dia = String(data.getDate()).padStart(2, '0');
@@ -260,9 +267,11 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
         <thead>
           {algumaCheckboxSelecionada() ? (
             <tr className="tr-body">
-              <th>
-                <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo} />
-              </th>
+              {(userLevel === '0' || userLevel === '3') && (
+                <th>
+                  <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo} />
+                </th>
+              )}
               <th>{contarTotalCheckboxSelecionadas()} selecionados</th>
               <th colSpan={5} className="deletar-selecionados">
                 <span onClick={handleExcluirSelecionados}>Deletar Selecionados</span>
@@ -270,9 +279,11 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
             </tr>
           ) : (
             <tr className="tr-body">
-              <th>
-                <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo} />
-              </th>
+              {(userLevel === '0' || userLevel === '3') && (
+                <th>
+                  <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo} />
+                </th>
+              )}
               <th>Data de Criação</th>
               <th>Paciente</th>
               <th>Tipo de Tratamento</th>
@@ -291,15 +302,17 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
           ) : (Array.isArray(dadosRelatorio.relatorios) &&
             dadosRelatorio.relatorios.map((relatorio, index) => (
               <tr key={relatorio._id} >
-                <td>
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    onChange={handleCheckboxSelecionada(index, relatorio._id)}
-                    checked={checkboxSelecionadas[`page-${currentPage}`]?.hasOwnProperty(index) || false}
+                {(userLevel === '0' || userLevel === '3') && (
+                  <td>
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      onChange={handleCheckboxSelecionada(index, relatorio._id)}
+                      checked={checkboxSelecionadas[`page-${currentPage}`]?.hasOwnProperty(index) || false}
 
-                  />
-                </td>
+                    />
+                  </td>
+                )}
                 <td className="table-content" id="td-nome" onClick={() => handleVisualizarClick(relatorio)}>
                   {formatarData(relatorio.dataCriacao)}
                 </td>
@@ -320,12 +333,14 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
                       className="icon-editar"
                       onClick={() => handleEditarClick(relatorio)}
                     />
-                    <img
-                      src={IconExcluir}
-                      alt="excluir"
-                      className="icon-excluir"
-                      onClick={() => handleExcluirClick(relatorio)}
-                    />
+                    {(userLevel === '0' || userLevel === '3') && (
+                      <img
+                        src={IconExcluir}
+                        alt="excluir"
+                        className="icon-excluir"
+                        onClick={() => handleExcluirClick(relatorio)}
+                      />
+                    )}
                   </td>
                 )}
               </tr>

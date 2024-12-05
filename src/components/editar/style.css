@@ -1,8 +1,8 @@
 /* modal referente ao modal de modal de editar  */
-.modal-editar{
+.modal-editar {
     display: flex;
     justify-content: center;
-    align-items: center;    
+    align-items: center;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -13,7 +13,7 @@
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-.modal-content-editar{
+.modal-content-editar {
     background-color: #fefefe;
     padding: 15px 20px 30px 20px;
     border: 1px solid #888;
@@ -25,18 +25,18 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.modal-content-editar-aluno{
+.modal-content-editar-aluno {
     width: 600px;
 }
 
-.modal-content-editar-paciente{
+.modal-content-editar-paciente {
     width: 1150px;
     height: 80vh;
     overflow-y: scroll;
     z-index: 3000;
 }
 
-.modal-content-editar h2{
+.modal-content-editar h2 {
     color: #767474;
     font-size: 20px;
     padding: 10px 0 10px 10px;
@@ -44,7 +44,7 @@
     line-height: normal;
 }
 
-.modal-content-editar h2{
+.modal-content-editar h2 {
     color: #767474;
     font-size: 20px;
     padding: 10px 0 10px 10px;
@@ -59,7 +59,7 @@
     color: black;
 }
 
-.modal-content-editar hr{
+.modal-content-editar hr {
     height: 2px;
     background-color: #D9D9D9;
     border: none;
@@ -73,28 +73,28 @@
     margin-top: 0;
 }
 
-.modal-content-editar-paciente hr{
+.modal-content-editar-paciente hr {
     width: 1100px;
     margin: 0 0 0 15px;
 }
 
-.modal-content-editar .formulario{
+.modal-content-editar .formulario {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
     margin-left: 20px;
 }
 
-.modal-content-editar-paciente .formulario{
+.modal-content-editar-paciente .formulario {
     margin-top: 0;
-} 
+}
 
 .modal-content-editar label {
     color: #767474;
     font-size: 15px;
 }
 
-.modal-content-editar input{
+.modal-content-editar input {
     padding: 10px;
     border: 2px solid #C760EBFA;
     border-radius: 12px;
@@ -102,7 +102,7 @@
     margin: 8px 0;
 }
 
-.modal-content-editar-aluno input{
+.modal-content-editar-aluno input {
     width: 535px;
 }
 
@@ -110,34 +110,34 @@
     text-transform: capitalize;
 }
 
-.modal-content-editar input:focus{
+.modal-content-editar input:focus {
     border: 2px solid #C760EBFA;
     outline: none;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
     transition: all 0.2s;
 }
 
-.modal-content-editar .flex-input{
-    display: flex;   
+.modal-content-editar .flex-input {
+    display: flex;
 }
 
-.modal-content-editar .div-CPF .CPF, 
-.modal-content-editar .div-matricula .matricula{
+.modal-content-editar .div-CPF .CPF,
+.modal-content-editar .div-matricula .matricula {
     display: flex;
     width: 245px;
     margin-right: 25px;
 }
 
 .modal-content-editar .div-telefone .telefone,
-.modal-content-editar .div-periodo .periodo{
+.modal-content-editar .div-periodo .periodo {
     display: flex;
 }
 
-.modal-content-editar .div-telefone .telefone{
+.modal-content-editar .div-telefone .telefone {
     width: 210px;
 }
 
-.modal-content-editar-aluno .div-telefone .telefone{
+.modal-content-editar-aluno .div-telefone .telefone {
     width: 240px;
 }
 
@@ -151,12 +151,14 @@
 .modal-content-editar select.tratamento,
 .modal-content-editar select.renda,
 .modal-content-editar select.encaminhadorSelect,
-.modal-content-editar select.uf{
+.modal-content-editar select.uf {
     padding: 10px;
     border: 2px solid #C760EBFA;
     border-radius: 12px;
-    -webkit-appearance: none; /* Remove o estilo padrão da seta no Safari */
-    -moz-appearance: none; /* Remove o estilo padrão da seta no Firefox */
+    -webkit-appearance: none;
+    /* Remove o estilo padrão da seta no Safari */
+    -moz-appearance: none;
+    /* Remove o estilo padrão da seta no Firefox */
     appearance: none;
     background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 10L12 16L18 10" stroke="%23710198" stroke-linecap="round"/></svg>');
     background-repeat: no-repeat;
@@ -165,7 +167,7 @@
     margin: 8px 0;
 }
 
-.modal-content-editar select.turno:focus,  
+.modal-content-editar select.turno:focus,
 .modal-content-editar select.professorNome:focus,
 .modal-content-editar select.sexo:focus,
 .modal-content-editar select.estado-civil:focus,
@@ -174,40 +176,40 @@
 .modal-content-editar select.tratamento:focus,
 .modal-content-editar select.renda:focus,
 .modal-content-editar select.encaminhadorSelect:focus,
-.modal-content-editar select.uf:focus{
+.modal-content-editar select.uf:focus {
     border: 2px solid #C760EBFA;
     outline: none;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
 }
 
-.modal-content-editar select.turno{
+.modal-content-editar select.turno {
     width: 260px
 }
 
-.modal-content-editar select.turno{
+.modal-content-editar select.turno {
     width: 245px;
 }
 
-.modal-content-editar select.estado-civil{
+.modal-content-editar select.estado-civil {
     width: 210px;
 }
 
-.modal-content-editar select.sexo{
+.modal-content-editar select.sexo {
     width: 190px;
 }
 
-.modal-content-editar select.encaminhadorSelect{
+.modal-content-editar select.encaminhadorSelect {
     width: 330px;
 }
 
-.modal-content-editar select.uf{
+.modal-content-editar select.uf {
     display: flex;
     width: 70px;
     margin-right: 230px;
 }
 
-.modal-content-editar select.status{
+.modal-content-editar select.status {
     display: flex;
     width: 438px;
     margin-right: 300px;
@@ -232,11 +234,11 @@
     margin: 8px 0;
 } */
 
-.modal-content-editar-aluno .periodo{
+.modal-content-editar-aluno .periodo {
     width: 265px;
 }
 
-.modal-content-editar .disciplina{
+.modal-content-editar .disciplina {
     width: 240px;
     text-transform: capitalize;
 }
@@ -336,21 +338,21 @@
 .flex-informacoes-pessoais .nome-contato {
     width: 368px;
     display: flex;
-    
+
 }
 
-.flex-informacoes-tratamento .encaminhadorInput{
+.flex-informacoes-tratamento .encaminhadorInput {
     display: flex;
     width: 308px;
 }
 
 .flex-informacoes-tratamento .inicio-tratamento,
-.flex-informacoes-tratamento .termino-tratamento{
+.flex-informacoes-tratamento .termino-tratamento {
     display: flex;
     width: 260px;
 }
 
-.flex-informacoes-tratamento #tratamento{
+.flex-informacoes-tratamento #tratamento {
     display: flex;
     width: 230px;
     margin-right: 300px;
@@ -358,14 +360,14 @@
 
 
 /* buttons de editar cadastro */
-.modal-content-editar .buttons-form{
+.modal-content-editar .buttons-form {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
     margin-bottom: 20px;
 }
 
-.modal-content-editar .buttons-form-paciente{
+.modal-content-editar .buttons-form-paciente {
     margin-top: 15px;
 }
 
@@ -383,13 +385,13 @@
     margin-right: 30px;
     border: 2px solid #C760EB;
     border-radius: 6px;
-    
+
 }
 
-.modal-content-editar .buttons-form .button-cancelar:hover{
+.modal-content-editar .buttons-form .button-cancelar:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 .modal-content-editar .buttons-form .button-confirmar {
@@ -404,17 +406,17 @@
     border-radius: 6px;
 }
 
-.modal-content-editar .buttons-form .button-confirmar:hover{
+.modal-content-editar .buttons-form .button-confirmar:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 /* modal referente a confirmar a edição  */
 .modal-confirmar {
     display: flex;
     justify-content: center;
-    align-items: center;    
+    align-items: center;
     position: fixed;
     z-index: 99;
     left: 0;
@@ -425,7 +427,7 @@
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-.modal-content-confirmar{
+.modal-content-confirmar {
     background-color: #fefefe;
     padding: 15px 20px 0px 20px;
     border: 1px solid #888;
@@ -437,20 +439,20 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.modal-content-confirmar-aluno{
+.modal-content-confirmar-aluno {
     height: 690px;
     width: 600px;
 }
 
-.modal-content-confirmar-professor{
+.modal-content-confirmar-professor {
     height: 530px;
 }
 
-.modal-content-confirmar-secretario{
+.modal-content-confirmar-secretario {
     height: 530px;
 }
 
-.modal-content-confirmar-paciente{
+.modal-content-confirmar-paciente {
     width: 1150px;
     height: 990px;
     overflow: hidden;
@@ -482,7 +484,7 @@
     margin-top: 0;
 }
 
-.modal-content-confirmar-paciente hr{
+.modal-content-confirmar-paciente hr {
     width: 1100px;
     margin: 0 0 0 15px;
 }
@@ -491,13 +493,13 @@
     margin-left: 20px;
 }
 
-.modal-content-confirmar .dados-inseridos p{
+.modal-content-confirmar .dados-inseridos p {
     color: #767474;
     margin-bottom: 10px;
     font-size: 15px;
 }
 
-.modal-content-confirmar .dados-inseridos h1{
+.modal-content-confirmar .dados-inseridos h1 {
     color: #767474;
     margin-bottom: 20px;
     font-size: 20px;
@@ -505,12 +507,12 @@
     line-height: normal;
 }
 
-.modal-content-confirmar .dados-inseridos .disciplina h1{
+.modal-content-confirmar .dados-inseridos .disciplina h1 {
     text-transform: capitalize;
     line-height: normal;
 }
 
-.modal-content-confirmar .dados-inseridos .nome h1{
+.modal-content-confirmar .dados-inseridos .nome h1 {
     text-transform: capitalize;
     line-height: normal;
 
@@ -518,7 +520,7 @@
 
 /* modal confirmar secretario */
 
-.modal-content-confirmar-secretario .coluna4 h1{
+.modal-content-confirmar-secretario .coluna4 h1 {
     text-transform: capitalize;
 }
 
@@ -545,12 +547,12 @@
 .modal-content-confirmar-paciente .coluna4 div:nth-child(2),
 .modal-content-confirmar-paciente .coluna5 div:nth-child(1),
 .modal-content-confirmar-paciente .coluna6 div:nth-child(1),
-.modal-content-confirmar-paciente .coluna7 div:nth-child(1){
+.modal-content-confirmar-paciente .coluna7 div:nth-child(1) {
     width: 300px;
 }
 
 
-.modal-content-confirmar-paciente .coluna7 div:nth-child(2){
+.modal-content-confirmar-paciente .coluna7 div:nth-child(2) {
     width: 900px;
 }
 
@@ -569,33 +571,33 @@
 .modal-content-confirmar-paciente .coluna6 div:nth-child(3),
 .modal-content-confirmar-paciente .coluna8 div:nth-child(2),
 .modal-content-confirmar-paciente .coluna8 div:nth-child(3),
-.modal-content-confirmar-paciente .coluna8 div:nth-child(1){
+.modal-content-confirmar-paciente .coluna8 div:nth-child(1) {
     width: 200px;
 }
 
-.modal-content-confirmar-paciente .coluna1 div:nth-child(1){
+.modal-content-confirmar-paciente .coluna1 div:nth-child(1) {
     max-width: 300px;
     overflow-x: hidden;
 }
 
-.modal-content-confirmar-paciente .coluna4{
+.modal-content-confirmar-paciente .coluna4 {
     width: 650px;
 }
 
-.modal-content-confirmar-paciente .coluna8{
+.modal-content-confirmar-paciente .coluna8 {
     width: 700px;
 }
 
-.modal-content-confirmar-paciente .coluna7{
+.modal-content-confirmar-paciente .coluna7 {
     width: 1000px;
 }
 
 .modal-content-confirmar-paciente .coluna5,
-.modal-content-confirmar-paciente .coluna6{
+.modal-content-confirmar-paciente .coluna6 {
     width: 800px;
 }
 
-.modal-content-confirmar-paciente .dados-inseridos .coluna8{
+.modal-content-confirmar-paciente .dados-inseridos .coluna8 {
     display: flex;
     justify-content: space-between;
     margin-right: 540px;
@@ -603,41 +605,41 @@
 
 /* modal confirmar consulta */
 
-.modal-content-confirmar-consulta{
+.modal-content-confirmar-consulta {
     height: 600px;
     width: 600px;
 }
 
 .modal-content-confirmar-consulta .dados-inseridos .coluna1,
 .modal-content-confirmar-consulta .dados-inseridos .coluna4,
-.modal-content-confirmar-consulta .dados-inseridos .coluna3{
+.modal-content-confirmar-consulta .dados-inseridos .coluna3 {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
 
-.modal-content-confirmar-consulta .dados-inseridos .coluna3{
+.modal-content-confirmar-consulta .dados-inseridos .coluna3 {
     width: 328px;
 }
 
-.modal-content-confirmar-consulta .dados-inseridos .coluna4{
+.modal-content-confirmar-consulta .dados-inseridos .coluna4 {
     width: 350px;
 }
 
 /* confirmar buttons */
 
-.modal-content-confirmar .buttons-confirmar{
+.modal-content-confirmar .buttons-confirmar {
     display: flex;
     justify-content: space-between;
 }
 
-.modal-content-confirmar .buttons-confirmar-paciente{
+.modal-content-confirmar .buttons-confirmar-paciente {
     margin-top: 53px;
     margin-left: -20px;
 }
 
-.modal-content-confirmar .button-voltar-confirmar{
+.modal-content-confirmar .button-voltar-confirmar {
     color: #C760EB;
     background: #fff;
     transition: all 0.4s;
@@ -649,13 +651,13 @@
     margin-left: 20px;
 }
 
-.modal-content-confirmar .button-voltar-confirmar:hover{
+.modal-content-confirmar .button-voltar-confirmar:hover {
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
 }
 
-.modal-content-confirmar .button-confirmar{
+.modal-content-confirmar .button-confirmar {
     color: #fff;
     background: #C760EB;
     transition: all 0.4s;
@@ -699,7 +701,7 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.modal-sucesso-content h1{
+.modal-sucesso-content h1 {
     color: #767474;
     font-size: 40px;
     margin-top: 30px;
@@ -707,7 +709,7 @@
     line-height: normal;
 }
 
-.modal-sucesso-content h2{
+.modal-sucesso-content h2 {
     color: #767474;
     font-size: 20px;
     margin-bottom: 30px;
@@ -715,7 +717,8 @@
     line-height: normal;
 
 }
-.modal-sucesso-content h2{
+
+.modal-sucesso-content h2 {
     color: #767474;
     font-size: 20px;
     margin-bottom: 30px;
@@ -723,7 +726,7 @@
     line-height: normal;
 }
 
-.modal-sucesso-content #fechar{
+.modal-sucesso-content #fechar {
     color: #fff;
     background: #C760EB;
     transition: all 0.4s;
@@ -735,7 +738,7 @@
     margin-top: 10px;
 }
 
-.modal-sucesso-content #fechar:hover{
+.modal-sucesso-content #fechar:hover {
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
@@ -743,8 +746,47 @@
 
 /* relatorio */
 
-.modal-content-confirmar-relatorio{
+.modal-content-confirmar-relatorio {
     padding-bottom: 40px;
     height: fit-content;
     max-height: 700px;
+}
+
+.modal-content-relatorio {
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+.modal-content-relatorio h3 {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.modal-content-relatorio .conteudo-wrap {
+    height: 350px;
+    max-height: 350px;
+    overflow-y: scroll;
+    margin: 10px 0 0 0;
+    border-bottom: 1px solid #767474;
+}
+
+.modal-content-relatorio .files-added div {
+    margin: 10px 15px 10px 0px;
+}
+
+.input-file-relatorio label{
+    color: #C760EB;
+    background: #fff;
+    transition: all 0.4s;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 10px 20px;
+    margin-right: 30px;
+    border: 2px dotted #C760EB;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 180px;
 }
