@@ -108,10 +108,15 @@ export default function VisualizarRelatorio({ handleCloseVisualizar, dadosRelato
                                 <div className="files-box">
                                     {dadosRelatorio.prontuario.map((arquivo, index) => (
                                         <div className="file-container" key={index}>
-                                            <p>{arquivo.nome}</p>
-                                            <button onClick={(e) => downloadFile(e)}><img src={Download} alt={arquivo.id} /></button>
+                                            <p onClick={(e) => downloadFile(e)} style={{ cursor: 'pointer' }}>
+                                                {arquivo.nome}
+                                            </p>
+                                            <button onClick={(e) => downloadFile(e)}>
+                                                <img src={Download} alt={arquivo.id} />
+                                            </button>
                                         </div>
                                     ))}
+
                                 </div>
                             </div>
                             <div className="data-nascimento">
@@ -119,10 +124,15 @@ export default function VisualizarRelatorio({ handleCloseVisualizar, dadosRelato
                                 <div className="files-box">
                                     {dadosRelatorio.assinatura.map((arquivo, index) => (
                                         <div className="file-container" key={index}>
-                                            <p>{arquivo.nome}</p>
-                                            <button onClick={(e) => downloadFile(e)}><img src={Download} alt={arquivo.id} /></button>
+                                            <p onClick={(e) => downloadFile(e)} style={{ cursor: 'pointer' }}>
+                                                {arquivo.nome}
+                                            </p>
+                                            <button onClick={(e) => downloadFile(e)}>
+                                                <img src={Download} alt={arquivo.id} />
+                                            </button>
                                         </div>
                                     ))}
+
                                 </div>
                             </div>
                         </div>

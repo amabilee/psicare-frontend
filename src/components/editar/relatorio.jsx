@@ -83,6 +83,27 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
     const handleSucessoConfirmar = async () => {
         const token = localStorage.getItem("user_token");
         try {
+
+            const removedProntuarios = getRemovedFiles(dadosRelatorio.prontuario, dadosAtualizados.prontuario);
+            const removedAssinaturas = getRemovedFiles(dadosRelatorio.assinatura, dadosAtualizados.assinatura);
+
+            console.log('prontuarios', removedProntuarios)
+            console.log('Assinaturas', removedAssinaturas)
+
+            const deleteFiles = async (files) => {
+                for (const file of files) {
+                    const fileId = file.id.split('/').pop();
+                    await api.delete(`/relatorio/arquivo/${fileId}`, {
+                        headers: {
+                            "authorization": `Bearer ${token}`
+                        }
+                    });
+                }
+            };
+
+            await deleteFiles(removedProntuarios);
+            await deleteFiles(removedAssinaturas);
+
             const formData = new FormData();
             formData.append("pacienteId", dadosAtualizados.pacienteId);
             if (userLevel == '0') {
@@ -126,13 +147,14 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
     }
 
     const handleFileChange = (e) => {
-        const files = Array.from(e.target.files);
+        let files = Array.from(e.target.files);
         setDadosAtualizados({ ...dadosAtualizados, prontuario: [...dadosAtualizados.prontuario, ...files] });
     };
 
     const handleFileChangeAssinatura = (e) => {
-        const files = Array.from(e.target.files);
-        setDadosAtualizados({ ...dadosAtualizados, assinatura: [...dadosAtualizados.assinatura, ...files] });
+        let filesAssinatura = Array.from(e.target.files);
+        console.log(e.target.files)
+        setDadosAtualizados({ ...dadosAtualizados, assinatura: [...dadosAtualizados.assinatura, ...filesAssinatura] });
     };
 
     const handleRemoveFile = (index) => {
@@ -146,7 +168,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
     };
 
     const handleDownloadFile = (index) => {
-        const updatedProntuario = dadosAtualizados.prontuario[index]; // Obtém o item pelo índice
+        const updatedProntuario = dadosAtualizados.prontuario[index];
         console.log(updatedProntuario);
         const fullURL = `${api.defaults.baseURL}${updatedProntuario.id}`;
 
@@ -191,6 +213,12 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
             }
         }
     }
+
+    const getRemovedFiles = (originalFiles, updatedFiles) => {
+        const updatedFileIds = updatedFiles.map(file => file.id || file.nome);
+        return originalFiles.filter(file => !updatedFileIds.includes(file.id || file.nome));
+    };
+
 
     const formatarData = (data) => {
         const dataObj = new Date(data);
@@ -343,10 +371,10 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                                 accept=".pdf"
                                                 multiple
                                                 style={{ display: 'none' }}
-                                                id="fileUpload"
+                                                id="fileUploadProntuario"
                                                 onChange={handleFileChange}
                                             />
-                                            <label htmlFor="fileUpload" className="clip-icon-label">
+                                            <label htmlFor="fileUploadProntuario" className="clip-icon-label">
                                                 <img src={ClipIcon} alt="Attach" className="clip-icon" />
                                             </label>
                                             <div className="files-added">
@@ -375,10 +403,10 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                             accept=".pdf"
                                             multiple
                                             style={{ display: 'none' }}
-                                            id="fileUpload"
+                                            id="fileUploadAssinatura"
                                             onChange={handleFileChangeAssinatura}
                                         />
-                                        <label htmlFor="fileUpload" className="">
+                                        <label htmlFor="fileUploadAssinatura" className="">
                                             Anexar arquivo <img src={ClipIcon} alt="Attach" className="" />
                                         </label>
                                     </div>
@@ -445,7 +473,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                             <h1 key={index}> {arquivo.nome ? arquivo.nome : arquivo.name}</h1>
                                         )) : <h1>Não foram anexados arquivos</h1>}
                                     </div>
-                                    {userLevel === '0' || userLevel === '2' && (
+                                    {userLevel != '3' && (
                                         <div className="email">
                                             <p>Assinatura</p>
                                             {dadosAtualizados.assinatura[0] ? dadosAtualizados.assinatura.map((arquivo, index) => (

@@ -774,6 +774,13 @@
     margin: 10px 15px 10px 0px;
 }
 
+.files-added{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .input-file-relatorio label{
     color: #C760EB;
     background: #fff;
