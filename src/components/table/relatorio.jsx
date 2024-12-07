@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import jsPDF from "jspdf";
 import { api } from "../../services/server";
 import VisualizarRelatorio from "../visualizar/relatorio";
 import ExcluirRelatorio from "../excluir/relatorio";
 import EditarRelatorio from "../editar/relatorio";
 import IconEditar from "../../assets/editar-icon.svg";
 import IconExcluir from "../../assets/excluir-icon.svg";
+import IconDownload from "../../assets/download.svg"
 import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
@@ -261,6 +263,159 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
     return `${dia}/${mes}/${ano}`;
   };
 
+  const downloadFile = (arquivo) => {
+    const fullURL = `${api.defaults.baseURL}${arquivo.id}`;
+    window.open(fullURL, '_blank');
+    console.log(`Abrindo URL: ${fullURL}`);
+  };
+
+
+  const handleDownloadClick = (originalData) => {
+    console.log(originalData)
+    const doc = new jsPDF();
+
+    doc.setFontSize(16);
+    doc.setFont("times", "bold");
+    doc.text("Relatório de Tratamento", 105, 10, { align: "center" });
+
+
+    doc.setFontSize(12);
+    doc.setFont("times", "normal")
+    doc.line(10, 16, 200, 16);
+    doc.text("Informações do Paciente", 10, 20);
+    doc.line(10, 22, 200, 22);
+
+    const patientInfo = [
+      { label: "Nome do paciente", value: originalData.nomePaciente },
+      { label: "Data de nascimento", value: formatarDataExport(originalData.dataNascimentoPaciente) },
+      { label: "Tipo de tratamento", value: originalData.tipoTratamento }
+    ];
+
+    let yPosition = 28;
+    doc.setFontSize(10);
+    patientInfo.forEach((item) => {
+      doc.setFont("times", "bold");
+      doc.text(`${item.label}:`, 10, yPosition);
+      doc.setFont("times", "normal");
+      doc.text(item.value || "Não informado", 80, yPosition); 
+      yPosition += 8;
+    });
+
+    yPosition += 5;
+    doc.line(10, yPosition, 200, yPosition);
+    yPosition += 5;
+
+    doc.setFontSize(12);
+    doc.setFont("times", "normal")
+    doc.text("Informações do Tratamento", 10, yPosition);
+    doc.line(10, yPosition + 2, 200, yPosition + 2);
+
+    const treatmentInfo = [
+      { label: "Encaminhador", value: `${originalData.nomeAluno} - Aluno da UniEVANGÉLICA` || `${originalData.nome_funcionario} - Funcionário da Associação Educativa Evangélica` || "Não informado" },
+      { label: "Data de início do tratamento", value: formatarDataExport(originalData.dataInicioTratamento) },
+      { label: "Data de término do tratamento", value: formatarDataExport(originalData.dataTerminoTratamento) }
+    ];
+
+    yPosition += 10;
+    doc.setFontSize(10)
+    treatmentInfo.forEach((item) => {
+      doc.setFont("times", "bold");
+      doc.text(`${item.label}:`, 10, yPosition);
+      doc.setFont("times", "normal");
+      doc.text(item.value || "Não informado", 80, yPosition);
+      yPosition += 8;
+    });
+
+    yPosition += 5;
+    doc.line(10, yPosition, 200, yPosition);
+    yPosition += 5;
+
+    doc.setFontSize(12);
+    doc.setFont("times", "normal");
+    doc.text("Informações do Relatório", 10, yPosition);
+    doc.line(10, yPosition + 2, 200, yPosition + 2);
+
+    yPosition += 10;
+
+    const relatorioInfo = [
+      { label: "Data de criação", value: formatarDataExport(originalData.dataCriacao) },
+      { label: "Última atualização", value: formatarDataExport(originalData.ultimaAtualizacao) },
+    ];
+
+    relatorioInfo.forEach((item) => {
+      doc.setFontSize(10)
+      doc.setFont("times", "bold"); 
+      doc.text(`${item.label}:`, 10, yPosition);
+      doc.setFont("times", "normal");
+      doc.text(item.value || "Não informado", 80, yPosition);
+      yPosition += 8;
+    });
+
+    doc.setFontSize(10);
+
+    doc.setFont("times", "bold"); 
+    doc.text("Conteúdo:", 10, yPosition);
+    doc.setFont("times", "normal");
+    doc.setFontSize(10)
+    const conteudo = doc.splitTextToSize(originalData.conteudo || "Não informado", 180);
+    yPosition += 6;
+    conteudo.forEach((line) => {
+      doc.text(line, 15, yPosition);
+      yPosition += 6;
+    });
+
+    yPosition += 5;
+    doc.line(10, yPosition, 200, yPosition);
+    yPosition += 5;
+
+    if (originalData.prontuario.length > 0) {
+      doc.text("Arquivos do Prontuário:", 10, yPosition);
+      yPosition += 10;
+      originalData.prontuario.forEach((file, index) => {
+        doc.text(`${index + 1}. ${file.nome}`, 15, yPosition);
+        yPosition += 10;
+        downloadFile(file);
+      });
+    }
+
+    if (originalData.assinatura.length > 0) {
+      doc.text("Arquivos de Assinatura:", 10, yPosition);
+      yPosition += 10;
+      originalData.assinatura.forEach((file, index) => {
+        doc.text(`${index + 1}. ${file.nome}`, 15, yPosition);
+        yPosition += 10;
+        downloadFile(file);
+      });
+    }
+
+    doc.save(`Relatorio_${originalData.nomePaciente}.pdf`);
+  };
+
+  const formatarDataExport = (data) => {
+    if (!data) return "Não informado";
+
+    try {
+      const dataObj = new Date(data);
+      const dia = String(dataObj.getDate()).padStart(2, "0");
+      const mes = String(dataObj.getMonth() + 1).padStart(2, "0");
+      const ano = dataObj.getFullYear();
+
+      const horas = String(dataObj.getHours()).padStart(2, "0");
+      const minutos = String(dataObj.getMinutes()).padStart(2, "0");
+      const segundos = String(dataObj.getSeconds()).padStart(2, "0");
+
+      const dataFormatada = `${dia}/${mes}/${ano}`;
+      const horaFormatada = `${horas}:${minutos}:${segundos}`;
+
+      // Verifica se as horas são diferentes de 00:00:00
+      return horas !== "00" || minutos !== "00" || segundos !== "00"
+        ? `${dataFormatada} às ${horaFormatada}`
+        : dataFormatada;
+    } catch (error) {
+      return "Formato inválido";
+    }
+  };
+
   return (
     <div className="table-container">
       <table className="table">
@@ -327,6 +482,12 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
                 </td>
                 {!algumaCheckboxSelecionada() && (
                   <td>
+                    <img
+                      src={IconDownload}
+                      alt="exportar"
+                      className="icon-editar"
+                      onClick={() => handleDownloadClick(relatorio)}
+                    />
                     <img
                       src={IconEditar}
                       alt="editar"

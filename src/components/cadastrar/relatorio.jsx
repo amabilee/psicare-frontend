@@ -91,6 +91,7 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
             dadosForm.prontuario.forEach((file) => {
                 formData.append('prontuario', file);
             });
+            console.log(dadosForm)
 
             const dadosEnviados = await api.post("/relatorio", formData, {
                 headers: {
@@ -98,6 +99,8 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
                     "authorization": `Bearer ${token}`
                 }
             });
+
+            console.log(dadosEnviados)
 
             setIsSucessModalOpen(true);
             renderForm(true);

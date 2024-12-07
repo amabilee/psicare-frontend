@@ -691,7 +691,8 @@
     border-radius: 5px;
 
     color: #C760EBFA;
-    background: #fff;;
+    background: #fff;
+    ;
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
@@ -709,10 +710,9 @@
 .gerencia-container {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: flex-start;
     height: 80vh;
-    width: 100%;
     position: fixed;
 }
 
@@ -758,17 +758,30 @@
     justify-content: space-between;
     align-items: flex-start;
     height: 100%;
-    margin: 0 0 0 70px;
+    margin: 0 0 0 0px;
 }
 
-.atendimentos-report select{
+.atendimentos-report .div-flex {
+    background-color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 10px;
+    margin: 20px 0 0 00px;
+    padding: 10px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 350px;
+    width: 510px;
+}
+
+.atendimentos-report select {
     width: 186px;
     height: 40px;
     border: 2px solid #C760EBFA;
     border-radius: 5px;
-
     color: #C760EBFA;
-    background: #fff;;
+    background: #fff;
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
@@ -788,23 +801,34 @@
     justify-content: space-between;
 }
 
-.atendimentos-report .pie-chart-container h2 {
+.atendimentos-report .pie-chart-container h2,
+.atendimentos-report .div-flex h2 {
     color: #000;
-    font-size: 25px;
+    font-size: 18px;
     font-weight: 600;
-}
-
-.atendimentos-report .table-atendimentos {
+    text-align: left;
     width: 100%;
-    height: calc(100% - 465px);
-    margin: 0 0 70px 0;
 }
 
 .relatorio-report {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 0 50px;
+}
+
+.relatorio-report .div-flex h2 {
+    color: #000;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.relatorio-report .div-flex:nth-child(1) {
     background-color: white;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 10px;
-    margin: 45px 0 0 70px;
+    margin: 45px 0 0 0px;
     padding: 10px 40px;
     display: flex;
     flex-direction: column;
@@ -813,8 +837,20 @@
     height: 320px;
 }
 
-.relatorio-report h2 {
-    color: #000;
-    font-size: 20px;
-    font-weight: 600;
+
+
+.relatorio-report .table-atendimentos {
+    width: 310px;
+    height: 365px;
+}
+
+.MuiChartsTooltip-root {
+    position: absolute !important;
+    top: 0 !important; /* Ajuste conforme necessário */
+    left: 0 !important; /* Ajuste conforme necessário */
+
+    color: white !important;
+    border-radius: 4px !important;
+    padding: 10px !important;
+    z-index: 10000 !important; /* Assegura que o tooltip fique sobre outros elementos */
 }
