@@ -491,6 +491,7 @@
 
 .modal-content-confirmar .dados-inseridos {
     margin-left: 20px;
+
 }
 
 .modal-content-confirmar .dados-inseridos p {
@@ -750,6 +751,7 @@
     padding-bottom: 40px;
     height: fit-content;
     max-height: 700px;
+    overflow-y: scroll;
 }
 
 .modal-content-relatorio {

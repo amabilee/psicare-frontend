@@ -587,6 +587,7 @@
     width: calc( 100% - 4px);
     max-width: calc( 100% - 4px);
     overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 textarea:focus, input:focus, select:focus{
@@ -610,8 +611,10 @@ textarea:focus, input:focus, select:focus{
     font-weight: 400;
     color: black;
     margin: 0 10px 0 0 ;
-    max-width: 150px;
+    max-width: fit-content;
     overflow-x: hidden;
+    max-height: 25px;
+    overflow-y: hidden;
 }
 
 .files-added div img{
