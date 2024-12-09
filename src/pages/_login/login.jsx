@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import logo from "../../assets/logo.svg"
+import logo from "../../assets/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { UseAuth } from "../../hooks";
-import "./style.css"
-
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importar ícones
+import "./style.css";
 
 export default function Login() {
     const { signIn, error } = UseAuth();
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const [mostrarSenha, setMostrarSenha] = useState(false); // Estado para controlar a visualização da senha
     const [message, setMessage] = useState("");
     const [state, setState] = React.useState({
         open: false,
@@ -24,7 +25,6 @@ export default function Login() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         try {
             const sucesso = await signIn(email, senha);
             if (sucesso) {
@@ -37,16 +37,15 @@ export default function Login() {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Algo inesperado aconteceu.");
         }
-    }
+    };
 
     const getFirstAccessiblePage = (userLevel) => {
         const accessMap = {
-            '0': '/agenda', // Admin
-            '1': '/agenda', // Secretario
-            '2': '/pacientes', // Professor
-            '3': '/agenda', // Aluno
+            '0': '/agenda',
+            '1': '/agenda',
+            '2': '/pacientes',
+            '3': '/agenda',
         };
-
         return accessMap[userLevel] || '/entrar';
     };
 
@@ -69,7 +68,6 @@ export default function Login() {
         };
 
         document.addEventListener('keydown', handleKeyPress);
-
         return () => {
             document.removeEventListener('keydown', handleKeyPress);
         };
@@ -78,7 +76,7 @@ export default function Login() {
     const handleMensagem = (newState) => () => {
         setState({ ...newState, open: true });
         setMessage("Não possui acesso? Entre em contato com o administrador do sistema.");
-    }
+    };
 
     const handleClose = () => {
         setState({ ...state, open: false });
@@ -89,18 +87,46 @@ export default function Login() {
             <div className="box">
                 <div className="form">
                     <img src={logo} alt="psicare" />
-                    <input type="email" id="email" className="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                    <input type="password" id="senha" className="senha" placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} required />
-                    <button type="submit" id="button-login" className="button-login" onClick={handleSubmit}>
+                    <input
+                        type="email"
+                        id="email"
+                        className="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                    <div className="senha-container">
+                        <input
+                            type={mostrarSenha ? "text" : "password"}
+                            id="senha"
+                            className="senha"
+                            placeholder="Senha"
+                            value={senha}
+                            onChange={(e) => setSenha(e.target.value)}
+                            required
+                        />
+                        <span
+                            className="toggle-senha"
+                            onClick={() => setMostrarSenha(!mostrarSenha)}
+                        >
+                            {mostrarSenha ? <FaEyeSlash /> : <FaEye />}
+                        </span>
+                    </div>
+                    <button
+                        type="submit"
+                        id="button-login"
+                        className="button-login"
+                        onClick={handleSubmit}
+                    >
                         Entrar
                     </button>
-                    <p className='error-message-login'>{error}</p>
-                    <div className="mensagem_alerta" >
-                        <h3
-                            onClick={handleMensagem({ vertical: 'bottom', horizontal: 'center' })}
-                        >Não possui cadastro ?</h3>
+                    <p className="error-message-login">{error}</p>
+                    <div className="mensagem_alerta">
+                        <h3 onClick={handleMensagem({ vertical: 'bottom', horizontal: 'center' })}>
+                            Não possui cadastro?
+                        </h3>
                     </div>
-                    {/* <Link to="/secretarios" className="link-button-login">Entrar</Link> */}
                 </div>
             </div>
             <Snackbar
@@ -111,12 +137,10 @@ export default function Login() {
                 onClose={handleClose}
                 key={vertical + horizontal}
             >
-                <Alert variant="filled" severity="warning"
-                    onClose={handleClose}
-                    action="">
+                <Alert variant="filled" severity="warning" onClose={handleClose} action="">
                     {typeof message === 'string' ? message : ''}
                 </Alert>
             </Snackbar>
         </div>
-    )
+    );
 }

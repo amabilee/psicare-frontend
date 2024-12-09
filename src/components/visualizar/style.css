@@ -249,6 +249,10 @@
     margin: 0 0 10px 0;
 }
 
+.visualizar-info-relatorio .coluna4{
+    align-items: flex-start;
+}
+
 .visualizar-info-relatorio .coluna5{
     width: 100%;
 }
@@ -281,8 +285,8 @@
 
 .visualizar-info-relatorio .coluna4 .files-box {
     width: 100%;
-    height: 100px;
-    max-height: 100px;
+    height: fit-content;
+    max-height: fit-content;
     overflow-y: scroll;
     overflow-x: hidden;
     display: flex;
@@ -296,8 +300,8 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    height: 140px;
-    max-height: 140px;
+    height: fit-content;
+    max-height: fit-content;
     overflow-y: scroll;
     overflow-x: hidden;
 }

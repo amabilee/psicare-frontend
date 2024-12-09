@@ -779,6 +779,8 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    max-width: 100%;
+    overflow-y: scroll;
 }
 
 .input-file-relatorio label{

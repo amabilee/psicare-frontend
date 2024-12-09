@@ -35,7 +35,7 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
             setState({ ...newState, open: true });
             return;
         }
-        if (dadosAtualizados.pacienteld === "#") {
+        if (dadosAtualizados.pacienteId === "#") {
             setMessage("Selecione um paciente.");
             setState({ ...newState, open: true });
             return;
@@ -75,6 +75,7 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
             setState({ ...newState, open: true });
             return;
         } else {
+            console.log(dadosAtualizados)
             setIsEditarConfirmar(true);
             setEditar(false);
         }
@@ -174,6 +175,7 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
     useEffect(() => {
         buscarPacientes();
         buscarAlunos();
+        console.log(dadosAtualizados)
     }, []);
 
     return (
@@ -194,8 +196,8 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                             <label>Paciente*</label>
                             <select
                                 className="professorNome"
-                                value={dadosAtualizados.pacienteld}
-                                onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, pacienteld: e.target.value })}
+                                value={dadosAtualizados.pacienteId}
+                                onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, pacienteId: e.target.value })}
                             >
                                 <option value="#" disabled>Selecione uma opção</option>
                                 {pacientesNome.map((paciente) => (

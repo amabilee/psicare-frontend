@@ -107,3 +107,30 @@
     font-size: 15px;
     font-weight: 500;
 }
+
+.senha-container {
+    position: relative;
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.senha {
+    width: 100%;
+    /* padding-right: 40px; */
+}
+
+.toggle-senha {
+    position: absolute;
+    top: 67%;
+    right: 13%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #767474;
+}
+
+.toggle-senha:hover {
+    color: #C760EB;
+}

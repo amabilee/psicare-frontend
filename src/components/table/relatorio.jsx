@@ -144,6 +144,7 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
         ),
       };
     });
+    receberDadosRelatorio()
   };
 
   const contarTotalCheckboxSelecionadas = () => {
