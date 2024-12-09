@@ -557,12 +557,15 @@
 .clip-icon-label {
     position: absolute;
     bottom: -25px;
-    left: 10px;
+    left: 2px;
     cursor: pointer;
     z-index: 99;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #fff;
+    height: 55px;
+    width: 45px;
 }
 
 .clip-icon {
@@ -573,19 +576,19 @@
 .modal-content-relatorio .formulario .flex-informacoes-relatorio .textarea-container .files-added{
     position: absolute;
     bottom: -40px;
-    height: 55px;
+    height: 75px;
     border: 2px solid #C760EB;
     border-top: none;
     border-radius: 0 0 6px 6px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    align-items: flex-end;
-    width: calc( 100% - 44px);
-    max-width: calc( 100% - 44px);
-    overflow-x: scroll;
+    align-items: center;
+    width: calc( 100% - 64px);
+    max-width: calc( 100% - 64px);
+    overflow-x: auto;
     overflow-y: hidden;
-    padding: 0 0 0 40px;
+    padding: 0px 0 0 60px;
 }
 
 textarea:focus, input:focus, select:focus{

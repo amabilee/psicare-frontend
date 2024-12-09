@@ -294,6 +294,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    margin: 0 0 0 40px 0;
 }
 
 .visualizar-info-relatorio .coluna4 .data-nascimento:nth-of-type(3) {
