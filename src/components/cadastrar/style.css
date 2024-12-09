@@ -556,13 +556,10 @@
 
 .clip-icon-label {
     position: absolute;
-    bottom: -27px;
-    right: 2px;
+    bottom: -25px;
+    left: 10px;
     cursor: pointer;
     z-index: 99;
-    background-color: #fff;
-    height: 50px;
-    width: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -583,11 +580,12 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    align-items: center;
-    width: calc( 100% - 4px);
-    max-width: calc( 100% - 4px);
+    align-items: flex-end;
+    width: calc( 100% - 44px);
+    max-width: calc( 100% - 44px);
     overflow-x: scroll;
     overflow-y: hidden;
+    padding: 0 0 0 40px;
 }
 
 textarea:focus, input:focus, select:focus{
