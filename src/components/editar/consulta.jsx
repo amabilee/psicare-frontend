@@ -51,8 +51,8 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
             return;
         }
 
-        const startTime = new Date(`1970-01-01T${dadosForm.start}:00`);
-        const endTime = new Date(`1970-01-01T${dadosForm.end}:00`);
+        const startTime = new Date(`1970-01-01T${dadosAtualizados.start}:00`);
+        const endTime = new Date(`1970-01-01T${dadosAtualizados.end}:00`);
         if (startTime >= endTime) {
             setMessage("O horário de início deve ser menor que o horário de término.");
             setState({ ...newState, open: true });
