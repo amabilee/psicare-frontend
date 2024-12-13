@@ -50,6 +50,14 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
             setState({ ...newState, open: true });
             return;
         }
+
+        const startTime = new Date(`1970-01-01T${dadosForm.start}:00`);
+        const endTime = new Date(`1970-01-01T${dadosForm.end}:00`);
+        if (startTime >= endTime) {
+            setMessage("O horário de início deve ser menor que o horário de término.");
+            setState({ ...newState, open: true });
+            return;
+        }
         if (!dadosAtualizados.sala) {
             setMessage("Selecione uma sala.");
             setState({ ...newState, open: true });

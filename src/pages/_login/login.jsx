@@ -4,14 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { UseAuth } from "../../hooks";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importar ícones
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./style.css";
 
 export default function Login() {
     const { signIn, error } = UseAuth();
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    const [mostrarSenha, setMostrarSenha] = useState(false); // Estado para controlar a visualização da senha
+    const [mostrarSenha, setMostrarSenha] = useState(false);
     const [message, setMessage] = useState("");
     const [state, setState] = React.useState({
         open: false,
