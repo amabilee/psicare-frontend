@@ -23,42 +23,65 @@ export default function Gerencia() {
     const [intervalSetting, setIntervalSetting] = useState('0')
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
-
-    const data = {
-        aluno: 50,
-        professor: 12,
-        paciente: 50,
-        relatorio: 400,
-        relatorio_assinado: 320,
+    const [data, setData] = useState({
+        aluno: 0,
+        professor: 0,
+        paciente: 0,
+        relatorio: 0,
+        relatorio_assinado: 0,
         consulta: {
-            pendente: 12,
-            aluno_faltou: 9,
-            paciente_faltou: 9,
-            cancelada: 4,
-            concluida: 9,
-            andamento: 4
+            pendente: 0,
+            aluno_faltou: 0,
+            paciente_faltou: 0,
+            cancelada: 0,
+            concluida: 0,
+            andamento: 0,
         },
         tratamento: {
             iniciaram: {
-                psicoterapia: 2,
-                plantao: 4,
-                psicodiagnostico: 9,
-                avaliacao_diagnostica: 1
+                psicoterapia: 0,
+                plantao: 0,
+                psicodiagnostico: 0,
+                avaliacao_diagnostica: 0,
             },
             terminaram: {
-                psicoterapia: 1,
-                plantao: 8,
-                psicodiagnostico: 2,
-                avaliacao_diagnostica: 1
+                psicoterapia: 0,
+                plantao: 0,
+                psicodiagnostico: 0,
+                avaliacao_diagnostica: 0,
             },
             acontecem: {
-                psicoterapia: 19,
-                plantao: 2,
-                psicodiagnostico: 9,
-                avaliacao_diagnostica: 7
+                psicoterapia: 0,
+                plantao: 0,
+                psicodiagnostico: 0,
+                avaliacao_diagnostica: 0,
+            },
+        },
+    });
+    
+    const buscarDados = async () => {
+        const token = localStorage.getItem("user_token");
+        try {
+            const { data: dadosGerencia } = await api.get(`/gerencia?start=${startDate}&end=${endDate}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${token}`,
+                },
+            });
+            setData(dadosGerencia);
+        } catch (e) {
+            if (e.response?.status === 401) {
+                signOut();
+            } else {
+                console.error("Erro ao buscar dados", e);
             }
         }
     };
+    
+    useEffect(() => {
+        buscarDados();
+    }, [startDate, endDate]);
+    
 
     const handleDownloadClick = () => {
         const doc = new jsPDF();
@@ -312,7 +335,6 @@ export default function Gerencia() {
         const ano = dataObj.getFullYear();
         return `${dia}/${mes}/${ano}`;
     };
-
 
     return (
         <>
