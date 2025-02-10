@@ -4,17 +4,20 @@ import SideBar from "../../components/SideBar/sidebar";
 import voltar from "../../assets/voltar.svg";
 import { IoMdPersonAdd } from "react-icons/io";
 import { Calendar as BigCalendar, dateFnsLocalizer } from "react-big-calendar";
-import { format, parse, startOfWeek, getDay, addMonths, subMonths, parseISO } from "date-fns";
+import { format, parse, startOfWeek, getDay, addMonths, parseISO } from "date-fns";
 import { UseAuth } from "../../hooks";
 import moment from "moment";
 import ptBR from "date-fns/locale/pt-BR";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+
 import {
     startOfMonth,
     endOfMonth,
     subDays,
-    addDays,
+    addDays
 } from "date-fns";
 
 import CadastrarConsulta from "../../components/cadastrar/consulta";
@@ -63,7 +66,6 @@ const formats = {
 
         if (!(validStart instanceof Date && !isNaN(validStart)) ||
             !(validEnd instanceof Date && !isNaN(validEnd))) {
-            console.error("Start or End is not a valid Date:", { start, end });
             return "Horário inválido";
         }
 
@@ -90,12 +92,16 @@ export default function Agenda() {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
 
-    const onSelectEventHandler = (event) => {
-        setSeePopup(event);
-    };
+    const [message, setMessage] = useState("");
+    const [state, setState] = React.useState({
+        open: false,
+        vertical: 'bottom',
+        horizontal: 'center',
+    });
+    const { vertical, horizontal, open } = state;
 
-    const handleOpenDialog = (slot) => {
-        console.log("Slot selecionado:", slot);
+    const handleClose = () => {
+        setState({ ...state, open: false });
     };
 
     const handleOpenEvent = (event) => {
@@ -147,7 +153,7 @@ export default function Agenda() {
 
         if (view === "month" || view === "agenda") {
             newStartDate = subDays(startOfMonth(parsedDate), 7);
-            newEndDate = addDays(endOfMonth(parsedDate), 7);
+            newEndDate = addDays(endOfMonth(addMonths(parsedDate, 1)), 7)
         } else if (view === "week") {
             newStartDate = startOfWeek(parsedDate);
             newEndDate = addDays(newStartDate, 6);
@@ -159,8 +165,6 @@ export default function Agenda() {
         newStartDate = typeof newStartDate === "string" ? parseISO(newStartDate) : newStartDate;
         newEndDate = typeof newEndDate === "string" ? parseISO(newEndDate) : newEndDate;
 
-        // console.log(newStartDate, newEndDate);
-
         setStartDate(newStartDate);
         setEndDate(newEndDate);
         buscarConsultas(newStartDate, newEndDate);
@@ -168,8 +172,6 @@ export default function Agenda() {
 
     const buscarConsultas = async (start, end) => {
         const token = localStorage.getItem("user_token");
-        // console.log("start:", start);
-        // console.log("end:", end);
 
         try {
             let startDateSetting = typeof start === "string" ? parseISO(start) : start;
@@ -178,33 +180,25 @@ export default function Agenda() {
             if (String(start).length <= 20 && String(end).length <= 20) {
                 if (startDate) {
                     startDateSetting = subDays(startOfMonth(startDate), 7);
-                    // console.log("Usando startDate como base para start");
                 }
 
                 if (endDate) {
                     endDateSetting = addDays(endOfMonth(endDate), 7);
-                    // console.log("Usando endDate como base para end");
                 }
             } else {
                 if (String(start).length <= 20) {
                     startDateSetting = subDays(startOfMonth(endDateSetting), 7);
-                    // console.log("Calculando start com base em end");
                 }
 
                 if (String(end).length <= 20) {
                     endDateSetting = addDays(endOfMonth(addMonths(startDateSetting, 1)), 7);
-                    // console.log("Calculando end com base em start");
                 }
             }
 
-            // console.log("startDateSetting:", startDateSetting);
-            // console.log("endDateSetting:", endDateSetting);
 
             const startFormatted = startDateSetting?.toISOString().split("T")[0];
             const endFormatted = endDateSetting?.toISOString().split("T")[0];
 
-            // console.log("startFormatted:", startFormatted);
-            // console.log("endFormatted:", endFormatted);
 
             const response = await api.get(
                 `/consulta?start=${startFormatted}&end=${endFormatted}`,
@@ -224,7 +218,8 @@ export default function Agenda() {
             if (e.response?.status === 401) {
                 signOut();
             } else {
-                console.error("Erro ao buscar consultas:", e);
+                setState({ ...state, open: true });
+                setMessage("Erro ao buscar consultas");
             }
         }
     };
@@ -294,7 +289,7 @@ export default function Agenda() {
                                 },
                             };
                         }}
-                        onSelectSlot={(slot) => handleOpenDialog(slot)}
+                        // onSelectSlot={(slot) => handleOpenDialog(slot)}
                         onSelectEvent={(event) => handleOpenEvent(event)}
                         onView={handleViewChange}
                         onNavigate={(date) => {
@@ -427,6 +422,19 @@ export default function Agenda() {
                     )}
                 </div>
             </div >
+
+            <Snackbar
+                ContentProps={{ sx: { borderRadius: '8px' } }}
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                autoHideDuration={2000}
+                onClose={handleClose}
+                key={vertical + horizontal}
+            >
+                <Alert variant="filled" severity="error" onClose={handleClose} action="">
+                    {typeof message === 'string' ? message : ''}
+                </Alert>
+            </Snackbar>
         </>
     );
 }

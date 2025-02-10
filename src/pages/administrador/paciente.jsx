@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import SideBar from "../../components/SideBar/sidebar";
 import TablePaciente from "../../components/table/paciente";
 import 'rsuite/dist/rsuite.css';

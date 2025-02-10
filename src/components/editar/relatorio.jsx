@@ -7,10 +7,13 @@ import ClipIcon from '../../assets/relatorio/clip.svg'
 import TrashIcon from '../../assets/excluir-icon.svg'
 import Download from "../../assets/download.svg"
 
+import { UseAuth } from '../../hooks';
+
 import 'rsuite/dist/rsuite.css';
 import { DatePicker } from 'rsuite';
 
 export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, renderDadosRelatorio }) {
+    const { signOut } = UseAuth();
     const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
     const [Editar, setEditar] = useState(true);
     const [SucessoEditar, setSucessoEditar] = useState(false);
@@ -87,9 +90,6 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
             const removedProntuarios = getRemovedFiles(dadosRelatorio.prontuario, dadosAtualizados.prontuario);
             const removedAssinaturas = getRemovedFiles(dadosRelatorio.assinatura, dadosAtualizados.assinatura);
 
-            console.log('prontuarios', removedProntuarios)
-            console.log('Assinaturas', removedAssinaturas)
-
             const deleteFiles = async (files) => {
                 for (const file of files) {
                     const fileId = file.id.split('/').pop();
@@ -109,12 +109,10 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
             if (userLevel == '0') {
                 formData.append("alunoUnieva", dadosAtualizados.alunoUnieva);
                 if (dadosAtualizados.alunoUnieva) {
-                    console.log('aluno')
                     formData.append("alunoId", dadosAtualizados.alunoId);
                 }
                 formData.append("funcionarioUnieva", dadosAtualizados.funcionarioUnieva);
                 if (dadosAtualizados.funcionarioUnieva) {
-                    console.log('funcionario')
                     formData.append("nome_funcionario", dadosAtualizados.nome_funcionario);
                 }
             }
@@ -127,16 +125,12 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                 formData.append('assinatura', file);
             });
 
-            const dadosEnviados = await api.patch(`/relatorio/${dadosAtualizados._id}`, formData, {
+            await api.patch(`/relatorio/${dadosAtualizados._id}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     "authorization": `Bearer ${token}`
                 }
             });
-
-            console.log('return', dadosEnviados)
-            console.log('form', dadosAtualizados)
-
 
             setSucessoEditar(true);
             renderDadosRelatorio(dadosAtualizados);
@@ -153,7 +147,6 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
 
     const handleFileChangeAssinatura = (e) => {
         let filesAssinatura = Array.from(e.target.files);
-        console.log(e.target.files)
         setDadosAtualizados({ ...dadosAtualizados, assinatura: [...dadosAtualizados.assinatura, ...filesAssinatura] });
     };
 
@@ -169,7 +162,6 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
 
     const handleDownloadFile = (index) => {
         const updatedProntuario = dadosAtualizados.prontuario[index];
-        console.log(updatedProntuario);
         const fullURL = `${api.defaults.baseURL}${updatedProntuario.id}`;
 
         window.open(fullURL, '_blank');
@@ -185,12 +177,12 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                 }
             });
             setPacientesNome(selectPacientes.data);
-            console.log(selectPacientes.data)
         } catch (e) {
             if (e.response.status == 401) {
                 signOut()
             } else {
-                console.log("Erro ao buscar pacientes", e)
+                setState({ ...state, open: true });
+                setMessage("Erro ao buscar pacientes");
             }
         }
     }
@@ -209,7 +201,8 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
             if (e.response.status == 401) {
                 signOut()
             } else {
-                console.log("Erro ao buscar alunos", e)
+                setState({ ...state, open: true });
+                setMessage("Erro ao buscar alunos");
             }
         }
     }
@@ -223,7 +216,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
     const formatarData = (data) => {
         const dataObj = new Date(data);
         const dia = String(dataObj.getDate()).padStart(2, '0');
-        const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); // Meses são baseados em zero
+        const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
         const ano = dataObj.getFullYear();
         return `${dia}/${mes}/${ano}`;
     };

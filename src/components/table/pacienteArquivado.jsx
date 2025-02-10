@@ -21,6 +21,7 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
   const [acumularPacientesPage, setAcumularPacientesPage] = useState(0);
 
   const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("");
   const [state, setState] = React.useState({
     open: false,
     vertical: 'top',
@@ -91,7 +92,8 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
       const pacientesAcumulados = ((currentPage - 1) * 15 + pacientes.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
       setAcumularPacientesPage(pacientesAcumulados);
     } catch (e) {
-      console.log("Erro ao buscar dados do secretário:", e);
+      setState({ ...state, open: true });
+      setMessage("Ocorreu um erro ao buscar do secretário");
     }
   };
 
@@ -107,7 +109,7 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
   const handleAtivarClick = async (originalData) => {
     let newPaciente = ({ ...originalData, ativoPaciente: true });
     const token = localStorage.getItem("user_token");
-    
+
     try {
       await api.patch(`/paciente/${newPaciente._id}`, newPaciente, {
         headers: {
@@ -115,13 +117,16 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
           "authorization": `Bearer ${token}`,
         },
       });
-      
-      renderDadosPaciente(newPaciente._id); 
-  
+
+      renderDadosPaciente(newPaciente._id);
+
       setState({ ...{ vertical: 'bottom', horizontal: 'center' }, open: true });
       setMessage("Paciente ativado com sucesso.");
+      setSeverity("success")
     } catch (e) {
-      console.log("Erro ao atualizar dados:", e);
+      setState({ ...state, open: true });
+      setMessage("Ocorreu um erro ao atualizar dados");
+      setSeverity("error")
     }
   };
 
@@ -129,11 +134,11 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
     setDadosPaciente((prevDados) => {
       return {
         ...prevDados,
-        pacientes: prevDados.pacientes.filter((paciente) => paciente._id !== idPaciente), 
+        pacientes: prevDados.pacientes.filter((paciente) => paciente._id !== idPaciente),
       };
     });
   };
-  
+
 
   //Tudo relacionado a paginação da tabela
   const handlePaginaAnterior = () => {
@@ -172,7 +177,7 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
     const ano = dataObj.getFullYear();
     return `${dia}/${mes}/${ano}`;
   };
-  
+
 
   return (
     <div className="table-container">
@@ -195,7 +200,7 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
               </td>
             </tr>
           ) : (Array.isArray(dadosPaciente.pacientes) &&
-            dadosPaciente.pacientes.map((paciente, index) => (
+            dadosPaciente.pacientes.map((paciente) => (
               <tr key={paciente._id} >
                 <td className="table-content" id="td-nome" onClick={() => handleVisualizarClick(paciente)}>
                   {paciente.nome}
@@ -279,7 +284,7 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
         onClose={handleClose}
         key={vertical + horizontal}
       >
-        <Alert variant="filled" severity="success" onClose={handleClose} action="">
+        <Alert variant="filled" severity={severity} onClose={handleClose} action="">
           {message}
         </Alert>
       </Snackbar>

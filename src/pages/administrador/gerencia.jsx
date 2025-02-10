@@ -4,7 +4,8 @@ import { api } from "../../services/server";
 import jsPDF from "jspdf";
 import 'jspdf-autotable';
 import Download from "../../assets/download.svg"
-
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import "./style.css";
 
 import { UseAuth } from '../../hooks';
@@ -58,7 +59,18 @@ export default function Gerencia() {
             },
         },
     });
-    
+
+    const [message, setMessage] = useState("");
+    const [state, setState] = React.useState({
+        open: false,
+        vertical: 'bottom',
+        horizontal: 'center',
+    }, []);
+    const { vertical, horizontal, open } = state;
+    const handleClose = () => {
+        setState({ ...state, open: false });
+    };
+
     const buscarDados = async () => {
         const token = localStorage.getItem("user_token");
         try {
@@ -73,15 +85,16 @@ export default function Gerencia() {
             if (e.response?.status === 401) {
                 signOut();
             } else {
-                console.error("Erro ao buscar dados", e);
+                setState({ ...state, open: true });
+                setMessage("Ocorreu um erro ao buscar dados");
             }
         }
     };
-    
+
     useEffect(() => {
         buscarDados();
     }, [startDate, endDate]);
-    
+
 
     const handleDownloadClick = () => {
         const doc = new jsPDF();
@@ -471,7 +484,7 @@ export default function Gerencia() {
                                 <Gauge
                                     {...settings}
                                     cornerRadius="50%"
-                                    sx={(theme) => ({
+                                    sx={() => ({
                                         [`& .${gaugeClasses.valueText}`]: {
                                             fontSize: 25,
                                         },
@@ -486,7 +499,7 @@ export default function Gerencia() {
                                         }
                                     })}
                                     text={
-                                        ({ value }) => `${value}%`
+                                        ({ value }) => `${String(value).slice(0, 2)}%`
                                     }
                                 />
                             </div>
@@ -526,6 +539,20 @@ export default function Gerencia() {
                     </div>
                 )}
             </div>
+
+            <Snackbar
+                ContentProps={{ sx: { borderRadius: '8px' } }}
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                autoHideDuration={2000}
+                onClose={handleClose}
+                key={vertical + horizontal}
+            >
+                <Alert variant="filled" severity="error" onClose={handleClose} action="">
+                    {typeof message === 'string' ? message : ''}
+                </Alert>
+
+            </Snackbar>
         </>
     );
 }

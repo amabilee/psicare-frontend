@@ -10,6 +10,8 @@ import IconDownload from "../../assets/download.svg"
 import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 import { UseAuth } from '../../hooks';
 
@@ -29,6 +31,17 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
   const [idsSelecionados, setIdsSelecionados] = useState([]);
 
   const [userLevel, setUserLevel] = useState(null);
+
+  const [message, setMessage] = useState("");
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: 'bottom',
+    horizontal: 'center',
+  }, []);
+  const { vertical, horizontal, open } = state;
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
 
   useEffect(() => {
     receberDadosRelatorio();
@@ -92,7 +105,8 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
       if (e.response.status == 401) {
         signOut()
       } else {
-        console.log("Erro ao buscar relatorios ", e)
+        setState({ ...state, open: true });
+        setMessage("Ocorreu um erro ao buscar relátorio");
       }
     }
   };
@@ -267,12 +281,10 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
   const downloadFile = (arquivo) => {
     const fullURL = `${api.defaults.baseURL}${arquivo.id}`;
     window.open(fullURL, '_blank');
-    console.log(`Abrindo URL: ${fullURL}`);
   };
 
 
   const handleDownloadClick = (originalData) => {
-    console.log(originalData)
     const doc = new jsPDF();
 
     doc.setFontSize(16);
@@ -298,7 +310,7 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
       doc.setFont("times", "bold");
       doc.text(`${item.label}:`, 10, yPosition);
       doc.setFont("times", "normal");
-      doc.text(item.value || "Não informado", 80, yPosition); 
+      doc.text(item.value || "Não informado", 80, yPosition);
       yPosition += 8;
     });
 
@@ -345,7 +357,7 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
 
     relatorioInfo.forEach((item) => {
       doc.setFontSize(10)
-      doc.setFont("times", "bold"); 
+      doc.setFont("times", "bold");
       doc.text(`${item.label}:`, 10, yPosition);
       doc.setFont("times", "normal");
       doc.text(item.value || "Não informado", 80, yPosition);
@@ -354,7 +366,7 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
 
     doc.setFontSize(10);
 
-    doc.setFont("times", "bold"); 
+    doc.setFont("times", "bold");
     doc.text("Conteúdo:", 10, yPosition);
     doc.setFont("times", "normal");
     doc.setFontSize(10)
@@ -550,6 +562,22 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
           </tr>
         </tfoot>
       </table>
+
+      <Snackbar
+        ContentProps={{ sx: { borderRadius: '8px' } }}
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        key={vertical + horizontal}
+      >
+        <Alert variant="filled" severity="error" onClose={handleClose} action="">
+          {typeof message === 'string' ? message : ''}
+        </Alert>
+
+      </Snackbar>
+
+
       {isVisualizarOpen && (
         <VisualizarRelatorio
           handleCloseVisualizar={handleCloseVisualizar}

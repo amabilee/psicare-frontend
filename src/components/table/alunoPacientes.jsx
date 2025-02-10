@@ -1,11 +1,13 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { api } from "../../services/server";
 import VisualizarPaciente from "../visualizar/paciente";
 import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
-export default function TableAlunoPaciente({ pacienteAlunos }){
+export default function TableAlunoPaciente({ pacienteAlunos }) {
   const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
   const [usuarioClick, setUsuarioClick] = useState({});
   const [dadosPaciente, setDadosPaciente] = useState({ pacientes: [] });
@@ -14,10 +16,22 @@ export default function TableAlunoPaciente({ pacienteAlunos }){
   const [totalAlunosTable, setTotalAlunosTable] = useState(0);
   const [acumularAlunosPage, setAcumularAlunosPage] = useState(0);
 
+  const [message, setMessage] = useState("");
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: 'bottom',
+    horizontal: 'center',
+  }, []);
+
+  const { vertical, horizontal, open } = state;
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+
   useEffect(() => {
     receberDadosAluno();
   }, [pacienteAlunos, currentPage]);
-  console.log("dadosPaciente",dadosPaciente)
 
   const receberDadosAluno = async () => {
     const token = localStorage.getItem("user_token")
@@ -29,9 +43,8 @@ export default function TableAlunoPaciente({ pacienteAlunos }){
           "authorization": `Bearer ${token}`
         }
       });//requisação get para os "dadosPaginados" contruido
-      console.log("receber dados",receberDados)
 
-      const { pacientes, totalPages ,totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
+      const { pacientes, totalPages, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
       //aluno: lista de pacientes, e totalPages: numero total de paginas tudo retornado pela api
       setDadosPaciente({ pacientes }); //atualiza os dadospacientes para os dados da minha api "pacientes"
       setTotalPages(totalPages); //atualiza o totalPages com o "total" retorndo da minha apis
@@ -40,7 +53,8 @@ export default function TableAlunoPaciente({ pacienteAlunos }){
       const pacientesAcumulados = ((currentPage - 1) * 10 + pacientes.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
       setAcumularAlunosPage(pacientesAcumulados);
     } catch (e) {
-      console.log("Erro ao buscar dados do aluno:", e);
+      setState({ ...state, open: true });
+      setMessage("Ocorreu um erro ao buscar dados do aluno");
     }
   };
 
@@ -71,7 +85,7 @@ export default function TableAlunoPaciente({ pacienteAlunos }){
     for (let i = 0; i < contadorLinhas; i++) {//loop for que ira iterar "contadorLinhas"
       linhasVazias.push( //adicionado a array linhasVazias com um push
         //criar uma nova linha com uma chave key unica, para renderizar de forma eficiente quando adicionar um elemento
-        <tr key={`empty-${i}`} className="tr-vazia"> 
+        <tr key={`empty-${i}`} className="tr-vazia">
           <td colSpan="1">&nbsp;</td>
         </tr>
       );
@@ -89,92 +103,106 @@ export default function TableAlunoPaciente({ pacienteAlunos }){
     const ano = dataObj.getFullYear();
     return `${dia}/${mes}/${ano}`;
   };
-  return(
-      <div className="table-container table-container-alunoPaciente">
-        <h2>Paciente</h2>
-        <table className="table table-paciente">
-          <thead>
-              <tr className="tr-body">
-                <th>Nome</th>
-                <th>Telefone</th>
-                <th>CPF</th>
-                <th>Tipo de Tratamento</th>
-                <th>Data de Nascimento</th>
-              </tr>
-          </thead>
-          <tbody className="table-body">
-            {dadosVazios ? (
-              <tr>
-                <td colSpan="6" className="nenhum-Dado">
-                    Nenhum paciente encontrado.
-                </td>
-              </tr>
-            ) : (Array.isArray(dadosPaciente.pacientes) &&
-              dadosPaciente.pacientes.map((paciente, index) => (
-                <tr key={paciente._id} >
-                  <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
-                    {paciente.nome}
-                  </td>
-                  <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
-                    {paciente.telefone}
-                  </td>
-                  <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
-                    {paciente.cpf}
-                  </td>
-                  <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
-                    {paciente.tipoDeTratamento}
-                  </td>
-                  <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
-                    {formatarDataNascimento(paciente.dataNascimento)}
-                  </td>
-                </tr>
-              )) )}
-            {calculoLinhasVazias > 0 && renderLinhasVazias(calculoLinhasVazias)}
-          </tbody>
-          <tfoot className="footer-table">
+  return (
+    <div className="table-container table-container-alunoPaciente">
+      <h2>Paciente</h2>
+      <table className="table table-paciente">
+        <thead>
+          <tr className="tr-body">
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>CPF</th>
+            <th>Tipo de Tratamento</th>
+            <th>Data de Nascimento</th>
+          </tr>
+        </thead>
+        <tbody className="table-body">
+          {dadosVazios ? (
             <tr>
-              <td colSpan="7">
-                <div className="quantidade-itens">
-                  {Array.isArray(dadosPaciente.pacientes) &&
-                    `${acumularAlunosPage}/${totalAlunosTable}`}
-                </div>
-                <div className="paginacao-table">
-                  <button
-                    className={`voltar-pagina ${currentPage === 1 ? "paginacaoWhite" : "paginacaoBlack"}`}
-                    onClick={handlePaginaAnterior}
-                    disabled={currentPage === 1}
-                  >
-                    <img
-                      src={currentPage === 1 ? paginacaoBlack : paginacaoWhite}
-                      alt="icone-paginacao"
-                      className="img_paginacao"
-                    />
-                  </button>
-                  <button
-                    className={`passar-pagina ${currentPage === totalPages ? "paginacaoBlack" : "paginacaoWhite"}`}
-                    onClick={handlePaginaSeguinte}
-                    disabled={currentPage === totalPages}
-                    style={{
-                      backgroundColor: currentPage === totalPages ? "#D9D9D9" : "#C760EB",
-                    }}
-                  >
-                    <img
-                      src={currentPage === totalPages ? paginacaoBlack : paginacaoWhite}
-                      alt="icone-paginacao"
-                      className="img_paginacao"
-                    />
-                  </button>
-                </div>
+              <td colSpan="6" className="nenhum-Dado">
+                Nenhum paciente encontrado.
               </td>
             </tr>
-          </tfoot>
-        </table>
-        {isVisualizarOpen && (
-            <VisualizarPaciente
-              handleCloseVisualizar={handleCloseVisualizar}
-              dadosPaciente={usuarioClick}
-            />
-          )}
+          ) : (Array.isArray(dadosPaciente.pacientes) &&
+            dadosPaciente.pacientes.map((paciente) => (
+              <tr key={paciente._id} >
+                <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
+                  {paciente.nome}
+                </td>
+                <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
+                  {paciente.telefone}
+                </td>
+                <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
+                  {paciente.cpf}
+                </td>
+                <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
+                  {paciente.tipoDeTratamento}
+                </td>
+                <td className="table-content" onClick={() => handleVisualizarClick(paciente)}>
+                  {formatarDataNascimento(paciente.dataNascimento)}
+                </td>
+              </tr>
+            )))}
+          {calculoLinhasVazias > 0 && renderLinhasVazias(calculoLinhasVazias)}
+        </tbody>
+        <tfoot className="footer-table">
+          <tr>
+            <td colSpan="7">
+              <div className="quantidade-itens">
+                {Array.isArray(dadosPaciente.pacientes) &&
+                  `${acumularAlunosPage}/${totalAlunosTable}`}
+              </div>
+              <div className="paginacao-table">
+                <button
+                  className={`voltar-pagina ${currentPage === 1 ? "paginacaoWhite" : "paginacaoBlack"}`}
+                  onClick={handlePaginaAnterior}
+                  disabled={currentPage === 1}
+                >
+                  <img
+                    src={currentPage === 1 ? paginacaoBlack : paginacaoWhite}
+                    alt="icone-paginacao"
+                    className="img_paginacao"
+                  />
+                </button>
+                <button
+                  className={`passar-pagina ${currentPage === totalPages ? "paginacaoBlack" : "paginacaoWhite"}`}
+                  onClick={handlePaginaSeguinte}
+                  disabled={currentPage === totalPages}
+                  style={{
+                    backgroundColor: currentPage === totalPages ? "#D9D9D9" : "#C760EB",
+                  }}
+                >
+                  <img
+                    src={currentPage === totalPages ? paginacaoBlack : paginacaoWhite}
+                    alt="icone-paginacao"
+                    className="img_paginacao"
+                  />
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      {isVisualizarOpen && (
+        <VisualizarPaciente
+          handleCloseVisualizar={handleCloseVisualizar}
+          dadosPaciente={usuarioClick}
+        />
+      )}
+
+      <Snackbar
+        ContentProps={{ sx: { borderRadius: '8px' } }}
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        key={vertical + horizontal}
+      >
+        <Alert variant="filled" severity="error" onClose={handleClose} action="">
+          {typeof message === 'string' ? message : ''}
+        </Alert>
+
+      </Snackbar>
     </div>
   );
 }

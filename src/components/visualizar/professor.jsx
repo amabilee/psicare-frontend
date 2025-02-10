@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import voltar from "../../assets/voltar.svg";
 import TableProfAluno from "../table/profAlunos";
 import "./style.css";

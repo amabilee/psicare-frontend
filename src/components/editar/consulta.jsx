@@ -29,25 +29,25 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
         setState({ ...state, open: false });
     };
 
-    const handleEditarConfirmar = (newState) => {
+    const handleEditarConfirmar = () => {
         if (!dadosAtualizados.Nome || dadosAtualizados.Nome.length <= 6) {
             setMessage("Insira um título válido para a consulta (mínimo 6 caracteres).");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (dadosAtualizados.pacienteId === "#") {
             setMessage("Selecione um paciente.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (!dadosAtualizados.createAt) {
             setMessage("Insira uma data para a consulta.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (!dadosAtualizados.start || !dadosAtualizados.end) {
             setMessage("Insira o horário de início e fim da consulta.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
 
@@ -55,35 +55,34 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
         const endTime = new Date(`1970-01-01T${dadosAtualizados.end}:00`);
         if (startTime >= endTime) {
             setMessage("O horário de início deve ser menor que o horário de término.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (!dadosAtualizados.sala) {
             setMessage("Selecione uma sala.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (!dadosAtualizados.TipoDeConsulta) {
             setMessage("Selecione o tipo de consulta.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (dadosAtualizados.alunoId === "#") {
             setMessage("Selecione o aluno responsável.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (!dadosAtualizados.observacao) {
             setMessage("Insira uma observação.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (!dadosAtualizados.statusDaConsulta) {
             setMessage("Insira um status.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         } else {
-            console.log(dadosAtualizados)
             setIsEditarConfirmar(true);
             setEditar(false);
         }
@@ -114,6 +113,9 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
             )
         };
         delete formattedData.createdAt;
+        delete formattedData.nomePaciente;
+        delete formattedData.nomeAluno;
+        
         formattedData.start = new Date(formattedData.start).toString();
         formattedData.end = new Date(formattedData.end).toString();
 
@@ -128,7 +130,6 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
             setSucessoEditar(true);
             renderDadosConsulta(formattedData);
         } catch (e) {
-            console.log(e)
             setState({ ...state, open: true });
             setMessage(e.response.data);
         }
@@ -145,7 +146,8 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
             });
             setPacientesNome(response.data.pacientes);
         } catch (e) {
-            console.error("Erro ao buscar pacientes:", e);
+            setState({ ...state, open: true });
+            setMessage("Erro ao buscar pacientes");
         }
     };
 
@@ -160,7 +162,8 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
             });
             setAlunosNome(response.data.alunos);
         } catch (e) {
-            console.error("Erro ao buscar alunos:", e);
+            setState({ ...state, open: true });
+            setMessage("Erro ao buscar alunos");
         }
     };
 
@@ -183,7 +186,6 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
     useEffect(() => {
         buscarPacientes();
         buscarAlunos();
-        console.log(dadosAtualizados)
     }, []);
 
     return (

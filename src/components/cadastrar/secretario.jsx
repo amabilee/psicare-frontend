@@ -55,18 +55,15 @@ export default function CadastrarSecretario({ handleCloseModal, renderForm }) {
         } else {
             const token = localStorage.getItem("user_token")
             try {
-                var dadosEnviados = await api.post("/secretario", dadosForm, {
+                await api.post("/secretario", dadosForm, {
                     headers: {
                         "Content-Type": "application/json",
                         "authorization": `Bearer ${token}`
                     }
                 });
-                console.log(dadosEnviados)
-
                 setIsSucessModalOpen(true);
                 renderForm(true)
             } catch (e) {
-                console.log(e)
                 setState({ ...newState, open: true });
                 setMessage(e.response.data.error);
             }

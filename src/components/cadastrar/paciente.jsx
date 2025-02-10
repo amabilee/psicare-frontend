@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { api } from "../../services/server";
 import { IMaskInput } from "react-imask";
 import 'rsuite/dist/rsuite.css';
@@ -73,7 +73,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
         return idade;
     }
 
-    const HandleFormSubmit = (newState) => async () => {
+    const HandleFormSubmit = () => async () => {
         const idade = calcularIdade(dadosForm.dataNascimento)
 
         if (dadosForm.nome.length <= 6) {
@@ -204,7 +204,6 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                 setIsSucessModalOpen(true);
                 renderForm(true)
             } catch (e) {
-                console.log(e)
                 setState({ vertical: 'bottom', horizontal: 'center', open: true });
                 setMessage(e.response.data.error);
             }

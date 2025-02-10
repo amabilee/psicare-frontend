@@ -1,27 +1,38 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { api } from "../../services/server";
 import "./style.css"
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
-export default function ExcluirAluno({handleExcluirClose, dadosAluno, atualizarTableExcluir}){
-    const [isConfirmarExluir, setIsConfirmarExcluir] = useState(false); 
+export default function ExcluirAluno({ handleExcluirClose, dadosAluno, atualizarTableExcluir }) {
+    const [isConfirmarExluir, setIsConfirmarExcluir] = useState(false);
+
+    const [message, setMessage] = useState("");
+    const [state, setState] = React.useState({
+        open: false,
+        vertical: 'bottom',
+        horizontal: 'center',
+    }, []);
+    const { vertical, horizontal, open } = state;
+    const handleClose = () => {
+        setState({ ...state, open: false });
+    };
 
     const handleConfirmarOpen = async () => {
         try {
             const token = localStorage.getItem("user_token")
-            console.log(token)
 
-            const deleteIds = async(id) => {
+            const deleteIds = async (id) => {
                 await api.delete(`/aluno/${id}`, {
                     headers: {
                         "Content-Type": "application/json",
                         "authorization": `Bearer ${token}`
-                        }
-                });//função para deletar somente um id de secretario
+                    }
+                });
             }
 
-            if (Array.isArray(dadosAluno._ids) && dadosAluno._ids.length > 0){ //verifica se tem mais de um id para deletar
-                // of é usado para iterar sobre os valores de arrays e strings
-                for (const id of dadosAluno._ids){ //função para iterar sobre cada array de dadosAluno._ids, onde para cada ID irá chamar a função de excluir aluno
+            if (Array.isArray(dadosAluno._ids) && dadosAluno._ids.length > 0) {
+                for (const id of dadosAluno._ids) {
                     await deleteIds(id);
                 }
             } else {
@@ -31,11 +42,12 @@ export default function ExcluirAluno({handleExcluirClose, dadosAluno, atualizarT
             atualizarTableExcluir();
             setIsConfirmarExcluir(true);
         } catch (e) {
-            console.log("deu erro ao deletar: ", e)
+            setState({ ...state, open: true });
+            setMessage("Ocorreu um erro ao excluir");
         }
-    }   
+    }
 
-    return(
+    return (
         <>
             <div className="modal-confirmar">
                 <div className="modal-confirmar-content">
@@ -56,6 +68,19 @@ export default function ExcluirAluno({handleExcluirClose, dadosAluno, atualizarT
                     </div>
                 )}
             </div>
+            <Snackbar
+                ContentProps={{ sx: { borderRadius: '8px' } }}
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                autoHideDuration={2000}
+                onClose={handleClose}
+                key={vertical + horizontal}
+            >
+                <Alert variant="filled" severity="error" onClose={handleClose} action="">
+                    {typeof message === 'string' ? message : ''}
+                </Alert>
+
+            </Snackbar>
         </>
     )
 }

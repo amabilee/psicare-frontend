@@ -45,107 +45,107 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
         return idade;
     }
 
-    const handleEditarConfirmar = (newState) => () => {
+    const handleEditarConfirmar = () => () => {
         const idade = calcularIdade(dadosAtualizados.dataNascimento)
-        console.log(dadosAtualizados.telefone)
+
         if (dadosAtualizados.nome.length <= 6) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Insira o nome completo.");
             return;
         } else if (!cpf.isValid(dadosAtualizados.cpf)) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Insira um cpf válido.");
             return;
         } else if (!dadosAtualizados.dataNascimento) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Insira uma data de nascimento.");
             return;
         } else if (dadosAtualizados.sexo === "") {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Selecione um sexo.");
             return;
         } else if (!validator.isEmail(dadosAtualizados.email)) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Insira um email válido.");
             return;
         } else if (dadosAtualizados.telefone === "" || dadosAtualizados.telefone.length != 15) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Insira um telefone válido.");
             return;
         } else if (dadosAtualizados.estadoCivil === "") {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Selecione um estado civil.");
             return;
         } else if (dadosAtualizados.profissao <= 4) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Selecione uma profissao.");
             return;
         } else if (dadosAtualizados.religiao <= 4) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Selecione uma religião.");
             return;
         } else if (dadosAtualizados.rendaFamiliar === "") {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Selecione uma renda.");
             return;
         } else if (dadosAtualizados.nacionalidade <= 4) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Selecione uma nacionalidade.");
             return;
         } else if (dadosAtualizados.naturalidade <= 4) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Selecione uma naturalidade.");
             return;
         } else if (idade < 18 && dadosAtualizados.nomeDoContatoResponsavel.length <= 4) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Insira o nome do contato/responsável.");
             return;
         } else if (idade < 18 && dadosAtualizados.outroContato.length != 15) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Insira um telefone do contato/responsável válido.");
             return;
         } else if (dadosAtualizados.enderecoCep === "") {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Insira um cep.");
             return;
         } else if (dadosAtualizados.enderecoLogradouro === "") {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Insira um Logradouro.");
             return;
         } else if (dadosAtualizados.enderecoBairro === "") {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Insira um Bairro.");
             return;
         } else if (dadosAtualizados.enderecoCidade === "") {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Insira um Cidade.");
             return;
         } else if (dadosAtualizados.enderecoUF === "") {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Selecione uma Unidade Federativa.");
             return;
         } else if (!dadosAtualizados.alunoUnieva && !dadosAtualizados.funcionarioUnieva) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Selecione um encaminhador.");
             return;
         } else if (dadosAtualizados.encaminhador === "" && dadosAtualizados.alunoUnieva) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Selecione um aluno");
             return;
         } else if (dadosAtualizados.encaminhador.length <= 4 && dadosAtualizados.funcionarioUnieva) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Insira o funcionario");
             return;
         } else if (!dadosAtualizados.dataInicioTratamento) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Insira a data do início do tratamento.");
             return;
         } else if (!dadosAtualizados.dataTerminoTratamento) {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Insira a data do término do tratamento.");
             return;
         } else if (dadosAtualizados.tipoDeTratamento === "") {
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             setMessage("Selecione um tipo de tratamento.");
             return;
         } else {
@@ -191,14 +191,15 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
 
             setAlunosNome(selectAlunos.data);
         } catch (e) {
-            console.log("Erro ao buscar alunos: ", e)
+            setState({ ...state, open: true });
+            setMessage("Erro ao buscar alunos");
         }
     }
 
     const formatarDataNascimento = (data) => {
         const dataObj = new Date(data);
         const dia = String(dataObj.getDate()).padStart(2, '0');
-        const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); // Meses são baseados em zero
+        const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
         const ano = dataObj.getFullYear();
         return `${dia}/${mes}/${ano}`;
     };

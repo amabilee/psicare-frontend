@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import SideBar from "../../components/SideBar/sidebar";
 import TablePacienteArquivado from "../../components/table/pacienteArquivado";
 import 'rsuite/dist/rsuite.css';
 import { DatePicker } from 'rsuite';
 import filtragem from "../../assets/filtragem.svg";
 import { IMaskInput } from "react-imask";
-import { IoMdPersonAdd } from "react-icons/io";
 import icon_pesquisa from "../../assets/pesquisa.svg"
 import "./style.css";
 

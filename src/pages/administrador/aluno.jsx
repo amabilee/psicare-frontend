@@ -8,6 +8,8 @@ import { IoMdPersonAdd } from "react-icons/io";
 import { IMaskInput } from "react-imask";
 import icon_pesquisa from "../../assets/pesquisa.svg"
 import "./style.css";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 import { UseAuth } from '../../hooks';
 
@@ -41,6 +43,17 @@ export default function Aluno() {
     })
 
     const [userLevel, setUserLevel] = useState(null);
+
+    const [message, setMessage] = useState("");
+    const [state, setState] = React.useState({
+        open: false,
+        vertical: 'bottom',
+        horizontal: 'center',
+    }, []);
+    const { vertical, horizontal, open } = state;
+    const handleClose = () => {
+        setState({ ...state, open: false });
+    };
 
     useEffect(() => {
         const level = localStorage.getItem('user_level');
@@ -114,7 +127,8 @@ export default function Aluno() {
             if (e.response.status == 401) {
                 signOut()
             } else {
-                console.log("Erro ao buscar professores: ", e)
+                setState({ ...state, open: true });
+                setMessage("Ocorreu um erro ao buscar professores");
             }
         }
     }
@@ -218,6 +232,19 @@ export default function Aluno() {
                 )}
                 {isCadastroOpen && (<CadastrarAluno handleCloseModal={handleCloseModal} renderForm={renderProps} />)}
             </div>
+            <Snackbar
+                ContentProps={{ sx: { borderRadius: '8px' } }}
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                autoHideDuration={2000}
+                onClose={handleClose}
+                key={vertical + horizontal}
+            >
+                <Alert variant="filled" severity="error" onClose={handleClose} action="">
+                    {typeof message === 'string' ? message : ''}
+                </Alert>
+
+            </Snackbar>
         </>
     )
 }

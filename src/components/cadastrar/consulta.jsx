@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import { api } from "../../services/server";
-import { IMaskInput } from "react-imask";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
@@ -49,25 +48,25 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
         setState({ ...state, open: false });
     };
 
-    const handleFormSubmit = async (newState) => {
+    const handleFormSubmit = async () => {
         if (!dadosForm.Nome || dadosForm.Nome.length <= 6) {
             setMessage("Insira um título válido para a consulta (mínimo 6 caracteres).");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (dadosForm.pacienteId === "#") {
             setMessage("Selecione um paciente.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (!dadosForm.createAt) {
             setMessage("Insira uma data para a consulta.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (!dadosForm.start || !dadosForm.end) {
             setMessage("Insira o horário de início e fim da consulta.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
 
@@ -75,38 +74,38 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
         const endTime = new Date(`1970-01-01T${dadosForm.end}:00`);
         if (startTime >= endTime) {
             setMessage("O horário de início deve ser menor que o horário de término.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
 
         if (!dadosForm.sala) {
             setMessage("Selecione uma sala.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (!dadosForm.TipoDeConsulta) {
             setMessage("Selecione o tipo de consulta.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (dadosForm.alunoId === "#") {
             setMessage("Selecione o aluno responsável.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (!dadosForm.intervalo) {
             setMessage("Selecione o intervalo.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (dadosForm.intervalo !== "Sessão Única" && !dadosForm.frequenciaIntervalo) {
             setMessage("Selecione a frequência do intervalo.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
         if (!dadosForm.observacao) {
             setMessage("Insira uma observação.");
-            setState({ ...newState, open: true });
+            setState({ ...state, open: true });
             return;
         }
 
@@ -141,7 +140,6 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
             setIsSucessModalOpen(true);
             renderTable();
         } catch (e) {
-            console.log(e)
             setMessage(e.response.data.error);
             setState({ ...state, open: true });
         }
@@ -159,7 +157,8 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
             });
             setPacientesNome(response.data.pacientes);
         } catch (e) {
-            console.error("Erro ao buscar pacientes:", e);
+            setState({ ...state, open: true });
+            setMessage("Erro ao buscar pacientes");
         }
     };
 
@@ -174,7 +173,8 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
             });
             setAlunosNome(response.data.alunos);
         } catch (e) {
-            console.error("Erro ao buscar alunos:", e);
+            setState({ ...state, open: true });
+            setMessage("Erro ao buscar alunos");
         }
     };
 

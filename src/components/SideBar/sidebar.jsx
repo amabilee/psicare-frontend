@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaRegCalendar, FaChevronUp, FaChevronDown } from "react-icons/fa";
 import { RiContactsBookLine } from "react-icons/ri";
 import { SlNote } from "react-icons/sl";

@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { TbReportAnalytics } from "react-icons/tb";
+import { useState, useEffect } from "react";
 import icon_pesquisa from "../../assets/pesquisa.svg";
 import filtragem from "../../assets/filtragem.svg";
 import SideBar from "../../components/SideBar/sidebar";
 
-import { IMaskInput } from "react-imask";
 import { DatePicker } from 'rsuite';
 import Loader from '../../components/loader/index';
 
@@ -42,10 +40,6 @@ export default function RelatorioArquivado({ handleCloseModal }) {
         setPesquisaUsuario("")
         setEnviarFiltragem(filtrarPesquisa)
     };
-
-    const handleArquivados = () => {
-        setIsArquivadosOpen(true);
-    }
 
     const modalFiltragemClick = () => {
         setIsFiltragemOpen(true);

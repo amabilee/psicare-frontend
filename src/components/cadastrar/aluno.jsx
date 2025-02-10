@@ -7,7 +7,10 @@ import validator from "validator";
 import { cpf } from 'cpf-cnpj-validator';
 import "./style.css"
 
+import { UseAuth } from '../../hooks';
+
 export default function CadastrarAluno({ handleCloseModal, renderForm }) {
+    const { signOut } = UseAuth();
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
     const [message, setMessage] = useState("");
     const [professoresNome, setProfessoresNome] = useState({ professores: [] });
@@ -70,7 +73,7 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }) {
         else {
             const token = localStorage.getItem("user_token")
             try {
-                const dadosEnviados = await api.post("/aluno", dadosForm, {
+                await api.post("/aluno", dadosForm, {
                     headers: {
                         "Content-Type": "application/json",
                         "authorization": `Bearer ${token}`
@@ -99,7 +102,8 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }) {
             if (e.response.status == 401) {
                 signOut()
             } else {
-                console.log("Erro ao buscar aluno: ", e)
+                setState({ ...state, open: true });
+                setMessage('Erro ao buscar aluno');
             }
         }
     }

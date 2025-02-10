@@ -24,6 +24,7 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
   const [acumularRelatorioPage, setAcumularRelatorioPage] = useState(0);
 
   const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("");
   const [state, setState] = React.useState({
     open: false,
     vertical: 'top',
@@ -98,7 +99,9 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
       if (e.response.status == 401) {
         signOut()
       } else {
-        console.log("Erro ao buscar relatorios ", e)
+        setState({ ...{ vertical: 'bottom', horizontal: 'center' }, open: true });
+        setSeverity("error")
+        setMessage("Erro ao buscar relatórios.");
       }
     }
   };
@@ -172,9 +175,12 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
       });
       renderDadosRelatorio(newRelatorio);
       setState({ ...{ vertical: 'bottom', horizontal: 'center' }, open: true });
+      setSeverity("success")
       setMessage("Relatório ativado com sucesso.");
     } catch (e) {
-      console.log("Erro ao atualizar dados:", e)
+      setState({ ...{ vertical: 'bottom', horizontal: 'center' }, open: true });
+      setSeverity("error")
+      setMessage("Erro ao atualizar relatório.");
     }
   };
 
@@ -199,7 +205,7 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
               </td>
             </tr>
           ) : (Array.isArray(dadosRelatorio.relatorios) &&
-            dadosRelatorio.relatorios.map((relatorio, index) => (
+            dadosRelatorio.relatorios.map((relatorio) => (
               <tr key={relatorio._id} >
                 <td className="table-content" id="td-nome" onClick={() => handleVisualizarClick(relatorio)}>
                   {formatarData(relatorio.dataCriacao)}
@@ -280,7 +286,7 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
         onClose={handleClose}
         key={vertical + horizontal}
       >
-        <Alert variant="filled" severity="success" onClose={handleClose} action="">
+        <Alert variant="filled" severity={severity} onClose={handleClose} action="">
           {message}
         </Alert>
       </Snackbar>

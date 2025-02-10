@@ -9,6 +9,8 @@ import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
 import { UseAuth } from '../../hooks';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 export default function TableSecretario({ renderFormTable, pesquisar, filtrarPesquisa, loadingStatus }) {
   const { signOut } = UseAuth();
@@ -24,6 +26,17 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
   const [checkboxSelecionadas, setCheckboxSelecionadas] = useState({}); // Novo estado para contagem de checkboxes selecionadas
   const [todasCheckboxSelecionadas, setTodasCheckboxSelecionadas] = useState({});
   const [idsSelecionados, setIdsSelecionados] = useState([]);
+
+  const [message, setMessage] = useState("");
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: 'bottom',
+    horizontal: 'center',
+  }, []);
+  const { vertical, horizontal, open } = state;
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
 
   useEffect(() => {
     receberDadosSecretario();
@@ -77,7 +90,8 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
       if (e.response.status == 401) {
         signOut()
       } else {
-        console.log("Erro ao buscar secretários: ", e)
+        setState({ ...state, open: true });
+        setMessage("Ocorreu um erro ao buscar secretários");
       }
     }
   };
@@ -374,6 +388,22 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
           </tr>
         </tfoot>
       </table>
+
+      <Snackbar
+        ContentProps={{ sx: { borderRadius: '8px' } }}
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        key={vertical + horizontal}
+      >
+        <Alert variant="filled" severity="error" onClose={handleClose} action="">
+          {typeof message === 'string' ? message : ''}
+        </Alert>
+
+      </Snackbar>
+
+
       {isVisualizarOpen && (
         <VisualizarSecretario
           handleCloseVisualizar={handleCloseVisualizar}

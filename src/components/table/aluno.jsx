@@ -8,6 +8,8 @@ import IconExcluir from "../../assets/excluir-icon.svg";
 import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa, loadingStatus }) {
   const [isVisualizarOpen, setIsVisualizarOpen] = useState(false);
@@ -19,9 +21,22 @@ export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa
   const [totalPages, setTotalPages] = useState(1);
   const [totalAlunosTable, setTotalAlunosTable] = useState(0);
   const [acumularAlunosPage, setAcumularAlunosPage] = useState(0);
-  const [checkboxSelecionadas, setCheckboxSelecionadas] = useState({}); // Novo estado para contagem de checkboxes selecionadas
+  const [checkboxSelecionadas, setCheckboxSelecionadas] = useState({});
   const [todasCheckboxSelecionadas, setTodasCheckboxSelecionadas] = useState({});
   const [idsSelecionados, setIdsSelecionados] = useState([]);
+  
+  const [message, setMessage] = useState("");
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: 'bottom',
+    horizontal: 'center',
+  }, []);
+
+  const { vertical, horizontal, open } = state;
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
 
   useEffect(() => {
     receberDadosAluno();
@@ -75,18 +90,18 @@ export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa
           "Content-Type": "application/json",
           "authorization": `Bearer ${token}`
         }
-      });//requisação get para os "dadosPaginados" contruido
+      });
 
-      const { alunos, totalPages: total, totalItems } = receberDados.data; //resposta da api é um objeto com os dados da requisição
-      //aluno: lista de alunos, e totalPages: numero total de paginas tudo retornado pela api
-      setDadosAluno({ alunos }); //atualiza os dadosalunos para os dados da minha api "alunos"
-      setTotalPages(total); //atualiza o totalPages com o "total" retorndo da minha apis
+      const { alunos, totalPages: total, totalItems } = receberDados.data;
+      setDadosAluno({ alunos });
+      setTotalPages(total);
       setTotalAlunosTable(totalItems);
       loadingStatus(false)
-      const alunosAcumulados = ((currentPage - 1) * 15 + alunos.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
+      const alunosAcumulados = ((currentPage - 1) * 15 + alunos.length)
       setAcumularAlunosPage(alunosAcumulados);
     } catch (e) {
-      console.log("Erro ao buscar dados do aluno:", e);
+      setState({ ...state, open: true });
+      setMessage("Ocorreu um erro ao buscar dados do aluno");
     }
   };
 
@@ -388,6 +403,19 @@ export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa
           </tr>
         </tfoot>
       </table>
+      <Snackbar
+        ContentProps={{ sx: { borderRadius: '8px' } }}
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        key={vertical + horizontal}
+      >
+        <Alert variant="filled" severity="error" onClose={handleClose} action="">
+          {typeof message === 'string' ? message : ''}
+        </Alert>
+
+      </Snackbar>
       {isVisualizarOpen && (
         <VisualizarAluno
           handleCloseVisualizar={handleCloseVisualizar}

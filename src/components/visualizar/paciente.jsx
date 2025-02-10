@@ -1,9 +1,7 @@
-import React from "react";
 import voltar from "../../assets/voltar.svg";
 import "./style.css";
 
 export default function VisualizarPaciente({ handleCloseVisualizar, dadosPaciente }) {
-    const alunosPaciente = dadosPaciente._id;
 
     const formatarDataNascimento = (data) => {
         const dataObj = new Date(data);

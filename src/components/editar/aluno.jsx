@@ -29,25 +29,25 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
     buscarProfessores();
   }, []);
 
-  const handleEditarConfirmar = (newState) => () => {
+  const handleEditarConfirmar = () => () => {
     if (dadosAtualizados.nome.length <= 6) {
-      setState({ ...newState, open: true });
+      setState({ ...state, open: true });
       setMessage("Insira o nome completo.");
       return;
     } else if (!cpf.isValid(dadosAtualizados.cpf)) {
-      setState({ ...newState, open: true });
+      setState({ ...state, open: true });
       setMessage("Insira um cpf válido.");
       return;
     } else if (dadosAtualizados.telefone.length != 15) {
-      setState({ ...newState, open: true });
+      setState({ ...state, open: true });
       setMessage("Insira um telefone válido.");
       return;
     } else if (!validator.isEmail(dadosAtualizados.email)) {
-      setState({ ...newState, open: true });
+      setState({ ...state, open: true });
       setMessage("Insira um email válido.");
       return;
     } else if (dadosAtualizados.turno === "#") {
-      setState({ ...newState, open: true });
+      setState({ ...state, open: true });
       setMessage("Selecione um turno.");
       return;
 
@@ -92,7 +92,8 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
       });
       setProfessoresNome(selectProfessores.data);
     } catch (e) {
-      console.log("Erro ao buscar professores: ", e)
+      setState({ ...state, open: true });
+      setMessage("Erro ao buscar professores");
     }
   }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { TbReportAnalytics } from "react-icons/tb";
 import icon_pesquisa from "../../assets/pesquisa.svg";
 import filtragem from "../../assets/filtragem.svg";

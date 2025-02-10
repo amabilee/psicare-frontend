@@ -1,28 +1,38 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { api } from "../../services/server";
 import "./style.css"
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
-export default function ExcluirSecretario({handleExcluirClose, dadosSecretario, atualizarTableExcluir}){
+export default function ExcluirSecretario({ handleExcluirClose, dadosSecretario, atualizarTableExcluir }) {
     const [isConfirmarExluir, setIsConfirmarExcluir] = useState(false);
-    
+    const [message, setMessage] = useState("");
+    const [state, setState] = React.useState({
+        open: false,
+        vertical: 'bottom',
+        horizontal: 'center',
+    }, []);
 
-    const handleConfirmarOpen = async() => {
+    const { vertical, horizontal, open } = state;
+
+    const handleClose = () => {
+        setState({ ...state, open: false });
+    };
+
+    const handleConfirmarOpen = async () => {
         try {
             const token = localStorage.getItem("user_token")
-            console.log(token)
-
-            const deleteIds = async(id) => {
+            const deleteIds = async (id) => {
                 await api.delete(`/secretario/${id}`, {
                     headers: {
                         "Content-Type": "application/json",
                         "authorization": `Bearer ${token}`
-                        }
-                });//função para deletar somente um id de secretario
+                    }
+                });
             }
 
-            if (Array.isArray(dadosSecretario._ids) && dadosSecretario._ids.length > 0){ //verifica se tem mais de um id para deletar
-                // of é usado para iterar sobre os valores de arrays e strings
-                for (const id of dadosSecretario._ids){ //função para iterar sobre cada array de dadosSecretario._ids, onde para cada ID irá chamar a função de excluir aluno
+            if (Array.isArray(dadosSecretario._ids) && dadosSecretario._ids.length > 0) {
+                for (const id of dadosSecretario._ids) {
                     await deleteIds(id);
                 }
             } else {
@@ -32,11 +42,12 @@ export default function ExcluirSecretario({handleExcluirClose, dadosSecretario, 
             atualizarTableExcluir();
             setIsConfirmarExcluir(true);
         } catch (e) {
-            console.log("deu erro ao deletar: ", e)
+            setState({ ...state, open: true });
+            setMessage("Ocorreu um erro ao excluir");
         }
-    }   
+    }
 
-    return(
+    return (
         <>
             <div className="modal-confirmar">
                 <div className="modal-confirmar-content">
@@ -57,6 +68,20 @@ export default function ExcluirSecretario({handleExcluirClose, dadosSecretario, 
                     </div>
                 )}
             </div>
+
+            <Snackbar
+                ContentProps={{ sx: { borderRadius: '8px' } }}
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                autoHideDuration={2000}
+                onClose={handleClose}
+                key={vertical + horizontal}
+            >
+                <Alert variant="filled" severity="error" onClose={handleClose} action="">
+                    {typeof message === 'string' ? message : ''}
+                </Alert>
+
+            </Snackbar>
         </>
     )
 }

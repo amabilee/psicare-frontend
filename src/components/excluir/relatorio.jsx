@@ -1,52 +1,63 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { api } from "../../services/server";
 import "./style.css"
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
-export default function ExcluirRelatorio({handleExcluirClose, dadosRelatorio, atualizarTableExcluir}){
+export default function ExcluirRelatorio({ handleExcluirClose, dadosRelatorio, atualizarTableExcluir }) {
     const [isConfirmarExluir, setIsConfirmarExcluir] = useState(false);
-    
+    const [message, setMessage] = useState("");
+    const [state, setState] = React.useState({
+        open: false,
+        vertical: 'bottom',
+        horizontal: 'center',
+    }, []);
+
+    const { vertical, horizontal, open } = state;
+
+    const handleClose = () => {
+        setState({ ...state, open: false });
+    };
 
     const handleConfirmarOpen = async () => {
         try {
             const token = localStorage.getItem("user_token");
-            
+
             const mudarEstado = {
                 ...dadosRelatorio,
                 ativoRelatorio: false
             };
 
-            console.log(mudarEstado)
-    
             const deleteIds = async (id) => {
-                console.log(`Tentando excluir ID: ${id}`);
-                const response = await api.patch(`/relatorio/arquivar/${id}`, mudarEstado, {
+                await api.patch(`/relatorio/arquivar/${id}`, mudarEstado, {
                     headers: {
                         "Content-Type": "application/json",
                         "authorization": `Bearer ${token}`
                     }
                 });
-                console.log("Resposta do servidor:", response.data);
             };
-    
+
             if (Array.isArray(dadosRelatorio._ids) && dadosRelatorio._ids.length > 0) {
-                for (const id of dadosRelatorio._ids) { 
+                for (const id of dadosRelatorio._ids) {
                     await deleteIds(id);
                 }
             } else if (dadosRelatorio._id) {
                 await deleteIds(dadosRelatorio._id);
             } else {
-                console.error("Nenhum ID disponível para exclusão.");
+                setState({ ...state, open: true });
+                setMessage("Nenhum ID disponível para exclusão");
             }
-    
+
             atualizarTableExcluir();
             setIsConfirmarExcluir(true);
         } catch (e) {
-            console.error("Erro ao deletar:", e);
+            setState({ ...state, open: true });
+            setMessage("Ocorreu um erro ao excluir");
         }
     };
-     
 
-    return(
+
+    return (
         <>
             <div className="modal-confirmar">
                 <div className="modal-confirmar-content">
@@ -67,6 +78,19 @@ export default function ExcluirRelatorio({handleExcluirClose, dadosRelatorio, at
                     </div>
                 )}
             </div>
+            <Snackbar
+                ContentProps={{ sx: { borderRadius: '8px' } }}
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                autoHideDuration={2000}
+                onClose={handleClose}
+                key={vertical + horizontal}
+            >
+                <Alert variant="filled" severity="error" onClose={handleClose} action="">
+                    {typeof message === 'string' ? message : ''}
+                </Alert>
+
+            </Snackbar>
         </>
     )
 }

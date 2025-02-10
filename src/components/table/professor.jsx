@@ -8,6 +8,8 @@ import IconExcluir from "../../assets/excluir-icon.svg";
 import paginacaoWhite from "../../assets/paginacao-white.svg";
 import paginacaoBlack from "../../assets/paginacao-black.svg";
 import "./style.css";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 import { UseAuth } from '../../hooks';
 
@@ -25,6 +27,18 @@ export default function TableProfessor({ renderFormTable, pesquisar, filtrarPesq
   const [checkboxSelecionadas, setCheckboxSelecionadas] = useState({}); // Novo estado para contagem de checkboxes selecionadas
   const [todasCheckboxSelecionadas, setTodasCheckboxSelecionadas] = useState({});
   const [idsSelecionados, setIdsSelecionados] = useState([]);
+
+  const [message, setMessage] = useState("");
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: 'top',
+    horizontal: 'center',
+  });
+  const { vertical, horizontal, open } = state;
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
 
   useEffect(() => {
     receberDadosProfessor();
@@ -78,7 +92,8 @@ export default function TableProfessor({ renderFormTable, pesquisar, filtrarPesq
       if (e.response.status == 401) {
         signOut()
       } else {
-        console.log("Erro ao buscar professores: ", e)
+        setState({ ...state, open: true });
+        setMessage("Ocorreu um erro ao buscar professores");
       }
     }
   };
@@ -375,6 +390,20 @@ export default function TableProfessor({ renderFormTable, pesquisar, filtrarPesq
           </tr>
         </tfoot>
       </table>
+
+      <Snackbar
+        ContentProps={{ sx: { borderRadius: '8px' } }}
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        key={vertical + horizontal}
+      >
+        <Alert variant="filled" severity="error" onClose={handleClose} action="">
+          {message}
+        </Alert>
+      </Snackbar>
+
       {isVisualizarOpen && (
         <VisualizarProfessor
           handleCloseVisualizar={handleCloseVisualizar}

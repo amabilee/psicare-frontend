@@ -54,14 +54,12 @@ export default function CadastrarProfessor({ handleCloseModal, renderForm }) {
         } else {
             const token = localStorage.getItem("user_token")
             try {
-                var dadosEnviados = await api.post("/professor", dadosForm, {
+                await api.post("/professor", dadosForm, {
                     headers: {
                         "Content-Type": "application/json",
                         "authorization": `Bearer ${token}`
                     }
                 });
-                console.log(dadosEnviados)
-
                 setIsSucessModalOpen(true);
                 renderForm(true)
             } catch (e) {

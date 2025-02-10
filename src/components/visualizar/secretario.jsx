@@ -1,4 +1,3 @@
-import React from "react";
 import voltar from "../../assets/voltar.svg";
 import "./style.css";
 

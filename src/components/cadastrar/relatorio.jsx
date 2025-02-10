@@ -8,8 +8,10 @@ import TrashIcon from '../../assets/excluir-icon.svg'
 
 import 'rsuite/dist/rsuite.css';
 import { DatePicker } from 'rsuite';
+import { UseAuth } from '../../hooks';
 
 export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
+    const { signOut } = UseAuth();
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
     const [message, setMessage] = useState("");
     const [userLevel, setUserLevel] = useState(null);
@@ -91,17 +93,13 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
             dadosForm.prontuario.forEach((file) => {
                 formData.append('prontuario', file);
             });
-            console.log(dadosForm)
 
-            const dadosEnviados = await api.post("/relatorio", formData, {
+            await api.post("/relatorio", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     "authorization": `Bearer ${token}`
                 }
             });
-
-            console.log(dadosEnviados)
-
             setIsSucessModalOpen(true);
             renderForm(true);
         } catch (e) {
@@ -135,7 +133,8 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
             if (e.response.status == 401) {
                 signOut()
             } else {
-                console.log("Erro ao buscar pacientes", e)
+                setState({ ...state, open: true });
+                setMessage("Erro ao buscar pacientes");
             }
         }
     }
@@ -154,7 +153,8 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
             if (e.response.status == 401) {
                 signOut()
             } else {
-                console.log("Erro ao buscar alunos", e)
+                setState({ ...state, open: true });
+                setMessage("Erro ao buscar alunos");
             }
         }
     }
