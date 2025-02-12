@@ -153,7 +153,7 @@ export default function Agenda() {
 
         if (view === "month" || view === "agenda") {
             newStartDate = subDays(startOfMonth(parsedDate), 7);
-            newEndDate = addDays(endOfMonth(addMonths(parsedDate, 1)), 7)
+            newEndDate = addDays(endOfMonth(addMonths(parsedDate, 2)), 7)
         } else if (view === "week") {
             newStartDate = startOfWeek(parsedDate);
             newEndDate = addDays(newStartDate, 6);
@@ -218,8 +218,10 @@ export default function Agenda() {
             if (e.response?.status === 401) {
                 signOut();
             } else {
-                setState({ ...state, open: true });
-                setMessage("Erro ao buscar consultas");
+                if (!String(e).includes('Invalid time value')) {
+                    setState({ ...state, open: true });
+                    setMessage("Erro ao buscar consultas");
+                }
             }
         }
     };
@@ -424,7 +426,7 @@ export default function Agenda() {
             </div >
 
             <Snackbar
-                ContentProps={{ sx: { borderRadius: '8px' } }}
+                ContentProps={{ sx: { borderRadius: '8px', zIndex: '9999' } }}
                 anchorOrigin={{ vertical, horizontal }}
                 open={open}
                 autoHideDuration={2000}

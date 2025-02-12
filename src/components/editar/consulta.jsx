@@ -112,14 +112,16 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                 new Date(dadosAtualizados.end).getSeconds()
             )
         };
-        delete formattedData.createdAt;
-        delete formattedData.nomePaciente;
-        delete formattedData.nomeAluno;
-        
+
+
         formattedData.start = new Date(formattedData.start).toString();
         formattedData.end = new Date(formattedData.end).toString();
 
         try {
+            const renderData = { ...formattedData }
+            delete formattedData.createdAt;
+            delete formattedData.nomePaciente;
+            delete formattedData.nomeAluno;
             await api.patch(`/consulta/${dadosAtualizados._id}`, formattedData, {
                 headers: {
                     "Content-Type": "application/json",
@@ -128,7 +130,7 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
             });
 
             setSucessoEditar(true);
-            renderDadosConsulta(formattedData);
+            renderDadosConsulta(renderData);
         } catch (e) {
             setState({ ...state, open: true });
             setMessage(e.response.data);
@@ -188,6 +190,14 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
         buscarAlunos();
     }, []);
 
+    const changePaciente = (e) => {
+        setDadosAtualizados({
+            ...dadosAtualizados,
+            pacienteId: e.target.value,
+            nomePaciente: e.target.options[e.target.selectedIndex].text
+        })
+    }
+
     return (
         <>
             {Editar && (
@@ -207,7 +217,7 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                             <select
                                 className="professorNome"
                                 value={dadosAtualizados.pacienteId}
-                                onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, pacienteId: e.target.value })}
+                                onChange={(e) => changePaciente(e)}
                             >
                                 <option value="#" disabled>Selecione uma opção</option>
                                 {pacientesNome.map((paciente) => (
@@ -289,7 +299,15 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                             </div>
 
                             <label>Aluno responsável*</label>
-                            <select className="professorNome" value={dadosAtualizados.alunoId} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, alunoId: e.target.value })}>
+                            <select
+                                className="professorNome"
+                                value={dadosAtualizados.alunoId}
+                                onChange={(e) => setDadosAtualizados({
+                                    ...dadosAtualizados,
+                                    alunoId: e.target.value,
+                                    nomeAluno: e.target.options[e.target.selectedIndex].text
+                                })}
+                            >
                                 <option value="#" disabled>Selecione uma opção</option>
                                 {alunosNome.map(aluno => (
                                     <option key={aluno._id} value={aluno._id}>

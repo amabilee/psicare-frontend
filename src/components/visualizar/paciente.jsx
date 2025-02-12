@@ -6,7 +6,7 @@ export default function VisualizarPaciente({ handleCloseVisualizar, dadosPacient
     const formatarDataNascimento = (data) => {
         const dataObj = new Date(data);
         const dia = String(dataObj.getDate()).padStart(2, '0');
-        const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); // Meses são baseados em zero
+        const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
         const ano = dataObj.getFullYear();
         return `${dia}/${mes}/${ano}`;
     };

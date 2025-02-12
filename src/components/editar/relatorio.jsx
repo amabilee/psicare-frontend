@@ -14,6 +14,7 @@ import { DatePicker } from 'rsuite';
 
 export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, renderDadosRelatorio }) {
     const { signOut } = UseAuth();
+    const [isSending, setIsSending] = useState(false)
     const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
     const [Editar, setEditar] = useState(true);
     const [SucessoEditar, setSucessoEditar] = useState(false);
@@ -124,19 +125,20 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
             dadosAtualizados.assinatura.forEach((file) => {
                 formData.append('assinatura', file);
             });
-
+            setIsSending(true);
             await api.patch(`/relatorio/${dadosAtualizados._id}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     "authorization": `Bearer ${token}`
                 }
             });
-
-            setSucessoEditar(true);
-            renderDadosRelatorio(dadosAtualizados);
         } catch (e) {
             setState({ ...state, open: true });
             setMessage(e.response.data.error);
+        } finally {
+            setSucessoEditar(true);
+            renderDadosRelatorio(dadosAtualizados);
+            setIsSending(false);
         }
     }
 
@@ -338,27 +340,27 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                         ))}</h3>
                                         <div className="files-added">
                                             {dadosAtualizados.prontuario.map((arquivo, index) => (
-                                                <div key={index}>
+                                                <div key={index} onClick={() => handleDownloadFile(index)}>
                                                     <p>{arquivo.nome ? arquivo.nome : arquivo.name}</p>
                                                     <img src={Download}
                                                         alt="Remove"
                                                         className="trash-icon"
-                                                        onClick={() => handleDownloadFile(index)}
                                                     />
                                                 </div>
                                             ))}
                                         </div>
                                     </>
                                 ) : (
-
-                                    <div className="div-flex">
-                                        <label htmlFor="conteudoRelatorio">Conteúdo*</label>
-                                        <div className="textarea-container">
+                                    <>
+                                        <div className="div-flex">
+                                            <label htmlFor="conteudoRelatorio">Conteúdo*</label>
                                             <textarea
                                                 name="conteudoRelatorio"
                                                 value={dadosAtualizados.conteudo}
                                                 onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, conteudo: e.target.value })}
                                             />
+                                        </div>
+                                        <div className="div-flex">
                                             <input
                                                 type="file"
                                                 accept=".pdf"
@@ -383,8 +385,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                                 ))}
                                             </div>
                                         </div>
-
-                                    </div>
+                                    </>
                                 )}
                             </div>
                             {userLevel != '3' && (
@@ -477,11 +478,11 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                 </div>
                             </div>
                             <div className="buttons-confirmar buttons-confirmar-relatorio">
-                                <button className="button-voltar-confirmar" id="voltar" onClick={handleVoltarConfirmar} >
+                                <button className="button-voltar-confirmar" id="voltar" disabled={isSending} onClick={handleVoltarConfirmar} >
                                     Voltar
                                 </button>
-                                <button type="submit" className="button-confirmar" id="cadastrar" onClick={handleSucessoConfirmar}>
-                                    Confirmar
+                                <button type="submit" className="button-confirmar" id="cadastrar" disabled={isSending} onClick={handleSucessoConfirmar}>
+                                    {isSending ? 'Enviando alterações...' : 'Confirmar'}
                                 </button>
                             </div>
                         </div>

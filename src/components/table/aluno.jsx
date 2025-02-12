@@ -82,7 +82,7 @@ export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa
         filtrar += `&nomeProfessor=${filtrarPesquisa.nomeProfessor}`;
       }
       if (filtrar.length > 0) {
-        dadosPaginados += `&${filtrar}`
+        dadosPaginados += `${filtrar}`
       }
 
       const receberDados = await api.get(dadosPaginados, {
@@ -100,6 +100,7 @@ export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa
       const alunosAcumulados = ((currentPage - 1) * 15 + alunos.length)
       setAcumularAlunosPage(alunosAcumulados);
     } catch (e) {
+      console.log(e)
       setState({ ...state, open: true });
       setMessage("Ocorreu um erro ao buscar dados do aluno");
     }

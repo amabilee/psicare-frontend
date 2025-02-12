@@ -676,6 +676,18 @@
     transition: all 0.2s;
 }
 
+.buttons-confirmar button:disabled {
+    color: #fff;
+    background: #BCBCBC;
+    border: none;
+}
+
+.buttons-confirmar button:disabled:hover {
+    cursor: not-allowed;
+    box-shadow:none;
+    transition: all 0.2s;
+}
+
 
 /*modal de sucesso*/
 .modal-sucesso {

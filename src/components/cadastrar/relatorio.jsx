@@ -12,6 +12,7 @@ import { UseAuth } from '../../hooks';
 
 export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
     const { signOut } = UseAuth();
+    const [isSending, setIsSending] = useState(false)
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
     const [message, setMessage] = useState("");
     const [userLevel, setUserLevel] = useState(null);
@@ -93,18 +94,20 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
             dadosForm.prontuario.forEach((file) => {
                 formData.append('prontuario', file);
             });
-
+            setIsSending(true);
             await api.post("/relatorio", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     "authorization": `Bearer ${token}`
                 }
             });
-            setIsSucessModalOpen(true);
-            renderForm(true);
         } catch (e) {
             setState({ ...state, open: true });
             setMessage(e.response.data.error);
+        } finally {
+            setIsSucessModalOpen(true);
+            renderForm(true);
+            setIsSending(false);
         }
     }
 
@@ -237,42 +240,43 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
                         <div className="flex-informacoes-relatorio">
                             <div className="div-flex">
                                 <label htmlFor="conteudoRelatorio">Conteúdo*</label>
-                                <div className="textarea-container">
-                                    <textarea
-                                        name="conteudoRelatorio"
-                                        value={dadosForm.conteudo}
-                                        onChange={(e) => setDadosForm({ ...dadosForm, conteudo: e.target.value })}
-                                    />
-                                    <input
-                                        type="file"
-                                        accept=".pdf"
-                                        multiple
-                                        style={{ display: 'none' }}
-                                        id="fileUpload"
-                                        onChange={handleFileChange}
-                                    />
-                                    <label htmlFor="fileUpload" className="clip-icon-label">
-                                        <img src={ClipIcon} alt="Attach" className="clip-icon" />
-                                    </label>
-                                    <div className="files-added">
-                                        {dadosForm.prontuario.map((arquivo, index) => (
-                                            <div key={index}>
-                                                <p>{arquivo.name}</p>
-                                                <img src={TrashIcon}
-                                                    alt="Remove"
-                                                    className="trash-icon"
-                                                    onClick={() => handleRemoveFile(index)}
-                                                />
-                                            </div>
-                                        ))}
-                                    </div>
+                                <textarea
+                                    name="conteudoRelatorio"
+                                    value={dadosForm.conteudo}
+                                    onChange={(e) => setDadosForm({ ...dadosForm, conteudo: e.target.value })}
+                                />
+
+                            </div>
+                            <div className="div-flex">
+                                <input
+                                    type="file"
+                                    accept=".pdf"
+                                    multiple
+                                    style={{ display: 'none' }}
+                                    id="fileUpload"
+                                    onChange={handleFileChange}
+                                />
+                                <label htmlFor="fileUpload" className="clip-icon-label">
+                                    <img src={ClipIcon} alt="Attach" className="clip-icon" />
+                                </label>
+                                <div className="files-added">
+                                    {dadosForm.prontuario.map((arquivo, index) => (
+                                        <div key={index}>
+                                            <p>{arquivo.name}</p>
+                                            <img src={TrashIcon}
+                                                alt="Remove"
+                                                className="trash-icon"
+                                                onClick={() => handleRemoveFile(index)}
+                                            />
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
                         <p className="campo_obrigatorio">*Campo Obrigatório</p>
                         <div className="buttons-form buttons-form-aluno">
-                            <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Cancelar</button>
-                            <button className="button-cadastrar" id="cadastrar" onClick={handleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}>Cadastrar</button>
+                            <button className="button-voltar" id="voltar" disabled={isSending} onClick={handleCloseModal} >Cancelar</button>
+                            <button className="button-cadastrar" id="cadastrar" disabled={isSending} onClick={handleFormSubmit({ vertical: 'bottom', horizontal: 'center' })}>{isSending ? 'Enviando Relatório...' : 'Cadastrar'}</button>
                             <Snackbar
                                 ContentProps={{ sx: { borderRadius: '8px' } }}
                                 anchorOrigin={{ vertical, horizontal }}

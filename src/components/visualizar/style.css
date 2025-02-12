@@ -96,15 +96,36 @@
     left: 70%;
 }
 
+.visualizar-info-paciente .coluna1,
+.visualizar-info-paciente .coluna2,
+.visualizar-info-paciente .coluna3,
+.visualizar-info-paciente .coluna4{
+    width: 100%;
+}
+
+.visualizar-info-paciente .coluna1 div:nth-child(1),
+.visualizar-info-paciente .coluna2 div:nth-child(1),
+.visualizar-info-paciente .coluna3 div:nth-child(1),
+.visualizar-info-paciente .coluna4 div:nth-child(1),
+.visualizar-info-paciente .coluna1 div:nth-child(2),
+.visualizar-info-paciente .coluna2 div:nth-child(2),
+.visualizar-info-paciente .coluna3 div:nth-child(2),
+.visualizar-info-paciente .coluna4 div:nth-child(2),
+.visualizar-info-paciente .coluna1 div:nth-child(3),
+.visualizar-info-paciente .coluna2 div:nth-child(3),
+.visualizar-info-paciente .coluna3 div:nth-child(3),
+.visualizar-info-paciente .coluna4 div:nth-child(3),
+.visualizar-info-paciente .coluna1 div:nth-child(4),
+.visualizar-info-paciente .coluna2 div:nth-child(4),
+.visualizar-info-paciente .coluna3 div:nth-child(4),
+.visualizar-info-paciente .coluna4 div:nth-child(4){
+    width: 25%;
+    overflow-x: hidden;
+}
+
 .visualizar-info-paciente .coluna1 {
     justify-content: space-between;
     margin-right: 200px;
-}
-
-.visualizar-info-paciente .coluna1 div:nth-child(1) {
-    width: 300px;
-    max-width: 300px;
-    overflow-x: hidden;
 }
 
 .visualizar-info-paciente .coluna1 .CPF,
@@ -116,10 +137,6 @@
 .visualizar-info-paciente .coluna1 .data-nascimento {
     position: fixed;
     left: 65%;
-}
-
-.visualizar-info-paciente .coluna1 div:nth-of-type(4) {
-    margin: 0 7px 0 0;
 }
 
 .visualizar-info .coluna2 {
@@ -183,10 +200,6 @@
 .visualizar-info-paciente .coluna4 {
     display: flex;
     justify-content: space-between;
-}
-
-.visualizar-info-paciente .coluna3 div:nth-of-type(4) {
-    margin: 0 -50px 0 0;
 }
 
 .visualizar-info-paciente .coluna5 {
