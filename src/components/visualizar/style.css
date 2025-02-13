@@ -300,8 +300,6 @@
 
 .visualizar-info-relatorio .coluna4 .files-box {
     width: 100%;
-    /* max-height: 100px; */
-    overflow-y: auto;
     overflow-x: hidden;
     display: flex;
     flex-direction: column;

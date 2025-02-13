@@ -74,6 +74,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
             setMessage("Escreva a data de criação.");
             return;
         } else {
+            // console.log(dadosAtualizados)
             setIsEditarConfirmar(true);
             setEditar(false);
         }
@@ -133,8 +134,10 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                 }
             });
         } catch (e) {
-            setState({ ...state, open: true });
-            setMessage(e.response.data.error);
+            if (!e.response.data.message.includes("Aluno não")){
+                setState({ ...state, open: true });
+                setMessage(e.response.data.message);
+            }
         } finally {
             setSucessoEditar(true);
             renderDadosRelatorio(dadosAtualizados);
