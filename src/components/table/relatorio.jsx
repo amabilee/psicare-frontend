@@ -55,7 +55,8 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
   const formatarDataRequest = (data) => {
     const dia = String(data.getDate()).padStart(2, '0');
     const mes = String(data.getMonth() + 1).padStart(2, '0');
-    return `${dia}-${mes}`;
+    const year = String(data.getFullYear()).padStart(2, '0')
+    return `${mes}-${dia}-${year}`;
   };
 
   const receberDadosRelatorio = async () => {
@@ -81,9 +82,9 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
         filtrar += `&tipoTratamento=${filtrarPesquisa.tipoTratamento}`;
       }
       if (filtrar.length > 0) {
-        dadosPaginados += `&${filtrar}`
+        dadosPaginados += `${filtrar}`
       }
-
+      
       const receberDados = await api.get(dadosPaginados, {
         headers: {
           "Content-Type": "application/json",

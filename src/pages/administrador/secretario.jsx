@@ -96,7 +96,7 @@ export default function Secretario() {
                     </button>
                     <img src={filtragem} alt="filtragem" className="icon_pesquisa_avançada" onClick={modalFiltragemClick} />
                     <div className="container">
-                        <input type="text" value={pesquisaUsuario} onChange={(e) => setPesquisaUsuario(e.target.value)} className="pesquisar" placeholder="Escreva aqui para pesquisar..."/>
+                        <input type="text" value={pesquisaUsuario} onChange={(e) => setPesquisaUsuario(e.target.value.replace(/[^\w\s]/gi, ''))} className="pesquisar" placeholder="Escreva aqui para pesquisar..."/>
                         <img src={icon_pesquisa} alt="icon_pesquisa" id="icon_pesquisa" className="icon_pesquisa" />
                     </div>
                 </div>
@@ -112,7 +112,7 @@ export default function Secretario() {
                             <hr />
                             <div className="formulario">
                                 <label htmlFor="Nome">Nome Completo</label>
-                                <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value })} />
+                                <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value.replace(/[^\w\s]/gi, '') })} />
                                 <div className="coluna1">
                                     <div className="div-CPF">
                                         <label htmlFor="CPF">CPF</label>

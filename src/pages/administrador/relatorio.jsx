@@ -42,7 +42,7 @@ export default function Relatorio() {
     }, []);
 
     const handlePesquisar = (e) => {
-        setPesquisaUsuario(e.target.value);
+        setPesquisaUsuario(e.target.value.replace(/[^\w\s]/gi, ''));
     }
 
     const renderProps = (codigo) => {
@@ -135,10 +135,10 @@ export default function Relatorio() {
                                 <hr />
                                 <div className="formulario">
                                     <label htmlFor="Nome">Aluno</label>
-                                    <input type="text" id="nome" value={filtrarPesquisa.nomeAluno} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nomeAluno: e.target.value })} />
+                                    <input type="text" id="nome" value={filtrarPesquisa.nomeAluno.replace(/[^\w\s]/gi, '')} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nomeAluno: e.target.value })} />
                                     <label htmlFor="labelEncaminhador">Paciente</label>
                                     <input type="text" className="encaminhadorInput" id="encaminhadorInput"
-                                        value={filtrarPesquisa.nomePaciente}
+                                        value={filtrarPesquisa.nomePaciente.replace(/[^\w\s]/gi, '')}
                                         onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nomePaciente: e.target.value })}
                                     />
                                     <label htmlFor="tratamento">Tipo de tratamento</label>

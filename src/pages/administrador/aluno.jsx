@@ -155,7 +155,7 @@ export default function Aluno() {
                     )}
                     <img src={filtragem} alt="filtragem" className="icon_pesquisa_avançada" onClick={modalFiltragemClick} />
                     <div className="container">
-                        <input type="text" value={pesquisaUsuario} onChange={(e) => setPesquisaUsuario(e.target.value)} className="pesquisar" placeholder="Escreva aqui para pesquisar..." />
+                        <input type="text" value={pesquisaUsuario} onChange={(e) => setPesquisaUsuario(e.target.value.replace(/[^\w\s]/gi, ''))} className="pesquisar" placeholder="Escreva aqui para pesquisar..." />
                         <img src={icon_pesquisa} alt="icon_pesquisa" id="icon_pesquisa" className="icon_pesquisa" />
                     </div>
                 </div>
@@ -170,7 +170,7 @@ export default function Aluno() {
                             <hr />
                             <div className="formulario">
                                 <label htmlFor="Nome">Nome Completo</label>
-                                <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value })} />
+                                <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value.replace(/[^\w\s]/gi, '') })} />
                                 <div className="coluna1">
                                     <div className="div-CPF">
                                         <label htmlFor="CPF">CPF</label>
@@ -212,8 +212,8 @@ export default function Aluno() {
                                     required
                                 >
                                     <option value="" disabled>Selecione uma opção</option>
-                                    {professoresNome.professores.map(professor => (
-                                        <option key={professor.nome} value={professor.nome}>
+                                    {professoresNome.professores.map((professor, index) => (
+                                        <option key={index} value={professor.nome}>
                                             {professor.nome}
                                         </option>
                                     ))}

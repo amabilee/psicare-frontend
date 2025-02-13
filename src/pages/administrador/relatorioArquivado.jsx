@@ -32,7 +32,7 @@ export default function RelatorioArquivado({ handleCloseModal }) {
     })
 
     const handlePesquisar = (e) => {
-        setPesquisaUsuario(e.target.value);
+        setPesquisaUsuario(e.target.value.replace(/[^\w\s]/gi, ''));
     }
 
     const handleFiltrarPesquisa = () => {
@@ -102,11 +102,11 @@ export default function RelatorioArquivado({ handleCloseModal }) {
                             <hr />
                             <div className="formulario">
                                 <label htmlFor="Nome">Aluno</label>
-                                <input type="text" id="nome" value={filtrarPesquisa.aluno} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, aluno: e.target.value })} />
+                                <input type="text" id="nome" value={filtrarPesquisa.aluno} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, aluno: e.target.value.replace(/[^\w\s]/gi, '') })} />
                                 <label htmlFor="labelEncaminhador">Paciente</label>
                                 <input type="text" className="encaminhadorInput" id="encaminhadorInput"
                                     value={filtrarPesquisa.paciente}
-                                    onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, paciente: e.target.value })}
+                                    onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, paciente: e.target.value.replace(/[^\w\s]/gi, '') })}
                                 />
                                 <label htmlFor="tratamento">Tipo de tratamento</label>
                                 <select className="tratamento" name="tratamento" id="tratamento" value={filtrarPesquisa.tipoDeTratamento} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, tipoDeTratamento: e.target.value })}>

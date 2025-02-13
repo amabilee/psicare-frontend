@@ -258,7 +258,7 @@ export default function Agenda() {
                         </button>
                     )}
                 </div>
-                <div className="" style={{ minHeight: 580 }}>
+                <div className="" style={{ minHeight: 300 }}>
                     <BigCalendar
                         localizer={localizer}
                         events={events}

@@ -44,7 +44,7 @@ export default function PacienteArquivado({ handleCloseModal }) {
     }
 
     const handlePesquisar = (e) => {
-        setPesquisaUsuario(e.target.value);
+        setPesquisaUsuario(e.target.value.replace(/[^\w\s]/gi, ''));
     }
 
     const handleFiltrarPesquisa = () => {

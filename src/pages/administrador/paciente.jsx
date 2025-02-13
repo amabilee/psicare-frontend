@@ -73,7 +73,7 @@ export default function Paciente() {
     }
 
     const handlePesquisar = (e) => {
-        setPesquisaUsuario(e.target.value);
+        setPesquisaUsuario(e.target.value.replace(/[^\w\s]/gi, ''));
     }
 
     const handleFiltrarPesquisa = () => {
@@ -150,7 +150,7 @@ export default function Paciente() {
                                 <hr />
                                 <div className="formulario">
                                     <label htmlFor="Nome">Nome Completo</label>
-                                    <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value })} />
+                                    <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value.replace(/[^\w\s]/gi, '') })} />
                                     <div className="coluna1">
                                         <div className="div-CPF">
                                             <label htmlFor="CPF">CPF</label>
@@ -169,7 +169,7 @@ export default function Paciente() {
                                     <label htmlFor="labelEncaminhador">Nome do Encaminhador</label>
                                     <input type="text" className="encaminhadorInput" id="encaminhadorInput"
                                         value={filtrarPesquisa.encaminhador}
-                                        onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, encaminhador: e.target.value })}
+                                        onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, encaminhador: e.target.value.replace(/[^\w\s]/gi, '') })}
                                     />
                                     <div className="coluna2">
                                         <div className="div-inicioTratamento">

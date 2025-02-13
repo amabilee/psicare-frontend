@@ -107,18 +107,18 @@ export default function TablePacienteArquivado({ renderFormTable, pesquisar, fil
   };
 
   const handleAtivarClick = async (originalData) => {
-    let newPaciente = ({ ...originalData, ativoPaciente: true });
+    let newPaciente = ({ativoPaciente: true});
     const token = localStorage.getItem("user_token");
 
     try {
-      await api.patch(`/paciente/${newPaciente._id}`, newPaciente, {
+      await api.patch(`/paciente/${originalData._id}`, newPaciente, {
         headers: {
           "Content-Type": "application/json",
           "authorization": `Bearer ${token}`,
         },
       });
 
-      renderDadosPaciente(newPaciente._id);
+      renderDadosPaciente(originalData._id);
 
       setState({ ...{ vertical: 'bottom', horizontal: 'center' }, open: true });
       setMessage("Paciente ativado com sucesso.");
