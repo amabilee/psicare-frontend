@@ -289,6 +289,8 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
         }
     };
 
+    console.log(dadosAtualizados)
+
     return (
         <>
             {Editar && (
@@ -508,7 +510,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         <select
                                             className="encaminhadorSelect"
                                             id="encaminhadorSelect"
-                                            value={dadosAtualizados.alunoId._id}
+                                            value={dadosAtualizados.alunoId}
                                             onChange={(e) => {
                                                 const selectedOptionText = e.target.options[e.target.selectedIndex].text;
                                                 setDadosAtualizados({
@@ -519,7 +521,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                             }}
                                             disabled={!dadosAtualizados.alunoUnieva}
                                         >
-                                            <option value="" disabled>Selecione uma opção</option>
+                                            <option value="" >Selecione uma opção</option>
                                             {alunosNome.alunos.map(aluno => (
                                                 <option
                                                     key={aluno.nome}
@@ -577,7 +579,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         <option value="Psicoterapia">Psicoterapia</option>
                                         <option value="Plantão">Plantão</option>
                                         <option value="Psicodiagnóstico">Psicodiagnóstico</option>
-                                        <option value="Avaliação diagnóstica">Avaliação diagnóstica</option>
+                                        <option value="Avaliação Diagnóstica">Avaliação Diagnóstica</option>
                                     </select>
                                 </div>
                             </div>

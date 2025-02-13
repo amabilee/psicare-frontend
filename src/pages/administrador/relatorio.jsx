@@ -144,10 +144,10 @@ export default function Relatorio() {
                                     <label htmlFor="tratamento">Tipo de tratamento</label>
                                     <select className="tratamento" name="tratamento" id="tratamento" value={filtrarPesquisa.tipoTratamento} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, tipoTratamento: e.target.value })}>
                                         <option value="">Nenhum</option>
-                                        <option value="psicoterapia">Psicoterapia</option>
-                                        <option value="plantao">Plantão</option>
-                                        <option value="psicodiagnostico">Psicodiagnóstico</option>
-                                        <option value="avaliacao diagnostica">Avaliação diagnóstica</option>
+                                        <option value="Psicoterapia">Psicoterapia</option>
+                                        <option value="Plantãp">Plantão</option>
+                                        <option value="Psicodiagnóstico">Psicodiagnóstico</option>
+                                        <option value="Avaliação Diagnóstica">Avaliação diagnóstica</option>
                                     </select>
                                     <div className="div-dataNascimento">
                                         <label htmlFor="data-nascimento">Data de criação</label>

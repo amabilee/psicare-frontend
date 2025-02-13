@@ -569,7 +569,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                                     <option value="Psicoterapia">Psicoterapia</option>
                                     <option value="Plantão">Plantão</option>
                                     <option value="Psicodiagnóstico">Psicodiagnóstico</option>
-                                    <option value="Avaliação diagnóstica">Avaliação diagnóstica</option>
+                                    <option value="Avaliação Diagnóstica">Avaliação diagnóstica</option>
                                 </select>
                             </div>
                         </div>

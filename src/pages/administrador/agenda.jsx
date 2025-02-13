@@ -105,6 +105,7 @@ export default function Agenda() {
     };
 
     const handleOpenEvent = (event) => {
+        console.log(event)
         setSeePopup(event);
     };
 
@@ -278,7 +279,7 @@ export default function Agenda() {
                             const backgroundColor = currentView === 'agenda' ? 'transparent' :
                                 event.statusDaConsulta === 'Pendente' ? '#FFDBA0' :
                                     event.statusDaConsulta === 'Concluída' ? '#B3FFA0' :
-                                        event.statusDaConsulta === 'Cancelada' || event.statusDaConsulta === 'Paciente faltou' || event.statusDaConsulta === 'Aluno faltou ' ? '#FFA0A0' :
+                                        event.statusDaConsulta === 'Cancelada' || event.statusDaConsulta === 'Paciente faltou' || event.statusDaConsulta === 'Aluno faltou' ? '#FFA0A0' :
                                             event.statusDaConsulta === 'Em andamento' ? '#92D9FF' :
                                                 'rgb(226 189 239)'
 

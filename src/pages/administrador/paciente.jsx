@@ -194,10 +194,10 @@ export default function Paciente() {
                                     <label htmlFor="tratamento">Tipo de tratamento</label>
                                     <select className="tratamento" name="tratamento" id="tratamento" value={filtrarPesquisa.tipoDeTratamento} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, tipoDeTratamento: e.target.value })}>
                                         <option value="" disabled>Selecione uma opção</option>
-                                        <option value="psicoterapia">Psicoterapia</option>
-                                        <option value="plantao">Plantão</option>
-                                        <option value="psicodiagnostico">Psicodiagnóstico</option>
-                                        <option value="avaliacao diagnostica">Avaliação diagnóstica</option>
+                                        <option value="Psicoterapia">Psicoterapia</option>
+                                        <option value="Plantão">Plantão</option>
+                                        <option value="Psicodiagnóstico">Psicodiagnóstico</option>
+                                        <option value="Avaliação Diagnóstica">Avaliação diagnóstica</option>
                                     </select>
                                     <label htmlFor="sexo">Sexo</label>
                                     <select className="sexo" name="sexo" id="sexo"
