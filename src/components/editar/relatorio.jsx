@@ -289,7 +289,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                                     value={dadosAtualizados.alunoId}
                                                     onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, alunoId: e.target.value })}
                                                     disabled={!dadosAtualizados.alunoUnieva}>
-                                                    <option value="" disabled>Selecione uma opção</option>
+                                                    <option value="">Selecione uma opção</option>
                                                     {alunosNome.alunos
                                                         .filter(aluno =>
                                                             pacientesNome.pacientes.some(paciente => paciente.alunoId === aluno._id)

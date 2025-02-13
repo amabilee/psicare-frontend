@@ -210,7 +210,7 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
                                                 value={dadosForm.alunoId}
                                                 onChange={(e) => setDadosForm({ ...dadosForm, alunoId: e.target.value })}
                                                 disabled={!dadosForm.alunoUnieva}>
-                                                <option value="" disabled>Selecione uma opção</option>
+                                                <option value="">Selecione uma opção</option>
                                                 {alunosNome.alunos.map(aluno => (
                                                     <option key={aluno._id} value={aluno._id}>
                                                         {aluno.nome}

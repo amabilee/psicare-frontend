@@ -163,17 +163,17 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
   };
 
   const handleAtivarClick = async (originalData) => {
-    let newRelatorio = ({ ...originalData, ativoRelatorio: true });
+    let newRelatorio = ({ativoRelatorio: true });
     const token = localStorage.getItem("user_token");
 
     try {
-      await api.patch(`/relatorio/${newRelatorio._id}`, newRelatorio, {
+      await api.patch(`/relatorio/${originalData._id}`, newRelatorio, {
         headers: {
           "Content-Type": "application/json",
           "authorization": `Bearer ${token}`
         }
       });
-      renderDadosRelatorio(newRelatorio);
+      renderDadosRelatorio(originalData);
       setState({ ...{ vertical: 'bottom', horizontal: 'center' }, open: true });
       setSeverity("success")
       setMessage("Relatório ativado com sucesso.");

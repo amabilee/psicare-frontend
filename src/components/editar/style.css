@@ -453,9 +453,9 @@
 }
 
 .modal-content-confirmar-paciente {
-    width: 1150px;
-    height: 990px;
-    overflow: hidden;
+    width: 70vw;
+    height: 90vh;
+    overflow-y: auto;
     z-index: 3000;
 }
 
@@ -485,8 +485,8 @@
 }
 
 .modal-content-confirmar-paciente hr {
-    width: 1100px;
-    margin: 0 0 0 15px;
+    width: 100%;
+    margin: 0 0 0 0px;
 }
 
 .modal-content-confirmar .dados-inseridos {
@@ -506,6 +506,7 @@
     font-size: 20px;
     font-weight: 500;
     line-height: normal;
+    overflow: hidden;
 }
 
 .modal-content-confirmar .dados-inseridos .disciplina h1 {
@@ -536,72 +537,54 @@
 .modal-content-confirmar-paciente .coluna7,
 .modal-content-confirmar-paciente .coluna8 {
     display: flex;
-    justify-content: space-between;
-    margin-right: 80px;
+    justify-content: flex-start;
+    width: 100%;
 }
 
 .modal-content-confirmar-paciente .coluna1 div:nth-child(1),
 .modal-content-confirmar-paciente .coluna2 div:nth-child(1),
 .modal-content-confirmar-paciente .coluna3 div:nth-child(1),
-.modal-content-confirmar-paciente .coluna3 div:nth-child(4),
-.modal-content-confirmar-paciente .coluna4 div:nth-child(1),
-.modal-content-confirmar-paciente .coluna4 div:nth-child(2),
-.modal-content-confirmar-paciente .coluna5 div:nth-child(1),
-.modal-content-confirmar-paciente .coluna6 div:nth-child(1),
-.modal-content-confirmar-paciente .coluna7 div:nth-child(1) {
-    width: 300px;
-}
-
-
-.modal-content-confirmar-paciente .coluna7 div:nth-child(2) {
-    width: 900px;
+.modal-content-confirmar-paciente .coluna4 div:nth-child(1){
+    width: 40%;
+    overflow-x: hidden;
 }
 
 .modal-content-confirmar-paciente .coluna1 div:nth-child(2),
-.modal-content-confirmar-paciente .coluna1 div:nth-child(3),
-.modal-content-confirmar-paciente .coluna1 div:nth-child(4),
 .modal-content-confirmar-paciente .coluna2 div:nth-child(2),
-.modal-content-confirmar-paciente .coluna2 div:nth-child(3),
-.modal-content-confirmar-paciente .coluna2 div:nth-child(4),
 .modal-content-confirmar-paciente .coluna3 div:nth-child(2),
+.modal-content-confirmar-paciente .coluna4 div:nth-child(2){
+    width: 20%;
+    overflow-x: hidden;
+}
+
+.modal-content-confirmar-paciente .coluna1 div:nth-child(3),
+.modal-content-confirmar-paciente .coluna2 div:nth-child(3),
 .modal-content-confirmar-paciente .coluna3 div:nth-child(3),
+.modal-content-confirmar-paciente .coluna4 div:nth-child(3){
+    width: 20%;
+    overflow-x: hidden;
+}
+
+.modal-content-confirmar-paciente .coluna1 div:nth-child(4),
+.modal-content-confirmar-paciente .coluna2 div:nth-child(4),
 .modal-content-confirmar-paciente .coluna3 div:nth-child(4),
+.modal-content-confirmar-paciente .coluna4 div:nth-child(4){
+    width: 20%;
+    overflow-x: hidden;
+}
+
+
+.modal-content-confirmar-paciente .coluna7 div,
+.modal-content-confirmar-paciente .coluna5 div:nth-child(1),
 .modal-content-confirmar-paciente .coluna5 div:nth-child(2),
 .modal-content-confirmar-paciente .coluna5 div:nth-child(3),
+.modal-content-confirmar-paciente .coluna6 div:nth-child(1),
 .modal-content-confirmar-paciente .coluna6 div:nth-child(2),
 .modal-content-confirmar-paciente .coluna6 div:nth-child(3),
 .modal-content-confirmar-paciente .coluna8 div:nth-child(2),
 .modal-content-confirmar-paciente .coluna8 div:nth-child(3),
-.modal-content-confirmar-paciente .coluna8 div:nth-child(1) {
-    width: 200px;
-}
-
-.modal-content-confirmar-paciente .coluna1 div:nth-child(1) {
-    max-width: 300px;
-    overflow-x: hidden;
-}
-
-.modal-content-confirmar-paciente .coluna4 {
-    width: 650px;
-}
-
-.modal-content-confirmar-paciente .coluna8 {
-    width: 700px;
-}
-
-.modal-content-confirmar-paciente .coluna7 {
-    width: 1000px;
-}
-
-.modal-content-confirmar-paciente .coluna5,
-.modal-content-confirmar-paciente .coluna6 {
-    width: 800px;
-}
-
-.modal-content-confirmar-paciente .dados-inseridos .coluna8 {
-    display: flex;
-    justify-content: space-between;
-    margin-right: 540px;
+.modal-content-confirmar-paciente .coluna8 div:nth-child(1){
+    width: 30%;
 }
 
 /* modal confirmar consulta */
@@ -636,8 +619,7 @@
 }
 
 .modal-content-confirmar .buttons-confirmar-paciente {
-    margin-top: 53px;
-    margin-left: -20px;
+    margin: 53px 0 50px -20px;
 }
 
 .modal-content-confirmar .button-voltar-confirmar {
