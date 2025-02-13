@@ -53,8 +53,10 @@ export default function TableProfAluno({ alunosProfessor }) {
       const alunosAcumulados = ((currentPage - 1) * 10 + alunos.length) /* se estamos na pagina 1, currentPage - 1 será 0 e 0 * 15 é 0. E assim por diante */
       setAcumularAlunosPage(alunosAcumulados);
     } catch (e) {
-      setState({ ...state, open: true });
-      setMessage("Ocorreu um erro ao buscar dados do aluno");
+      if (!e.response?.data.error.includes("Nenhum aluno encontrado para este professor")) {
+        setState({ ...state, open: true });
+        setMessage("Ocorreu um erro ao buscar dados do aluno");
+      }
     }
   };
 
