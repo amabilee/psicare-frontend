@@ -144,20 +144,22 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
 
     const buscarAlunos = async () => {
         const token = localStorage.getItem("user_token")
-        try {
-            const selectAlunos = await api.get(`/aluno`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": `Bearer ${token}`
+        if (String(userLevel) === '0'){
+            try {
+                const selectAlunos = await api.get(`/aluno`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "authorization": `Bearer ${token}`
+                    }
+                });
+                setAlunosNome(selectAlunos.data);
+            } catch (e) {
+                if (e.response.status == 401) {
+                    signOut()
+                } else{
+                    setState({ ...state, open: true });
+                    setMessage("Erro ao buscar alunos");
                 }
-            });
-            setAlunosNome(selectAlunos.data);
-        } catch (e) {
-            if (e.response.status == 401) {
-                signOut()
-            } else {
-                setState({ ...state, open: true });
-                setMessage("Erro ao buscar alunos");
             }
         }
     }

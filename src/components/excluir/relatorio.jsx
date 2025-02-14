@@ -23,10 +23,7 @@ export default function ExcluirRelatorio({ handleExcluirClose, dadosRelatorio, a
         try {
             const token = localStorage.getItem("user_token");
 
-            const mudarEstado = {
-                ...dadosRelatorio,
-                ativoRelatorio: false
-            };
+            const mudarEstado = {ativoRelatorio: false};
 
             const deleteIds = async (id) => {
                 await api.patch(`/relatorio/arquivar/${id}`, mudarEstado, {

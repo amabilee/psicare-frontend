@@ -126,9 +126,9 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
             return;
         } else if (!dadosAtualizados.alunoUnieva && !dadosAtualizados.funcionarioUnieva) {
             setState({ ...state, open: true });
-            setMessage("Selecione um encaminhador.");
+            setMessage("Selecione um status de encaminhador.");
             return;
-        } else if (dadosAtualizados.encaminhador === "" && dadosAtualizados.alunoUnieva) {
+        } else if (dadosAtualizados.encaminhador === "" && dadosAtualizados.alunoUnieva == "") {
             setState({ ...state, open: true });
             setMessage("Selecione um aluno");
             return;
@@ -530,6 +530,14 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                                     {aluno.nome}
                                                 </option>
                                             ))}
+
+                                            {!alunosNome.alunos.some(aluno => aluno._id === dadosAtualizados.alunoId) &&
+                                                dadosAtualizados.alunoId && (
+                                                    <option value={dadosAtualizados.alunoId}>
+                                                        {dadosAtualizados.encaminhador}
+                                                    </option>
+                                                )
+                                            }
                                         </select>
 
                                     ) : (

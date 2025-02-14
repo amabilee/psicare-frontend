@@ -24,7 +24,7 @@ export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa
   const [checkboxSelecionadas, setCheckboxSelecionadas] = useState({});
   const [todasCheckboxSelecionadas, setTodasCheckboxSelecionadas] = useState({});
   const [idsSelecionados, setIdsSelecionados] = useState([]);
-  
+
   const [message, setMessage] = useState("");
   const [state, setState] = React.useState({
     open: false,
@@ -295,9 +295,11 @@ export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa
             </tr>
           ) : (
             <tr className="tr-body">
-              <th>
-                <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo} />
-              </th>
+              {userLevel === '0' && (
+                <th>
+                  <input type="checkbox" className="checkbox" checked={todasCheckboxSelecionadas[`page-${currentPage}`] || false} onChange={handleSelecionarTudo} />
+                </th>
+              )}
               <th>Nome</th>
               <th>Matrícula</th>
               <th>Periodo</th>
@@ -319,15 +321,17 @@ export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa
           ) : (Array.isArray(dadosAluno.alunos) &&
             dadosAluno.alunos.map((aluno, index) => (
               <tr key={aluno._id} >
-                <td>
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    onChange={handleCheckboxSelecionada(index, aluno._id)} // index é o item do secretário na lista
-                    checked={checkboxSelecionadas[`page-${currentPage}`]?.hasOwnProperty(index) || false}// se o index estiver presente em checkboxSelecionadas para a página atual, marcar o checkbox
-                  //hasOwnProperty -> esse método retorna um booleano indicando se o objeto possui uma propriedade específica, que no caso é o index
-                  />
-                </td>
+                {userLevel === '0' && (
+                  <td>
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      onChange={handleCheckboxSelecionada(index, aluno._id)} // index é o item do secretário na lista
+                      checked={checkboxSelecionadas[`page-${currentPage}`]?.hasOwnProperty(index) || false}// se o index estiver presente em checkboxSelecionadas para a página atual, marcar o checkbox
+                    //hasOwnProperty -> esse método retorna um booleano indicando se o objeto possui uma propriedade específica, que no caso é o index
+                    />
+                  </td>
+                )}
                 <td className="table-content" id="td-nome" onClick={() => handleVisualizarClick(aluno)}>
                   {aluno.nome}
                 </td>

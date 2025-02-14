@@ -126,7 +126,7 @@ export default function Aluno() {
         } catch (e) {
             if (e.response.status == 401) {
                 signOut()
-            } else {
+            } else if (!e.response.data.message.incluide("Acesso negado")) {
                 setState({ ...state, open: true });
                 setMessage("Ocorreu um erro ao buscar professores");
             }
@@ -205,19 +205,23 @@ export default function Aluno() {
                                         </select>
                                     </div>
                                 </div>
-                                <label htmlFor="professorResponsavel">Professor</label>
-                                <select className="professorNome" id="professorNome"
-                                    value={filtrarPesquisa.nomeProfessor}
-                                    onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nomeProfessor: e.target.value })}
-                                    required
-                                >
-                                    <option value="" disabled>Selecione uma opção</option>
-                                    {professoresNome.professores.map((professor, index) => (
-                                        <option key={index} value={professor.nome}>
-                                            {professor.nome}
-                                        </option>
-                                    ))}
-                                </select>
+                                {userLevel === '0' && (
+                                    <>
+                                        <label htmlFor="professorResponsavel">Professor</label>
+                                        <select className="professorNome" id="professorNome"
+                                            value={filtrarPesquisa.nomeProfessor}
+                                            onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nomeProfessor: e.target.value })}
+                                            required
+                                        >
+                                            <option value="" disabled>Selecione uma opção</option>
+                                            {professoresNome.professores.map((professor, index) => (
+                                                <option key={index} value={professor.nome}>
+                                                    {professor.nome}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </>
+                                )}
                                 <button className="button-filtro" id="filtro" onClick={handleFiltrarPesquisa}>Aplicar Filtros</button>
                             </div>
                         </div>

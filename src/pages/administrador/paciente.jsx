@@ -120,7 +120,7 @@ export default function Paciente() {
             {!isArquivadosOpen && (
                 <div className="body_admin">
                     <h1 className="h1">Pacientes</h1>
-                    <div className={ (userLevel === '2' || userLevel === '3') ? "barra_pesquisa-visualizar" : "barra_pesquisa"}>
+                    <div className={(userLevel === '2' || userLevel === '3') ? "barra_pesquisa-visualizar" : "barra_pesquisa"}>
                         {(userLevel === '0' || userLevel === '1') && (
                             <>
                                 <button className="button_cadastro" onClick={handleNovoCadastroClick} >
@@ -166,11 +166,15 @@ export default function Paciente() {
                                             />
                                         </div>
                                     </div>
-                                    <label htmlFor="labelEncaminhador">Nome do Encaminhador</label>
-                                    <input type="text" className="encaminhadorInput" id="encaminhadorInput"
-                                        value={filtrarPesquisa.encaminhador}
-                                        onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, encaminhador: e.target.value.replace(/[^\w\s]/gi, '') })}
-                                    />
+                                    {userLevel !== '3' && (
+                                        <>
+                                            <label htmlFor="labelEncaminhador">Nome do Encaminhador</label>
+                                            <input type="text" className="encaminhadorInput" id="encaminhadorInput"
+                                                value={filtrarPesquisa.encaminhador}
+                                                onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, encaminhador: e.target.value.replace(/[^\w\s]/gi, '') })}
+                                            />
+                                        </>
+                                    )}
                                     <div className="coluna2">
                                         <div className="div-inicioTratamento">
                                             <label htmlFor="inicio-tratamento">Início do Tratamento</label>

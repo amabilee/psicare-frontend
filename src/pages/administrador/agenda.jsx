@@ -157,7 +157,7 @@ export default function Agenda() {
             newEndDate = addDays(endOfMonth(addMonths(parsedDate, 2)), 7)
         } else if (view === "week") {
             newStartDate = startOfWeek(parsedDate);
-            newEndDate = addDays(newStartDate, 6);
+            newEndDate = addDays(newStartDate, 10);
         } else {
             newStartDate = subDays(parsedDate, 7);
             newEndDate = addDays(parsedDate, 7);
@@ -199,7 +199,6 @@ export default function Agenda() {
 
             const startFormatted = startDateSetting?.toISOString().split("T")[0];
             const endFormatted = endDateSetting?.toISOString().split("T")[0];
-
 
             const response = await api.get(
                 `/consulta?start=${startFormatted}&end=${endFormatted}`,

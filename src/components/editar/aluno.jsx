@@ -50,7 +50,10 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
       setState({ ...state, open: true });
       setMessage("Selecione um turno.");
       return;
-
+    } else if (dadosAtualizados.professorId == "") {
+      setState({ ...state, open: true });
+      setMessage("Selecione um professor.");
+      return;
     } else {
       setIsEditarConfirmar(true);
       setEditar(false);
@@ -146,12 +149,20 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
                 onChange={(e) => id_professor(e)}
                 required
               >
-                <option value="0" disabled>Selecione uma opção</option>
+                <option value="">Selecione uma opção</option>
                 {professoresNome.professores.map(professor => (
                   <option key={professor._id} value={professor._id}>
                     {professor.nome}
                   </option>
                 ))}
+
+                {!professoresNome.professores.some(professor => professor._id === dadosAtualizados.professorId) &&
+                  dadosAtualizados.professorId && (
+                    <option value={dadosAtualizados.professorId}>
+                      {dadosAtualizados.nomeProfessor}
+                    </option>
+                  )
+                }
               </select>
 
               <div className="flex-input">

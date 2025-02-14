@@ -134,8 +134,12 @@ export default function Relatorio() {
                                 <h1>Filtrar por</h1>
                                 <hr />
                                 <div className="formulario">
-                                    <label htmlFor="Nome">Aluno</label>
-                                    <input type="text" id="nome" value={filtrarPesquisa.nomeAluno.replace(/[^\w\s]/gi, '')} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nomeAluno: e.target.value })} />
+                                    {userLevel !== '3' && (
+                                        <>
+                                            <label htmlFor="Nome">Aluno</label>
+                                            <input type="text" id="nome" value={filtrarPesquisa.nomeAluno.replace(/[^\w\s]/gi, '')} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nomeAluno: e.target.value })} />
+                                        </>
+                                    )}
                                     <label htmlFor="labelEncaminhador">Paciente</label>
                                     <input type="text" className="encaminhadorInput" id="encaminhadorInput"
                                         value={filtrarPesquisa.nomePaciente.replace(/[^\w\s]/gi, '')}

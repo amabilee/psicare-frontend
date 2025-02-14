@@ -162,17 +162,17 @@
 }
 
 .modal-content-filtragem-aluno {
-    height: 470px;
+    height: fit-content;
 }
 
 .modal-content-filtragem-paciente {
     width: 320px;
-    height: 550px;
+    height: fit-content;
 }
 
 .modal-content-filtragem-relatorio {
     width: 320px;
-    height: 420px;
+    height: fit-content;
 }
 
 .modal-content-filtragem-relatorio .formulario {
