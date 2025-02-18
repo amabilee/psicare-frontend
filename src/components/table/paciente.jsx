@@ -66,7 +66,7 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
         filtrar += `&nome=${filtrarPesquisa.nome}`;
       }
       if (filtrarPesquisa.cpf) {
-        filtrar += `&cpf=${filtrarPesquisa.cpf}`;
+        filtrar += `&cpf=${filtrarPesquisa.cpf.replace(/\D/g, '')}`;
       }
       if (filtrarPesquisa.dataNascimento) {
         filtrar += `&dataNascimento=${filtrarPesquisa.dataNascimento}`;

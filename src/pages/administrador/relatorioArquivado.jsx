@@ -74,6 +74,13 @@ export default function RelatorioArquivado({ handleCloseModal }) {
         detectarLoading()
     }, [])
 
+    const [userLevel, setUserLevel] = useState(null);
+
+    useEffect(() => {
+        const level = localStorage.getItem('user_level');
+        setUserLevel(level);
+    }, []);
+
     return (
         <>
             <SideBar />
@@ -101,8 +108,12 @@ export default function RelatorioArquivado({ handleCloseModal }) {
                             <h1>Filtrar por</h1>
                             <hr />
                             <div className="formulario">
-                                <label htmlFor="Nome">Aluno</label>
-                                <input type="text" id="nome" value={filtrarPesquisa.aluno} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, aluno: e.target.value.replace(/[^\w\s]/gi, '') })} />
+                                {userLevel !== '3' && (
+                                    <>
+                                        <label htmlFor="Nome">Aluno</label>
+                                        <input type="text" id="nome" value={filtrarPesquisa.aluno} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, aluno: e.target.value.replace(/[^\w\s]/gi, '') })} />
+                                    </>
+                                )}
                                 <label htmlFor="labelEncaminhador">Paciente</label>
                                 <input type="text" className="encaminhadorInput" id="encaminhadorInput"
                                     value={filtrarPesquisa.paciente}
@@ -112,9 +123,9 @@ export default function RelatorioArquivado({ handleCloseModal }) {
                                 <select className="tratamento" name="tratamento" id="tratamento" value={filtrarPesquisa.tipoDeTratamento} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, tipoDeTratamento: e.target.value })}>
                                     <option value="">Nenhum</option>
                                     <option value="Psicoterapia">Psicoterapia</option>
-                                    <option value="Plantãp">Plantão</option>
-                                    <option value="Psicodiagnóstico">Psicodiagnóstico</option>
-                                    <option value="Avaliação Diagnóstica">Avaliação diagnóstica</option>
+                                    <option value="Plant">Plantão</option>
+                                    <option value="Psicodiagn">Psicodiagnóstico</option>
+                                    <option value="Avalia">Avaliação diagnóstica</option>
                                 </select>
                                 <div className="div-dataNascimento">
                                     <label htmlFor="data-nascimento">Data de criação</label>

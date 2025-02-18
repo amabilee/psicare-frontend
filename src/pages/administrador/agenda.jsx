@@ -105,7 +105,6 @@ export default function Agenda() {
     };
 
     const handleOpenEvent = (event) => {
-        console.log(event)
         setSeePopup(event);
     };
 

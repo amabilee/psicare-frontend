@@ -35,7 +35,6 @@ export default function VisualizarRelatorio({ handleCloseVisualizar, dadosRelato
     };
 
     const downloadFile = (arquivo) => {
-        console.log(arquivo)
         // const relativePath = arquivo.target.alt;
         const fullURL = `${api.defaults.baseURL}${arquivo}`;
         window.open(fullURL, '_blank');

@@ -55,7 +55,7 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
         filtrar += `&nome=${filtrarPesquisa.nome}`;
       }
       if (filtrarPesquisa.cpf) {
-        filtrar += `&cpf=${filtrarPesquisa.cpf}`;
+        filtrar += `&cpf=${filtrarPesquisa.cpf.replace(/\D/g, '')}`;
       }
       if (filtrarPesquisa.telefone) {
         filtrar += `&telefone=${filtrarPesquisa.telefone}`;

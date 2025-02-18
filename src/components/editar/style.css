@@ -778,6 +778,8 @@
     align-items: center;
     max-width: 100%;
     overflow-y: scroll;
+    height: fit-content;
+    padding: 0 0 20px 0;
 }
 
 .input-file-relatorio label{

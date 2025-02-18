@@ -57,7 +57,7 @@ export default function TableProfessor({ renderFormTable, pesquisar, filtrarPesq
         filtrar += `&nome=${filtrarPesquisa.nome}`;
       }
       if (filtrarPesquisa.cpf) {
-        filtrar += `&cpf=${filtrarPesquisa.cpf}`;
+        filtrar += `&cpf=${filtrarPesquisa.cpf.replace(/\D/g, '')}`;
       }
       if (filtrarPesquisa.telefone) {
         filtrar += `&telefone=${filtrarPesquisa.telefone}`;

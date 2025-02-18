@@ -289,8 +289,6 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
         }
     };
 
-    console.log(dadosAtualizados)
-
     return (
         <>
             {Editar && (

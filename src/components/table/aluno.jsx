@@ -63,7 +63,7 @@ export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa
         filtrar += `&nome=${filtrarPesquisa.nome}`;
       }
       if (filtrarPesquisa.cpf) {
-        filtrar += `&cpf=${filtrarPesquisa.cpf}`;
+        filtrar += `&cpf=${filtrarPesquisa.cpf.replace(/\D/g, '')}`;
       }
       if (filtrarPesquisa.telefone) {
         filtrar += `&telefone=${filtrarPesquisa.telefone}`;
@@ -100,7 +100,6 @@ export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa
       const alunosAcumulados = ((currentPage - 1) * 15 + alunos.length)
       setAcumularAlunosPage(alunosAcumulados);
     } catch (e) {
-      console.log(e)
       setState({ ...state, open: true });
       setMessage("Ocorreu um erro ao buscar dados do aluno");
     }
