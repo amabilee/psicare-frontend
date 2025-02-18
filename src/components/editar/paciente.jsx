@@ -545,6 +545,11 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                             disabled={!dadosAtualizados.funcionarioUnieva}
                                         />
                                     )}
+                                    {!alunosNome.alunos.some(aluno => aluno._id === dadosAtualizados.alunoId) &&
+                                        dadosAtualizados.alunoId && (
+                                            <p className="warning-message">O aluno selecionado não está mais ativo. Caso seja alterado, não será possível selecioná-lo novamente.</p>
+                                        )
+                                    }
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="status">Status Encaminhador*</label>
