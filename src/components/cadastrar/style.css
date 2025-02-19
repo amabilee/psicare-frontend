@@ -129,7 +129,6 @@
 .modal-content select.tratamento,
 .modal-content select.renda,
 .modal-content select.encaminhadorSelect,
-.modal-content select.uf,
 .modal-content-relatorio .formulario .div-flex:nth-of-type(1) select {
     padding: 10px;
     border: 2px solid #C760EBFA;
@@ -154,9 +153,28 @@
 .modal-content select.status:focus,
 .modal-content select.tratamento:focus,
 .modal-content select.renda:focus,
-.modal-content select.encaminhadorSelect:focus,
-.modal-content select.uf:focus {
+.modal-content select.encaminhadorSelect:focus{
     border: 2px solid #C760EBFA;
+    outline: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
+}
+
+.uf {
+    margin: 0 25px 0 0;
+}
+
+.css-13cymwt-control, .css-t3ipsp-control, .css-16xfy0z-control {
+    height: 44px;
+    border: 2px solid #C760EBFA !important;
+    border-radius: 12px !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 8px 0;
+}
+
+.css-13cymwt-control:hover, .css-13cymwt-control:focus, .css-t3ipsp-control:hover, .css-t3ipsp-control:focus {
     outline: none;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
@@ -176,12 +194,6 @@
 
 .modal-content select.encaminhadorSelect {
     width: 330px;
-}
-
-.modal-content select.uf {
-    display: flex;
-    width: 70px;
-    margin: 8px 40px 8px 0;
 }
 
 .modal-content select.status {
@@ -330,7 +342,8 @@
     width: 270px;
 }
 
-.flex-endereco .div-flex {
+.flex-endereco .div-flex,
+.flex-endereco-2 .div-flex {
     display: flex;
     flex-direction: column;
 }
@@ -545,6 +558,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    margin: 0 0 20px 0;
 }
 
 .modal-content-relatorio .formulario .flex-informacoes-relatorio .div-flex:nth-of-type(1) {

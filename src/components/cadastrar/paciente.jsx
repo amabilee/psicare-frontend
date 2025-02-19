@@ -8,6 +8,7 @@ import Alert from '@mui/material/Alert';
 import validator from "validator";
 import { cpf } from 'cpf-cnpj-validator';
 import "./style.css"
+import Select from 'react-select'
 
 export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
     const [cidades, setCidades] = useState([]);
@@ -303,6 +304,48 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
         }
     };
 
+    const estados = [
+        { value: "AC", label: "AC" },
+        { value: "AL", label: "AL" },
+        { value: "AP", label: "AP" },
+        { value: "AM", label: "AM" },
+        { value: "BA", label: "BA" },
+        { value: "CE", label: "CE" },
+        { value: "DF", label: "DF" },
+        { value: "ES", label: "ES" },
+        { value: "GO", label: "GO" },
+        { value: "MA", label: "MA" },
+        { value: "MT", label: "MT" },
+        { value: "MS", label: "MS" },
+        { value: "MG", label: "MG" },
+        { value: "PA", label: "PA" },
+        { value: "PB", label: "PB" },
+        { value: "PR", label: "PR" },
+        { value: "PE", label: "PE" },
+        { value: "PI", label: "PI" },
+        { value: "RJ", label: "RJ" },
+        { value: "RN", label: "RN" },
+        { value: "RS", label: "RS" },
+        { value: "RO", label: "RO" },
+        { value: "RR", label: "RR" },
+        { value: "SC", label: "SC" },
+        { value: "SP", label: "SP" },
+        { value: "SE", label: "SE" },
+        { value: "TO", label: "TO" },
+    ];
+
+    const customStyles = {
+        menu: (provided) => ({
+            ...provided,
+            overflowY: "auto",
+        }),
+    };
+
+    const cidadeOptions = cidades.map((cidade) => ({
+        value: cidade.nome,
+        label: cidade.nome,
+    }));
+
     return (
         <>
             <div className="modal" id="modal">
@@ -452,55 +495,34 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                         <div className="flex-endereco" style={{ justifyContent: "flex-start" }}>
                             <div className="div-flex">
                                 <label htmlFor="uf">UF*</label>
-                                <select
-                                    className="uf" name="uf" id="uf"
-                                    disabled={String(dadosForm.enderecoCep).length === 9 ? false : true}
-                                    value={String(dadosForm.enderecoCep).length === 9 ? dadosForm.enderecoUF : ""}
-                                    onChange={(e) => handleChangeUF(e.target.value)}
-                                >
-                                    <option value="" disabled></option>
-                                    <option value="AC">AC</option>
-                                    <option value="AL">AL</option>
-                                    <option value="AP">AP</option>
-                                    <option value="AM">AM</option>
-                                    <option value="BA">BA</option>
-                                    <option value="CE">CE</option>
-                                    <option value="DF">DF</option>
-                                    <option value="ES">ES</option>
-                                    <option value="GO">GO</option>
-                                    <option value="MA">MA</option>
-                                    <option value="MT">MT</option>
-                                    <option value="MS">MS</option>
-                                    <option value="MG">MG</option>
-                                    <option value="PA">PA</option>
-                                    <option value="PB">PB</option>
-                                    <option value="PR">PR</option>
-                                    <option value="PE">PE</option>
-                                    <option value="PI">PI</option>
-                                    <option value="RJ">RJ</option>
-                                    <option value="RN">RN</option>
-                                    <option value="RS">RS</option>
-                                    <option value="RO">RO</option>
-                                    <option value="RR">RR</option>
-                                    <option value="SC">SC</option>
-                                    <option value="SP">SP</option>
-                                    <option value="SE">SE</option>
-                                    <option value="TO">TO</option>
-                                </select>
+                                <Select
+                                    className="uf"
+                                    name="uf"
+                                    id="uf"
+                                    options={estados}
+                                    menuPlacement="top"
+                                    styles={customStyles}
+                                    isDisabled={String(dadosForm.enderecoCep).length === 9 ? false : true}
+                                    value={String(dadosForm.enderecoCep).length === 9 ? (estados.find((estado) => estado.value === dadosForm.enderecoUF)) : ""}
+                                    onChange={(selectedOption) => handleChangeUF(selectedOption.value)}
+                                    placeholder="Selecione um estado"
+                                />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="cidade">Cidade*</label>
-                                <select
-                                    value={dadosForm.enderecoCidade}
-                                    onChange={(e) => setDadosForm({ ...dadosForm, enderecoCidade: e.target.value })}
-                                    disabled={!dadosForm.enderecoUF}
-                                    className="renda"
-                                >
-                                    <option value="">Selecione a cidade</option>
-                                    {cidades.map((cidade) => (
-                                        <option key={cidade.id} value={cidade.nome}>{cidade.nome}</option>
-                                    ))}
-                                </select>
+                                <Select
+                                    className="cidade"
+                                    id="cidade"
+                                    styles={customStyles}
+                                    options={cidadeOptions}
+                                    isDisabled={!dadosForm.enderecoUF}
+                                    value={cidadeOptions.find((cidade) => cidade.value === dadosForm.enderecoCidade) || ""}
+                                    onChange={(selectedOption) =>
+                                        setDadosForm({ ...dadosForm, enderecoCidade: selectedOption.value })
+                                    }
+                                    placeholder="Selecione a cidade"
+                                    menuPlacement="top"
+                                />
                             </div>
                         </div>
 

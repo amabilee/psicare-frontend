@@ -153,8 +153,8 @@ export default function Aluno() {
                             Novo Cadastro
                         </button>
                     )}
-                    <img src={filtragem} alt="filtragem" className="icon_pesquisa_avançada" onClick={modalFiltragemClick} />
                     <div className="container">
+                        <img src={filtragem} alt="filtragem" className="icon_pesquisa_avançada" onClick={modalFiltragemClick} />
                         <input type="text" value={pesquisaUsuario} onChange={(e) => setPesquisaUsuario(e.target.value.replace(/[^\w\s]/gi, ''))} className="pesquisar" placeholder="Escreva aqui para pesquisar..." />
                         <img src={icon_pesquisa} alt="icon_pesquisa" id="icon_pesquisa" className="icon_pesquisa" />
                     </div>

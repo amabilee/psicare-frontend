@@ -150,8 +150,7 @@
 .modal-content-editar select.status,
 .modal-content-editar select.tratamento,
 .modal-content-editar select.renda,
-.modal-content-editar select.encaminhadorSelect,
-.modal-content-editar select.uf {
+.modal-content-editar select.encaminhadorSelect {
     padding: 10px;
     border: 2px solid #C760EBFA;
     border-radius: 12px;
@@ -167,6 +166,22 @@
     margin: 8px 0;
 }
 
+.uf .css-13cymwt-control, .css-t3ipsp-control {
+    height: 44px;
+    border: 2px solid #C760EBFA !important;
+    border-radius: 12px !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 8px 0;
+}
+
+.css-13cymwt-control:hover, .css-13cymwt-control:focus, .css-t3ipsp-control:hover, .css-t3ipsp-control:focus {
+    outline: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all 0.2s;
+}
+
 .modal-content-editar select.turno:focus,
 .modal-content-editar select.professorNome:focus,
 .modal-content-editar select.sexo:focus,
@@ -175,8 +190,7 @@
 .modal-content-editar select.status:focus,
 .modal-content-editar select.tratamento:focus,
 .modal-content-editar select.renda:focus,
-.modal-content-editar select.encaminhadorSelect:focus,
-.modal-content-editar select.uf:focus {
+.modal-content-editar select.encaminhadorSelect:focus{
     border: 2px solid #C760EBFA;
     outline: none;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -201,12 +215,6 @@
 
 .modal-content-editar select.encaminhadorSelect {
     width: 330px;
-}
-
-.modal-content-editar select.uf {
-    display: flex;
-    width: 70px;
-    margin-right: 230px;
 }
 
 .modal-content-editar select.status {
@@ -250,6 +258,12 @@
     display: flex;
     width: 1095px;
     justify-content: space-between;
+}
+
+.flex-endereco-2{
+    display: flex;
+    width: 1095px;
+    justify-content: flex-start;
 }
 
 .flex-informacoes-pessoais .nome-completo,
@@ -783,9 +797,10 @@
     justify-content: flex-start;
     align-items: center;
     max-width: 100%;
-    overflow-y: scroll;
+    overflow-y: hidden;
+    overflow-x: scroll;
     height: fit-content;
-    padding: 0 0 20px 0;
+    padding: 0 0 0px 0;
 }
 
 .input-file-relatorio label{
