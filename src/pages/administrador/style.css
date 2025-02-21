@@ -709,7 +709,7 @@
     color: #C760EBFA;
     background: #fff;
     cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     transition: all 0.2s;
     display: flex;
     align-items: center;
@@ -720,7 +720,13 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
+    transition: all 0.5s;
     
+}
+
+.export-button:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .gerencia-container {
@@ -732,7 +738,8 @@
     position: fixed;
     width: fit-content;
     max-width: calc(100vw - 230px);
-    padding: 120px 0 0 0;
+    margin: 120px 0 0 0;
+    padding: 5px 0 0 5px;
     overflow-x: auto;
 }
 
@@ -747,7 +754,7 @@
 
 .cards-quantity .card-box {
     background-color: white;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border-radius: 10px;
     height: 100px;
     width: 250px;
@@ -783,7 +790,7 @@
 
 .atendimentos-report .div-flex {
     background-color: white;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border-radius: 10px;
     margin: 20px 0 0 00px;
     padding: 10px 40px;
@@ -803,7 +810,7 @@
     color: #C760EBFA;
     background: #fff;
     cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     transition: all 0.2s;
     display: flex;
     align-items: center;
@@ -816,7 +823,7 @@
 
 .atendimentos-report .pie-chart-container {
     background-color: white;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border-radius: 10px;
     padding: 10px 60px 0 30px;
     display: flex;
@@ -850,7 +857,7 @@
 
 .relatorio-report .div-flex:nth-child(1) {
     background-color: white;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border-radius: 10px;
     padding: 10px 40px;
     display: flex;

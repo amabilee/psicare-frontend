@@ -72,7 +72,6 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
 
         const startTime = dadosForm.start ? new Date(`1970-01-01T${dadosForm.start}:00`) : null;
         const endTime = dadosForm.end ? new Date(`1970-01-01T${dadosForm.end}:00`) : null;
-        console.log(startTime, endTime)
         if (startTime.getTime() >= endTime.getTime()) {
             setMessage("O horário de início deve ser menor que o horário de término.");
             setState({ ...state, open: true });
