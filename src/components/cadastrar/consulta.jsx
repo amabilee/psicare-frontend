@@ -70,9 +70,10 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
             return;
         }
 
-        const startTime = new Date(`1970-01-01T${dadosForm.start}:00`);
-        const endTime = new Date(`1970-01-01T${dadosForm.end}:00`);
-        if (startTime >= endTime) {
+        const startTime = dadosForm.start ? new Date(`1970-01-01T${dadosForm.start}:00`) : null;
+        const endTime = dadosForm.end ? new Date(`1970-01-01T${dadosForm.end}:00`) : null;
+        console.log(startTime, endTime)
+        if (startTime.getTime() >= endTime.getTime()) {
             setMessage("O horário de início deve ser menor que o horário de término.");
             setState({ ...state, open: true });
             return;
@@ -237,10 +238,15 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
                                     className="data-nascimento"
                                     format="HH:mm"
                                     placeholder="HH:mm"
-                                    style={{
-                                        width: "150px"
-                                    }}
+                                    style={{ width: "150px" }}
+                                    showTime={{ format: "HH:mm" }}
                                     onChange={(e) => setDadosForm({ ...dadosForm, start: e })}
+                                    disabledTime={() => ({
+                                        disabledHours: () => [
+                                            ...Array(7).fill(0).map((_, i) => i),
+                                            ...Array(24 - 22).fill(0).map((_, i) => i + 22)
+                                        ]
+                                    })}
                                 />
                             </div>
                             <p>às</p>
@@ -248,11 +254,17 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
                                 className="data-nascimento"
                                 format="HH:mm"
                                 placeholder="HH:mm"
-                                style={{
-                                    width: "150px"
-                                }}
+                                style={{ width: "150px" }}
+                                showTime={{ format: "HH:mm" }}
                                 onChange={(e) => setDadosForm({ ...dadosForm, end: e })}
+                                disabledTime={() => ({
+                                    disabledHours: () => [
+                                        ...Array(7).fill(0).map((_, i) => i),
+                                        ...Array(24 - 22).fill(0).map((_, i) => i + 22)
+                                    ]
+                                })}
                             />
+
                         </div>
                         <div className="flex-informacoes-pessoais div-flex-consulta">
                             <div className="div-flex">

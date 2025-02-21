@@ -51,13 +51,15 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
             return;
         }
 
-        const startTime = new Date(`1970-01-01T${dadosAtualizados.start}:00`);
-        const endTime = new Date(`1970-01-01T${dadosAtualizados.end}:00`);
+        const startTime = new Date(dadosAtualizados.start).getTime();
+        const endTime = new Date(dadosAtualizados.end).getTime();
+        
         if (startTime >= endTime) {
             setMessage("O horário de início deve ser menor que o horário de término.");
             setState({ ...state, open: true });
-            return;
+            return
         }
+
         if (!dadosAtualizados.sala) {
             setMessage("Selecione uma sala.");
             setState({ ...state, open: true });
@@ -249,10 +251,17 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                                         format="HH:mm"
                                         placeholder="HH:mm"
                                         style={{ width: "150px" }}
+                                        showTime={{ format: "HH:mm" }}
                                         value={dadosAtualizados.start ? new Date(dadosAtualizados.start) : null}
                                         onChange={(e) => setDadosAtualizados({
                                             ...dadosAtualizados,
                                             start: e ? new Date(e).toISOString() : null,
+                                        })}
+                                        disabledTime={() => ({
+                                            disabledHours: () => [
+                                                ...Array(7).fill(0).map((_, i) => i),
+                                                ...Array(24 - 22).fill(0).map((_, i) => i + 22)
+                                            ]
                                         })}
                                     />
                                 </div>
@@ -261,7 +270,14 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                                     className="data-nascimento"
                                     format="HH:mm"
                                     placeholder="HH:mm"
+                                    showTime={{ format: "HH:mm" }}
                                     style={{ width: "150px" }}
+                                    disabledTime={() => ({
+                                        disabledHours: () => [
+                                            ...Array(7).fill(0).map((_, i) => i),
+                                            ...Array(24 - 22).fill(0).map((_, i) => i + 22)
+                                        ]
+                                    })}
                                     value={dadosAtualizados.end ? new Date(dadosAtualizados.end) : null}
                                     onChange={(e) => setDadosAtualizados({
                                         ...dadosAtualizados,
