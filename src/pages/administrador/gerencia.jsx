@@ -353,8 +353,9 @@ export default function Gerencia() {
         <>
             <SideBar />
             <div className="body_admin">
-                <div className={(userLevel === '2' || userLevel === '3') ? "barra_pesquisa-visualizar" : "barra_pesquisa"}>
+                <div className="barra_pesquisa barra_gerencia">
                     <h1 className="h1">Dashboard</h1>
+                    <button className="export-button" onClick={handleDownloadClick}>Exportar<img src={Download} /></button>
                 </div>
                 {loading ? (
                     <div className="loading-container">
@@ -383,7 +384,6 @@ export default function Gerencia() {
                                 <h2>{data.relatorio_assinado}</h2>
                                 <p>Relatórios com assinatura</p>
                             </div>
-                            <button className="export-button" onClick={handleDownloadClick}>Exportar<img src={Download} /></button>
                         </div>
                         <div className="atendimentos-report">
                             <select value={intervalSetting} onChange={(e) => changeInterval(0, e)}>
@@ -394,7 +394,7 @@ export default function Gerencia() {
                                 <option value={'4'}>Para sempre</option>
                             </select>
                             <div className="pie-chart-container">
-                                <h2>Atendimentos: ({formatarData(startDate)} - {formatarData(endDate)})</h2>
+                                <h2>Atendimentos{String(intervalSetting) !== '4' ? `: (${formatarData(startDate)} - ${formatarData(endDate)})` : ''}</h2>
                                 <PieChart
                                     series={[
                                         {
@@ -432,7 +432,7 @@ export default function Gerencia() {
                                 />
                             </div>
                             <div className="div-flex">
-                                <h2>Tratamentos na Clínica: ({formatarData(startDate)} - {formatarData(endDate)})</h2>
+                                <h2>Tratamentos na Clínica{String(intervalSetting) !== '4' ? `: (${formatarData(startDate)} - ${formatarData(endDate)})` : ''}</h2>
                                 <BarChart
                                     dataset={treatmentData}
                                     series={[

@@ -270,8 +270,8 @@
 
 .rs-picker-popup.rs-picker-popup-date {
     z-index: 2000;
-    margin-top: -200px;
-    margin-left: 260px;
+    margin-top: 20px;
+    margin-left: 0px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 

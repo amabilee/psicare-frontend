@@ -346,6 +346,9 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
         label: cidade.nome,
     }));
 
+
+    const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+
     return (
         <>
             <div className="modal" id="modal">
@@ -570,6 +573,8 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                                     className="inicio-tratamento"
                                     format="dd/MM/yyyy"
                                     placeholder="dd/mm/aaaa"
+                                    onOpen={() => setIsDatePickerOpen(true)}
+                                    onClose={() => setIsDatePickerOpen(false)}
                                     // value={dadosForm.dataNascimento}
                                     onChange={(e) => setDadosForm({ ...dadosForm, dataInicioTratamento: e })}
                                 />
@@ -580,6 +585,8 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                                     className="termino-tratamento"
                                     format="dd/MM/yyyy"
                                     placeholder="dd/mm/aaaa"
+                                    onOpen={() => setIsDatePickerOpen(true)}
+                                    onClose={() => setIsDatePickerOpen(false)}
                                     // value={dadosForm.dataNascimento}
                                     onChange={(e) => setDadosForm({ ...dadosForm, dataTerminoTratamento: e })}
                                 />
@@ -625,6 +632,14 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                     </div>
                 </div>
             )}
+            <style>
+                {isDatePickerOpen &&
+                    `.rs-picker-popup.rs-picker-popup-date {
+                        margin-top: -200px !important;
+                        margin-left: 270px !important;
+                    }`
+                }
+            </style>
         </>
     )
 

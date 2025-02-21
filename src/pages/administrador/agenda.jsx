@@ -259,6 +259,8 @@ export default function Agenda() {
                 </div>
                 <div className="" style={{ minHeight: 300 }}>
                     <BigCalendar
+                        min={new Date(0, 0, 0, 0, 0, 1)}
+                        max={new Date(0, 0, 0, 23, 59, 59)}
                         localizer={localizer}
                         events={events}
                         messages={messages}
@@ -277,7 +279,7 @@ export default function Agenda() {
                             const backgroundColor = currentView === 'agenda' ? 'transparent' :
                                 event.statusDaConsulta === 'Pendente' ? '#FFDBA0' :
                                     event.statusDaConsulta === 'Concluída' ? '#B3FFA0' :
-                                        event.statusDaConsulta === 'Cancelada' || event.statusDaConsulta === 'Paciente faltou' || event.statusDaConsulta === 'Aluno faltou' ? '#FFA0A0' :
+                                        event.statusDaConsulta === 'Cancelada' || event.statusDaConsulta.includes("Paciente") || event.statusDaConsulta.includes("Aluno") ? '#FFA0A0' :
                                             event.statusDaConsulta === 'Em andamento' ? '#92D9FF' :
                                                 'rgb(226 189 239)'
 
@@ -347,7 +349,7 @@ export default function Agenda() {
                                         className={
                                             seePopup.statusDaConsulta === 'Pendente' ? 'background-consulta-pendente' :
                                                 seePopup.statusDaConsulta === 'Concluída' ? 'background-consulta-concluida' :
-                                                    seePopup.statusDaConsulta === 'Cancelada' || seePopup.statusDaConsulta === 'Paciente faltou' || seePopup.statusDaConsulta === 'Aluno faltou' ? 'background-consulta-cancelada' :
+                                                    seePopup.statusDaConsulta === 'Cancelada' || seePopup.statusDaConsulta.includes("Paciente") || seePopup.statusDaConsulta.includes("Aluno") ? 'background-consulta-cancelada' :
                                                         seePopup.statusDaConsulta === 'Em andamento' ? 'background-consulta-andamento' :
                                                             ''
                                         }

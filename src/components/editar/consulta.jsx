@@ -329,8 +329,8 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                                 <option value="Concluída">Concluída</option>
                                 <option value="Em andamento">Em andamento</option>
                                 <option value="Cancelada">Cancelada</option>
-                                <option value="Paciente faltou">Paciente faltou</option>
-                                <option value="Aluno faltou">Aluno faltou</option>
+                                <option value="Paciente Faltou">Paciente faltou</option>
+                                <option value="Aluno Faltou">Aluno faltou</option>
                             </select>
 
                             <span className="campo_obrigatorio">*Campo Obrigatório</span>

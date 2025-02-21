@@ -33,6 +33,10 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
         buscarAlunos();
     }, [])
 
+    useEffect(() => {
+        dadosPaciente.enderecoUF && handleChangeUF(dadosPaciente.enderecoUF)
+    }, [dadosPaciente])
+
     const calcularIdade = (dataNascimento) => {
         const dataAtual = new Date();
         const dataAniversario = new Date(dataNascimento); //converte o argumento fornecido para um objeto date
@@ -332,6 +336,8 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
         label: cidade.nome,
     }));
 
+    const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+
     return (
         <>
             {Editar && (
@@ -486,7 +492,6 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                             <div className="flex-endereco-2">
                                 <div className="div-flex">
                                     <label htmlFor="uf">UF*</label>
-
                                     <Select
                                         className="uf"
                                         name="uf"
@@ -588,6 +593,8 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         className="inicio-tratamento"
                                         format="dd/MM/yyyy"
                                         placeholder="dd/mm/aaaa"
+                                        onOpen={() => setIsDatePickerOpen(true)}
+                                        onClose={() => setIsDatePickerOpen(false)}
                                         value={new Date(dadosAtualizados.dataInicioTratamento)}
                                         onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, dataInicioTratamento: e })}
                                     />
@@ -598,6 +605,8 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         className="termino-tratamento"
                                         format="dd/MM/yyyy"
                                         placeholder="dd/mm/aaaa"
+                                        onOpen={() => setIsDatePickerOpen(true)}
+                                        onClose={() => setIsDatePickerOpen(false)}
                                         value={new Date(dadosAtualizados.dataTerminoTratamento)}
                                         onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, dataTerminoTratamento: e })}
                                     />
@@ -789,6 +798,14 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                     {message}
                 </Alert>
             </Snackbar>
+            <style>
+                {isDatePickerOpen &&
+                    `.rs-picker-popup.rs-picker-popup-date {
+                        margin-top: -200px !important;
+                        margin-left: 270px !important;
+                    }`
+                }
+            </style>
         </>
 
     );

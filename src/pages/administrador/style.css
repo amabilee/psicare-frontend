@@ -98,7 +98,8 @@
 .icon_pesquisa_avançada {
     cursor: pointer;
     position: absolute;
-    left: -3vw;
+    right: 100%;
+    margin: 0 10px 0 0;
     top: 15%;
 }
 
@@ -692,6 +693,13 @@
 
 /* gerencia */
 
+.barra_gerencia{
+    justify-content: flex-start !important;
+    position: fixed !important;
+    flex-direction: column !important;
+    height: fit-content !important;
+}
+
 .export-button {
     width: 136px;
     height: 40px;
@@ -700,19 +708,19 @@
 
     color: #C760EBFA;
     background: #fff;
-    ;
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
     display: flex;
     align-items: center;
     padding: 0 10px;
-    margin: 0 250px 0 0;
+    margin: 15pxs 0 0 0;
 
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    
 }
 
 .gerencia-container {
@@ -720,10 +728,11 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
-    height: 80vh;
+    height: fit-content;
     position: fixed;
     width: fit-content;
     max-width: calc(100vw - 230px);
+    padding: 120px 0 0 0;
     overflow-x: auto;
 }
 
@@ -731,7 +740,6 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    margin: 50px 0 0 0;
     align-items: center;
     height: 100%;
     width: fit-content;
@@ -769,7 +777,8 @@
     justify-content: flex-start;
     align-items: flex-start;
     height: 100%;
-    margin: 0 0 0 0px;
+    position: relative;
+    margin: 0 0 0 50px;
 }
 
 .atendimentos-report .div-flex {
@@ -799,6 +808,10 @@
     display: flex;
     align-items: center;
     padding: 0 10px;
+    position: absolute;
+    bottom: -8%;
+    left: 0;
+    z-index: 9999;
 }
 
 .atendimentos-report .pie-chart-container {
@@ -839,7 +852,6 @@
     background-color: white;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 10px;
-    margin: 45px 0 0 0px;
     padding: 10px 40px;
     display: flex;
     flex-direction: column;
