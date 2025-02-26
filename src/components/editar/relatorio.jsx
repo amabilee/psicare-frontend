@@ -13,6 +13,7 @@ import 'rsuite/dist/rsuite.css';
 import { DatePicker } from 'rsuite';
 
 export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, renderDadosRelatorio }) {
+    console.log(dadosRelatorio)
     const { signOut } = UseAuth();
     const [isSending, setIsSending] = useState(false)
     const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
@@ -260,7 +261,21 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                                     {paciente.nome}
                                                 </option>
                                             ))}
+
+                                            {!pacientesNome.pacientes.some(paciente => paciente._id === dadosAtualizados.pacienteId) &&
+                                                dadosAtualizados.pacienteId && (
+                                                    <option value={dadosAtualizados.pacienteId}>
+                                                        {dadosAtualizados.nomePaciente}
+                                                    </option>
+                                                )
+                                            }
                                         </select>
+
+                                        {!pacientesNome.pacientes.some(paciente => paciente._id === dadosAtualizados.pacienteId) &&
+                                            dadosAtualizados.pacienteId && (
+                                                <p className="warning-message">O paciente selecionado não está mais ativo. Caso seja alterado, não será possível selecioná-lo novamente.</p>
+                                            )
+                                        }
                                     </div>
                                 )}
                                 {(userLevel === '0') && (
@@ -286,23 +301,39 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                         <div className="div-flex">
                                             <label htmlFor="labelEncaminhador">Nome do Encaminhador*</label>
                                             {dadosAtualizados.alunoUnieva ? (
-                                                <select
-                                                    className="encaminhadorSelect" id="encaminhadorSelect"
-                                                    value={dadosAtualizados.alunoId}
-                                                    onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, alunoId: e.target.value })}
-                                                    disabled={!dadosAtualizados.alunoUnieva}>
-                                                    <option value="">Selecione uma opção</option>
-                                                    {alunosNome.alunos
-                                                        .filter(aluno =>
-                                                            pacientesNome.pacientes.some(paciente => paciente.alunoId === aluno._id)
-                                                        )
-                                                        .map(aluno => (
-                                                            <option key={aluno._id} value={aluno._id}>
-                                                                {aluno.nome}
-                                                            </option>
-                                                        ))}
+                                                <>
+                                                    <select
+                                                        className="encaminhadorSelect" id="encaminhadorSelect"
+                                                        value={dadosAtualizados.alunoId}
+                                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, alunoId: e.target.value })}
+                                                        disabled={!dadosAtualizados.alunoUnieva}>
+                                                        <option value="">Selecione uma opção</option>
+                                                        {alunosNome.alunos
+                                                            .filter(aluno =>
+                                                                pacientesNome.pacientes.some(paciente => paciente.alunoId === aluno._id)
+                                                            )
+                                                            .map(aluno => (
+                                                                <option key={aluno._id} value={aluno._id}>
+                                                                    {aluno.nome}
+                                                                </option>
+                                                            ))}
 
-                                                </select>
+                                                        {!alunosNome.alunos.some(aluno => aluno._id === dadosAtualizados.alunoId) &&
+                                                            dadosAtualizados.alunoId && (
+                                                                <option value={dadosAtualizados.alunoId}>
+                                                                    {dadosAtualizados.nomeAluno}
+                                                                </option>
+                                                            )
+                                                        }
+
+                                                    </select>
+                                                    {!alunosNome.alunos.some(aluno => aluno._id === dadosAtualizados.alunoId) &&
+                                                        dadosAtualizados.alunoId && (
+                                                            <p className="warning-message">O aluno selecionado não está mais ativo ou vinculado a este paciente. Caso seja alterado, não será possível selecioná-lo novamente.</p>
+                                                        )
+                                                    }
+                                                </>
+
                                             ) : (
                                                 <input type="text" className="encaminhadorInput" id="encaminhadorInput"
                                                     value={dadosAtualizados.nome_funcionario}

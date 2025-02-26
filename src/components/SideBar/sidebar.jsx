@@ -93,7 +93,7 @@ export default function SideBar() {
                                         </button>
                                     </li>
                                 )}
-                                {(userLevel === '0' || userLevel === '2') && (
+                                {(userLevel != '3') && (
                                     <li className={`item-menu ${itemAtivo === "/alunos" ? "item-menu-ativo" : ""}`}>
                                         <button className="link-nav" onClick={() => handleItemClick('/alunos')}>
                                             <span className="texto-link-cadastro">Alunos</span>

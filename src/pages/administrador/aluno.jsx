@@ -146,8 +146,8 @@ export default function Aluno() {
             <SideBar />
             <div className="body_admin">
                 <h1 className="h1">Alunos</h1>
-                <div className={(userLevel === '2' || userLevel === '3') ? "barra_pesquisa-visualizar" : "barra_pesquisa"}>
-                    {(userLevel === '0' || userLevel === '1') && (
+                <div className={userLevel != '0' ? "barra_pesquisa-visualizar" : "barra_pesquisa"}>
+                    {userLevel === '0' && (
                         <button className="button_cadastro" onClick={handleNovoCadastroClick} >
                             <IoMdPersonAdd className="icon_cadastro" />
                             Novo Cadastro

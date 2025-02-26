@@ -165,6 +165,12 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
                 }
               </select>
 
+              {!professoresNome.professores.some(professor => professor._id === dadosAtualizados.professorId) &&
+                  dadosAtualizados.professorId && (
+                    <p className="warning-message">O professor selecionado não está mais ativo. Caso seja alterado, não será possível selecioná-lo novamente.</p>
+                  )
+                }
+
               <div className="flex-input">
                 <div className="div-matricula">
                   <label htmlFor="matricula">Matrícula*</label>

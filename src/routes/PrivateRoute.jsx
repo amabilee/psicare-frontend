@@ -12,7 +12,7 @@ import GerenciaPage from "../pages/administrador/gerencia";
 
 const accessControl = {
   "0": ["Agenda", "Secretarios", "Professores", "Alunos", "Pacientes", "Relatorios", "Gerencia"],
-  "1": ["Agenda", "Pacientes"],
+  "1": ["Agenda", "Pacientes", "Alunos"],
   "2": ["Pacientes", "Alunos", "Relatorios"],
   "3": ["Agenda", "Pacientes", "Relatorios"],
 };
