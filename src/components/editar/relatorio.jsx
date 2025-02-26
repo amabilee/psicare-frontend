@@ -13,7 +13,6 @@ import 'rsuite/dist/rsuite.css';
 import { DatePicker } from 'rsuite';
 
 export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, renderDadosRelatorio }) {
-    console.log(dadosRelatorio)
     const { signOut } = UseAuth();
     const [isSending, setIsSending] = useState(false)
     const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
@@ -273,7 +272,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
 
                                         {!pacientesNome.pacientes.some(paciente => paciente._id === dadosAtualizados.pacienteId) &&
                                             dadosAtualizados.pacienteId && (
-                                                <p className="warning-message">O paciente selecionado não está mais ativo. Caso seja alterado, não será possível selecioná-lo novamente.</p>
+                                                <p className="warning-message">O paciente selecionado não está mais ativo.<br/>Caso seja alterado, não será possível selecioná-lo novamente.</p>
                                             )
                                         }
                                     </div>
@@ -471,7 +470,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                     <div className="nome">
                                         <p>Paciente</p>
                                         <h1>
-                                            {pacientesNome.pacientes.find(paciente => paciente._id === dadosAtualizados.pacienteId)?.nome || "Nome não encontrado"}
+                                            {pacientesNome.pacientes.find(paciente => paciente._id === dadosAtualizados.pacienteId)?.nome || dadosAtualizados.nomePaciente|| "Nome não encontrado"}
                                         </h1>
                                     </div>
                                     {userLevel != '3' &&

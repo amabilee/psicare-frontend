@@ -784,6 +784,7 @@
     max-height: 350px;
     overflow-y: scroll;
     margin: 10px 0 0 0;
+    width: 100%;
     border-bottom: 1px solid #767474;
 }
 
