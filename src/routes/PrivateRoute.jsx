@@ -37,7 +37,7 @@ const PrivateRoute = ({ component: Component, componentName, ...rest }) => {
   }, []);
 
   if (!isAuthenticated || !isDesktop) {
-    return <Navigate to="/entrar" />;
+    return <Navigate to="/entrar" state={{ mensagem: "Esta versão do sistema foi projetada para uso em desktop. Para a melhor experiência, maximize a janela e evite redimensioná-la." }}/>;
   }
 
   if (!userLevel || !hasAccess(userLevel, componentName)) {

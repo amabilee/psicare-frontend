@@ -6,6 +6,7 @@ import Alert from '@mui/material/Alert';
 import { UseAuth } from "../../hooks";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./style.css";
+import { useLocation } from "react-router-dom";
 
 export default function Login() {
     const { signIn, error } = UseAuth();
@@ -18,6 +19,15 @@ export default function Login() {
         vertical: 'top',
         horizontal: 'center',
     });
+
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.state?.mensagem) {
+            setMessage(location.state.mensagem);
+            setState({ vertical: 'bottom', horizontal: 'center', open: true });
+        }
+    }, [location.state]);
 
     const { vertical, horizontal, open } = state;
 
@@ -133,7 +143,7 @@ export default function Login() {
                 ContentProps={{ sx: { borderRadius: '8px' } }}
                 anchorOrigin={{ vertical, horizontal }}
                 open={open}
-                autoHideDuration={2500}
+                autoHideDuration={4000}
                 onClose={handleClose}
                 key={vertical + horizontal}
             >
