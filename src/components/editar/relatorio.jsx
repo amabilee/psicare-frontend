@@ -477,7 +477,11 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                         <div className="nome">
                                             <p>Encaminhador</p>
                                             <h1>
-                                                {alunosNome.alunos.find(aluno => aluno._id === dadosAtualizados.alunoId)?.nome || dadosAtualizados.nome_funcionario}
+                                                {
+                                                alunosNome.alunos.find(aluno => aluno._id === dadosAtualizados.alunoId)?.nome
+                                                || dadosAtualizados.nome_funcionario ? dadosAtualizados.nome_funcionario
+                                                : dadosAtualizados.nomeAluno
+                                            }
                                             </h1>
                                         </div>
                                     }
