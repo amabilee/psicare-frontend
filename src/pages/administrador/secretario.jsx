@@ -8,6 +8,8 @@ import { IMaskInput } from "react-imask";
 import icon_pesquisa from "../../assets/pesquisa.svg"
 import "./style.css";
 
+import Select from 'react-select'
+
 import Loader from '../../components/loader/index';
 
 export default function Secretario() {
@@ -84,6 +86,12 @@ export default function Secretario() {
         detectarLoading()
     }, [])
 
+    const turnoOptions = [
+        { value: "matutino", label: "Matutino" },
+        { value: "vespertino", label: "Vespertino" },
+        { value: "noturno", label: "Noturno" }
+    ]
+
     return (
         <>
             <SideBar />
@@ -126,12 +134,16 @@ export default function Secretario() {
                                 <label htmlFor="Email">Email</label>
                                 <input type="email" name="email" id="email" value={filtrarPesquisa.email} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, email: e.target.value })} />
                                 <label htmlFor="turno">Turno</label>
-                                <select className="turno" id="turno" value={filtrarPesquisa.turno} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, turno: e.target.value })}>
-                                    <option value="" disabled>Selecione</option>
-                                    <option value="matutino">Matutino</option>
-                                    <option value="vespertino">Vespertino</option>
-                                    <option value="noturno">Noturno</option>
-                                </select>
+                                <Select
+                                    className="tipo-select"
+                                    options={turnoOptions}
+                                    value={turnoOptions.find(option => option.value === filtrarPesquisa.turno) || null}
+                                    onChange={(selectedOption) => {
+                                        setFiltrarPesquisa({ ...filtrarPesquisa, turno: selectedOption.value });
+                                    }}
+                                    placeholder="Selecione uma opção"
+                                    menuPlacement="auto"
+                                />
                                 <button className="button-filtro" id="filtro" onClick={handleFiltrarPesquisa}>Aplicar Filtros</button>
                             </div>
                         </div>

@@ -39,7 +39,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
 
     const calcularIdade = (dataNascimento) => {
         const dataAtual = new Date();
-        const dataAniversario = new Date(dataNascimento); //converte o argumento fornecido para um objeto date
+        const dataAniversario = new Date(dataNascimento);
 
         let idade = dataAtual.getFullYear() - dataAniversario.getFullYear();
         const mes = dataAtual.getMonth() + 1
@@ -153,6 +153,10 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
             setState({ ...state, open: true });
             setMessage("Selecione um tipo de tratamento.");
             return;
+        } else if (dadosAtualizados.dataInicioTratamento.getTime() >= dadosAtualizados.dataTerminoTratamento.getTime()) {
+            setState({ ...state, open: true });
+            setMessage("A data de início do tratamento deve ser menor que a de término.");
+            return
         } else {
             setIsEditarConfirmar(true);
             setEditar(false);
@@ -166,7 +170,6 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
 
     const handleSucessoConfirmar = async () => {
         const token = localStorage.getItem("user_token")
-
         try {
             await api.patch(`/paciente/${dadosAtualizados._id}`, dadosAtualizados, {
                 headers: {
@@ -338,6 +341,55 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
 
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
 
+    const sexOptions = [
+        { value: "Masculino", label: "Masculino" },
+        { value: "Feminino", label: "Feminino" },
+        { value: "prefiro nao informar", label: "Prefiro não informar" },
+    ]
+
+    const tratamentoOptions = [
+        { value: "Psicoterapia", label: "Psicoterapia" },
+        { value: "Plantão", label: "Plantão" },
+        { value: "Psicodiagnóstico", label: "Psicodiagnóstico" },
+        { value: "Avaliação Diagnóstica", label: "Avaliação diagnóstica" }
+    ]
+
+    const civilOptions = [
+        { value: "Solteiro", label: "Solteiro" },
+        { value: "Casado", label: "Casado" },
+        { value: "Separado", label: "Separado" },
+        { value: "Divorciado", label: "Divorciado" },
+        { value: "Viúvo", label: "Viúvo" }
+    ]
+
+    const rendaOptions = [
+        { value: "Menos de R$500", label: "Menos de R$500" },
+        { value: "R$500 - $999", label: "R$500 - $999" },
+        { value: "R$1,000 - R$1,999", label: "R$1,000 - R$1,999" },
+        { value: "R$2,000 - R$2,999", label: "R$2,000 - R$2,999" },
+        { value: "R$3,000 - R$4,999", label: "R$3,000 - R$4,999" },
+        { value: "R$5,000 ou mais", label: "R$5,000 ou mais" }
+    ]
+
+    const statusOptions = [
+        { value: "Aluno da UniEVANGÉLICA", label: "Aluno da UniEVANGÉLICA" },
+        { value: "Funcionário da Associação Educativa Evangélica", label: "Funcionário da Associação Educativa Evangélica" }
+    ]
+
+    const alunoOptions = [
+        ...alunosNome.alunos.map((aluno) => ({
+            value: aluno._id,
+            label: aluno.nome,
+        })),
+        !alunosNome.alunos.some((aluno) => aluno._id === dadosAtualizados.alunoId) &&
+            dadosAtualizados.alunoId
+            ? {
+                value: dadosAtualizados.alunoId,
+                label: dadosAtualizados.nomeAluno || "Aluno desconhecido",
+            }
+            : null,
+    ].filter(Boolean);
+
     return (
         <>
             {Editar && (
@@ -350,7 +402,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                             <div className="flex-informacoes-pessoais">
                                 <div className="div-flex">
                                     <label htmlFor="Nome">Nome Completo*</label>
-                                    <input type="text" className="nome-completo" id="nome" value={dadosAtualizados.nome} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, nome: e.target.value })} />
+                                    <input type="text" className="nome-completo" id="nome" value={dadosAtualizados.nome} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, nome: e.target.value })} maxLength={100} />
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="CPF">CPF*</label>
@@ -362,20 +414,22 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         className="data-nascimento"
                                         format="dd/MM/yyyy"
                                         placeholder="dd/mm/aaaa"
-                                        value={new Date(dadosAtualizados.dataNascimento)}
+                                        value={new Date(dadosAtualizados.dataNascimento.replace("T00", "T11"))}
                                         onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, dataNascimento: e })}
                                     />
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="sexo">Sexo*</label>
-                                    <select className="sexo" name="sexo" id="sexo"
-                                        value={dadosAtualizados.sexo} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, sexo: e.target.value })}
-                                    >
-                                        <option value="" disabled>Selecione uma opção</option>
-                                        <option value="Masculino">Masculino</option>
-                                        <option value="Feminino">Feminino</option>
-                                        <option value="Prefiro nãoo informar">Prefiro não informar</option>
-                                    </select>
+                                    <Select
+                                        className="sex-select"
+                                        options={sexOptions}
+                                        value={sexOptions.find(option => option.value === dadosAtualizados.sexo) || null}
+                                        onChange={(selectedOption) => {
+                                            setDadosAtualizados({ ...dadosAtualizadosdados, sexo: selectedOption.value });
+                                        }}
+                                        placeholder="Selecione uma opção"
+                                        menuPlacement="auto"
+                                    />
                                 </div>
                             </div>
                             <div className="flex-informacoes-pessoais">
@@ -383,6 +437,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                     <label htmlFor="Email">Email*</label>
                                     <input type="email" className="email" id="email"
                                         value={dadosAtualizados.email} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, email: e.target.value })}
+                                        maxLength={150}
                                     />
                                 </div>
                                 <div className="div-flex">
@@ -391,52 +446,53 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="estado-civil">Estado civil*</label>
-                                    <select className="estado-civil" name="estado-civil" id="estado-civil"
-                                        value={dadosAtualizados.estadoCivil} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, estadoCivil: e.target.value })}
-                                    >
-                                        <option value="" disabled>Selecione uma opção</option>
-                                        <option value="Solteiro">Solteiro</option>
-                                        <option value="Casado">Casado</option>
-                                        <option value="Separado">Separado</option>
-                                        <option value="Divorciado">Divorciado</option>
-                                        <option value="Viúvo">Viúvo</option>
-                                    </select>
+                                    <Select
+                                        className="sex-select"
+                                        options={civilOptions}
+                                        value={civilOptions.find(option => option.value === dadosAtualizados.estadoCivil) || null}
+                                        onChange={(selectedOption) => {
+                                            setDadosAtualizados({ ...dadosAtualizados, estadoCivil: selectedOption.value });
+                                        }}
+                                        placeholder="Selecione uma opção"
+                                        menuPlacement="auto"
+                                    />
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="profissao">Profissão*</label>
-                                    <input type="text" className="profissao" id="profissao" value={dadosAtualizados.profissao} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, profissao: e.target.value })} />
+                                    <input type="text" className="profissao" id="profissao" value={dadosAtualizados.profissao} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, profissao: e.target.value })} maxLength={80} />
                                 </div>
                             </div>
                             <div className="flex-informacoes-pessoais">
                                 <div className="div-flex">
                                     <label htmlFor="religiao">Religião*</label>
-                                    <input type="text" className="religiao" id="religiao" value={dadosAtualizados.religiao} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, religiao: e.target.value })} />
+                                    <input type="text" className="religiao" id="religiao" value={dadosAtualizados.religiao} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, religiao: e.target.value })} maxLength={50} />
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="renda">Renda Familiar*</label>
-                                    <select className="renda" name="renda" id="renda" value={dadosAtualizados.rendaFamiliar} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, rendaFamiliar: e.target.value })} >
-                                        <option value="" disabled>Selecione uma opção</option>
-                                        <option value="Menos de R$500">Menos de R$500</option>
-                                        <option value="R$500 - $999">R$500 - $999</option>
-                                        <option value="R$1,000 - R$1,999">R$1,000 - R$1,999</option>
-                                        <option value="R$2,000 - R$2,999">R$2,000 - R$2,999</option>
-                                        <option value="R$3,000 - R$4,999">R$3,000 - R$4,999</option>
-                                        <option value="R$5,000 ou mais">R$5,000 ou mais</option>
-                                    </select>
+                                    <Select
+                                        className="sex-select"
+                                        options={rendaOptions}
+                                        value={rendaOptions.find(option => option.value === dadosAtualizados.rendaFamiliar) || null}
+                                        onChange={(selectedOption) => {
+                                            setDadosAtualizados({ ...dadosAtualizados, rendaFamiliar: selectedOption.value });
+                                        }}
+                                        placeholder="Selecione uma opção"
+                                        menuPlacement="auto"
+                                    />
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="nacionalidade">Nacionalidade*</label>
-                                    <input type="text" className="nacionalidade" id="nacionalidade" value={dadosAtualizados.nacionalidade} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, nacionalidade: e.target.value })} />
+                                    <input type="text" className="nacionalidade" id="nacionalidade" value={dadosAtualizados.nacionalidade} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, nacionalidade: e.target.value })} maxLength={50} />
                                 </div>
                                 <div className="div-flex-naturalidade">
                                     <label htmlFor="naturalidade">Naturalidade*</label>
-                                    <input type="text" className="naturalidade" id="naturalidade" value={dadosAtualizados.naturalidade} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, naturalidade: e.target.value })} />
+                                    <input type="text" className="naturalidade" id="naturalidade" value={dadosAtualizados.naturalidade} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, naturalidade: e.target.value })} maxLength={50} />
                                 </div>
                             </div>
                             <div className="flex-informacoes-pessoais">
                                 <div className="div-flex">
                                     <label htmlFor="nome-contato">Nome do contato/responsável</label>
-                                    <input type="text" className="nome-contato" id="nome-contato" value={dadosAtualizados.nomeDoContatoResponsavel} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, nomeDoContatoResponsavel: e.target.value })} />
+                                    <input type="text" className="nome-contato" id="nome-contato" value={dadosAtualizados.nomeDoContatoResponsavel} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, nomeDoContatoResponsavel: e.target.value })} maxLength={100} />
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="outro">Telefone contato/responsável</label>
@@ -466,7 +522,9 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         id="bairro"
                                         disabled={String(dadosAtualizados.enderecoCep).length === 9 ? false : true}
                                         value={String(dadosAtualizados.enderecoCep).length === 9 ? dadosAtualizados.enderecoBairro : ""}
-                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, enderecoBairro: e.target.value })} />
+                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, enderecoBairro: e.target.value })}
+                                        maxLength={100}
+                                    />
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="logradouro">Logradouro*</label>
@@ -476,7 +534,9 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         id="logradouro"
                                         disabled={String(dadosAtualizados.enderecoCep).length === 9 ? false : true}
                                         value={String(dadosAtualizados.enderecoCep).length === 9 ? dadosAtualizados.enderecoLogradouro : ""}
-                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, enderecoLogradouro: e.target.value })} />
+                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, enderecoLogradouro: e.target.value })}
+                                        maxLength={150}
+                                    />
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="complemento">Complemento</label>
@@ -486,6 +546,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         id="complemento"
                                         disabled={String(dadosAtualizados.enderecoCep).length === 9 ? false : true}
                                         value={String(dadosAtualizados.enderecoCep).length === 9 ? dadosAtualizados.enderecoComplemento : ""}
+                                        maxLength={100}
                                         onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, enderecoComplemento: e.target.value })} />
                                 </div>
                             </div>
@@ -529,44 +590,27 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                 <div className="div-flex">
                                     <label htmlFor="labelEncaminhador">Nome do Encaminhador*</label>
                                     {dadosAtualizados.alunoUnieva ? (
-                                        <select
-                                            className="encaminhadorSelect"
-                                            id="encaminhadorSelect"
-                                            value={dadosAtualizados.alunoId}
-                                            onChange={(e) => {
-                                                const selectedOptionText = e.target.options[e.target.selectedIndex].text;
+                                        <Select
+                                            className="aluno-select"
+                                            options={alunoOptions}
+                                            disabled={!dadosAtualizados.alunoUnieva}
+                                            value={alunoOptions.find(option => option.label === dadosAtualizados.encaminhador) || null}
+                                            onChange={(selectedOption) => {
                                                 setDadosAtualizados({
                                                     ...dadosAtualizados,
-                                                    encaminhador: selectedOptionText,
-                                                    alunoId: e.target.value
+                                                    encaminhador: selectedOption.label,
+                                                    alunoId: selectedOption.value
                                                 });
                                             }}
-                                            disabled={!dadosAtualizados.alunoUnieva}
-                                        >
-                                            <option value="" >Selecione uma opção</option>
-                                            {alunosNome.alunos.map(aluno => (
-                                                <option
-                                                    key={aluno.nome}
-                                                    value={aluno._id}
-                                                >
-                                                    {aluno.nome}
-                                                </option>
-                                            ))}
-
-                                            {!alunosNome.alunos.some(aluno => aluno._id === dadosAtualizados.alunoId) &&
-                                                dadosAtualizados.alunoId && (
-                                                    <option value={dadosAtualizados.alunoId}>
-                                                        {dadosAtualizados.encaminhador}
-                                                    </option>
-                                                )
-                                            }
-                                        </select>
-
+                                            placeholder="Selecione uma opção"
+                                            menuPlacement="top"
+                                        />
                                     ) : (
                                         <input type="text" className="encaminhadorInput" id="encaminhadorInput"
                                             value={dadosAtualizados.encaminhador}
                                             onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, encaminhador: e.target.value })}
                                             disabled={!dadosAtualizados.funcionarioUnieva}
+                                            maxLength={100}
                                         />
                                     )}
                                     {!alunosNome.alunos.some(aluno => aluno._id === dadosAtualizados.alunoId) &&
@@ -577,13 +621,21 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="status">Status Encaminhador*</label>
-                                    <select className="status" name="status" id="status"
-                                        value={dadosAtualizados.alunoUnieva ? "Aluno da UniEVANGÉLICA" : dadosAtualizados.funcionarioUnieva ? "Funcionário da Associação Educativa Evangélica" : dadosAtualizados.encaminhador ? "" : ""}
-                                        onChange={(e) => { setDadosAtualizados({ ...dadosAtualizados, alunoUnieva: e.target.value === "Aluno da UniEVANGÉLICA", funcionarioUnieva: e.target.value === "Funcionário da Associação Educativa Evangélica", encaminhador: "" }) }}>
-                                        <option value="" disabled>Selecione uma opção</option>
-                                        <option value="Aluno da UniEVANGÉLICA">Aluno da UniEVANGÉLICA</option>
-                                        <option value="Funcionário da Associação Educativa Evangélica">Funcionário da Associação Educativa Evangélica</option>
-                                    </select>
+                                    <Select
+                                        className="status-select"
+                                        options={statusOptions}
+                                        value={
+                                            dadosAtualizados.alunoUnieva ? statusOptions.find(option => option.value === "Aluno da UniEVANGÉLICA") :
+                                                statusOptions.find(option => option.value === "Funcionário da Associação Educativa Evangélica")
+                                        }
+                                        onChange={(selectedOption) => {
+                                            selectedOption.value == "Aluno da UniEVANGÉLICA" ?
+                                                setDadosAtualizados({ ...dadosAtualizados, alunoUnieva: "Aluno da UniEVANGÉLICA", funcionarioUnieva: "" }) :
+                                                setDadosAtualizados({ ...dadosAtualizados, alunoUnieva: "", funcionarioUnieva: "Funcionário da Associação Educativa Evangélica"})
+                                        }}
+                                        placeholder="Selecione uma opção"
+                                        menuPlacement="auto"
+                                    />
                                 </div>
                             </div>
                             <div className="flex-informacoes-tratamento">
@@ -595,7 +647,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         placeholder="dd/mm/aaaa"
                                         onOpen={() => setIsDatePickerOpen(true)}
                                         onClose={() => setIsDatePickerOpen(false)}
-                                        value={new Date(dadosAtualizados.dataInicioTratamento)}
+                                        value={new Date(dadosAtualizados.dataInicioTratamento.replace("T00", "T11"))}
                                         onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, dataInicioTratamento: e })}
                                     />
                                 </div>
@@ -607,19 +659,22 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         placeholder="dd/mm/aaaa"
                                         onOpen={() => setIsDatePickerOpen(true)}
                                         onClose={() => setIsDatePickerOpen(false)}
-                                        value={new Date(dadosAtualizados.dataTerminoTratamento)}
+                                        value={new Date(dadosAtualizados.dataTerminoTratamento.replace("T00", "T11"))}
                                         onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, dataTerminoTratamento: e })}
                                     />
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="tratamento">Tipo de tratamento*</label>
-                                    <select className="tratamento" name="tratamento" id="tratamento" value={dadosAtualizados.tipoDeTratamento} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, tipoDeTratamento: e.target.value })}>
-                                        <option value="" disabled>Selecione uma opção</option>
-                                        <option value="Psicoterapia">Psicoterapia</option>
-                                        <option value="Plantão">Plantão</option>
-                                        <option value="Psicodiagnóstico">Psicodiagnóstico</option>
-                                        <option value="Avaliação Diagnóstica">Avaliação Diagnóstica</option>
-                                    </select>
+                                    <Select
+                                        className="tratamento-select"
+                                        options={tratamentoOptions}
+                                        value={tratamentoOptions.find(option => option.value === dadosAtualizados.tipoDeTratamento) || null}
+                                        onChange={(selectedOption) => {
+                                            setDadosAtualizados({ ...dadosAtualizados, tipoDeTratamento: selectedOption.value });
+                                        }}
+                                        placeholder="Selecione uma opção"
+                                        menuPlacement="top"
+                                    />
                                 </div>
                             </div>
                             <p className="campo_obrigatorio">*Campo Obrigatório</p>

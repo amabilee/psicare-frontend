@@ -222,6 +222,7 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
                                                 value={dadosForm.nome_funcionario}
                                                 onChange={(e) => setDadosForm({ ...dadosForm, nome_funcionario: e.target.value })}
                                                 disabled={!dadosForm.funcionarioUnieva}
+                                                maxLength={100}
                                             />
                                         )}
                                     </div>
@@ -244,6 +245,7 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
                                     name="conteudoRelatorio"
                                     value={dadosForm.conteudo}
                                     onChange={(e) => setDadosForm({ ...dadosForm, conteudo: e.target.value })}
+                                    maxLength={5000}
                                 />
 
                             </div>

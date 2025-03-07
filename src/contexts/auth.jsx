@@ -31,8 +31,8 @@ const AuthProvider = ({ children }) => {
                 const tokenResponse = response.data;
                 setAuth(true);
                 localStorage.setItem("user_token", tokenResponse.token);
-                localStorage.setItem("user_level", tokenResponse.userLevelAccess);
-                return true
+                localStorage.setItem("user_level", tokenResponse.userLevelAccess)                
+                return response
             } catch (e) {
                 setAuth(false);
                 if (e.response && e.response.data) {
@@ -48,6 +48,10 @@ const AuthProvider = ({ children }) => {
         } else {
             setError('Insira as suas credenciais.');
         }
+    }
+
+    const checkTerm = () => {
+
     }
 
     function signOut() {

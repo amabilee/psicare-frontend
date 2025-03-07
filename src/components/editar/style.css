@@ -770,7 +770,7 @@
 }
 
 .modal-content-relatorio {
-    height: 80vh;
+    height: fit-content;
     overflow-y: scroll;
 }
 

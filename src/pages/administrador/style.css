@@ -166,21 +166,16 @@
     position: absolute;
     right: 0;
     top: 12%;
-    margin-right: 630px;
-}
-
-.modal-content-filtragem-aluno {
+    margin-right: 32vw;
     height: fit-content;
 }
 
 .modal-content-filtragem-paciente {
     width: 320px;
-    height: fit-content;
 }
 
 .modal-content-filtragem-relatorio {
     width: 320px;
-    height: fit-content;
 }
 
 .modal-content-filtragem-relatorio .formulario {
@@ -204,7 +199,7 @@
 }
 
 .modal-content-filtragem input {
-    padding: 6px;
+    padding: 10px 6px;
     border: 2px solid #C760EBFA;
     border-radius: 12px;
     width: 250px;
@@ -687,7 +682,41 @@
     padding: 15px 0 0 0;
 }
 
-.div-flex-consulta div:nth-of-type(3) {
+.formulario .sala-select,
+.formulario .tipo-select,
+.formulario .intervalo-select,
+.formulario .frequencia-select{
+    width: 250px;
+}
+
+.formulario .paciente-select{
+    width: calc(100% - 25px);
+}
+
+.sex-select{
+    width: 230px;
+}
+
+.aluno-select{
+    width: 332px;
+}
+
+.tratamento-select{
+    width: 250px;
+    margin-right: 260px;
+}
+
+.status-select{
+    width: 400px;
+    margin-right: 330px;
+}
+
+
+.modal-content-filtragem .periodo-select{
+    width: 120px;
+}
+
+.data-termino {
     padding: 20px 0 0 0;
 }
 

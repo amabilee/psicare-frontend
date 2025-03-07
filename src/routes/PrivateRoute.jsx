@@ -36,12 +36,19 @@ const PrivateRoute = ({ component: Component, componentName, ...rest }) => {
     return () => window.removeEventListener("resize", checkWidth);
   }, []);
 
-  if (!isAuthenticated || !isDesktop) {
+  if (!isDesktop) {
+    signOut()
     return <Navigate to="/entrar" state={{ mensagem: "Esta versão do sistema foi projetada para uso em desktop. Para a melhor experiência, maximize a janela e evite redimensioná-la." }}/>;
   }
 
   if (!userLevel || !hasAccess(userLevel, componentName)) {
-    return <Navigate to="/entrar" />;
+    signOut()
+    return <Navigate to="/entrar" state={{ mensagem: "Acesso negado" }}/>;
+  }
+
+  if (!isAuthenticated) {
+    signOut()
+    return <Navigate to="/entrar" state={{ mensagem: "Acesso expirado" }}/>;
   }
 
   return <Component {...rest} />;

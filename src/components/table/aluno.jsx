@@ -338,7 +338,7 @@ export default function TableAluno({ renderFormTable, pesquisar, filtrarPesquisa
                   {aluno.matricula}
                 </td>
                 <td className="table-content" onClick={() => handleVisualizarClick(aluno)}>
-                  {aluno.periodo}
+                  {aluno.periodo.includes("°") || aluno.periodo.includes("º") ? aluno.periodo : `${aluno.periodo}°`}
                 </td>
                 <td className="table-content" onClick={() => handleVisualizarClick(aluno)}>
                   {formatarCPF(aluno.cpf)}

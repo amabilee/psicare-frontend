@@ -7,6 +7,8 @@ import validator from "validator";
 import { cpf } from 'cpf-cnpj-validator';
 import "./style.css";
 
+import Select from 'react-select'
+
 export default function EditarAluno({ handleEditarClose, dadosAluno, renderDadosAluno }) {
   const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
   const [Editar, setEditar] = useState(true);
@@ -120,6 +122,34 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
     return cpf;
   };
 
+  const periodoOptions = [
+    { value: "1", label: "1°" },
+    { value: "2", label: "2°" },
+    { value: "3", label: "3°" },
+    { value: "4", label: "4°" },
+    { value: "5", label: "5°" },
+    { value: "6", label: "6°" },
+    { value: "7", label: "7°" },
+    { value: "8", label: "8°" },
+    { value: "9", label: "9°" },
+    { value: "10", label: "10°" }
+  ]
+
+  const professorOptions = [
+    ...professoresNome.professores.map((professor) => ({
+      value: professor._id,
+      label: professor.nome,
+    })),
+    !professoresNome.professores.some((professor) => professor._id === dadosAtualizados.professorId) &&
+      dadosAtualizados.professorId
+      ? {
+        value: dadosAtualizados.professorId,
+        label: dadosAtualizados.nomeProfessor || "Professor desconhecido",
+      }
+      : null,
+  ].filter(Boolean);
+
+
   return (
     <>
       {Editar && (
@@ -129,7 +159,7 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
             <hr />
             <div className="formulario">
               <label htmlFor="Nome">Nome Completo*</label>
-              <input type="text" id="nome" value={dadosAtualizados.nome} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, nome: e.target.value })} />
+              <input type="text" id="nome" value={dadosAtualizados.nome} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, nome: e.target.value })} maxLength={100} />
               <div className="flex-input">
                 <div className="div-CPF">
                   <label htmlFor="CPF">CPF*</label>
@@ -141,35 +171,29 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
                 </div>
               </div>
               <label htmlFor="Email">Email*</label>
-              <input type="email" name="email" id="email" value={dadosAtualizados.email} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, email: e.target.value })} />
+              <input type="email" name="email" id="email" value={dadosAtualizados.email} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, email: e.target.value })} maxLength={150} />
 
               <label htmlFor="professorResponsavel">Professor*</label>
-              <select className="professorNome" id="professorNome"
-                value={dadosAtualizados.professorId || "0"}
-                onChange={(e) => id_professor(e)}
-                required
-              >
-                <option value="">Selecione uma opção</option>
-                {professoresNome.professores.map(professor => (
-                  <option key={professor._id} value={professor._id}>
-                    {professor.nome}
-                  </option>
-                ))}
-
-                {!professoresNome.professores.some(professor => professor._id === dadosAtualizados.professorId) &&
-                  dadosAtualizados.professorId && (
-                    <option value={dadosAtualizados.professorId}>
-                      {dadosAtualizados.nomeProfessor}
-                    </option>
-                  )
-                }
-              </select>
+              <Select
+                className="paciente-select"
+                options={professorOptions}
+                value={professorOptions.find(option => option.value === dadosAtualizados.professorId) || null}
+                onChange={(selectedOption) => {
+                  setDadosForm({
+                    ...dadosAtualizados,
+                    professorId: selectedOption.value,
+                    nomeProfessor: selectedOption.label,
+                  });
+                }}
+                placeholder="Selecione uma opção"
+                menuPlacement="auto"
+              />
 
               {!professoresNome.professores.some(professor => professor._id === dadosAtualizados.professorId) &&
-                  dadosAtualizados.professorId && (
-                    <p className="warning-message">O professor selecionado não está mais ativo. Caso seja alterado, não será possível selecioná-lo novamente.</p>
-                  )
-                }
+                dadosAtualizados.professorId && (
+                  <p className="warning-message">O professor selecionado não está mais ativo. Caso seja alterado, não será possível selecioná-lo novamente.</p>
+                )
+              }
 
               <div className="flex-input">
                 <div className="div-matricula">
@@ -178,19 +202,16 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
                 </div>
                 <div className="div-periodo">
                   <label htmlFor="periodo">Período*</label>
-                  <select className="periodo" id="periodo" value={dadosAtualizados.periodo} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, periodo: e.target.value })} required>
-                    <option value="#" disabled>Selecione uma opção</option>
-                    <option value="1°">1°</option>
-                    <option value="2°">2°</option>
-                    <option value="3°">3°</option>
-                    <option value="4°">4°</option>
-                    <option value="5°">5°</option>
-                    <option value="6°">6°</option>
-                    <option value="7°">7°</option>
-                    <option value="8°">8°</option>
-                    <option value="9°">9°</option>
-                    <option value="10°">10°</option>
-                  </select>
+                  <Select
+                    className="tipo-select"
+                    options={periodoOptions}
+                    value={periodoOptions.find(option => option.value === dadosAtualizados.periodo) || null}
+                    onChange={(selectedOption) => {
+                      setDadosAtualizados({ ...dadosAtualizados, periodo: selectedOption.value });
+                    }}
+                    placeholder="Selecione uma opção"
+                    menuPlacement="auto"
+                  />
                 </div>
               </div>
               <p className="campo_obrigatorio">*Campo Obrigatório</p>
@@ -248,7 +269,7 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
                 </div>
                 <div className="periodo">
                   <p>Periodo</p>
-                  <h1>{dadosAtualizados.periodo}</h1>
+                  <h1>{dadosAtualizados.periodo}°</h1>
                 </div>
               </div>
 

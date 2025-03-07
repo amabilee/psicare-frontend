@@ -40,8 +40,14 @@ export default function Login() {
             if (sucesso) {
                 const userLevel = localStorage.getItem('user_level');
                 const firstAccessiblePage = getFirstAccessiblePage(userLevel);
-                navigate(firstAccessiblePage);
-                return;
+                if (Number(sucesso.data.userLevelAccess) == 3){
+                    if (!sucesso.data.termo){
+                    }
+                    return;
+                } else {
+                    navigate(firstAccessiblePage);
+                    return;
+                }
             }
         } catch (e) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
@@ -67,8 +73,13 @@ export default function Login() {
                     if (sucesso) {
                         const userLevel = localStorage.getItem('user_level');
                         const firstAccessiblePage = getFirstAccessiblePage(userLevel);
-                        navigate(firstAccessiblePage);
-                        return;
+                        if (Number(sucesso.userLevelAccess) == 3){
+                            navigate(firstAccessiblePage);
+                            return true;
+                        } else {
+                            navigate(firstAccessiblePage);
+                            return true;
+                        }
                     }
                 } catch (e) {
                     setState({ vertical: 'bottom', horizontal: 'center', open: true });

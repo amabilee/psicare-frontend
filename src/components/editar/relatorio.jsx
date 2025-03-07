@@ -216,7 +216,6 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
         return originalFiles.filter(file => !updatedFileIds.includes(file.id || file.nome));
     };
 
-
     const formatarData = (data) => {
         const dataObj = new Date(data);
         const dia = String(dataObj.getDate()).padStart(2, '0');
@@ -338,6 +337,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                                     value={dadosAtualizados.nome_funcionario}
                                                     onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, nome_funcionario: e.target.value })}
                                                     disabled={!dadosAtualizados.funcionarioUnieva}
+                                                    maxLength={100}
                                                 />
                                             )}
                                         </div>
@@ -390,6 +390,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                                 name="conteudoRelatorio"
                                                 value={dadosAtualizados.conteudo}
                                                 onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, conteudo: e.target.value })}
+                                                maxLength={5000}
                                             />
                                         </div>
                                         <div className="div-flex">
@@ -470,7 +471,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                     <div className="nome">
                                         <p>Paciente</p>
                                         <h1>
-                                            {pacientesNome.pacientes.find(paciente => paciente._id === dadosAtualizados.pacienteId)?.nome || dadosAtualizados.nomePaciente|| "Nome não encontrado"}
+                                            {pacientesNome.pacientes.find(paciente => paciente._id === dadosAtualizados.pacienteId)?.nome ? pacientesNome.pacientes.find(paciente => paciente._id === dadosAtualizados.pacienteId).nome : dadosAtualizados.nomePaciente|| "Nome não encontrado"}
                                         </h1>
                                     </div>
                                     {userLevel != '3' &&
@@ -478,8 +479,8 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                             <p>Encaminhador</p>
                                             <h1>
                                                 {
-                                                alunosNome.alunos.find(aluno => aluno._id === dadosAtualizados.alunoId)?.nome
-                                                || dadosAtualizados.nome_funcionario ? dadosAtualizados.nome_funcionario
+                                                alunosNome.alunos.find(aluno => aluno._id === dadosAtualizados.alunoId) ? alunosNome.alunos.find(aluno => aluno._id === dadosAtualizados.alunoId).nome 
+                                                : dadosAtualizados.nome_funcionario ? dadosAtualizados.nome_funcionario
                                                 : dadosAtualizados.nomeAluno
                                             }
                                             </h1>

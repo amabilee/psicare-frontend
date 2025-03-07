@@ -36,7 +36,7 @@ export default function VisualizarAluno({handleCloseVisualizar, dadosAluno}){
                         </div>
                         <div className="periodo">
                             <p>Periodo</p>
-                            <h1>{dadosAluno.periodo}</h1>
+                            <h1>{dadosAluno.periodo.includes("°") || dadosAluno.periodo.includes("º") ? dadosAluno.periodo : `${dadosAluno.periodo}°`}</h1>
                         </div>
                     </div>
                     <div className="coluna2">

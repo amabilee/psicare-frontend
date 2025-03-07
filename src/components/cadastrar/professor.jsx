@@ -77,7 +77,7 @@ export default function CadastrarProfessor({ handleCloseModal, renderForm }) {
                     <hr />
                     <div className="formulario">
                         <label htmlFor="Nome">Nome Completo*</label>
-                        <input type="text" id="nome" value={dadosForm.nome} onChange={(e) => setDadosForm({ ...dadosForm, nome: e.target.value })} />
+                        <input type="text" id="nome" value={dadosForm.nome} onChange={(e) => setDadosForm({ ...dadosForm, nome: e.target.value })} maxLength={100}/>
                         <div className="flex-input">
                             <div className="div-CPF">
                                 <label htmlFor="CPF">CPF*</label>
@@ -89,7 +89,7 @@ export default function CadastrarProfessor({ handleCloseModal, renderForm }) {
                             </div>
                         </div>
                         <label htmlFor="Email">Email*</label>
-                        <input type="email" name="email" id="email" value={dadosForm.email} onChange={(e) => setDadosForm({ ...dadosForm, email: e.target.value })} />
+                        <input type="email" name="email" id="email" value={dadosForm.email} onChange={(e) => setDadosForm({ ...dadosForm, email: e.target.value })} maxLength={150}/>
                         <label htmlFor="disciplina">Disciplina*</label>
                         <input type="text" className="disciplina" value={dadosForm.disciplina} onChange={(e) => setDadosForm({ ...dadosForm, disciplina: e.target.value })} />
                         <p className="campo_obrigatorio">*Campo Obrigatório</p>

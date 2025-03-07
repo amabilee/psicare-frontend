@@ -7,6 +7,8 @@ import validator from "validator";
 import { cpf } from 'cpf-cnpj-validator';
 import "./style.css";
 
+import Select from 'react-select'
+
 export default function EditarSecretario({ handleEditarClose, dadosSecretario, renderDadosSecretario }) {
   const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
   const [Editar, setEditar] = useState(true);
@@ -83,6 +85,12 @@ export default function EditarSecretario({ handleEditarClose, dadosSecretario, r
     return cpf;
   };
 
+  const turnoOptions = [
+    { value: "matutino", label: "Matutino" },
+    { value: "vespertino", label: "Vespertino" },
+    { value: "noturno", label: "Noturno" }
+  ]
+
   return (
     <>
       {Editar && (
@@ -92,7 +100,7 @@ export default function EditarSecretario({ handleEditarClose, dadosSecretario, r
             <hr />
             <div className="formulario">
               <label htmlFor="Nome">Nome Completo*</label>
-              <input type="text" id="nome" value={dadosAtualizados.nome} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, nome: e.target.value })} />
+              <input type="text" id="nome" value={dadosAtualizados.nome} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, nome: e.target.value })} maxLength={100} />
               <div className="flex-input">
                 <div className="div-CPF">
                   <label htmlFor="CPF">CPF*</label>
@@ -104,14 +112,19 @@ export default function EditarSecretario({ handleEditarClose, dadosSecretario, r
                 </div>
               </div>
               <label htmlFor="Email">Email*</label>
-              <input type="email" name="email" id="email" value={dadosAtualizados.email} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, email: e.target.value })} />
+              <input type="email" name="email" id="email" value={dadosAtualizados.email} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, email: e.target.value })} maxLength={150} />
               <label htmlFor="turno">Turno*</label>
-              <select className="turno" id="turno" value={dadosAtualizados.turno} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, turno: e.target.value })} required>
-                <option value="#" disabled>Selecione uma opção</option>
-                <option value="matutino">Matutino</option>
-                <option value="vespertino">Vespertino</option>
-                <option value="noturno">Noturno</option>
-              </select>
+              <Select
+                className="tipo-select"
+                options={turnoOptions}
+                value={turnoOptions.find(option => option.value === dadosAtualizados.turno) || null}
+                onChange={(selectedOption) => {
+                  setDadosAtualizados({ ...dadosAtualizados, turno: selectedOption.value });
+                }}
+                placeholder="Selecione uma opção"
+                menuPlacement="auto"
+              />
+
               <p className="campo_obrigatorio">*Campo Obrigatório</p>
               <div className="buttons-form">
                 <button className="button-cancelar" id="voltar" onClick={handleEditarClose}>

@@ -76,7 +76,6 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
 
     const HandleFormSubmit = () => async () => {
         const idade = calcularIdade(dadosForm.dataNascimento)
-
         if (dadosForm.nome.length <= 6) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Insira o nome completo.");
@@ -178,16 +177,15 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione um tipo de tratamento.");
             return;
-        }
-
-        else {
+        } else if (dadosForm.dataInicioTratamento.getTime() >= dadosForm.dataTerminoTratamento.getTime()) {
+            setState({ ...state, open: true });
+            setMessage("A data de início do tratamento deve ser menor que a de término.");
+            return
+        } else {
             const token = localStorage.getItem("user_token")
             const dataNascimentoFormatada = new Date(dadosForm.dataNascimento).toISOString().split('T')[0]
             const dataInicioFormatada = new Date(dadosForm.dataInicioTratamento).toISOString().split('T')[0]
             const dataTerminoFormatada = new Date(dadosForm.dataTerminoTratamento).toISOString().split('T')[0]
-            // var dataNascFormatadaSeparacao = dataNascimentoFormatada.split('T')[0] 
-            // var dataInicFormatadaSeparacao = dataInicioFormatada.split('T')[0] 
-            // var dataTermFormatadaSeparacao = dataTerminoFormatada.split('T')[0] 
             const dadosFormAtualizados = {
                 ...dadosForm,
                 alunoId: dadosForm.alunoUnieva ? dadosForm.encaminhador : "",
@@ -196,7 +194,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                 dataTerminoTratamento: dataTerminoFormatada
             };
             try {
-                await api.post("/paciente", dadosFormAtualizados, {
+                const response = await api.post("/paciente", dadosFormAtualizados, {
                     headers: {
                         "Content-Type": "application/json",
                         "authorization": `Bearer ${token}`
@@ -331,15 +329,8 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
         { value: "SC", label: "SC" },
         { value: "SP", label: "SP" },
         { value: "SE", label: "SE" },
-        { value: "TO", label: "TO" },
+        { value: "TO", label: "TO" }
     ];
-
-    const customStyles = {
-        menu: (provided) => ({
-            ...provided,
-            overflowY: "auto",
-        }),
-    };
 
     const cidadeOptions = cidades.map((cidade) => ({
         value: cidade.nome,
@@ -348,6 +339,46 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
 
 
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+
+    const sexOptions = [
+        { value: "Masculino", label: "Masculino" },
+        { value: "Feminino", label: "Feminino" },
+        { value: "prefiro nao informar", label: "Prefiro não informar" },
+    ]
+
+    const tratamentoOptions = [
+        { value: "Psicoterapia", label: "Psicoterapia" },
+        { value: "Plantão", label: "Plantão" },
+        { value: "Psicodiagnóstico", label: "Psicodiagnóstico" },
+        { value: "Avaliação Diagnóstica", label: "Avaliação diagnóstica" }
+    ]
+
+    const civilOptions = [
+        { value: "Solteiro", label: "Solteiro" },
+        { value: "Casado", label: "Casado" },
+        { value: "Separado", label: "Separado" },
+        { value: "Divorciado", label: "Divorciado" },
+        { value: "Viúvo", label: "Viúvo" }
+    ]
+
+    const rendaOptions = [
+        { value: "Menos de R$500", label: "Menos de R$500" },
+        { value: "R$500 - $999", label: "R$500 - $999" },
+        { value: "R$1,000 - R$1,999", label: "R$1,000 - R$1,999" },
+        { value: "R$2,000 - R$2,999", label: "R$2,000 - R$2,999" },
+        { value: "R$3,000 - R$4,999", label: "R$3,000 - R$4,999" },
+        { value: "R$5,000 ou mais", label: "R$5,000 ou mais" }
+    ]
+
+    const statusOptions = [
+        { value: "Aluno da UniEVANGÉLICA", label: "Aluno da UniEVANGÉLICA" },
+        { value: "Funcionário da Associação Educativa Evangélica", label: "Funcionário da Associação Educativa Evangélica" }
+    ]
+
+    const alunoOptions = alunosNome.alunos.map((aluno) => ({
+        value: aluno._id,
+        label: aluno.nome,
+    }));
 
     return (
         <>
@@ -360,7 +391,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                         <div className="flex-informacoes-pessoais">
                             <div className="div-flex">
                                 <label htmlFor="Nome">Nome Completo*</label>
-                                <input type="text" className="nome-completo" id="nome" value={dadosForm.nome} onChange={(e) => setDadosForm({ ...dadosForm, nome: e.target.value })} />
+                                <input type="text" className="nome-completo" id="nome" value={dadosForm.nome} onChange={(e) => setDadosForm({ ...dadosForm, nome: e.target.value })} maxLength={100} />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="CPF">CPF*</label>
@@ -372,19 +403,21 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                                     className="data-nascimento"
                                     format="dd/MM/yyyy"
                                     placeholder="dd/mm/aaaa"
-                                    onChange={(e) => setDadosForm({ ...dadosForm, dataNascimento: e })}
+                                    onChange={(e) => { setDadosForm({ ...dadosForm, dataNascimento: e }) }}
                                 />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="sexo">Sexo*</label>
-                                <select className="sexo" name="sexo" id="sexo"
-                                    value={dadosForm.sexo} onChange={(e) => setDadosForm({ ...dadosForm, sexo: e.target.value })}
-                                >
-                                    <option value="" disabled>Selecione uma opção</option>
-                                    <option value="Masculino">Masculino</option>
-                                    <option value="Feminino">Feminino</option>
-                                    <option value="prefiro nao informar">Prefiro não informar</option>
-                                </select>
+                                <Select
+                                    className="sex-select"
+                                    options={sexOptions}
+                                    value={sexOptions.find(option => option.value === dadosForm.sexo) || null}
+                                    onChange={(selectedOption) => {
+                                        setDadosForm({ ...dadosForm, sexo: selectedOption.value });
+                                    }}
+                                    placeholder="Selecione uma opção"
+                                    menuPlacement="auto"
+                                />
                             </div>
                         </div>
                         <div className="flex-informacoes-pessoais">
@@ -392,6 +425,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                                 <label htmlFor="Email">Email*</label>
                                 <input type="email" className="email" id="email"
                                     value={dadosForm.email} onChange={(e) => setDadosForm({ ...dadosForm, email: e.target.value })}
+                                    maxLength={150}
                                 />
                             </div>
                             <div className="div-flex">
@@ -400,52 +434,53 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="estado-civil">Estado civil*</label>
-                                <select className="estado-civil" name="estado-civil" id="estado-civil"
-                                    value={dadosForm.estadoCivil} onChange={(e) => setDadosForm({ ...dadosForm, estadoCivil: e.target.value })}
-                                >
-                                    <option value="" disabled>Selecione uma opção</option>
-                                    <option value="Solteiro">Solteiro</option>
-                                    <option value="Casado">Casado</option>
-                                    <option value="Separado">Separado</option>
-                                    <option value="Divorciado">Divorciado</option>
-                                    <option value="Viúvo">Viúvo</option>
-                                </select>
+                                <Select
+                                    className="sex-select"
+                                    options={civilOptions}
+                                    value={civilOptions.find(option => option.value === dadosForm.estadoCivil) || null}
+                                    onChange={(selectedOption) => {
+                                        setDadosForm({ ...dadosForm, estadoCivil: selectedOption.value });
+                                    }}
+                                    placeholder="Selecione uma opção"
+                                    menuPlacement="auto"
+                                />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="profissao">Profissão*</label>
-                                <input type="text" className="profissao" id="profissao" value={dadosForm.profissao} onChange={(e) => setDadosForm({ ...dadosForm, profissao: e.target.value })} />
+                                <input type="text" className="profissao" id="profissao" value={dadosForm.profissao} onChange={(e) => setDadosForm({ ...dadosForm, profissao: e.target.value })} maxLength={80} />
                             </div>
                         </div>
                         <div className="flex-informacoes-pessoais">
                             <div className="div-flex">
                                 <label htmlFor="religiao">Religião*</label>
-                                <input type="text" className="religiao" id="religiao" value={dadosForm.religiao} onChange={(e) => setDadosForm({ ...dadosForm, religiao: e.target.value })} />
+                                <input type="text" className="religiao" id="religiao" value={dadosForm.religiao} onChange={(e) => setDadosForm({ ...dadosForm, religiao: e.target.value })} maxLength={50} />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="renda">Renda Familiar*</label>
-                                <select className="renda" name="renda" id="renda" value={dadosForm.rendaFamiliar} onChange={(e) => setDadosForm({ ...dadosForm, rendaFamiliar: e.target.value })} >
-                                    <option value="" disabled>Selecione uma opção</option>
-                                    <option value="Menos de R$500">Menos de R$500</option>
-                                    <option value="R$500 - $999">R$500 - $999</option>
-                                    <option value="R$1,000 - R$1,999">R$1,000 - R$1,999</option>
-                                    <option value="R$2,000 - R$2,999">R$2,000 - R$2,999</option>
-                                    <option value="R$3,000 - R$4,999">R$3,000 - R$4,999</option>
-                                    <option value="R$5,000 ou mais">R$5,000 ou mais</option>
-                                </select>
+                                <Select
+                                    className="sex-select"
+                                    options={rendaOptions}
+                                    value={rendaOptions.find(option => option.value === dadosForm.rendaFamiliar) || null}
+                                    onChange={(selectedOption) => {
+                                        setDadosForm({ ...dadosForm, rendaFamiliar: selectedOption.value });
+                                    }}
+                                    placeholder="Selecione uma opção"
+                                    menuPlacement="auto"
+                                />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="nacionalidade">Nacionalidade*</label>
-                                <input type="text" className="nacionalidade" id="nacionalidade" value={dadosForm.nacionalidade} onChange={(e) => setDadosForm({ ...dadosForm, nacionalidade: e.target.value })} />
+                                <input type="text" className="nacionalidade" id="nacionalidade" value={dadosForm.nacionalidade} onChange={(e) => setDadosForm({ ...dadosForm, nacionalidade: e.target.value })} maxLength={50} />
                             </div>
                             <div className="div-flex-naturalidade">
                                 <label htmlFor="naturalidade">Naturalidade*</label>
-                                <input type="text" className="naturalidade" id="naturalidade" value={dadosForm.naturalidade} onChange={(e) => setDadosForm({ ...dadosForm, naturalidade: e.target.value })} />
+                                <input type="text" className="naturalidade" id="naturalidade" value={dadosForm.naturalidade} onChange={(e) => setDadosForm({ ...dadosForm, naturalidade: e.target.value })} maxLength={50} />
                             </div>
                         </div>
                         <div className="flex-informacoes-pessoais">
                             <div className="div-flex">
                                 <label htmlFor="nome-contato">Nome do contato/responsável</label>
-                                <input type="text" className="nome-contato" id="nome-contato" value={dadosForm.nomeDoContatoResponsavel} onChange={(e) => setDadosForm({ ...dadosForm, nomeDoContatoResponsavel: e.target.value })} />
+                                <input type="text" className="nome-contato" id="nome-contato" value={dadosForm.nomeDoContatoResponsavel} onChange={(e) => setDadosForm({ ...dadosForm, nomeDoContatoResponsavel: e.target.value })} maxLength={100} />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="outro">Telefone contato/responsável</label>
@@ -474,7 +509,9 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                                     id="bairro"
                                     disabled={String(dadosForm.enderecoCep).length === 9 ? false : true}
                                     value={String(dadosForm.enderecoCep).length === 9 ? dadosForm.enderecoBairro : ""}
-                                    onChange={(e) => setDadosForm({ ...dadosForm, enderecoBairro: e.target.value })} />
+                                    onChange={(e) => setDadosForm({ ...dadosForm, enderecoBairro: e.target.value })}
+                                    maxLength={100}
+                                />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="logradouro">Logradouro*</label>
@@ -483,7 +520,9 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                                     id="logradouro"
                                     disabled={String(dadosForm.enderecoCep).length === 9 ? false : true}
                                     value={String(dadosForm.enderecoCep).length === 9 ? dadosForm.enderecoLogradouro : ""}
-                                    onChange={(e) => setDadosForm({ ...dadosForm, enderecoLogradouro: e.target.value })} />
+                                    onChange={(e) => setDadosForm({ ...dadosForm, enderecoLogradouro: e.target.value })}
+                                    maxLength={150}
+                                />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="complemento">Complemento</label>
@@ -491,6 +530,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                                     className="complemento"
                                     id="complemento"
                                     disabled={String(dadosForm.enderecoCep).length === 9 ? false : true}
+                                    maxLength={100}
                                     value={String(dadosForm.enderecoCep).length === 9 ? dadosForm.enderecoComplemento : ""}
                                     onChange={(e) => setDadosForm({ ...dadosForm, enderecoComplemento: e.target.value })} />
                             </div>
@@ -504,7 +544,6 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                                     id="uf"
                                     options={estados}
                                     menuPlacement="top"
-                                    styles={customStyles}
                                     isDisabled={String(dadosForm.enderecoCep).length === 9 ? false : true}
                                     value={String(dadosForm.enderecoCep).length === 9 ? (estados.find((estado) => estado.value === dadosForm.enderecoUF)) : ""}
                                     onChange={(selectedOption) => handleChangeUF(selectedOption.value)}
@@ -516,7 +555,6 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                                 <Select
                                     className="cidade"
                                     id="cidade"
-                                    styles={customStyles}
                                     options={cidadeOptions}
                                     isDisabled={!dadosForm.enderecoUF}
                                     value={cidadeOptions.find((cidade) => cidade.value === dadosForm.enderecoCidade) || ""}
@@ -535,35 +573,40 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                             <div className="div-flex">
                                 <label htmlFor="labelEncaminhador">Nome do Encaminhador*</label>
                                 {dadosForm.alunoUnieva ? (
-                                    <select
-                                        className="encaminhadorSelect" id="encaminhadorSelect"
-                                        value={dadosForm.encaminhador}
-                                        onChange={(e) => setDadosForm({ ...dadosForm, encaminhador: e.target.value })}
-                                        disabled={!dadosForm.alunoUnieva}>
-                                        <option value="" disabled>Selecione uma opção</option>
-                                        {alunosNome.alunos.map(aluno => (
-                                            <option key={aluno._id} value={aluno._id}>
-                                                {aluno.nome}
-                                            </option>
-                                        ))}
-                                    </select>
+                                    <Select
+                                        className="aluno-select"
+                                        options={alunoOptions}
+                                        disabled={!dadosForm.alunoUnieva}
+                                        value={alunoOptions.find(option => option.value === dadosForm.encaminhador) || null}
+                                        onChange={(selectedOption) => {
+                                            setDadosForm({ ...dadosForm, encaminhador: selectedOption.value });
+                                        }}
+                                        placeholder="Selecione uma opção"
+                                        menuPlacement="top"
+                                    />
                                 ) : (
                                     <input type="text" className="encaminhadorInput" id="encaminhadorInput"
                                         value={dadosForm.encaminhador}
                                         onChange={(e) => setDadosForm({ ...dadosForm, encaminhador: e.target.value })}
                                         disabled={!dadosForm.funcionarioUnieva}
+                                        maxLength={100}
                                     />
                                 )}
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="status">Status Encaminhador*</label>
-                                <select className="status" name="status" id="status"
-                                    value={dadosForm.alunoUnieva ? "Aluno da UniEVANGÉLICA" : dadosForm.funcionarioUnieva ? "Funcionário da Associação Educativa Evangélica" : ""}
-                                    onChange={(e) => { setDadosForm({ ...dadosForm, alunoUnieva: e.target.value === "Aluno da UniEVANGÉLICA", funcionarioUnieva: e.target.value === "Funcionário da Associação Educativa Evangélica", encaminhador: "", alunoId: "" }) }}>
-                                    <option value="" disabled>Selecione uma opção</option>
-                                    <option value="Aluno da UniEVANGÉLICA">Aluno da UniEVANGÉLICA</option>
-                                    <option value="Funcionário da Associação Educativa Evangélica">Funcionário da Associação Educativa Evangélica</option>
-                                </select>
+                                <Select
+                                    className="status-select"
+                                    options={statusOptions}
+                                    value={statusOptions.find(option => option.value === dadosForm.alunoUnieva) || statusOptions.find(option => option.value === dadosForm.funcionarioUnieva) || null}
+                                    onChange={(selectedOption) => {
+                                        selectedOption.value == "Aluno da UniEVANGÉLICA" ?
+                                        setDadosForm({ ...dadosForm, alunoUnieva: "Aluno da UniEVANGÉLICA", funcionarioUnieva: "", encaminhador: "", alunoId: ""}) : 
+                                        setDadosForm({ ...dadosForm, alunoUnieva: "", funcionarioUnieva: "Funcionário da Associação Educativa Evangélica", encaminhador: "", alunoId: ""})
+                                    }}
+                                    placeholder="Selecione uma opção"
+                                    menuPlacement="auto"
+                                />
                             </div>
                         </div>
                         <div className="flex-informacoes-tratamento">
@@ -576,7 +619,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                                     onOpen={() => setIsDatePickerOpen(true)}
                                     onClose={() => setIsDatePickerOpen(false)}
                                     // value={dadosForm.dataNascimento}
-                                    onChange={(e) => setDadosForm({ ...dadosForm, dataInicioTratamento: e })}
+                                    onChange={(e) => { setDadosForm({ ...dadosForm, dataInicioTratamento: e }) }}
                                 />
                             </div>
                             <div className="div-flex">
@@ -588,18 +631,21 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                                     onOpen={() => setIsDatePickerOpen(true)}
                                     onClose={() => setIsDatePickerOpen(false)}
                                     // value={dadosForm.dataNascimento}
-                                    onChange={(e) => setDadosForm({ ...dadosForm, dataTerminoTratamento: e })}
+                                    onChange={(e) => { setDadosForm({ ...dadosForm, dataTerminoTratamento: e }) }}
                                 />
                             </div>
                             <div className="div-flex">
                                 <label htmlFor="tratamento">Tipo de tratamento*</label>
-                                <select className="tratamento" name="tratamento" id="tratamento" value={dadosForm.tipoDeTratamento} onChange={(e) => setDadosForm({ ...dadosForm, tipoDeTratamento: e.target.value })}>
-                                    <option value="" disabled>Selecione uma opção</option>
-                                    <option value="Psicoterapia">Psicoterapia</option>
-                                    <option value="Plantão">Plantão</option>
-                                    <option value="Psicodiagnóstico">Psicodiagnóstico</option>
-                                    <option value="Avaliação Diagnóstica">Avaliação diagnóstica</option>
-                                </select>
+                                <Select
+                                    className="tratamento-select"
+                                    options={tratamentoOptions}
+                                    value={tratamentoOptions.find(option => option.value === dadosForm.tipoDeTratamento) || null}
+                                    onChange={(selectedOption) => {
+                                        setDadosForm({ ...dadosForm, tipoDeTratamento: selectedOption.value });
+                                    }}
+                                    placeholder="Selecione uma opção"
+                                    menuPlacement="top"
+                                />
                             </div>
                         </div>
                         <p className="campo_obrigatorio">*Campo Obrigatório</p>

@@ -7,6 +7,7 @@ import "./style.css";
 import 'rsuite/dist/rsuite.css';
 import { DatePicker } from 'rsuite';
 import moment from 'moment';
+import Select from 'react-select'
 
 export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDadosConsulta }) {
     const [isEditarConfirmar, setIsEditarConfirmar] = useState(false);
@@ -16,7 +17,7 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
     const [dadosAtualizados, setDadosAtualizados] = useState(dadosConsulta);
     const [pacientesNome, setPacientesNome] = useState([]);
     const [alunosNome, setAlunosNome] = useState([]);
-    const [frequenciaOpcoes, setFrequenciaOpcoes] = useState([]);
+    const [frequenciaOpcoes, setFrequenciaOptions] = useState([]);
 
     const [state, setState] = React.useState({
         open: false,
@@ -53,7 +54,7 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
 
         const startTime = new Date(dadosAtualizados.start).getTime();
         const endTime = new Date(dadosAtualizados.end).getTime();
-        
+
         if (startTime >= endTime) {
             setMessage("O horário de início deve ser menor que o horário de término.");
             setState({ ...state, open: true });
@@ -173,17 +174,17 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
 
     useEffect(() => {
         if (dadosAtualizados.intervalo === 'Semanal') {
-            setFrequenciaOpcoes(Array.from({ length: 25 }, (_, i) => i + 1));
+            setFrequenciaOptions(Array.from({ length: 25 }, (_, i) => ({ value: i + 1, label: String(i + 1) })));
         } else if (dadosAtualizados.intervalo === 'Mensal') {
-            setFrequenciaOpcoes(Array.from({ length: 6 }, (_, i) => i + 1));
+            setFrequenciaOptions(Array.from({ length: 6 }, (_, i) => ({ value: i + 1, label: String(i + 1) })));
         } else if (dadosAtualizados.intervalo === 'Sessão Única') {
             setDadosAtualizados((prevState) => ({
                 ...prevState,
                 frequenciaIntervalo: '1',
             }));
-            setFrequenciaOpcoes(Array.from({ length: 1 }, (_, i) => i + 1));
+            setFrequenciaOptions([{ value: 1, label: '1' }]);
         } else {
-            setFrequenciaOpcoes([]);
+            setFrequenciaOptions([]);
         }
     }, [dadosAtualizados.intervalo]);
 
@@ -195,10 +196,48 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
     const changePaciente = (e) => {
         setDadosAtualizados({
             ...dadosAtualizados,
-            pacienteId: e.target.value,
-            nomePaciente: e.target.options[e.target.selectedIndex].text
+            pacienteId: e.value,
+            nomePaciente: e.options[e.selectedIndex].text
         })
     }
+
+    const pacienteOptions = pacientesNome.map((paciente) => ({
+        value: paciente._id,
+        label: paciente.nome,
+    }));
+
+    const roomsOptions = [
+        { value: "Sala 1", label: "Sala 1" },
+        { value: "Sala 2", label: "Sala 2" },
+        { value: "Sala 3", label: "Sala 3" },
+        { value: "Sala 4", label: "Sala 4" },
+        { value: "Sala 5", label: "Sala 5" },
+        { value: "Sala 6", label: "Sala 6" },
+        { value: "Sala 7", label: "Sala 7" },
+        { value: "Sala 8", label: "Sala 8" },
+        { value: "Sala 9", label: "Sala 9" },
+        { value: "Sala 10", label: "Sala 10" }
+    ]
+
+    const consultaOptions = [
+        { value: "Individual", label: "Individual" },
+        { value: "Casal", label: "Casal" },
+        { value: "Familiar", label: "Familiar" }
+    ]
+
+    const alunoOptions = alunosNome.map((aluno) => ({
+        value: aluno._id,
+        label: aluno.nome,
+    }));
+
+    const statusOptions = [
+        { value: "Pendente", label: "Pendente" },
+        { value: "Concluída", label: "Concluída" },
+        { value: "Em andamento", label: "Em andamento" },
+        { value: "Cancelada", label: "Cancelada" },
+        { value: "Paciente Faltou", label: "Paciente Faltou" },
+        { value: "Aluno Faltou", label: "Aluno Faltou" }
+    ]
 
     return (
         <>
@@ -213,21 +252,22 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                                 type="text"
                                 value={dadosAtualizados.Nome}
                                 onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, Nome: e.target.value })}
+                                maxLength={256}
                             />
 
                             <label>Paciente*</label>
-                            <select
-                                className="professorNome"
-                                value={dadosAtualizados.pacienteId}
-                                onChange={(e) => changePaciente(e)}
-                            >
-                                <option value="#" disabled>Selecione uma opção</option>
-                                {pacientesNome.map((paciente) => (
-                                    <option key={paciente._id} value={paciente._id}>
-                                        {paciente.nome}
-                                    </option>
-                                ))}
-                            </select>
+                            <Select
+                                className="paciente-select"
+                                options={pacienteOptions}
+                                value={pacienteOptions.find(option => option.value === dadosAtualizados.pacienteId) || null}
+                                onChange={(selectedOption) => setDadosAtualizados({
+                                    ...dadosAtualizados,
+                                    pacienteId: selectedOption.value,
+                                    nomePaciente: selectedOption.label
+                                })}
+                                placeholder="Selecione uma opção"
+                                menuPlacement="auto"
+                            />
 
                             <div className="flex-informacoes-pessoais div-flex-consulta">
                                 <div className="div-flex">
@@ -251,33 +291,23 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                                         format="HH:mm"
                                         placeholder="HH:mm"
                                         style={{ width: "150px" }}
-                                        showTime={{ format: "HH:mm" }}
                                         value={dadosAtualizados.start ? new Date(dadosAtualizados.start) : null}
                                         onChange={(e) => setDadosAtualizados({
                                             ...dadosAtualizados,
                                             start: e ? new Date(e).toISOString() : null,
                                         })}
-                                        disabledTime={() => ({
-                                            disabledHours: () => [
-                                                ...Array(7).fill(0).map((_, i) => i),
-                                                ...Array(24 - 22).fill(0).map((_, i) => i + 22)
-                                            ]
-                                        })}
+                                        hideHours={(hour) => hour < 7 || hour >= 22}
+                                        disabledHours={(hour) => hour < 7 || hour >= 22}
                                     />
                                 </div>
                                 <p>às</p>
                                 <DatePicker
-                                    className="data-nascimento"
+                                    className="data-nascimento data-termino"
                                     format="HH:mm"
                                     placeholder="HH:mm"
-                                    showTime={{ format: "HH:mm" }}
                                     style={{ width: "150px" }}
-                                    disabledTime={() => ({
-                                        disabledHours: () => [
-                                            ...Array(7).fill(0).map((_, i) => i),
-                                            ...Array(24 - 22).fill(0).map((_, i) => i + 22)
-                                        ]
-                                    })}
+                                    hideHours={(hour) => hour < 7 || hour >= 22}
+                                    disabledHours={(hour) => hour < 7 || hour >= 22}
                                     value={dadosAtualizados.end ? new Date(dadosAtualizados.end) : null}
                                     onChange={(e) => setDadosAtualizados({
                                         ...dadosAtualizados,
@@ -290,64 +320,62 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                             <div className="flex-informacoes-pessoais div-flex-consulta">
                                 <div className="div-flex">
                                     <label>Sala*</label>
-                                    <select className="sexo"
-                                        value={dadosAtualizados.sala}
-                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, sala: e.target.value })}
-                                    >
-                                        <option value="" disabled>Selecione uma opção</option>
-                                        {Array.from({ length: 10 }, (_, i) => `Sala ${i + 1}`).map(sala => (
-                                            <option key={sala} value={sala}>{sala}</option>
-                                        ))}
-                                    </select>
+                                    <Select
+                                        className="sala-select"
+                                        options={roomsOptions}
+                                        value={roomsOptions.find(option => option.value === dadosAtualizados.sala) || null}
+                                        onChange={(selectedOption) => {
+                                            setDadosAtualizados({ ...dadosAtualizados, sala: selectedOption.value });
+                                        }}
+                                        placeholder="Selecione uma sala"
+                                        menuPlacement="auto"
+                                    />
                                 </div>
                                 <div className="div-flex">
                                     <label>Tipo da consulta*</label>
-                                    <select className="sexo"
-                                        value={dadosAtualizados.TipoDeConsulta}
-                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, TipoDeConsulta: e.target.value })}
-                                    >
-                                        <option value="" disabled>Selecione uma opção</option>
-                                        <option value="Individual">Individual</option>
-                                        <option value="Casal">Casal</option>
-                                        <option value="Familiar">Familiar</option>
-                                    </select>
+                                    <Select
+                                        className="tipo-select"
+                                        options={consultaOptions}
+                                        value={consultaOptions.find(option => option.value === dadosAtualizados.TipoDeConsulta) || null}
+                                        onChange={(selectedOption) => {
+                                            setDadosAtualizados({ ...dadosAtualizados, TipoDeConsulta: selectedOption.value });
+                                        }}
+                                        placeholder="Selecione uma opção"
+                                        menuPlacement="auto"
+                                    />
                                 </div>
                             </div>
 
                             <label>Aluno responsável*</label>
-                            <select
-                                className="professorNome"
-                                value={dadosAtualizados.alunoId}
-                                onChange={(e) => setDadosAtualizados({
-                                    ...dadosAtualizados,
-                                    alunoId: e.target.value,
-                                    nomeAluno: e.target.options[e.target.selectedIndex].text
-                                })}
-                            >
-                                <option value="#" disabled>Selecione uma opção</option>
-                                {alunosNome.map(aluno => (
-                                    <option key={aluno._id} value={aluno._id}>
-                                        {aluno.nome}
-                                    </option>
-                                ))}
-                            </select>
+                            <Select
+                                className="paciente-select"
+                                options={alunoOptions}
+                                value={alunoOptions.find(option => option.value === dadosAtualizados.alunoId) || null}
+                                onChange={(selectedOption) => {
+                                    setDadosAtualizados({
+                                        ...dadosAtualizados,
+                                        alunoId: selectedOption.value,
+                                        nomeAluno: selectedOption.label
+                                    });
+                                }}
+                                placeholder="Selecione uma opção"
+                                menuPlacement="auto"
+                            />
 
                             <label>Observações*</label>
-                            <input type="text" value={dadosAtualizados.observacao} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, observacao: e.target.value })} />
+                            <input type="text" value={dadosAtualizados.observacao} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, observacao: e.target.value })} maxLength={256} />
 
                             <label>Status da consulta*</label>
-                            <select
-                                className="professorNome"
-                                value={dadosAtualizados.statusDaConsulta}
-                                onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, statusDaConsulta: e.target.value })}
-                            >
-                                <option value="Pendente">Pendente</option>
-                                <option value="Concluída">Concluída</option>
-                                <option value="Em andamento">Em andamento</option>
-                                <option value="Cancelada">Cancelada</option>
-                                <option value="Paciente Faltou">Paciente faltou</option>
-                                <option value="Aluno Faltou">Aluno faltou</option>
-                            </select>
+                            <Select
+                                className="tipo-select"
+                                options={statusOptions}
+                                value={statusOptions.find(option => option.value === dadosAtualizados.statusDaConsulta) || null}
+                                onChange={(selectedOption) => {
+                                    setDadosAtualizados({ ...dadosAtualizados, statusDaConsulta: selectedOption.value });
+                                }}
+                                placeholder="Selecione uma opção"
+                                menuPlacement="auto"
+                            />
 
                             <span className="campo_obrigatorio">*Campo Obrigatório</span>
 

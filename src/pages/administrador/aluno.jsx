@@ -14,6 +14,7 @@ import Alert from '@mui/material/Alert';
 import { UseAuth } from '../../hooks';
 
 import Loader from '../../components/loader/index';
+import Select from 'react-select'
 
 export default function Aluno() {
     const { signOut } = UseAuth();
@@ -141,6 +142,24 @@ export default function Aluno() {
         detectarLoading()
     }, [])
 
+    const periodoOptions = [
+        { value: "1", label: "1°" },
+        { value: "2", label: "2°" },
+        { value: "3", label: "3°" },
+        { value: "4", label: "4°" },
+        { value: "5", label: "5°" },
+        { value: "6", label: "6°" },
+        { value: "7", label: "7°" },
+        { value: "8", label: "8°" },
+        { value: "9", label: "9°" },
+        { value: "10", label: "10°" }
+    ]
+
+    const professorOptions = professoresNome.professores.map((professor) => ({
+        value: professor._id,
+        label: professor.nome,
+    }));
+
     return (
         <>
             <SideBar />
@@ -190,36 +209,31 @@ export default function Aluno() {
                                     </div>
                                     <div className="div-periodo">
                                         <label htmlFor="periodo">Período</label>
-                                        <select className="periodo" id="periodo" value={filtrarPesquisa.periodo} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, periodo: e.target.value })} required>
-                                            <option value="" disabled>Selecione</option>
-                                            <option value="1">1°</option>
-                                            <option value="2">2°</option>
-                                            <option value="3">3°</option>
-                                            <option value="4">4°</option>
-                                            <option value="5">5°</option>
-                                            <option value="6">6°</option>
-                                            <option value="7">7°</option>
-                                            <option value="8">8°</option>
-                                            <option value="9">9°</option>
-                                            <option value="10">10°</option>
-                                        </select>
+                                        <Select
+                                            className="periodo-select"
+                                            options={periodoOptions}
+                                            value={periodoOptions.find(option => option.value === filtrarPesquisa.periodo) || null}
+                                            onChange={(selectedOption) => {
+                                                setFiltrarPesquisa({ ...filtrarPesquisa, periodo: selectedOption.value });
+                                            }}
+                                            placeholder="Selecione"
+                                            menuPlacement="auto"
+                                        />
                                     </div>
                                 </div>
                                 {userLevel === '0' && (
                                     <>
                                         <label htmlFor="professorResponsavel">Professor</label>
-                                        <select className="professorNome" id="professorNome"
-                                            value={filtrarPesquisa.nomeProfessor}
-                                            onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nomeProfessor: e.target.value })}
-                                            required
-                                        >
-                                            <option value="" disabled>Selecione uma opção</option>
-                                            {professoresNome.professores.map((professor, index) => (
-                                                <option key={index} value={professor.nome}>
-                                                    {professor.nome}
-                                                </option>
-                                            ))}
-                                        </select>
+                                        <Select
+                                            className="paciente-select"
+                                            options={professorOptions}
+                                            value={professorOptions.find(option => option.value === filtrarPesquisa.nomeProfessor) || null}
+                                            onChange={(selectedOption) => {
+                                                setFiltrarPesquisa({ ...filtrarPesquisa, nomeProfessor: selectedOption.value });
+                                            }}
+                                            placeholder="Selecione uma opção"
+                                            menuPlacement="auto"
+                                        />
                                     </>
                                 )}
                                 <button className="button-filtro" id="filtro" onClick={handleFiltrarPesquisa}>Aplicar Filtros</button>

@@ -6,6 +6,7 @@ import Alert from '@mui/material/Alert';
 
 import 'rsuite/dist/rsuite.css';
 import { DatePicker } from 'rsuite';
+import Select from 'react-select'
 
 import "./style.css"
 
@@ -14,7 +15,7 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
     const [message, setMessage] = useState("");
     const [pacientesNome, setPacientesNome] = useState([]);
     const [alunosNome, setAlunosNome] = useState([]);
-    const [frequenciaOpcoes, setFrequenciaOpcoes] = useState([]);
+    const [frequenciaOptions, setFrequenciaOptions] = useState([]);
     const [dadosForm, setDadosForm] = useState({
         Nome: "",
         start: "",
@@ -70,12 +71,13 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
             return;
         }
 
-        const startTime = dadosForm.start ? new Date(`1970-01-01T${dadosForm.start}:00`) : null;
-        const endTime = dadosForm.end ? new Date(`1970-01-01T${dadosForm.end}:00`) : null;
-        if (startTime.getTime() >= endTime.getTime()) {
+        const startTime = new Date(dadosForm.start).getTime();
+        const endTime = new Date(dadosForm.end).getTime();
+
+        if (startTime >= endTime) {
             setMessage("O horário de início deve ser menor que o horário de término.");
             setState({ ...state, open: true });
-            return;
+            return
         }
 
         if (!dadosForm.sala) {
@@ -180,19 +182,54 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
 
     useEffect(() => {
         if (dadosForm.intervalo === 'Semanal') {
-            setFrequenciaOpcoes(Array.from({ length: 25 }, (_, i) => i + 1));
+            setFrequenciaOptions(Array.from({ length: 25 }, (_, i) => ({ value: i + 1, label: String(i + 1) })));
         } else if (dadosForm.intervalo === 'Mensal') {
-            setFrequenciaOpcoes(Array.from({ length: 6 }, (_, i) => i + 1));
+            setFrequenciaOptions(Array.from({ length: 6 }, (_, i) => ({ value: i + 1, label: String(i + 1) })));
         } else if (dadosForm.intervalo === 'Sessão Única') {
             setDadosForm((prevState) => ({
                 ...prevState,
                 frequenciaIntervalo: '1',
             }));
-            setFrequenciaOpcoes(Array.from({ length: 1 }, (_, i) => i + 1));
+            setFrequenciaOptions([{ value: 1, label: '1' }]);
         } else {
-            setFrequenciaOpcoes([]);
+            setFrequenciaOptions([]);
         }
     }, [dadosForm.intervalo]);
+
+    const roomsOptions = [
+        { value: "Sala 1", label: "Sala 1" },
+        { value: "Sala 2", label: "Sala 2" },
+        { value: "Sala 3", label: "Sala 3" },
+        { value: "Sala 4", label: "Sala 4" },
+        { value: "Sala 5", label: "Sala 5" },
+        { value: "Sala 6", label: "Sala 6" },
+        { value: "Sala 7", label: "Sala 7" },
+        { value: "Sala 8", label: "Sala 8" },
+        { value: "Sala 9", label: "Sala 9" },
+        { value: "Sala 10", label: "Sala 10" }
+    ]
+
+    const consultaOptions = [
+        { value: "Individual", label: "Individual" },
+        { value: "Casal", label: "Casal" },
+        { value: "Familiar", label: "Familiar" }
+    ]
+
+    const intervaloOptions = [
+        { value: "Sessão Única", label: "Sessão Única" },
+        { value: "Semanal", label: "Semanal" },
+        { value: "Mensal", label: "Mensal" }
+    ]
+
+    const pacienteOptions = pacientesNome.map((paciente) => ({
+        value: paciente._id,
+        label: paciente.nome,
+    }));
+
+    const alunoOptions = alunosNome.map((aluno) => ({
+        value: aluno._id,
+        label: aluno.nome,
+    }));
 
     return (
         <>
@@ -202,21 +239,19 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
                     <hr />
                     <div className="formulario">
                         <label>Título da consulta*</label>
-                        <input type="text" value={dadosForm.Nome} onChange={(e) => setDadosForm({ ...dadosForm, Nome: e.target.value })} />
+                        <input type="text" value={dadosForm.Nome} onChange={(e) => setDadosForm({ ...dadosForm, Nome: e.target.value })} maxLength={256} />
 
                         <label>Paciente*</label>
-                        <select
-                            className="professorNome"
-                            value={dadosForm.pacienteId}
-                            onChange={(e) => setDadosForm({ ...dadosForm, pacienteId: e.target.value })}
-                        >
-                            <option value="#" disabled>Selecione uma opção</option>
-                            {pacientesNome.map((paciente) => (
-                                <option key={paciente._id} value={paciente._id}>
-                                    {paciente.nome}
-                                </option>
-                            ))}
-                        </select>
+                        <Select
+                            className="paciente-select"
+                            options={pacienteOptions}
+                            value={pacienteOptions.find(option => option.value === dadosForm.pacienteId) || null}
+                            onChange={(selectedOption) => {
+                                setDadosForm({ ...dadosForm, pacienteId: selectedOption.value });
+                            }}
+                            placeholder="Selecione uma opção"
+                            menuPlacement="auto"
+                        />
 
                         <div className="flex-informacoes-pessoais div-flex-consulta">
                             <div className="div-flex">
@@ -238,105 +273,95 @@ export default function CadastrarConsulta({ handleCloseModal, renderTable }) {
                                     format="HH:mm"
                                     placeholder="HH:mm"
                                     style={{ width: "150px" }}
-                                    showTime={{ format: "HH:mm" }}
                                     onChange={(e) => setDadosForm({ ...dadosForm, start: e })}
-                                    disabledTime={() => ({
-                                        disabledHours: () => [
-                                            ...Array(7).fill(0).map((_, i) => i),
-                                            ...Array(24 - 22).fill(0).map((_, i) => i + 22)
-                                        ]
-                                    })}
+                                    hideHours={(hour) => hour < 7 || hour >= 22}
+                                    disabledHours={(hour) => hour < 7 || hour >= 22}
                                 />
                             </div>
                             <p>às</p>
                             <DatePicker
-                                className="data-nascimento"
+                                className="data-nascimento data-termino"
                                 format="HH:mm"
                                 placeholder="HH:mm"
                                 style={{ width: "150px" }}
-                                showTime={{ format: "HH:mm" }}
                                 onChange={(e) => setDadosForm({ ...dadosForm, end: e })}
-                                disabledTime={() => ({
-                                    disabledHours: () => [
-                                        ...Array(7).fill(0).map((_, i) => i),
-                                        ...Array(24 - 22).fill(0).map((_, i) => i + 22)
-                                    ]
-                                })}
+                                hideHours={(hour) => hour < 7 || hour >= 22}
+                                disabledHours={(hour) => hour < 7 || hour >= 22}
                             />
 
                         </div>
                         <div className="flex-informacoes-pessoais div-flex-consulta">
                             <div className="div-flex">
                                 <label>Sala*</label>
-                                <select className="sexo"
-                                    value={dadosForm.sala} onChange={(e) => setDadosForm({ ...dadosForm, sala: e.target.value })}
-                                >
-                                    <option value="" disabled>Selecione uma opção</option>
-                                    <option value="Sala 1">Sala 1</option>
-                                    <option value="Sala 2">Sala 2</option>
-                                    <option value="Sala 3">Sala 3</option>
-                                    <option value="Sala 4">Sala 4</option>
-                                    <option value="Sala 5">Sala 5</option>
-                                    <option value="Sala 6">Sala 6</option>
-                                    <option value="Sala 7">Sala 7</option>
-                                    <option value="Sala 8">Sala 8</option>
-                                    <option value="Sala 9">Sala 9</option>
-                                    <option value="Sala 10">Sala 10</option>
-                                </select>
+                                <Select
+                                    className="sala-select"
+                                    options={roomsOptions}
+                                    value={roomsOptions.find(option => option.value === dadosForm.sala) || null}
+                                    onChange={(selectedOption) => {
+                                        setDadosForm({ ...dadosForm, sala: selectedOption.value });
+                                    }}
+                                    placeholder="Selecione uma sala"
+                                    menuPlacement="auto"
+                                />
                             </div>
                             <div className="div-flex">
                                 <label>Tipo da consulta*</label>
-                                <select className="sexo"
-                                    value={dadosForm.TipoDeConsulta} onChange={(e) => setDadosForm({ ...dadosForm, TipoDeConsulta: e.target.value })}
-                                >
-                                    <option value="" disabled>Selecione uma opção</option>
-                                    <option value="Individual">Individual</option>
-                                    <option value="Casal">Casal</option>
-                                    <option value="Familiar">Familiar</option>
-                                </select>
+                                <Select
+                                    className="tipo-select"
+                                    options={consultaOptions}
+                                    value={consultaOptions.find(option => option.value === dadosForm.TipoDeConsulta) || null}
+                                    onChange={(selectedOption) => {
+                                        setDadosForm({ ...dadosForm, TipoDeConsulta: selectedOption.value });
+                                    }}
+                                    placeholder="Selecione uma opção"
+                                    menuPlacement="auto"
+                                />
                             </div>
                         </div>
 
                         <label>Aluno responsável*</label>
-                        <select className="professorNome" value={dadosForm.alunoId} onChange={(e) => setDadosForm({ ...dadosForm, alunoId: e.target.value })}>
-                            <option value="#" disabled>Selecione uma opção</option>
-                            {alunosNome.map(aluno => (
-                                <option key={aluno._id} value={aluno._id}>
-                                    {aluno.nome}
-                                </option>
-                            ))}
-                        </select>
-
+                        <Select
+                            className="paciente-select"
+                            options={alunoOptions}
+                            value={alunoOptions.find(option => option.value === dadosForm.alunoId) || null}
+                            onChange={(selectedOption) => {
+                                setDadosForm({ ...dadosForm, alunoId: selectedOption.value });
+                            }}
+                            placeholder="Selecione uma opção"
+                            menuPlacement="auto"
+                        />
                         <div className="flex-informacoes-pessoais div-flex-consulta">
                             <div className="div-flex">
                                 <label>Intervalo*</label>
-                                <select className="sexo"
-                                    value={dadosForm.intervalo}
-                                    onChange={(e) => setDadosForm({ ...dadosForm, intervalo: e.target.value })}
-                                >
-                                    <option value="" disabled>Selecione uma opção</option>
-                                    <option value="Sessão Única">Sessão Única</option>
-                                    <option value="Semanal">Semanal</option>
-                                    <option value="Mensal">Mensal</option>
-                                </select>
+                                <Select
+                                className="intervalo-select"
+                                    options={intervaloOptions}
+                                    value={intervaloOptions.find(option => option.value === dadosForm.intervalo) || null}
+                                    onChange={(selectedOption) => {
+                                        setDadosForm({ ...dadosForm, intervalo: selectedOption.value });
+                                    }}
+                                    placeholder="Selecione uma opção"
+                                    menuPlacement="auto"
+                                />
                             </div>
                             <div className="div-flex" style={{ marginLeft: "20px" }}>
                                 <label>Frequência do intervalo*</label>
-                                <select className="sexo"
-                                    value={dadosForm.frequenciaIntervalo}
-                                    onChange={(e) => setDadosForm({ ...dadosForm, frequenciaIntervalo: e.target.value })}
-                                    disabled={dadosForm.intervalo === 'Sessão Única'}
-                                >
-                                    <option value="" disabled>Selecione uma opção</option>
-                                    {frequenciaOpcoes.map(opcao => (
-                                        <option key={opcao} value={opcao}>{opcao}</option>
-                                    ))}
-                                </select>
+                                <Select
+                                    className="frequencia-select"
+                                    options={frequenciaOptions}
+                                    value={frequenciaOptions.find(option => option.value === Number(dadosForm.frequenciaIntervalo)) || null}
+                                    onChange={(selectedOption) => {
+                                        setDadosForm({ ...dadosForm, frequenciaIntervalo: selectedOption.value });
+                                    }}
+                                    placeholder="Selecione uma opção"
+                                    menuPlacement="auto"
+                                    isDisabled={dadosForm.intervalo === 'Sessão Única'}
+                                />
                             </div>
                         </div>
 
                         <label>Observações*</label>
-                        <input type="text" value={dadosForm.observacao} onChange={(e) => setDadosForm({ ...dadosForm, observacao: e.target.value })} />
+                        <input type="text" value={dadosForm.observacao} onChange={(e) => setDadosForm({ ...dadosForm, observacao: e.target.value })} maxLength={256} />
 
                         <span className="campo_obrigatorio">*Campo Obrigatório</span>
 

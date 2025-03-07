@@ -443,7 +443,7 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
               )}
               <th>{contarTotalCheckboxSelecionadas()} selecionados</th>
               <th colSpan={5} className="deletar-selecionados">
-                <span onClick={handleExcluirSelecionados}>Deletar Selecionados</span>
+                <span onClick={handleExcluirSelecionados}>Arquivar Selecionados</span>
               </th>
             </tr>
           ) : (

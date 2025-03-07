@@ -23,7 +23,7 @@ export default function TableSecretario({ renderFormTable, pesquisar, filtrarPes
   const [totalPages, setTotalPages] = useState(1);
   const [totalSecretariosTable, setTotalSecretariosTable] = useState(0);
   const [acumularSecretariosPage, setAcumularSecretariosPage] = useState(0);
-  const [checkboxSelecionadas, setCheckboxSelecionadas] = useState({}); // Novo estado para contagem de checkboxes selecionadas
+  const [checkboxSelecionadas, setCheckboxSelecionadas] = useState({});
   const [todasCheckboxSelecionadas, setTodasCheckboxSelecionadas] = useState({});
   const [idsSelecionados, setIdsSelecionados] = useState([]);
 

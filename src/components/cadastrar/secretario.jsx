@@ -7,6 +7,8 @@ import validator from "validator";
 import { cpf } from 'cpf-cnpj-validator';
 import "./style.css"
 
+import Select from 'react-select'
+
 export default function CadastrarSecretario({ handleCloseModal, renderForm }) {
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
     const [message, setMessage] = useState("");
@@ -70,6 +72,12 @@ export default function CadastrarSecretario({ handleCloseModal, renderForm }) {
         }
     }
 
+    const turnoOptions = [
+        { value: "matutino", label: "Matutino" },
+        { value: "vespertino", label: "Vespertino" },
+        { value: "noturno", label: "Noturno" }
+    ]
+
     return (
         <>
             <div className="modal" >
@@ -78,7 +86,7 @@ export default function CadastrarSecretario({ handleCloseModal, renderForm }) {
                     <hr />
                     <div className="formulario">
                         <label htmlFor="Nome">Nome Completo*</label>
-                        <input type="text" id="nome" value={dadosForm.nome} onChange={(e) => setDadosForm({ ...dadosForm, nome: e.target.value })} />
+                        <input type="text" id="nome" value={dadosForm.nome} onChange={(e) => setDadosForm({ ...dadosForm, nome: e.target.value })} maxLength={100} />
                         <div className="flex-input">
                             <div className="div-CPF">
                                 <label htmlFor="CPF">CPF*</label>
@@ -90,14 +98,18 @@ export default function CadastrarSecretario({ handleCloseModal, renderForm }) {
                             </div>
                         </div>
                         <label htmlFor="Email">Email*</label>
-                        <input type="email" name="email" id="email" value={dadosForm.email} onChange={(e) => setDadosForm({ ...dadosForm, email: e.target.value })} />
+                        <input type="email" name="email" id="email" value={dadosForm.email} onChange={(e) => setDadosForm({ ...dadosForm, email: e.target.value })} maxLength={150} />
                         <label htmlFor="turno">Turno*</label>
-                        <select className="turno" id="turno" value={dadosForm.turno} onChange={(e) => setDadosForm({ ...dadosForm, turno: e.target.value })} required>
-                            <option value="#" disabled>Selecione uma opção</option>
-                            <option value="matutino">Matutino</option>
-                            <option value="vespertino">Vespertino</option>
-                            <option value="noturno">Noturno</option>
-                        </select>
+                        <Select
+                            className="tipo-select"
+                            options={turnoOptions}
+                            value={turnoOptions.find(option => option.value === dadosForm.turno) || null}
+                            onChange={(selectedOption) => {
+                                setDadosForm({ ...dadosForm, turno: selectedOption.value });
+                            }}
+                            placeholder="Selecione uma opção"
+                            menuPlacement="auto"
+                        />
                         <p className="campo_obrigatorio">*Campo Obrigatório</p>
                         <div className="buttons-form">
                             <button className="button-voltar" id="voltar" onClick={handleCloseModal} >Cancelar</button>

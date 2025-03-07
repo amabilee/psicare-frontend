@@ -12,6 +12,7 @@ import icon_pesquisa from "../../assets/pesquisa.svg"
 import "./style.css";
 
 import Loader from '../../components/loader/index';
+import Select from 'react-select'
 
 export default function Paciente() {
     const [loading, setLoading] = useState(true)
@@ -114,6 +115,19 @@ export default function Paciente() {
         detectarLoading()
     }, [])
 
+    const sexOptions = [
+        { value: "Masculino", label: "Masculino" },
+        { value: "Feminino", label: "Feminino" },
+        { value: "prefiro nao informar", label: "Prefiro não informar" },
+    ]
+
+    const tratamentoOptions = [
+        { value: "Psicoterapia", label: "Psicoterapia" },
+        { value: "Plantão", label: "Plantão" },
+        { value: "Psicodiagnóstico", label: "Psicodiagnóstico" },
+        { value: "Avaliação Diagnóstica", label: "Avaliação diagnóstica" }
+    ]
+
     return (
         <>
             <SideBar />
@@ -196,22 +210,28 @@ export default function Paciente() {
                                         </div>
                                     </div>
                                     <label htmlFor="tratamento">Tipo de tratamento</label>
-                                    <select className="tratamento" name="tratamento" id="tratamento" value={filtrarPesquisa.tipoDeTratamento} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, tipoDeTratamento: e.target.value })}>
-                                        <option value="" disabled>Selecione uma opção</option>
-                                        <option value="Psicoterapia">Psicoterapia</option>
-                                        <option value="Plantão">Plantão</option>
-                                        <option value="Psicodiagnóstico">Psicodiagnóstico</option>
-                                        <option value="Avaliação Diagnóstica">Avaliação diagnóstica</option>
-                                    </select>
+                                    <Select
+                                        className="paciente-select"
+                                        options={tratamentoOptions}
+                                        value={tratamentoOptions.find(option => option.value === filtrarPesquisa.tipoDeTratamento) || null}
+                                        onChange={(selectedOption) => {
+                                            setFiltrarPesquisa({ ...filtrarPesquisa, tipoDeTratamento: selectedOption.value });
+                                        }}
+                                        placeholder="Selecione uma opção"
+                                        menuPlacement="auto"
+                                    />
+
                                     <label htmlFor="sexo">Sexo</label>
-                                    <select className="sexo" name="sexo" id="sexo"
-                                        value={filtrarPesquisa.sexo} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, sexo: e.target.value })}
-                                    >
-                                        <option value="" disabled>Selecione</option>
-                                        <option value="Masculino">Masculino</option>
-                                        <option value="Feminino">Feminino</option>
-                                        <option value="prefiro nao informar">Prefiro não informar</option>
-                                    </select>
+                                    <Select
+                                        className="paciente-select"
+                                        options={sexOptions}
+                                        value={sexOptions.find(option => option.value === filtrarPesquisa.sexo) || null}
+                                        onChange={(selectedOption) => {
+                                            setFiltrarPesquisa({ ...filtrarPesquisa, sexo: selectedOption.value });
+                                        }}
+                                        placeholder="Selecione uma opção"
+                                        menuPlacement="auto"
+                                    />
 
                                     <button className="button-filtro" id="filtro" onClick={handleFiltrarPesquisa}>Aplicar Filtros</button>
                                 </div>

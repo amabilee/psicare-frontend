@@ -9,6 +9,8 @@ import "./style.css"
 
 import { UseAuth } from '../../hooks';
 
+import Select from 'react-select'
+
 export default function CadastrarAluno({ handleCloseModal, renderForm }) {
     const { signOut } = UseAuth();
     const [isSucessModalOpen, setIsSucessModalOpen] = useState(false);
@@ -108,6 +110,24 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }) {
         }
     }
 
+    const periodoOptions = [
+        { value: "1", label: "1°" },
+        { value: "2", label: "2°" },
+        { value: "3", label: "3°" },
+        { value: "4", label: "4°" },
+        { value: "5", label: "5°" },
+        { value: "6", label: "6°" },
+        { value: "7", label: "7°" },
+        { value: "8", label: "8°" },
+        { value: "9", label: "9°" },
+        { value: "10", label: "10°" }
+    ]
+
+    const professorOptions = professoresNome.professores.map((professor) => ({
+        value: professor._id,
+        label: professor.nome,
+    }));
+
     return (
         <>
             <div className="modal" >
@@ -116,7 +136,7 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }) {
                     <hr />
                     <div className="formulario">
                         <label htmlFor="Nome">Nome Completo*</label>
-                        <input type="text" id="nome" value={dadosForm.nome} onChange={(e) => setDadosForm({ ...dadosForm, nome: e.target.value })} />
+                        <input type="text" id="nome" value={dadosForm.nome} onChange={(e) => setDadosForm({ ...dadosForm, nome: e.target.value })} maxLength={100} />
                         <div className="flex-input">
                             <div className="div-CPF">
                                 <label htmlFor="CPF">CPF*</label>
@@ -128,17 +148,19 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }) {
                             </div>
                         </div>
                         <label htmlFor="Email">Email*</label>
-                        <input type="email" name="email" id="email" value={dadosForm.email} onChange={(e) => setDadosForm({ ...dadosForm, email: e.target.value })} />
+                        <input type="email" name="email" id="email" value={dadosForm.email} onChange={(e) => setDadosForm({ ...dadosForm, email: e.target.value })} maxLength={150} />
 
                         <label htmlFor="professorResponsavel">Professor*</label>
-                        <select className="professorNome" id="professorNome" value={dadosForm.professorId} onChange={(e) => setDadosForm({ ...dadosForm, professorId: e.target.value })} required>
-                            <option value="#" disabled>Selecione uma opção</option>
-                            {professoresNome.professores.map(professor => (
-                                <option key={professor._id} value={professor._id}>
-                                    {professor.nome}
-                                </option>
-                            ))}
-                        </select>
+                        <Select
+                            className="paciente-select"
+                            options={professorOptions}
+                            value={professorOptions.find(option => option.value === dadosForm.professorId) || null}
+                            onChange={(selectedOption) => {
+                                setDadosForm({ ...dadosForm, professorId: selectedOption.value });
+                            }}
+                            placeholder="Selecione uma opção"
+                            menuPlacement="auto"
+                        />
 
                         <div className="flex-input">
                             <div className="div-matricula">
@@ -147,19 +169,16 @@ export default function CadastrarAluno({ handleCloseModal, renderForm }) {
                             </div>
                             <div className="div-periodo">
                                 <label htmlFor="periodo">Período*</label>
-                                <select className="periodo" id="periodo" value={dadosForm.periodo} onChange={(e) => setDadosForm({ ...dadosForm, periodo: parseInt(e.target.value) })} required>
-                                    <option value="0" disabled>Selecione uma opção</option>
-                                    <option value="1">1°</option>
-                                    <option value="2">2°</option>
-                                    <option value="3">3°</option>
-                                    <option value="4">4°</option>
-                                    <option value="5">5°</option>
-                                    <option value="6">6°</option>
-                                    <option value="7">7°</option>
-                                    <option value="8">8°</option>
-                                    <option value="9">9°</option>
-                                    <option value="10">10°</option>
-                                </select>
+                                <Select
+                                    className="tipo-select"
+                                    options={periodoOptions}
+                                    value={periodoOptions.find(option => option.value === dadosForm.periodo) || null}
+                                    onChange={(selectedOption) => {
+                                        setDadosForm({ ...dadosForm, periodo: selectedOption.value });
+                                    }}
+                                    placeholder="Selecione uma opção"
+                                    menuPlacement="auto"
+                                />
                             </div>
                         </div>
                         <p className="campo_obrigatorio">*Campo Obrigatório</p>

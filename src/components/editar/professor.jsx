@@ -92,7 +92,7 @@ export default function EditarProfessor({ handleEditarClose, dadosProfessor, ren
             <hr />
             <div className="formulario">
               <label htmlFor="Nome">Nome Completo*</label>
-              <input type="text" id="nome" value={dadosAtualizados.nome} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, nome: e.target.value })} />
+              <input type="text" id="nome" value={dadosAtualizados.nome} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, nome: e.target.value })} maxLength={100}/>
               <div className="flex-input">
                 <div className="div-CPF">
                   <label htmlFor="CPF">CPF*</label>
@@ -104,7 +104,7 @@ export default function EditarProfessor({ handleEditarClose, dadosProfessor, ren
                 </div>
               </div>
               <label htmlFor="Email">Email*</label>
-              <input type="email" name="email" id="email" value={dadosAtualizados.email} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, email: e.target.value })} />
+              <input type="email" name="email" id="email" value={dadosAtualizados.email} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, email: e.target.value })} maxLength={150}/>
               <label htmlFor="disciplina">Disciplina*</label>
               <input type="text" className="disciplina" value={dadosAtualizados.disciplina} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, disciplina: e.target.value })} />
               <p className="campo_obrigatorio">*Campo Obrigatório</p>

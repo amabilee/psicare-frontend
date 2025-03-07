@@ -11,6 +11,8 @@ import TableRelatorio from "../../components/table/relatorio";
 import RelatorioArquivado from "./relatorioArquivado";
 import CadastrarRelatorio from '../../components/cadastrar/relatorio'
 
+import Select from 'react-select'
+
 
 export default function Relatorio() {
     const [loading, setLoading] = useState(true)
@@ -99,6 +101,13 @@ export default function Relatorio() {
         detectarLoading()
     }, [])
 
+    const tratamentoOptions = [
+        { value: "Psicoterapia", label: "Psicoterapia" },
+        { value: "Plantão", label: "Plantão" },
+        { value: "Psicodiagnóstico", label: "Psicodiagnóstico" },
+        { value: "Avaliação Diagnóstica", label: "Avaliação diagnóstica" }
+    ]
+
     return (
         <>
             <SideBar />
@@ -146,13 +155,17 @@ export default function Relatorio() {
                                         onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nomePaciente: e.target.value })}
                                     />
                                     <label htmlFor="tratamento">Tipo de tratamento</label>
-                                    <select className="tratamento" name="tratamento" id="tratamento" value={filtrarPesquisa.tipoTratamento} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, tipoTratamento: e.target.value })}>
-                                        <option value="">Nenhum</option>
-                                        <option value="Psicoterapia">Psicoterapia</option>
-                                        <option value="Plant">Plantão</option>
-                                        <option value="Psicodiagn">Psicodiagnóstico</option>
-                                        <option value="Avalia">Avaliação diagnóstica</option>
-                                    </select>
+                                    <Select
+                                        className="tratamento-select"
+                                        options={tratamentoOptions}
+                                        value={tratamentoOptions.find(option => option.value === filtrarPesquisa.tipoTratamento) || null}
+                                        onChange={(selectedOption) => {
+                                            setFiltrarPesquisa({ ...filtrarPesquisa, tipoTratamento: selectedOption.value });
+                                        }}
+                                        placeholder="Selecione uma opção"
+                                        menuPlacement="top"
+                                    />
+
                                     <div className="div-dataNascimento">
                                         <label htmlFor="data-nascimento">Data de criação</label>
                                         <DatePicker

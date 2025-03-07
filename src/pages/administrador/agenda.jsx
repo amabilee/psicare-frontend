@@ -146,14 +146,13 @@ export default function Agenda() {
     };
 
     const handleNavigate = (date, view = currentView) => {
-
         const parsedDate = typeof date === "string" ? parseISO(date) : date;
 
         let newStartDate, newEndDate;
 
         if (view === "month" || view === "agenda") {
-            newStartDate = subDays(startOfMonth(parsedDate), 7);
-            newEndDate = addDays(endOfMonth(addMonths(parsedDate, 2)), 7)
+            newStartDate = subDays(startOfMonth(parsedDate), 8);
+            newEndDate = addDays(endOfMonth(parsedDate), 8)
         } else if (view === "week") {
             newStartDate = startOfWeek(parsedDate);
             newEndDate = addDays(newStartDate, 10);
@@ -165,8 +164,6 @@ export default function Agenda() {
         newStartDate = typeof newStartDate === "string" ? parseISO(newStartDate) : newStartDate;
         newEndDate = typeof newEndDate === "string" ? parseISO(newEndDate) : newEndDate;
 
-        setStartDate(newStartDate);
-        setEndDate(newEndDate);
         buscarConsultas(newStartDate, newEndDate);
     };
 
