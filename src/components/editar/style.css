@@ -166,7 +166,8 @@
     margin: 8px 0;
 }
 
-.uf .css-13cymwt-control, .css-t3ipsp-control {
+.uf .css-13cymwt-control,
+.css-t3ipsp-control {
     height: 44px;
     border: 2px solid #C760EBFA !important;
     border-radius: 12px !important;
@@ -176,7 +177,10 @@
     margin: 8px 0;
 }
 
-.css-13cymwt-control:hover, .css-13cymwt-control:focus, .css-t3ipsp-control:hover, .css-t3ipsp-control:focus {
+.css-13cymwt-control:hover,
+.css-13cymwt-control:focus,
+.css-t3ipsp-control:hover,
+.css-t3ipsp-control:focus {
     outline: none;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.2s;
@@ -190,7 +194,7 @@
 .modal-content-editar select.status:focus,
 .modal-content-editar select.tratamento:focus,
 .modal-content-editar select.renda:focus,
-.modal-content-editar select.encaminhadorSelect:focus{
+.modal-content-editar select.encaminhadorSelect:focus {
     border: 2px solid #C760EBFA;
     outline: none;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -260,7 +264,7 @@
     justify-content: space-between;
 }
 
-.flex-endereco-2{
+.flex-endereco-2 {
     display: flex;
     width: 1095px;
     justify-content: flex-start;
@@ -372,12 +376,11 @@
     margin-right: 300px;
 }
 
-.warning-message{
+.warning-message {
     color: red;
     font-weight: 400;
     padding: 0 0 20px 0;
 }
-
 
 /* buttons de editar cadastro */
 .modal-content-editar .buttons-form {
@@ -564,7 +567,7 @@
 .modal-content-confirmar-paciente .coluna1 div:nth-child(1),
 .modal-content-confirmar-paciente .coluna2 div:nth-child(1),
 .modal-content-confirmar-paciente .coluna3 div:nth-child(1),
-.modal-content-confirmar-paciente .coluna4 div:nth-child(1){
+.modal-content-confirmar-paciente .coluna4 div:nth-child(1) {
     width: 40%;
     overflow-x: hidden;
 }
@@ -572,7 +575,7 @@
 .modal-content-confirmar-paciente .coluna1 div:nth-child(2),
 .modal-content-confirmar-paciente .coluna2 div:nth-child(2),
 .modal-content-confirmar-paciente .coluna3 div:nth-child(2),
-.modal-content-confirmar-paciente .coluna4 div:nth-child(2){
+.modal-content-confirmar-paciente .coluna4 div:nth-child(2) {
     width: 20%;
     overflow-x: hidden;
 }
@@ -580,7 +583,7 @@
 .modal-content-confirmar-paciente .coluna1 div:nth-child(3),
 .modal-content-confirmar-paciente .coluna2 div:nth-child(3),
 .modal-content-confirmar-paciente .coluna3 div:nth-child(3),
-.modal-content-confirmar-paciente .coluna4 div:nth-child(3){
+.modal-content-confirmar-paciente .coluna4 div:nth-child(3) {
     width: 20%;
     overflow-x: hidden;
 }
@@ -588,7 +591,7 @@
 .modal-content-confirmar-paciente .coluna1 div:nth-child(4),
 .modal-content-confirmar-paciente .coluna2 div:nth-child(4),
 .modal-content-confirmar-paciente .coluna3 div:nth-child(4),
-.modal-content-confirmar-paciente .coluna4 div:nth-child(4){
+.modal-content-confirmar-paciente .coluna4 div:nth-child(4) {
     width: 20%;
     overflow-x: hidden;
 }
@@ -603,7 +606,7 @@
 .modal-content-confirmar-paciente .coluna6 div:nth-child(3),
 .modal-content-confirmar-paciente .coluna8 div:nth-child(2),
 .modal-content-confirmar-paciente .coluna8 div:nth-child(3),
-.modal-content-confirmar-paciente .coluna8 div:nth-child(1){
+.modal-content-confirmar-paciente .coluna8 div:nth-child(1) {
     width: 30%;
 }
 
@@ -686,7 +689,7 @@
 
 .buttons-confirmar button:disabled:hover {
     cursor: not-allowed;
-    box-shadow:none;
+    box-shadow: none;
     transition: all 0.2s;
 }
 
@@ -771,6 +774,7 @@
 
 .modal-content-relatorio {
     height: fit-content;
+    max-height: 80vh;
     overflow-y: scroll;
 }
 
@@ -792,7 +796,7 @@
     margin: 10px 15px 10px 0px;
 }
 
-.files-added{
+.files-added {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -804,7 +808,7 @@
     padding: 0 0 0px 0;
 }
 
-.input-file-relatorio label{
+.input-file-relatorio label {
     color: #C760EB;
     background: #fff;
     transition: all 0.4s;

@@ -374,7 +374,7 @@ export default function EditarAluno({ handleEditarClose, dadosConsulta, renderDa
                                     setDadosAtualizados({ ...dadosAtualizados, statusDaConsulta: selectedOption.value });
                                 }}
                                 placeholder="Selecione uma opção"
-                                menuPlacement="auto"
+                                menuPlacement="top"
                             />
 
                             <span className="campo_obrigatorio">*Campo Obrigatório</span>

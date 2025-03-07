@@ -87,7 +87,7 @@ export default function TablePaciente({ renderFormTable, pesquisar, filtrarPesqu
         filtrar += `&sexo=${filtrarPesquisa.sexo}`;
       }
       if (filtrar.length > 0) {
-        dadosPaginados += `&${filtrar}`
+        dadosPaginados += `${filtrar}`
       }
 
       const receberDados = await api.get(dadosPaginados, {

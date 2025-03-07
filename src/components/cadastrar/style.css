@@ -508,6 +508,7 @@
 .modal-content-relatorio {
     width: 1000px;
     height: fit-content;
+    max-height: 80vh;
     overflow: hidden;
     z-index: 3000;
 }

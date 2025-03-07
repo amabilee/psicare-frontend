@@ -10,6 +10,8 @@ import 'rsuite/dist/rsuite.css';
 import { DatePicker } from 'rsuite';
 import { UseAuth } from '../../hooks';
 
+import Select from 'react-select'
+
 export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
     const { signOut } = UseAuth();
     const [isSending, setIsSending] = useState(false)
@@ -162,6 +164,22 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
         }
     }
 
+    const pacienteOptions = [
+        ...pacientesNome.pacientes.map((paciente) => ({
+            value: paciente._id,
+            label: paciente.nome,
+        }))];
+
+    const statusOptions = [
+        { value: "Aluno", label: "Aluno" },
+        { value: "Funcionário", label: "Funcionário" }
+    ]
+
+    const alunoOptions = alunosNome.alunos.map((aluno) => ({
+        value: aluno._id,
+        label: aluno.nome,
+    }));
+
     return (
         <>
             <div className="modal" >
@@ -173,50 +191,51 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
                         <div className="flex-informacoes-tratamento">
                             <div className="div-flex">
                                 <label htmlFor="pacienteNome">Paciente*</label>
-                                <select id="pacienteNome" value={dadosForm.pacienteId} onChange={(e) => setDadosForm({ ...dadosForm, pacienteId: e.target.value })} required>
-                                    <option value="#">Selecione uma opção</option>
-                                    {pacientesNome.pacientes.map(paciente => (
-                                        <option key={paciente._id} value={paciente._id}>
-                                            {paciente.nome}
-                                        </option>
-                                    ))}
-                                </select>
+                                <Select
+                                    className="paciente-select"
+                                    options={pacienteOptions}
+                                    value={pacienteOptions.find(option => option.value === dadosForm.pacienteId) || null}
+                                    onChange={(selectedOption) => {
+                                        setDadosForm({
+                                            ...dadosForm,
+                                            pacienteId: selectedOption.value,
+                                        });
+                                    }}
+                                    placeholder="Selecione uma opção"
+                                    menuPlacement="auto"
+                                />
                             </div>
                             {(userLevel === '0') && (
                                 <>
                                     <div className="div-flex">
                                         <label htmlFor="status">Status Encaminhador*</label>
-                                        <select className="status" name="status" id="status"
-                                            value={dadosForm.alunoUnieva ? "Aluno" : dadosForm.funcionarioUnieva ? "Funcionário" : ""}
-                                            onChange={(e) => {
-                                                setDadosForm({
-                                                    ...dadosForm,
-                                                    alunoUnieva: e.target.value === "Aluno",
-                                                    funcionarioUnieva: e.target.value === "Funcionário",
-                                                    nome_funcionario: "",
-                                                    alunoId: ""
-                                                })
-                                            }}>
-                                            <option value="" disabled>Selecione uma opção</option>
-                                            <option value="Aluno">Aluno</option>
-                                            <option value="Funcionário">Funcionário</option>
-                                        </select>
+                                        <Select
+                                            className="sex-select"
+                                            options={statusOptions}
+                                            value={statusOptions.find(option => option.value === dadosForm.alunoUnieva) || statusOptions.find(option => option.value === dadosForm.funcionarioUnieva) || null}
+                                            onChange={(selectedOption) => {
+                                                selectedOption.value == "Aluno" ?
+                                                    setDadosForm({ ...dadosForm, alunoUnieva: "Aluno", funcionarioUnieva: "", nome_funcionario: "", alunoId: "" }) :
+                                                    setDadosForm({ ...dadosForm, alunoUnieva: "", funcionarioUnieva: "Funcionário", nome_funcionario: "", alunoId: "" })
+                                            }}
+                                            placeholder="Selecione uma opção"
+                                            menuPlacement="auto"
+                                        />
                                     </div>
                                     <div className="div-flex">
                                         <label htmlFor="labelEncaminhador">Nome do Encaminhador*</label>
                                         {dadosForm.alunoUnieva ? (
-                                            <select
-                                                className="encaminhadorSelect" id="encaminhadorSelect"
-                                                value={dadosForm.alunoId}
-                                                onChange={(e) => setDadosForm({ ...dadosForm, alunoId: e.target.value })}
-                                                disabled={!dadosForm.alunoUnieva}>
-                                                <option value="">Selecione uma opção</option>
-                                                {alunosNome.alunos.map(aluno => (
-                                                    <option key={aluno._id} value={aluno._id}>
-                                                        {aluno.nome}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                            <Select
+                                                className="aluno-select"
+                                                options={alunoOptions}
+                                                disabled={!dadosForm.alunoUnieva}
+                                                value={alunoOptions.find(option => option.value === dadosForm.alunoId) || null}
+                                                onChange={(selectedOption) => {
+                                                    setDadosForm({ ...dadosForm, alunoId: selectedOption.value });
+                                                }}
+                                                placeholder="Selecione uma opção"
+                                                menuPlacement="bottom"
+                                            />
                                         ) : (
                                             <input type="text" className="encaminhadorInput" id="encaminhadorInput"
                                                 value={dadosForm.nome_funcionario}

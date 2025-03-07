@@ -421,7 +421,6 @@ export default function TableRelatorio({ renderFormTable, pesquisar, filtrarPesq
       const dataFormatada = `${dia}/${mes}/${ano}`;
       const horaFormatada = `${horas}:${minutos}:${segundos}`;
 
-      // Verifica se as horas são diferentes de 00:00:00
       return horas !== "00" || minutos !== "00" || segundos !== "00"
         ? `${dataFormatada} às ${horaFormatada}`
         : dataFormatada;

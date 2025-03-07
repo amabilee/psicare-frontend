@@ -43,12 +43,12 @@ const PrivateRoute = ({ component: Component, componentName, ...rest }) => {
 
   if (!userLevel || !hasAccess(userLevel, componentName)) {
     signOut()
-    return <Navigate to="/entrar" state={{ mensagem: "Acesso negado" }}/>;
+    return <Navigate to="/entrar" state={{ mensagem: "" }}/>;
   }
 
   if (!isAuthenticated) {
     signOut()
-    return <Navigate to="/entrar" state={{ mensagem: "Acesso expirado" }}/>;
+    return <Navigate to="/entrar" state={{ mensagem: "" }}/>;
   }
 
   return <Component {...rest} />;

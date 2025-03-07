@@ -52,7 +52,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
 
     const handleEditarConfirmar = () => () => {
         const idade = calcularIdade(dadosAtualizados.dataNascimento)
-
+        
         if (dadosAtualizados.nome.length <= 6) {
             setState({ ...state, open: true });
             setMessage("Insira o nome completo.");
@@ -153,7 +153,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
             setState({ ...state, open: true });
             setMessage("Selecione um tipo de tratamento.");
             return;
-        } else if (dadosAtualizados.dataInicioTratamento.getTime() >= dadosAtualizados.dataTerminoTratamento.getTime()) {
+        } else if (dadosAtualizados.dataInicioTratamento >= dadosAtualizados.dataTerminoTratamento) {
             setState({ ...state, open: true });
             setMessage("A data de início do tratamento deve ser menor que a de término.");
             return
@@ -385,7 +385,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
             dadosAtualizados.alunoId
             ? {
                 value: dadosAtualizados.alunoId,
-                label: dadosAtualizados.nomeAluno || "Aluno desconhecido",
+                label: dadosAtualizados.encaminhador || "Aluno desconhecido",
             }
             : null,
     ].filter(Boolean);
@@ -631,7 +631,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         onChange={(selectedOption) => {
                                             selectedOption.value == "Aluno da UniEVANGÉLICA" ?
                                                 setDadosAtualizados({ ...dadosAtualizados, alunoUnieva: "Aluno da UniEVANGÉLICA", funcionarioUnieva: "" }) :
-                                                setDadosAtualizados({ ...dadosAtualizados, alunoUnieva: "", funcionarioUnieva: "Funcionário da Associação Educativa Evangélica"})
+                                                setDadosAtualizados({ ...dadosAtualizados, alunoUnieva: "", funcionarioUnieva: "Funcionário da Associação Educativa Evangélica" })
                                         }}
                                         placeholder="Selecione uma opção"
                                         menuPlacement="auto"

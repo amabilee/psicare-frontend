@@ -120,11 +120,11 @@ export default function Secretario() {
                             <hr />
                             <div className="formulario">
                                 <label htmlFor="Nome">Nome Completo</label>
-                                <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value.replace(/[^\w\s]/gi, '') })} />
+                                <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value.replace(/[^\w\s]/gi, '') })}  maxLength={50}/>
                                 <div className="coluna1">
                                     <div className="div-CPF">
                                         <label htmlFor="CPF">CPF</label>
-                                        <input type="text" className="CPF" id="CPF" mask="000.000.000-00" value={filtrarPesquisa.cpf} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, cpf: e.target.value })} />
+                                        <IMaskInput type="text" className="CPF" id="CPF" mask="000.000.000-00" value={filtrarPesquisa.cpf} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, cpf: e.target.value })} />
                                     </div>
                                     <div className="div-telefone">
                                         <label htmlFor="Telefone">Telefone</label>
@@ -132,7 +132,7 @@ export default function Secretario() {
                                     </div>
                                 </div>
                                 <label htmlFor="Email">Email</label>
-                                <input type="email" name="email" id="email" value={filtrarPesquisa.email} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, email: e.target.value })} />
+                                <input type="email" name="email" id="email" value={filtrarPesquisa.email} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, email: e.target.value })} maxLength={50}/>
                                 <label htmlFor="turno">Turno</label>
                                 <Select
                                     className="tipo-select"

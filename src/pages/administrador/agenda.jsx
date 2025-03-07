@@ -270,7 +270,6 @@ export default function Agenda() {
                         culture="pt-BR"
                         showMultiDayTimes
                         view={currentView}
-                        // defaultDate={new Date()}
                         style={{ minHeight: 690, borderRadius: '8px' }}
                         eventPropGetter={(event) => {
                             const backgroundColor = currentView === 'agenda' ? 'transparent' :
@@ -289,13 +288,9 @@ export default function Agenda() {
                                 },
                             };
                         }}
-                        // onSelectSlot={(slot) => handleOpenDialog(slot)}
                         onSelectEvent={(event) => handleOpenEvent(event)}
                         onView={handleViewChange}
                         onNavigate={(date) => {
-                            // if (this.state.currentView === 'agenda') {
-                            //     this.setState({ selectedDate: startOfMonth(date) });
-                            // }
                             handleNavigate(date);
                         }}
 

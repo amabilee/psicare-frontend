@@ -146,12 +146,13 @@ export default function Relatorio() {
                                     {userLevel !== '3' && (
                                         <>
                                             <label htmlFor="Nome">Aluno</label>
-                                            <input type="text" id="nome" value={filtrarPesquisa.nomeAluno.replace(/[^\w\s]/gi, '')} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nomeAluno: e.target.value })} />
+                                            <input type="text" id="nome" value={filtrarPesquisa.nomeAluno.replace(/[^\w\s]/gi, '')} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nomeAluno: e.target.value })} maxLength={50}/>
                                         </>
                                     )}
                                     <label htmlFor="labelEncaminhador">Paciente</label>
                                     <input type="text" className="encaminhadorInput" id="encaminhadorInput"
                                         value={filtrarPesquisa.nomePaciente.replace(/[^\w\s]/gi, '')}
+                                        maxLength={50}
                                         onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nomePaciente: e.target.value })}
                                     />
                                     <label htmlFor="tratamento">Tipo de tratamento</label>

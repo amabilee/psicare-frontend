@@ -164,7 +164,7 @@ export default function Paciente() {
                                 <hr />
                                 <div className="formulario">
                                     <label htmlFor="Nome">Nome Completo</label>
-                                    <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value.replace(/[^\w\s]/gi, '') })} />
+                                    <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value.replace(/[^\w\s]/gi, '') })} maxLength={50} />
                                     <div className="coluna1">
                                         <div className="div-CPF">
                                             <label htmlFor="CPF">CPF</label>
@@ -184,6 +184,7 @@ export default function Paciente() {
                                         <>
                                             <label htmlFor="labelEncaminhador">Nome do Encaminhador</label>
                                             <input type="text" className="encaminhadorInput" id="encaminhadorInput"
+                                                maxLength={50}
                                                 value={filtrarPesquisa.encaminhador}
                                                 onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, encaminhador: e.target.value.replace(/[^\w\s]/gi, '') })}
                                             />
@@ -253,59 +254,3 @@ export default function Paciente() {
         </>
     )
 }
-
-
-// alunoUnieva
-// : 
-// true
-// assinatura
-// : 
-// "/relatorio/download/6702baa84a978ae3043c8531"
-// ativoRelatorio
-// : 
-// true
-// conteudo
-// : 
-// "teste pdf"
-// dataCriacao
-// : 
-// "2024-10-06T16:28:24.945Z"
-// dataInicioTratamento
-// : 
-// "2024-08-22T00:00:00.000Z"
-// dataNascimentoPaciente
-// : 
-// "2005-08-19T00:00:00.000Z"
-// dataTerminoTratamento
-// : 
-// "2024-08-28T00:00:00.000Z"
-// funcionarioUnieva
-// : 
-// false
-// id_aluno
-// : 
-// "66c32d2c146ac2115eb54dc6"
-// id_paciente
-// : 
-// "66c5fd6d489d14c42982a6fa"
-// nomeAluno
-// : 
-// "maria carla"
-// nomePaciente
-// : 
-// "Gabriela Mendes"
-// prontuario
-// : 
-// "/relatorio/download/6702baa84a978ae3043c8530"
-// tipoTratamento
-// : 
-// "psicodiagnostico"
-// ultimaAtualizacao
-// : 
-// "2024-10-06T16:28:24.945Z"
-// __v
-// : 
-// 0
-// _id
-// : 
-// "6702baa84a978ae3043c8536"

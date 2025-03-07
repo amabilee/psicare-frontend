@@ -50,32 +50,20 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
       if (pesquisar) {
         filtrar += `&q=${pesquisar}`;
       }
-      if (filtrarPesquisa.nome) {
-        filtrar += `&nome=${filtrarPesquisa.nome}`;
+      if (filtrarPesquisa.paciente) {
+        filtrar += `&nomePaciente=${filtrarPesquisa.paciente}`;
       }
-      if (filtrarPesquisa.cpf) {
-        filtrar += `&cpf=${filtrarPesquisa.cpf}`;
+      if (filtrarPesquisa.aluno) {
+        filtrar += `&nomeAluno=${filtrarPesquisa.aluno}`;
       }
-      if (filtrarPesquisa.dataNascimento) {
-        filtrar += `&dataNascimento=${filtrarPesquisa.dataNascimento}`;
+      if (filtrarPesquisa.dataCriacao) {
+        filtrar += `&dataCriacao=${formatarDataRequest(filtrarPesquisa.dataCriacao)}`;
       }
-      if (filtrarPesquisa.encaminhador) {
-        filtrar += `&encaminhador=${filtrarPesquisa.encaminhador}`;
-      }
-      if (filtrarPesquisa.dataInicioTratamento) {
-        filtrar += `&dataInicioTratamento=${filtrarPesquisa.dataInicioTratamento}`;
-      }
-      if (filtrarPesquisa.dataTerminoTratamento) {
-        filtrar += `&dataTerminoTratamento=${filtrarPesquisa.dataTerminoTratamento}`;
-      }
-      if (filtrarPesquisa.tipoDeTratamento) {
-        filtrar += `&tipoDeTratamento=${filtrarPesquisa.tipoDeTratamento}`;
-      }
-      if (filtrarPesquisa.sexo) {
-        filtrar += `&sexo=${filtrarPesquisa.sexo}`;
+      if (filtrarPesquisa.tipoTratamento) {
+        filtrar += `&tipoTratamento=${filtrarPesquisa.tipoTratamento}`;
       }
       if (filtrar.length > 0) {
-        dadosPaginados += `&${filtrar}`
+        dadosPaginados += `${filtrar}`
       }
 
       const receberDados = await api.get(dadosPaginados, {
@@ -182,6 +170,13 @@ export default function TableRelatorioArquivado({ renderFormTable, pesquisar, fi
       setSeverity("error")
       setMessage("Erro ao atualizar relatório.");
     }
+  };
+
+  const formatarDataRequest = (data) => {
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const year = String(data.getFullYear()).padStart(2, '0')
+    return `${mes}-${dia}-${year}`;
   };
 
   return (

@@ -9,7 +9,7 @@ import "./style.css";
 import { useLocation } from "react-router-dom";
 
 export default function Login() {
-    const { signIn, error } = UseAuth();
+    const { signIn, error, user } = UseAuth();
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [mostrarSenha, setMostrarSenha] = useState(false);
@@ -23,7 +23,7 @@ export default function Login() {
     const location = useLocation();
 
     useEffect(() => {
-        if (location.state?.mensagem) {
+        if (location.state?.mensagem && location.state.mensagem == "") {
             setMessage(location.state.mensagem);
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
         }

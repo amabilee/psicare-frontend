@@ -7,7 +7,7 @@ import { DatePicker } from 'rsuite';
 import Loader from '../../components/loader/index';
 
 import TableRelatorioArquivado from "../../components/table/relatorioArquivado";
-
+import Select from 'react-select'
 
 export default function RelatorioArquivado({ handleCloseModal }) {
     const [loading, setLoading] = useState(true)
@@ -18,7 +18,7 @@ export default function RelatorioArquivado({ handleCloseModal }) {
     const [enviarFiltragem, setEnviarFiltragem] = useState({
         aluno: "",
         paciente: "",
-        tipoDeTratamento: "",
+        tipoTratamento: "",
         dataCriacao: "",
         encaminhador: ""
     })
@@ -26,7 +26,7 @@ export default function RelatorioArquivado({ handleCloseModal }) {
     const [filtrarPesquisa, setFiltrarPesquisa] = useState({
         aluno: "",
         paciente: "",
-        tipoDeTratamento: "",
+        tipoTratamento: "",
         dataCriacao: "",
         encaminhador: ""
     })
@@ -53,13 +53,13 @@ export default function RelatorioArquivado({ handleCloseModal }) {
             setEnviarFiltragem({
                 aluno: "",
                 paciente: "",
-                tipoDeTratamento: "",
+                tipoTratamento: "",
                 dataCriacao: "",
                 encaminhador: ""
             }), setFiltrarPesquisa({
                 aluno: "",
                 paciente: "",
-                tipoDeTratamento: "",
+                tipoTratamento: "",
                 dataCriacao: "",
                 encaminhador: ""
             });
@@ -80,6 +80,13 @@ export default function RelatorioArquivado({ handleCloseModal }) {
         const level = localStorage.getItem('user_level');
         setUserLevel(level);
     }, []);
+
+    const tratamentoOptions = [
+        { value: "Psicoterapia", label: "Psicoterapia" },
+        { value: "Plantão", label: "Plantão" },
+        { value: "Psicodiagnóstico", label: "Psicodiagnóstico" },
+        { value: "Avaliação Diagnóstica", label: "Avaliação diagnóstica" }
+    ]
 
     return (
         <>
@@ -111,22 +118,27 @@ export default function RelatorioArquivado({ handleCloseModal }) {
                                 {userLevel !== '3' && (
                                     <>
                                         <label htmlFor="Nome">Aluno</label>
-                                        <input type="text" id="nome" value={filtrarPesquisa.aluno} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, aluno: e.target.value.replace(/[^\w\s]/gi, '') })} />
+                                        <input type="text" id="nome" value={filtrarPesquisa.aluno} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, aluno: e.target.value.replace(/[^\w\s]/gi, '') })} maxLength={50} />
                                     </>
                                 )}
                                 <label htmlFor="labelEncaminhador">Paciente</label>
                                 <input type="text" className="encaminhadorInput" id="encaminhadorInput"
                                     value={filtrarPesquisa.paciente}
                                     onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, paciente: e.target.value.replace(/[^\w\s]/gi, '') })}
+                                    maxLength={50}
                                 />
                                 <label htmlFor="tratamento">Tipo de tratamento</label>
-                                <select className="tratamento" name="tratamento" id="tratamento" value={filtrarPesquisa.tipoDeTratamento} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, tipoDeTratamento: e.target.value })}>
-                                    <option value="">Nenhum</option>
-                                    <option value="Psicoterapia">Psicoterapia</option>
-                                    <option value="Plant">Plantão</option>
-                                    <option value="Psicodiagn">Psicodiagnóstico</option>
-                                    <option value="Avalia">Avaliação diagnóstica</option>
-                                </select>
+                                <Select
+                                    className="tratamento-select"
+                                    options={tratamentoOptions}
+                                    value={tratamentoOptions.find(option => option.value === filtrarPesquisa.tipoTratamento) || null}
+                                    onChange={(selectedOption) => {
+                                        setFiltrarPesquisa({ ...filtrarPesquisa, tipoTratamento: selectedOption.value });
+                                    }}
+                                    placeholder="Selecione uma opção"
+                                    menuPlacement="top"
+                                />
+
                                 <div className="div-dataNascimento">
                                     <label htmlFor="data-nascimento">Data de criação</label>
                                     <DatePicker

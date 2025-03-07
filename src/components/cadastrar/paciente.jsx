@@ -618,7 +618,6 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                                     placeholder="dd/mm/aaaa"
                                     onOpen={() => setIsDatePickerOpen(true)}
                                     onClose={() => setIsDatePickerOpen(false)}
-                                    // value={dadosForm.dataNascimento}
                                     onChange={(e) => { setDadosForm({ ...dadosForm, dataInicioTratamento: e }) }}
                                 />
                             </div>
@@ -630,7 +629,6 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                                     placeholder="dd/mm/aaaa"
                                     onOpen={() => setIsDatePickerOpen(true)}
                                     onClose={() => setIsDatePickerOpen(false)}
-                                    // value={dadosForm.dataNascimento}
                                     onChange={(e) => { setDadosForm({ ...dadosForm, dataTerminoTratamento: e }) }}
                                 />
                             </div>

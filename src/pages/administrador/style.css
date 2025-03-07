@@ -693,6 +693,10 @@
     width: calc(100% - 25px);
 }
 
+.modal-content-relatorio .paciente-select {
+    width: 300px;
+}
+
 .sex-select{
     width: 230px;
 }
@@ -725,7 +729,7 @@
 .barra_gerencia{
     justify-content: flex-start !important;
     position: fixed !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
     height: fit-content !important;
 }
 
@@ -743,7 +747,7 @@
     display: flex;
     align-items: center;
     padding: 0 10px;
-    margin: 15pxs 0 0 0;
+    margin: 0px 0 0 50px;
 
     display: flex;
     flex-direction: row;
@@ -767,7 +771,7 @@
     position: fixed;
     width: fit-content;
     max-width: calc(100vw - 230px);
-    margin: 120px 0 0 0;
+    margin: 70px 0 0 0;
     padding: 5px 0 0 5px;
     overflow-x: auto;
 }

@@ -11,6 +11,7 @@ import { UseAuth } from '../../hooks';
 
 import 'rsuite/dist/rsuite.css';
 import { DatePicker } from 'rsuite';
+import Select from 'react-select'
 
 export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, renderDadosRelatorio }) {
     const { signOut } = UseAuth();
@@ -125,7 +126,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
             dadosAtualizados.assinatura.forEach((file) => {
                 formData.append('assinatura', file);
             });
-            setIsSending(true);
+            setIsSending(true);            
             await api.patch(`/relatorio/${dadosAtualizados._id}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
@@ -224,6 +225,34 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
         return `${dia}/${mes}/${ano}`;
     };
 
+    const pacienteOptions = [
+        ...pacientesNome.pacientes.map((paciente) => ({
+            value: paciente._id,
+            label: paciente.nome,
+        })),
+        !pacientesNome.pacientes.some((paciente) => paciente._id === dadosAtualizados.pacienteId) &&
+            dadosAtualizados.pacienteId
+            ? {
+                value: dadosAtualizados.pacienteId,
+                label: dadosAtualizados.nomePaciente || "Paciente desconhecido",
+            }
+            : null,
+    ].filter(Boolean);
+
+    const alunoOptions = [
+        ...alunosNome.alunos.map((aluno) => ({
+            value: aluno._id,
+            label: aluno.nome,
+        })),
+        !alunosNome.alunos.some((aluno) => aluno._id === dadosAtualizados.alunoId) &&
+            dadosAtualizados.alunoId
+            ? {
+                value: dadosAtualizados.alunoId,
+                label: dadosAtualizados.nomeAluno || "Aluno desconhecido",
+            }
+            : null,
+    ].filter(Boolean);
+
     return (
         <>
             {Editar && (
@@ -250,28 +279,25 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="div-flex">
+                                    <div className="div-flex" style={{ maxWidth: "332px" }}>
                                         <label htmlFor="pacienteNome">Paciente*</label>
-                                        <select id="pacienteNome" value={dadosAtualizados.pacienteId} onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, pacienteId: e.target.value })} required>
-                                            <option value="#">Selecione uma opção</option>
-                                            {pacientesNome.pacientes.map(paciente => (
-                                                <option key={paciente._id} value={paciente._id}>
-                                                    {paciente.nome}
-                                                </option>
-                                            ))}
-
-                                            {!pacientesNome.pacientes.some(paciente => paciente._id === dadosAtualizados.pacienteId) &&
-                                                dadosAtualizados.pacienteId && (
-                                                    <option value={dadosAtualizados.pacienteId}>
-                                                        {dadosAtualizados.nomePaciente}
-                                                    </option>
-                                                )
-                                            }
-                                        </select>
+                                        <Select
+                                            className="aluno-select"
+                                            options={pacienteOptions}
+                                            value={pacienteOptions.find(option => option.value === dadosAtualizados.pacienteId) || null}
+                                            onChange={(selectedOption) => {
+                                                setDadosAtualizados({
+                                                    ...dadosAtualizados,
+                                                    pacienteId: selectedOption.value
+                                                });
+                                            }}
+                                            placeholder="Selecione uma opção"
+                                            menuPlacement="bottom"
+                                        />
 
                                         {!pacientesNome.pacientes.some(paciente => paciente._id === dadosAtualizados.pacienteId) &&
                                             dadosAtualizados.pacienteId && (
-                                                <p className="warning-message">O paciente selecionado não está mais ativo.<br/>Caso seja alterado, não será possível selecioná-lo novamente.</p>
+                                                <p className="warning-message">O paciente selecionado não está mais ativo. Caso seja alterado, não será possível selecioná-lo novamente.</p>
                                             )
                                         }
                                     </div>
@@ -296,35 +322,26 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                                 <option value="Funcionário">Funcionário</option>
                                             </select>
                                         </div>
-                                        <div className="div-flex">
+                                        <div className="div-flex" style={{ maxWidth: "332px" }}>
                                             <label htmlFor="labelEncaminhador">Nome do Encaminhador*</label>
                                             {dadosAtualizados.alunoUnieva ? (
                                                 <>
-                                                    <select
-                                                        className="encaminhadorSelect" id="encaminhadorSelect"
-                                                        value={dadosAtualizados.alunoId}
-                                                        onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, alunoId: e.target.value })}
-                                                        disabled={!dadosAtualizados.alunoUnieva}>
-                                                        <option value="">Selecione uma opção</option>
-                                                        {alunosNome.alunos
-                                                            .filter(aluno =>
-                                                                pacientesNome.pacientes.some(paciente => paciente.alunoId === aluno._id)
-                                                            )
-                                                            .map(aluno => (
-                                                                <option key={aluno._id} value={aluno._id}>
-                                                                    {aluno.nome}
-                                                                </option>
-                                                            ))}
 
-                                                        {!alunosNome.alunos.some(aluno => aluno._id === dadosAtualizados.alunoId) &&
-                                                            dadosAtualizados.alunoId && (
-                                                                <option value={dadosAtualizados.alunoId}>
-                                                                    {dadosAtualizados.nomeAluno}
-                                                                </option>
-                                                            )
-                                                        }
+                                                    <Select
+                                                        className="aluno-select"
+                                                        options={alunoOptions}
+                                                        disabled={!dadosAtualizados.alunoUnieva}
+                                                        value={alunoOptions.find(option => option.value === dadosAtualizados.alunoId) || null}
+                                                        onChange={(selectedOption) => {
+                                                            setDadosAtualizados({
+                                                                ...dadosAtualizados,
+                                                                alunoId: selectedOption.value
+                                                            });
+                                                        }}
+                                                        placeholder="Selecione uma opção"
+                                                        menuPlacement="bottom"
+                                                    />
 
-                                                    </select>
                                                     {!alunosNome.alunos.some(aluno => aluno._id === dadosAtualizados.alunoId) &&
                                                         dadosAtualizados.alunoId && (
                                                             <p className="warning-message">O aluno selecionado não está mais ativo ou vinculado a este paciente. Caso seja alterado, não será possível selecioná-lo novamente.</p>
@@ -471,7 +488,7 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                     <div className="nome">
                                         <p>Paciente</p>
                                         <h1>
-                                            {pacientesNome.pacientes.find(paciente => paciente._id === dadosAtualizados.pacienteId)?.nome ? pacientesNome.pacientes.find(paciente => paciente._id === dadosAtualizados.pacienteId).nome : dadosAtualizados.nomePaciente|| "Nome não encontrado"}
+                                            {pacientesNome.pacientes.find(paciente => paciente._id === dadosAtualizados.pacienteId)?.nome ? pacientesNome.pacientes.find(paciente => paciente._id === dadosAtualizados.pacienteId).nome : dadosAtualizados.nomePaciente || "Nome não encontrado"}
                                         </h1>
                                     </div>
                                     {userLevel != '3' &&
@@ -479,10 +496,10 @@ export default function EditarRelatorio({ handleEditarClose, dadosRelatorio, ren
                                             <p>Encaminhador</p>
                                             <h1>
                                                 {
-                                                alunosNome.alunos.find(aluno => aluno._id === dadosAtualizados.alunoId) ? alunosNome.alunos.find(aluno => aluno._id === dadosAtualizados.alunoId).nome 
-                                                : dadosAtualizados.nome_funcionario ? dadosAtualizados.nome_funcionario
-                                                : dadosAtualizados.nomeAluno
-                                            }
+                                                    alunosNome.alunos.find(aluno => aluno._id === dadosAtualizados.alunoId) ? alunosNome.alunos.find(aluno => aluno._id === dadosAtualizados.alunoId).nome
+                                                        : dadosAtualizados.nome_funcionario ? dadosAtualizados.nome_funcionario
+                                                            : dadosAtualizados.nomeAluno
+                                                }
                                             </h1>
                                         </div>
                                     }
