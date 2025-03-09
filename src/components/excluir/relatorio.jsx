@@ -59,17 +59,17 @@ export default function ExcluirRelatorio({ handleExcluirClose, dadosRelatorio, a
             <div className="modal-confirmar">
                 <div className="modal-confirmar-content">
                     <h1>Confirmação</h1>
-                    <h2>Deseja realmente excluir o(s) relatórios(es) selecionado(s)?</h2>
+                    <h2>Deseja realmente arquivar o(s) relatórios(es) selecionado(s)?</h2>
                     <div className="div-button-excluir">
                         <button className="button-cancelar" id="cancelar" onClick={handleExcluirClose} >Cancelar</button>
-                        <button className="button-excluir" id="excluir" onClick={handleConfirmarOpen} >Excluir</button>
+                        <button className="button-excluir" id="excluir" onClick={handleConfirmarOpen} >Arquivar</button>
                     </div>
                 </div>
                 {isConfirmarExluir && (
                     <div className="modal-excluir">
                         <div className="modal-excluir-content">
-                            <h1>Excluído!</h1>
-                            <h2>Relatório(s) excluido(s) com sucesso.</h2>
+                            <h1>Arquivado!</h1>
+                            <h2>Relatório(s) arquivado(s) com sucesso.</h2>
                             <button className="button-fechar" id="fechar" onClick={handleExcluirClose} >Fechar</button>
                         </div>
                     </div>

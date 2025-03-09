@@ -52,7 +52,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
 
     const handleEditarConfirmar = () => () => {
         const idade = calcularIdade(dadosAtualizados.dataNascimento)
-        
+
         if (dadosAtualizados.nome.length <= 6) {
             setState({ ...state, open: true });
             setMessage("Insira o nome completo.");
@@ -647,9 +647,14 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         placeholder="dd/mm/aaaa"
                                         onOpen={() => setIsDatePickerOpen(true)}
                                         onClose={() => setIsDatePickerOpen(false)}
-                                        value={new Date(dadosAtualizados.dataInicioTratamento.replace("T00", "T11"))}
+                                        value={
+                                            dadosAtualizados.dataInicioTratamento
+                                                ? new Date(String(dadosAtualizados.dataInicioTratamento).replace("T00", "T11"))
+                                                : null
+                                        }
                                         onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, dataInicioTratamento: e })}
                                     />
+
                                 </div>
                                 <div className="div-flex">
                                     <label htmlFor="termino-tratamento">Término do tratamento*</label>
@@ -659,7 +664,11 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         placeholder="dd/mm/aaaa"
                                         onOpen={() => setIsDatePickerOpen(true)}
                                         onClose={() => setIsDatePickerOpen(false)}
-                                        value={new Date(dadosAtualizados.dataTerminoTratamento.replace("T00", "T11"))}
+                                        value={
+                                            dadosAtualizados.dataTerminoTratamento
+                                                ? new Date(String(dadosAtualizados.dataTerminoTratamento).replace("T00", "T11"))
+                                                : null
+                                        }
                                         onChange={(e) => setDadosAtualizados({ ...dadosAtualizados, dataTerminoTratamento: e })}
                                     />
                                 </div>

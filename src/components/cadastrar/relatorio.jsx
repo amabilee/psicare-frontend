@@ -287,7 +287,7 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
                                             <img src={TrashIcon}
                                                 alt="Remove"
                                                 className="trash-icon"
-                                                onClick={() => handleRemoveFile(index)}
+                                                onClick={() => { !isSending && handleRemoveFile(index)}}
                                             />
                                         </div>
                                     ))}
