@@ -339,6 +339,10 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
         label: cidade.nome,
     }));
 
+    useEffect(() => {
+        !cidadeOptions.some((cidade) => cidade.value === dadosAtualizados.enderecoCidade) && setDadosAtualizados({...dadosAtualizados, enderecoCidade: ""})
+    }, [dadosAtualizados.enderecoUF])
+
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
 
     const sexOptions = [
@@ -425,7 +429,7 @@ export default function EditarPaciente({ handleEditarClose, dadosPaciente, rende
                                         options={sexOptions}
                                         value={sexOptions.find(option => option.value === dadosAtualizados.sexo) || null}
                                         onChange={(selectedOption) => {
-                                            setDadosAtualizados({ ...dadosAtualizadosdados, sexo: selectedOption.value });
+                                            setDadosAtualizados({ ...dadosAtualizados, sexo: selectedOption.value });
                                         }}
                                         placeholder="Selecione uma opção"
                                         menuPlacement="auto"

@@ -151,8 +151,9 @@ export default function Aluno() {
         { value: "10", label: "10°" }
     ]
 
+    
     const professorOptions = professoresNome.professores.map((professor) => ({
-        value: professor._id,
+        value: professor.nome,
         label: professor.nome,
     }));
 
