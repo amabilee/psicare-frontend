@@ -52,7 +52,7 @@ export default function CadastrarRelatorio({ handleCloseModal, renderForm }) {
 
     const handleFormSubmit = () => async () => {
         const token = localStorage.getItem("user_token");
-        if (!dadosForm.pacienteId) {
+        if (dadosForm.pacienteId === "#") {
             setState({ vertical: 'bottom', horizontal: 'center', open: true });
             setMessage("Selecione um paciente.");
             return;
