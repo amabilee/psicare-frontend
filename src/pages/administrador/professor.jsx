@@ -114,7 +114,7 @@ export default function Professor() {
                             <hr />
                             <div className="formulario">
                                 <label htmlFor="Nome">Nome Completo</label>
-                                <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value.replace(/[^\w\s]/gi, '') })} maxLength={50}/>
+                                <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value.replace(/[^\p{L}\s]/gu, '')})} maxLength={50}/>
                                 <div className="coluna1">
                                     <div className="div-CPF">
                                         <label htmlFor="CPF">CPF</label>
@@ -128,7 +128,7 @@ export default function Professor() {
                                 <label htmlFor="Email">Email</label>
                                 <input type="email" name="email" id="email" value={filtrarPesquisa.email} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, email: e.target.value })} maxLength={50}/>
                                 <label htmlFor="disciplina">Disciplina</label>
-                                <input type="text" className="disciplina" value={filtrarPesquisa.disciplina} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, disciplina: e.target.value.replace(/[^\w\s]/gi, '') })} maxLength={50}/>
+                                <input type="text" className="disciplina" value={filtrarPesquisa.disciplina} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, disciplina: e.target.value.replace(/[^\p{L}\s]/gu, '')})} maxLength={50}/>
                                 <button className="button-filtro" id="filtro" onClick={handleFiltrarPesquisa}>Aplicar Filtros</button>
                             </div>
                         </div>

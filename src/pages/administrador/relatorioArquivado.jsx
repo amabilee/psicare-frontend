@@ -118,13 +118,13 @@ export default function RelatorioArquivado({ handleCloseModal }) {
                                 {userLevel !== '3' && (
                                     <>
                                         <label htmlFor="Nome">Aluno</label>
-                                        <input type="text" id="nome" value={filtrarPesquisa.aluno} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, aluno: e.target.value.replace(/[^\w\s]/gi, '') })} maxLength={50} />
+                                        <input type="text" id="nome" value={filtrarPesquisa.aluno} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, aluno: e.target.value.replace(/[^\p{L}\s]/gu, '')})} maxLength={50} />
                                     </>
                                 )}
                                 <label htmlFor="labelEncaminhador">Paciente</label>
                                 <input type="text" className="encaminhadorInput" id="encaminhadorInput"
                                     value={filtrarPesquisa.paciente}
-                                    onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, paciente: e.target.value.replace(/[^\w\s]/gi, '') })}
+                                    onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, paciente: e.target.value.replace(/[^\p{L}\s]/gu, '')})}
                                     maxLength={50}
                                 />
                                 <label htmlFor="tratamento">Tipo de tratamento</label>

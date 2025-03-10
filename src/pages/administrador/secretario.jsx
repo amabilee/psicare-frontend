@@ -120,7 +120,7 @@ export default function Secretario() {
                             <hr />
                             <div className="formulario">
                                 <label htmlFor="Nome">Nome Completo</label>
-                                <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value.replace(/[^\w\s]/gi, '') })}  maxLength={50}/>
+                                <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value.replace(/[^\p{L}\s]/gu, '')})}  maxLength={50}/>
                                 <div className="coluna1">
                                     <div className="div-CPF">
                                         <label htmlFor="CPF">CPF</label>

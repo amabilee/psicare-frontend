@@ -164,7 +164,7 @@ export default function Paciente() {
                                 <hr />
                                 <div className="formulario">
                                     <label htmlFor="Nome">Nome Completo</label>
-                                    <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value.replace(/[^\w\s]/gi, '') })} maxLength={50} />
+                                    <input type="text" id="nome" value={filtrarPesquisa.nome} onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, nome: e.target.value.replace(/[^\p{L}\s]/gu, '')})} maxLength={50} />
                                     <div className="coluna1">
                                         <div className="div-CPF">
                                             <label htmlFor="CPF">CPF</label>
@@ -186,7 +186,7 @@ export default function Paciente() {
                                             <input type="text" className="encaminhadorInput" id="encaminhadorInput"
                                                 maxLength={50}
                                                 value={filtrarPesquisa.encaminhador}
-                                                onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, encaminhador: e.target.value.replace(/[^\w\s]/gi, '') })}
+                                                onChange={(e) => setFiltrarPesquisa({ ...filtrarPesquisa, encaminhador: e.target.value.replace(/[^\p{L}\s]/gu, '')})}
                                             />
                                         </>
                                     )}
