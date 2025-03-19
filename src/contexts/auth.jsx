@@ -6,6 +6,7 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState('');
     const [error, setError] = useState('');
     const [auth, setAuth] = useState(false);
+    const [userId, setUserId] = useState('');
 
     useEffect(() => {
         const verificaData = async () => {
@@ -30,6 +31,7 @@ const AuthProvider = ({ children }) => {
                 const response = await api.post("/user/login", { email, senha })
                 const tokenResponse = response.data;
                 setAuth(true);
+                response.data.id && setUserId(response.data.id)
                 localStorage.setItem("user_token", tokenResponse.token);
                 localStorage.setItem("user_level", tokenResponse.userLevelAccess)                
                 return response
@@ -50,10 +52,6 @@ const AuthProvider = ({ children }) => {
         }
     }
 
-    const checkTerm = () => {
-
-    }
-
     function signOut() {
         setUser(null)
         setAuth(false)
@@ -63,7 +61,7 @@ const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, auth, error, signIn, signOut }}>
+        <AuthContext.Provider value={{ user, auth, error, signIn, signOut, userId }}>
             {children}
         </AuthContext.Provider>
     )

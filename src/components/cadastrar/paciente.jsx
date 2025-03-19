@@ -194,7 +194,7 @@ export default function CadastrarPaciente({ handleCloseModal, renderForm }) {
                 dataTerminoTratamento: dataTerminoFormatada
             };
             try {
-                const response = await api.post("/paciente", dadosFormAtualizados, {
+                await api.post("/paciente", dadosFormAtualizados, {
                     headers: {
                         "Content-Type": "application/json",
                         "authorization": `Bearer ${token}`

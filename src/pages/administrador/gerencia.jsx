@@ -20,7 +20,6 @@ export default function Gerencia() {
     const { signOut } = UseAuth();
     const [loading, setLoading] = useState(true);
 
-    const [userLevel, setUserLevel] = useState(null);
     const [intervalSetting, setIntervalSetting] = useState('0')
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
@@ -273,8 +272,6 @@ export default function Gerencia() {
     };
 
     useEffect(() => {
-        const level = localStorage.getItem('user_level');
-        setUserLevel(level);
         detectarLoading();
         changeInterval(1, '0')
     }, []);

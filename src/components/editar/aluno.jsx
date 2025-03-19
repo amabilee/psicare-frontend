@@ -102,18 +102,6 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
     }
   }
 
-  const id_professor = (e) => {
-    var index = e.nativeEvent.target.selectedIndex;
-    var nomeProfessor = e.nativeEvent.target[index].text;
-    var professorId = e.target.value;
-
-    setDadosAtualizados({
-      ...dadosAtualizados,
-      nomeProfessor: nomeProfessor,
-      professorId: professorId
-    });
-  }
-
   const formatarCPF = (cpf) => {
     if (cpf.length === 11) {
 
@@ -179,7 +167,7 @@ export default function EditarAluno({ handleEditarClose, dadosAluno, renderDados
                 options={professorOptions}
                 value={professorOptions.find(option => option.value === dadosAtualizados.professorId) || null}
                 onChange={(selectedOption) => {
-                  setDadosForm({
+                  setDadosAtualizados({
                     ...dadosAtualizados,
                     professorId: selectedOption.value,
                     nomeProfessor: selectedOption.label,
